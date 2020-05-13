@@ -1,0 +1,207 @@
+% ######################################################################
+%
+% 			PREAMBULE
+%
+% ######################################################################
+
+% -------------------------------------------------------
+% Ce document est un raport. dizaine de pages / plusieurs sections
+% -------------------------------------------------------
+\documentclass[a4paper,12pt]{report}
+
+% -------------------------------------------------------
+% Utiliser latin1 pour les accents
+% ne pas utiliser utf8 et  Latex n'aime pas utf8 ET latin1
+%\usepackage[utf8]{inputenc}
+% -------------------------------------------------------
+\usepackage[latin1]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+
+% -------------------------------------------------------
+% Trouvé dans un forum
+% -------------------------------------------------------
+\usepackage{amsmath}
+\usepackage{amssymb,amsfonts,textcomp}
+\usepackage{color}
+\usepackage{array}
+\usepackage{supertabular}
+\usepackage{hhline}
+\usepackage{hyperref}
+
+% -------------------------------------------------------
+% Pour les tableaux
+% -------------------------------------------------------
+%\usepackage{slashbox}
+\usepackage{diagbox}
+
+% -------------------------------------------------------
+% Information PDF généré
+% -------------------------------------------------------
+\hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=, pdfauthor=florianColas, pdfsubject=, pdfkeywords=}
+\usepackage[pdftex]{graphicx}
+
+% -------------------------------------------------------
+% Information générales
+% Utilisé par \maketitle 
+% -------------------------------------------------------
+\title{Historique des travaux autour du problème P{\textbar}{\textbar}Cmax}
+\author{florian colas}
+% \date{2020-05-01}
+\date{\today}
+
+
+% ######################################################################
+%
+% 				DOCUMENT
+%
+% ######################################################################
+
+\begin{document}
+
+% =======================================================
+% Page de garde
+% Utilise Information générales
+% Ecrit le titre + auteur + date
+% =======================================================
+\maketitle
+
+% -------------------------------------------------------
+% Table des matières
+%
+% On renomme en Sommaire (document français)
+%
+% On définit la profondeur de la table des matières 
+% -1 partie,    0 Chapitre, 
+% 1 Section,    2 sous sections,  3 sous sous section
+% 4 Paragraphe, 5 Sous paragraphe
+%
+% Les sections sont numérotées 1 2 3
+% -------------------------------------------------------
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\contentsname}{Sommaire}
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+% =======================================================
+% 1 INTRODUCTION
+% =======================================================
+\section{Introduction}
+
+texte
+
+
+\section{Présentation du problème.}
+texte 
+\subsection{Parallélisme.}
+Le parallélisme est un type d{\textquotesingle}architecture informatique
+dans lequel plusieurs processeurs exécutent ou traitent une application
+ou un calcul simultanément. IL aide à effectuer de grands calculs en
+divisant la charge de travail entre plusieurs processeurs, qui
+fonctionnent tous en même temps. 
+
+Il existe quatre types de parallélismes, définis par la taxonomie de
+Flynn\textsuperscript{(1)}. Cette classification est basée sur deux
+notions : le flot d{\textquoteright}instructions (simple ou multiple),
+et le flot de données (simple ou multiples) ; un algorithme est un flot
+d{\textquoteright}instructions à exécuter sur un flot de données. 
+
+
+% -------------------------------------------------------
+% TABLEAU taxonomie de Flynn
+% diagbox permet d'avoir une barre oblique pour les deux entrées
+% \backslashbox{Instructions}{Donnée} & Simple & Multiple NE FONCTIONNE PAS
+% on cadre à gauche le tableau pour avoir plus de place
+% -------------------------------------------------------
+\begin{flushleft}
+\begin{tabular}{|p{3.6cm}|p{6cm}|p{6cm}|}
+
+% --------------------------
+% TITRES
+% --------------------------
+\hline
+\diagbox[width=10em]{Instructions}{Données} & Simple & Multiple \\
+\hline
+
+% --------------------------
+% LIGNE SIMPLE
+% --------------------------
+Simple 
+
+%---------------------------
+&
+SISD
+
+premiers PC
+
+machine de Von Neumann
+
+~
+
+Obsolète, car tous les PC sont désormais multi-c{\oe}ur.
+%---------------------------
+&
+SIMD
+
+Machines synchrones
+
+Pipeline
+
+~
+
+Exécution d{\textquoteright}une instruction unique sur des données différentes.
+\\	\hline
+% --------------------------
+% LIGNE MULTIPLE
+% --------------------------
+
+Multiple
+
+%---------------------------
+&
+MISD
+
+Machines vectoriels
+
+Tableau de processeurs
+
+~
+
+Exécute plusieurs instructions sur une même donnée. 
+%---------------------------
+&	
+MIMD
+
+Multi processeurs à mémoire distribuée.
+
+Multi processeurs à mémoire partagée (multi-c{\oe}ur).
+
+Multi Ordinateur.
+%---------------------------
+\\
+\hline
+\end{tabular}
+Taxonomie de Flynn
+\end{flushleft}
+
+
+\bigskip
+
+Les premières machines parallèles étaient des réseaux
+d{\textquoteright}ordinateurs, et des machines vectorielles (faiblement
+parallèles, très coûteuses), telles que l{\textquoteright}IBM 360, les
+Cray1. La plupart des machines parallèles contemporaines sont désormais
+MIMD.
+
+On peut définir une machine parallèle comme un ensemble de processeurs
+qui coopèrent et communiquent.
+
+{\centering 
+\includegraphics[width=8.334cm,height=4.034cm]{BiblioPCmaxLatex-img1.jpg}
+\par}
+{\centering 
+IBM 360-91 (le plus rapide et le plus puissant en service en 1968) NASA.
+Centre de vols de Greenbelt (Md)
+\par}
+\end{document}
