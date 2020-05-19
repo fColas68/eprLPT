@@ -20,7 +20,9 @@
 \usepackage[english,french]{babel}
 
 % -------------------------------------------------------
-% Trouvé dans un forum
+% Trouvé dans un forum a voir plus tard 
+% utile ou pas 
+% significations
 % -------------------------------------------------------
 \usepackage{amsmath}
 \usepackage{amssymb,amsfonts,textcomp}
@@ -29,6 +31,22 @@
 \usepackage{supertabular}
 \usepackage{hhline}
 \usepackage{hyperref}
+
+%pour utiliser
+% \textsubscript{}
+% {\textbar}
+\usepackage{fixltx2e}
+
+%BIBTEX
+\usepackage{natbib}
+%____________________________________________________________________
+%
+% Tout ceci ne fonctionne pas !
+% \usepackage[backend=bibtex, style=numeric]{biblatex}	% Compilateur
+% \bibliography{Bibliographie}			% Utilise Bibliographie.bib
+% \addbibresource{Bibliographie.bib}
+% \bibliographystyle{plain}
+%____________________________________________________________________
 
 % -------------------------------------------------------
 % Pour les tableaux
@@ -186,8 +204,6 @@ Taxonomie de Flynn
 \end{flushleft}
 
 
-\bigskip
-
 Les premières machines parallèles étaient des réseaux
 d{\textquoteright}ordinateurs, et des machines vectorielles (faiblement
 parallèles, très coûteuses), telles que l{\textquoteright}IBM 360, les
@@ -197,6 +213,8 @@ MIMD.
 On peut définir une machine parallèle comme un ensemble de processeurs
 qui coopèrent et communiquent.
 
+\bigskip
+
 {\centering 
 \includegraphics[width=8.334cm,height=4.034cm]{BiblioPCmaxLatex-img1.jpg}
 \par}
@@ -204,4 +222,110 @@ qui coopèrent et communiquent.
 IBM 360-91 (le plus rapide et le plus puissant en service en 1968) NASA.
 Centre de vols de Greenbelt (Md)
 \par}
+
+
+\subsection{Ordonnancement.}
+Sur une machine non parallèle, les tâches sont exécutées séquentiellement, les unes après les autres. Certaines tâches, ou jobs peuvent demander plus de temps que d{\textquoteright}autres pour être entièrement traitées. 
+Lorsque plusieurs ressources (processeurs, machines, coeurs) sont disponibles, ou que des jobs a exécuter ne sont pas indépendants (même traités sur un seul processeur), se pose alors, un problème d{\textquoteright}ordonnancement. 
+Celui-ci consiste à organiser, dans le temps, les jobs à exécuter, en les affectant à une ressource donnée, de manière à satisfaire un certain nombre de contraintes, tout en optimisant un ou des objectifs.
+L{\textquoteright}ordonnancement, fait partie de la catégorie des problèmes d{\textquoteright}optimisation combinatoire. 
+
+Les problèmes qui s{\textquoteright}y rattachent sont très variés. 
+Premièrement, la nature des machines parallèles doit être considérée. Celles-ci peuvent être :
+\begin{itemize}
+\item identiques. (Le même temps de traitement sera nécessaire, d{\textquoteright}une machine à l{\textquoteright}autre) ; 
+\item uniformes (un quotient de vitesse qi propre à une machine est à appliquer pour chaque tâche affectée  à cette machine pour déterminer le temps de traitement nécessaire) ; 
+\item indépendantes (les temps de traitements des tâches sont ni uniformes ni proportionnels d{\textquoteright}une machine à l{\textquoteright}autre).
+\end{itemize}
+Ensuite, des contraintes peuvent affecter les jobs eux-mêmes. Dans le cas d{\textquoteright}un problème préemptif, les taches peuvent être interrompues, et reprises ultérieurement. Il est possible que les jobs soient indépendants, ou au contraire, être liées par des relations de précédence. Ces jobs ne sont disponibles qu{\textquoteright}à partir d{\textquoteright}une certaine date. Ou encore, être de durée égale, ou tous de durée différente.
+
+Pour finir, l{\textquoteright}objectif de l{\textquoteright}ordonnancement est d{\textquoteright}optimiser un critère. Par exemple, minimiser la somme des dates de fin, la somme des retards, le nombre de tâches en retard, ou simplement, le retard total. Mais le plus habituel, est de chercher à minimiser le temps total de traitement de tous les jobs, i.e minimiser le makespan.
+
+
+\subsection{Enoncé du P{\textbar}{\textbar}C \textsubscript{max}}
+
+Ces diverses possibilités définissent divers problèmes
+d{\textquoteright}ordonnancements différents, recensés et classifiés
+\ par Graham et al. [1], qui introduit la notation trois-champs $\alpha
+${\textbar}$\beta ${\textbar}$\gamma $ .
+
+\bigskip
+
+Le problème P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max} se définit alors ainsi :
+
+\begin{itemize}
+
+% -------------------------------------------------------
+% ALPHA P Type de machines
+% -------------------------------------------------------
+\item $\alpha $ = $\alpha $1 $\alpha $2, détermine l{\textquoteright}environnement machines.
+$\alpha $ = P : Les machines sont parallèles et identiques : Un job, une tâche prendra le même temps de traitement qu{\textquoteright}il soit exécuté sur une machine ou une autre. Le nombre de machines (m) est variable.
+
+% -------------------------------------------------------
+% BETA Contraintes
+% -------------------------------------------------------
+\item $\beta $ c \{ $\beta $1, $\beta $2, $\beta $3, $\beta $4, $\beta $5, $\beta $6\}, détermine les caractéristiques des jobs, ou des tâches.
+$\beta $ est vide. Ce qui signifie~que la préemption n{\textquoteright}est pas autorisée (les jobs doivent être exécutés d{\textquoteright}une traite, sans interruption ni coupure) \ et qu{\textquoteright}il n{\textquoteright}y a pas de relation entre les jobs (ils sont indépendants).
+
+% -------------------------------------------------------
+% GEMEL Optimisation
+% -------------------------------------------------------
+\item $\gamma $ détermine le critère à optimiser.
+$\gamma $ = C\textsubscript{max} : on cherche à optimiser le makespan,
+i.e le temps de traitement total.
+
+\end{itemize}
+
+\begin{center}
+
+\bigskip
+
+\fbox{\begin{minipage}{\linewidth}
+
+P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max} consiste à planifier un ensemble J~=~\{1,2,{\dots},n) de n jobs simultanés, pour être traités par m machines identiques et parallèles. Chaque job, qui requière une opération, peut être traité par une des m machines. Le temps de traitement de chaque job (P\textsubscript{i} avec i~${\in}$ N) est connu à l{\textquoteright}avance. Un job commencé, et complété sans interruption. Les jobs, indépendants, sont exécutés par une seule machine, et une machine ne peut traiter qu{\textquoteright}un seul job
+à la fois.
+
+\end{minipage}}
+
+\end{center}
+
+\subsection{Problématique}
+
+Comme l{\textquoteright}ont démontré Garey et Johnson, P\textsubscript{2}{\textbar}{\textbar}C\textsubscript{max} est un problème NP-Difficile [4], et P{\textbar}{\textbar}C\textsubscript{max}
+est un problème NP-Difficile au sens fort [3]. Cependant,P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max} devient un problème NP-Difficile, du moment que le nombre de machines est fixé [2], comme l{\textquoteright}a montré Rothkopf [5], qui a présenté un algorithme de programmation dynamique.
+
+Donner la solution optimale à un problème d{\textquoteright}ordonnancement (dans notre cas P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}) n{\textquoteright}est pas réaliste. Même pour un problème de taille modeste, la résolution de celui-ci demanderait un temps excessif et donc rédhibitoire. 
+
+La résolution du problème d{\textquoteright}ordonnancement va reposer sur des méthodes d{\textquoteright}approche, qui consistent à calculer en temps polynomial, une solution «~assez~» proche de la valeur optimale.
+
+Dans la littérature, l{\textquoteright}étude d{\textquoteright}ordonnancement est très riche et abondante. Le but étant d{\textquoteright}améliorer le temps de calcul, et d{\textquoteright}approcher le résultat optimal.
+
+\section{Résoudre le problème}
+
+Comme évoqué précédemment, l{\textquoteright}existence d{\textquoteright}une solution qui résout le problème n{\textquoteright}est pas pensable, à moins que P = NP.
+
+
+
+
+
+comme la dit legrand chneck, 
+\cite{della2018longest}
+
+\cite{garey1978strong}
+
+
+
+
+\medskip
+
+\bibliographystyle{plain}
+\bibliography{Bibliographie}			% Utilise Bibliographie.bib
+
+
+
+
+
 \end{document}
+
+
+
