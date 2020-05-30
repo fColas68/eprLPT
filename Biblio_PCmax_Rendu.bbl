@@ -1,0 +1,47 @@
+\begin{thebibliography}{1}
+
+\bibitem{chen1999potts}
+Bo~Chen and N~Chris.
+\newblock Potts, and gerhard j woeginger. a review of machine scheduling:
+  Complexity, algorithms and approximability.
+\newblock {\em Handbook of combinatorial optimization}, pages 1493--1641, 1999.
+
+\bibitem{coffman1978application}
+Edward~G Coffman, Jr, Michael~R Garey, and David~S Johnson.
+\newblock An application of bin-packing to multiprocessor scheduling.
+\newblock {\em SIAM Journal on Computing}, 7(1):1--17, 1978.
+
+\bibitem{della2018longest}
+Federico Della~Croce and Rosario Scatamacchia.
+\newblock The longest processing time rule for identical parallel machines
+  revisited.
+\newblock {\em Journal of Scheduling}, pages 1--14, 2018.
+
+\bibitem{garey1978strong}
+Michael~R Garey and David~S Johnson.
+\newblock ``strong''np-completeness results: Motivation, examples, and
+  implications.
+\newblock {\em Journal of the ACM (JACM)}, 25(3):499--508, 1978.
+
+\bibitem{garey1982computers}
+MR~Garey and DS~Johnson.
+\newblock Computers and intractability: A guide to the theory of
+  np-completeness. freeman, san francisco, 1979.
+\newblock 1982.
+
+\bibitem{graham1969bounds}
+Ronald~L. Graham.
+\newblock Bounds on multiprocessing timing anomalies.
+\newblock {\em SIAM journal on Applied Mathematics}, 17(2):416--429, 1969.
+
+\bibitem{lee1988multiprocessor}
+Chung-Yee Lee and J~David Massey.
+\newblock Multiprocessor scheduling: combining lpt and multifit.
+\newblock {\em Discrete applied mathematics}, 20(3):233--242, 1988.
+
+\bibitem{rothkopf1966scheduling}
+Michael~H Rothkopf.
+\newblock Scheduling independent tasks on parallel processors.
+\newblock {\em Management Science}, 12(5):437--447, 1966.
+
+\end{thebibliography}

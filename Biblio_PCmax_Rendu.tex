@@ -31,17 +31,32 @@
 \usepackage{supertabular}
 \usepackage{hhline}
 \usepackage{hyperref}
+% \usepackage{unicode-math}	% pour prime dprime tprime 
 
+% -------------------------------------------------------
+% Théorèmes
+% -------------------------------------------------------
+\usepackage{amsthm}
+\theoremstyle{plain}				% Choix du style 
+\newtheorem{theoreme1}{Théorème}	% Définition de l'environnement 1 
+
+\theoremstyle{definition}				% Choix du style
+\newtheorem{definition1}{Definition} %[section]	% Définition de l'environnement définition
+% -------------------------------------------------------
 %pour utiliser
 % \textsubscript{}
 % {\textbar}
+% -------------------------------------------------------
 \usepackage{fixltx2e}
 
+% -------------------------------------------------------
 %BIBTEX
+% -------------------------------------------------------
 \usepackage{natbib}
+
 %____________________________________________________________________
 %
-% Tout ceci ne fonctionne pas !
+% Tout ceci ne fonctionne pas ! ou n'ai pas réussi à faire fonctionner
 % \usepackage[backend=bibtex, style=numeric]{biblatex}	% Compilateur
 % \bibliography{Bibliographie}			% Utilise Bibliographie.bib
 % \addbibresource{Bibliographie.bib}
@@ -52,7 +67,17 @@
 % Pour les tableaux
 % -------------------------------------------------------
 %\usepackage{slashbox}
-\usepackage{diagbox}
+\usepackage{diagbox} % barre oblique pour les cellule à 2 entrées
+
+
+% -------------------------------------------------------
+% Pour les ALGORITHMES
+% linesnumbered	: les lignes sont numérotées
+% ruled			: Le caption est en haut et bordé de lignes horizontale 
+% vlined		: Regroupement des bloc d'instructions par ligne verticales
+% -------------------------------------------------------
+\usepackage[linesnumbered, ruled, vlined]{algorithm2e} 
+\SetKwProg{Init}{init}{}{}
 
 % -------------------------------------------------------
 % Information PDF généré
@@ -68,6 +93,27 @@
 \author{florian colas}
 % \date{2020-05-01}
 \date{\today}
+
+
+% ######################################################################
+%
+% 			SOUVENT UTILIS3
+%
+% ######################################################################
+% Pm||Cmax 				: P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}
+% P2||Cmax 				: P\textsubscript{2}{\textbar}{\textbar}C\textsubscript{max}
+% P||Cmax 				: P{\textbar}{\textbar}C\textsubscript{max}
+%
+% Appostrophes 			: {\textquoteright}
+%
+% en italique car latin : \textit{et al.}
+%
+% entourer un résultat
+%	\begin{center}
+%	\fbox{\begin{minipage}{\linewidth}
+%	bla blabla
+%	\end{minipage}}
+%	\end{center}
 
 
 % ######################################################################
@@ -99,7 +145,8 @@
 % -------------------------------------------------------
 \renewcommand{\thesection}{\arabic{section}}
 \renewcommand{\contentsname}{Sommaire}
-\setcounter{tocdepth}{2}
+\setcounter{tocdepth}{2}	% pour la table des matières
+\setcounter{secnumdepth}{3}	% pour les section sous et sous sous
 \tableofcontents
 
 % =======================================================
@@ -216,7 +263,7 @@ qui coopèrent et communiquent.
 \bigskip
 
 {\centering 
-\includegraphics[width=8.334cm,height=4.034cm]{BiblioPCmaxLatex-img1.jpg}
+\includegraphics[width=8.334cm,height=4.034cm]{Biblio_PCmax_Rendu-img1.jpg}
 \par}
 {\centering 
 IBM 360-91 (le plus rapide et le plus puissant en service en 1968) NASA.
@@ -264,7 +311,7 @@ $\alpha $ = P : Les machines sont parallèles et identiques : Un job, une tâche p
 % -------------------------------------------------------
 % BETA Contraintes
 % -------------------------------------------------------
-\item $\beta $ c \{ $\beta $1, $\beta $2, $\beta $3, $\beta $4, $\beta $5, $\beta $6\}, détermine les caractéristiques des jobs, ou des tâches.
+\item $\beta $ $\subset$ \{ $\beta $1, $\beta $2, $\beta $3, $\beta $4, $\beta $5, $\beta $6\}, détermine les caractéristiques des jobs, ou des tâches.
 $\beta $ est vide. Ce qui signifie~que la préemption n{\textquoteright}est pas autorisée (les jobs doivent être exécutés d{\textquoteright}une traite, sans interruption ni coupure) \ et qu{\textquoteright}il n{\textquoteright}y a pas de relation entre les jobs (ils sont indépendants).
 
 % -------------------------------------------------------
@@ -276,25 +323,21 @@ i.e le temps de traitement total.
 
 \end{itemize}
 
-\begin{center}
-
 \bigskip
 
-\fbox{\begin{minipage}{\linewidth}
+\begin{definition1}{P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}}
 
 P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max} consiste à planifier un ensemble J~=~\{1,2,{\dots},n) de n jobs simultanés, pour être traités par m machines identiques et parallèles. Chaque job, qui requière une opération, peut être traité par une des m machines. Le temps de traitement de chaque job (P\textsubscript{i} avec i~${\in}$ N) est connu à l{\textquoteright}avance. Un job commencé, et complété sans interruption. Les jobs, indépendants, sont exécutés par une seule machine, et une machine ne peut traiter qu{\textquoteright}un seul job
 à la fois.
 
-\end{minipage}}
+\end{definition1}
 
-\end{center}
 
 \subsection{Problématique}
 
-Comme l{\textquoteright}ont démontré Garey et Johnson, P\textsubscript{2}{\textbar}{\textbar}C\textsubscript{max} est un problème NP-Difficile [4], et P{\textbar}{\textbar}C\textsubscript{max}
-est un problème NP-Difficile au sens fort [3]. Cependant,P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max} devient un problème NP-Difficile, du moment que le nombre de machines est fixé [2], comme l{\textquoteright}a montré Rothkopf [5], qui a présenté un algorithme de programmation dynamique.
+Comme l{\textquoteright}ont démontré Garey et Johnson, P\textsubscript{2}{\textbar}{\textbar}C\textsubscript{max} est un problème NP-Difficile \citep{garey1978strong}, et P{\textbar}{\textbar}C\textsubscript{max} est un problème NP-Difficile au sens fort \citep{garey1982computers}. Cependant, P~\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max} devient un problème NP-Difficile, du moment que le nombre de machines est fixé \cite{chen1999potts}, comme l{\textquoteright}a montré Rothkopf \cite{rothkopf1966scheduling}, qui a présenté un algorithme de programmation dynamique.
 
-Donner la solution optimale à un problème d{\textquoteright}ordonnancement (dans notre cas P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}) n{\textquoteright}est pas réaliste. Même pour un problème de taille modeste, la résolution de celui-ci demanderait un temps excessif et donc rédhibitoire. 
+Donner la solution optimale à un problème d{\textquoteright}ordonnancement (dans notre cas P~\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}) n{\textquoteright}est pas réaliste. Même pour un problème de taille modeste, la résolution de celui-ci demanderait un temps excessif et donc rédhibitoire. 
 
 La résolution du problème d{\textquoteright}ordonnancement va reposer sur des méthodes d{\textquoteright}approche, qui consistent à calculer en temps polynomial, une solution «~assez~» proche de la valeur optimale.
 
@@ -304,22 +347,424 @@ Dans la littérature, l{\textquoteright}étude d{\textquoteright}ordonnancement es
 
 Comme évoqué précédemment, l{\textquoteright}existence d{\textquoteright}une solution qui résout le problème n{\textquoteright}est pas pensable, à moins que P = NP.
 
+\subsection{Notations utilisées}
+
+Chaque document utilise sa propre notation, mais les notions sont les mêmes.
+Soient les données du problème 
+
+\begin{itemize}
+% -------------------------------------------------------
+% ENSEMBLE DES JOBS J
+% -------------------------------------------------------
+\item un ensemble de n jobs (ou tâches) $J = \{1, 2, ..., n\}$
+Chaque job j a un temps de traitement connu $p\textsubscript{j} P = \{p\textsubscript{1}, p\textsubscript{2}, ..., p\textsubscript{n}\}$
+
+% -------------------------------------------------------
+% ENSEMBLE DES MACHINES M
+% -------------------------------------------------------
+\item m machines parallèles identiques $M\textsubscript{i}~avec~(i = 1, 2, ..., m)$
+
+% -------------------------------------------------------
+% RESULTAT DE L'ALGORITHME A
+% -------------------------------------------------------
+\item $C_j^A(J)$ Le résultat de l'ordonnancement d{\textquoteright}un ensemble J de jobs, sur m machines parallèles, identiques, obtenu par l{\textquoteright}algorithme A.
+
+% -------------------------------------------------------
+% RESULTAT OPTIMAL
+% -------------------------------------------------------
+\item $C_j^\star(J)$ Le makespan optimal, idéal.
+
+% -------------------------------------------------------
+% RATIO OBTENU/OPTIMAL
+% -------------------------------------------------------
+\item $\Gamma(A)=\dfrac{C_j^A(J)}{C_j^\star(J)}$ Le ratio d{\textquoteright}approximation atteint par l'algorithme A au pire cas.
+
+\end{itemize}
+
+\subsection{Heuristiques}
+
+Les heuristiques présentent plusieurs avantages. Leur complexité est réduite, et obtiennent de bonne performances. Elles représentent la plus grande partie des recherches concernant le problème {\textquoteright}ordonnancement, même si leurs performances, au pire cas, ne sont pas garanties.
+Sont abordées ici les heuristiques les plus présentes dans la littérature.
+
+
+\subsubsection{Basé LS (List Scheduling)}
+% {\textquoteright}
+
+L{\textquoteright}idée d{\textquoteright}une LS est de stocker l{\textquoteright}ensemble des jobs dans celle-ci, les trier dans un ordre particulier, avant de les affecter à une machine selon des règles définies.
+
+
+\begin{itemize}
+
+\bigskip
+% -------------------------------------------------------
+% LPT Rule
+% -------------------------------------------------------
+\item \textbf{algorithme LPT rule Graham \textit{et al.}, 1969}
+
+% Présentaion
+% ---------------------
+Graham propose \cite{graham1969bounds} \textit{\textbf{Longest Processing Time (LPT) rule}}. 
+
+\bigskip 
+% Algorithme
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\KwData{instance de P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}, avec m machines, n jobs et leur temps d{\textquoteright}exécution}
+%\Begin{ %inutile ici et rajoute un nuero de ligne
+
+\BlankLine % Petit espace 
+Trie les jobs de l{\textquoteright}ensemble J dans l{\textquoteright}ordre décroissant de leur temps d{\textquoteright}exécution et ré-indexe l{\textquoteright}ensemble de telle manière à obtenir : $p_1 \geq p_2 \geq ... \geq p_n$
+
+\BlankLine % Petit espace 
+Parcours la liste, et affecte chaque job à la machine la moins chargée, à ce moment là.
+% }
+\caption{LPT Rule\label{LPT}}
+\end{algorithm}
+
+\bigskip
+% Exemple
+% ---------------------
+Exemple
+
+Soit $P=\{13,10,7,6,6,5,3,2\}$, l{\textquoteright}ensemble des $p_j$ déjà triés dans l{\textquoteright}ordre décroissant à appliquer sur 4 machines parallèles identiques :
+
+{\centering 
+\includegraphics[width=8.334cm,height=4.034cm]{Biblio_PCmax_Rendu_exLPT1.jpg}
+\par}
+{\centering 
+\par}
+Nous obtenons $C_4^{lpt}(J)=14$
+
+\bigskip
+
+% Complexité
+% -------------------------------------------------------
+\begin{flushleft}
+\begin{tabular}{|p{10cm}p{4cm}|}
+% TITRES (pas de titre)
+\hline 
+
+% Ligne blanche
+ & \\	
+
+% Ligne Complexité
+Le~tri~puis~l{\textquoteright}affectation~s{\textquoteright}effectuent~en & $O(n log n + n log m)$
+\\	% pas de ligne \hline
+
+% RATIO
+Le~ratio~d{\textquoteright}approximation	&	$\Gamma(LPT)\leq \dfrac{4}{3} - \dfrac{1}{3m}$
+\\ 
+
+% Ligne blanche
+& \\
+\hline
+\end{tabular}
+%pas de legende
+\end{flushleft}
+
+\bigskip
+% -------------------------------------------------------
+% LPT-REV 
+% -------------------------------------------------------
+
+\item \textbf{algorithme LPT-REV (Croce \textit{et al.}, 2018)}
+
+
+% Présentaion
+% ---------------------
+Le ratio d{\textquoteright}approximation obtenu par LPT $(\Gamma(LPT)\leq \dfrac{4}{3} - \dfrac{1}{3m})$ est une borne supérieure que cet algorithme peut atteindre, mais qu{\textquoteright}il ne dépassera jamais. Chaque utilisation de LPT produira un résultat dont le ratio $\Gamma$ oscillera entre 1 et $\dfrac{4}{3} - \dfrac{1}{3m})$.
+
+\bigskip
+% Exemple pour l'explication
+% ---------------------
+Exemple de pire cas
+
+Soit $P=\{7,7,6,6,5,5,4,4,4\}$, l{\textquoteright}ensemble des $p_j$ déjà triés dans l{\textquoteright}ordre décroissant à appliquer sur 4 machines parallèles identiques :
+
+\bigskip
+
+% partie insécable
+\begin{minipage}{\linewidth}
+
+\begin{flushleft}
+LPT donne le résultat suivant
+\end{flushleft}
+{\centering 
+\includegraphics[width=8.334cm,height=4.034cm]{Biblio_PCmax_Rendu_exLPT_Rev1.jpg}
+\par}
+
+\begin{flushleft}
+$C_4^{lpt}(J)=15$
+\end{flushleft}
+
+\end{minipage}
+
+\bigskip
+
+% partie insécable
+\begin{minipage}{\linewidth}
+
+\begin{flushleft}
+Un ordonnancement optimal aurait été :
+\end{flushleft}
+
+{\centering 
+\includegraphics[width=8.334cm,height=4.034cm]{Biblio_PCmax_Rendu_exLPT_Rev2.jpg}
+\par}
+
+
+\begin{flushleft}
+$C_4^{\star}(J)=12$
+\end{flushleft}
+
+\end{minipage}
+
+Soit une marge d{\textquoteright} de $\dfrac{15}{12}$
+
+Le ratio d{\textquoteright}approximation prévu pour $m=4$
+$\dfrac{4}{3} - \dfrac{1}{3m}=\dfrac{16}{12} - \dfrac{1}{12}=\dfrac{15}{12}$
+
+Ce cas, représente donc un pire cas pour LPT.
+
+Croce \textit{et al.} \cite{della2018longest}, en examinant le comportement de LPT rule, notamment au niveau du ratio d{\textquoteright}approximation, constatent qu'icelui peut être réduit selon certaines configurations, ou instances du problème, et rédigent le théorème suivant :
+
+\bigskip
+
+\begin{theoreme1}
+
+LPT a un rapport d{\textquoteright}approximation non supérieur à $\dfrac{4}{3} - \dfrac{1}{3(m-1)}$ pour $m \geq 3$ et $n \neq 2m+1$. 
+
+LPT atteint la limite de Graham $\dfrac{4}{3} - \dfrac{1}{3m}$ pour $m \geq 2$ et uniquement dans le cas où $n=2m+1$, et la machine critique traite 3 jobs, tandis que les autres en traitent 2.
+
+La machine critique est la machine qui exécute le job critique.
+
+Le job critique (noté $J^\prime$) est le job qui détermine le makespan.
+\end{theoreme1}
+
+\bigskip
+
+Le rapport d{\textquoteright} $\dfrac{4}{3} - \dfrac{1}{3(m-1)}$ est inférieur au ration $\dfrac{4}{3} - \dfrac{1}{3m}$ (quel que soit le nombre de machines)
+
+\bigskip
+
+NB
+
+L{\textquoteright}exemple précédant (pire cas) a les caractéristiques suivantes :
+\begin{itemize}
+	\item nombre de job $n=2m+1$.
+	\item la machine critique exécute 3 jobs.
+	\item les autres exécutent 2 jobs.
+	\item un rapport d{\textquoteright}approximation de $\dfrac{4}{3} - \dfrac{1}{3m}$
+\end{itemize}
+
+\bigskip 
+
+Une modification à l'algorithme LPT rule est apportée afin de placer le problème P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max} toujours dans une instance où le ratio d{\textquoteright}approximation est $\leq \dfrac{4}{3} - \dfrac{1}{3(m-1)}$. Cette modification consiste à planifier en premier, le job critique sur une machine M1.
+
+\bigskip
+
+% Algorithme
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\KwData{instance de P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}, avec m machines, n jobs}
+%\Begin{ %inutile ici et rajoute un nuero de ligne
+
+Apply LPT yielding a schedule with makespan $z_1$ and $k-1$ jobs on the critical macine before job $J^\prime$
+\BlankLine % Petit espace 
+Apply $LPT^\prime = LPT(J^\prime)$ with solution value $z_2$
+
+\BlankLine % Petit espace 
+\textbf{If}  $m=2$ \textbf{then} apply $LPT''=LPT([(J^\prime - k + 1), ... , J^\prime])$ with solution value $z_3$ and \textbf{return} $min[z_1,z_2,z_3]$
+
+\BlankLine % Petit espace 
+\textbf{Else} \textbf{return} $min(z_1,z_2)$
+
+\caption{LPT-Rev\label{LPTRev}}
+\end{algorithm}
+
+
+\bigskip
+
+% Complexité
+% -------------------------------------------------------
+\begin{flushleft}
+\begin{tabular}{|p{10cm}p{4cm}|}
+% TITRES (pas de titre)
+\hline 
+
+% Ligne blanche
+ & \\	
+
+
+% RATIO
+Le~ratio~d{\textquoteright}approximation	&	$\Gamma(LPT-REV)\leq \dfrac{4}{3} - \dfrac{1}{3(m-1)}$
+\\ 
+
+% Ligne blanche
+& \\
+\hline
+\end{tabular}
+%pas de legende
+\end{flushleft}
+
+
+\end{itemize}
+
+
+\subsubsection{Basé Bin-Packing}
+Le problème Bin-packing, est semblable au problème P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}. Il consiste à ranger des objets de taille différentes, dans des bacs identiques, tout en minimisant leur nombre.
+
+L{\textquoteright}ensemble des n jobs $J~=~\{1, 2, ..., n\}$, et de leurs temps de traitement  $p_j~ P~=~\{p_1, p_2, ..., p_n\}$, peuvent être vus respectivement comme :
+\begin{itemize}
+\item un ensemble d{\textquoteright}objets $T~=~\{T_1, T_2, ..., T_n\}$
+\item leur taille $L(T_i)$
+\end{itemize}
+Une taille maximale $C$ des bacs (ou boites) est donnée.
+\bigskip
+
+\begin{definition1}{Packing}
+
+Un packing, est une partition $P<P_1, P_2, ..., P_m>$ tel que $L(P_j)~\leq~C$ avec $1 \leq j\leq m$. Le but est de placer les objets $T_i$ dans des bacs $P_j$ de taille $C$, de manière à minimiser le nombre de bacs $m$.
+\end{definition1}
+
+L{\textquoteright}idée est d{\textquoteright}utiliser le problème Bin-Packing à l'envers, pour approcher une solution au problème d{\textquoteright}ordonnancement.
+
+
+
+\begin{itemize}
+
+\bigskip
+% -------------------------------------------------------
+% MULTIFIT
+% -------------------------------------------------------
+\item \textbf{algorithme MULTIFIT}
+
+
+% Présentaion
+% ---------------------
+Coffman \textit{et al.}, \cite{coffman1978application} se sont intéressés à l{\textquoteright}algorithme FFD (First Fit Decreasing), un outil de résolution du problème de Bin-Packing, pour l'adapter au problème P{\textbar}{\textbar}C\textsubscript{max}.
+$FFD(T,C)$ renvoie le nombre de bacs de taille C non vides nécessaires, et l{\textquoteright}arrangement correspondant de l{\textquoteright}ensemble T d{\textquoteright}objets.
+
+\bigskip
+% Principe de l'algorithme
+% ---------------------
+Soit $T_m^\star~=~min\{C:FFD(T,C) \leq m\}$ la plus petite valeur de $C$ (taille des bacs) qui permet à $T$ d{\textquoteright}être pacqué dans m (ou moins) bacs.
+
+\bigskip
+Le but de MULTIFIT est donc de réduire la valeur de $C$, faire tourner $FFD(T,C) $,jusqu{\textquoteright}à ce que le nombre $m$ de bacs, alors devenu insuffisant, augmente à $m+1$.
+Cette valeur charnière de $C$ est $T_m^\star$, qui correspond au makespan minimum recherché, de l{\textquoteright}ordonnancement de l{\textquoteright}ensemble $T$ de jobs sur $m$ machine identiques parallèles.
+
+
+
+{\centering 
+\includegraphics[width=6.138cm,height=7.62cm]{Biblio_PCmax_Rendu_exMULTIFIT1.jpg}
+%\includegraphics[width=8.334cm,height=4.034cm]{Biblio_PCmax_Rendu_exMULTIFIT1.jpg}
+
+\par}
+{\centering
+Fonctionnement de FFD et principe de MULTIFIT
+\par}
+
+\bigskip
+
+% Algorithme
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\KwData{T un ensemble de jobs 
+
+m, un nombre de processeurs 
+
+borne supérieure : $Cu[T,m]~=~max\{\dfrac{2}{m} * L(T), max_i\{L(T_i)\}  \}$
+
+borne inférieure : $Cl[T,m]~=~max\{\dfrac{1}{m} * L(T), max_i\{L(T_i)\} \}$
+
+k un nombre d{\textquoteright}itérations
+}
+
+\BlankLine % Petit espace 
+La recherche de $T_m^\star$ s{\textquoteright}effectue par dichotomie sur k itérations
+
+\BlankLine % Petit espace 
+Après les k itérations, MULTIFIT \textbf{ renvoie $Cu(k)$} qui correspond à la plus petite valeur de $C$ pour laquelle $FFD[T,C] \leq m$
+
+\caption{MULTIFIT\label{MF}}
+\end{algorithm}
+
+\bigskip
+
+% Complexité
+% -------------------------------------------------------
+\begin{flushleft}
+\begin{tabular}{|p{10cm}p{4cm}|}
+% TITRES (pas de titre)
+\hline 
+
+% Ligne blanche
+ & \\	
+
+% Ligne Complexité
+Le~tri~puis~k FFD~s{\textquoteright}effectuent~en & $O(n log n + kn log m)$
+\\	% pas de ligne \hline
+
+% Ligne blanche
+ & \\	
+
+% RATIO 
+Ratio \cite{lee1988multiprocessor} & $\Gamma(MF) \leq 1,220 + 2^k$
+
+\\ 
+
+% Ligne blanche
+& \\
+\hline
+\end{tabular}
+%pas de legende
+\end{flushleft}
+
+Généralement, MULTIFIT donne des résultats très satisfaisant avec $k~=~7$
+
+
+\bigskip
+% -------------------------------------------------------
+% MULTIFIT
+% -------------------------------------------------------
+\item \textbf{algorithme COMBINE}
+
+
+% Présentaion
+% ---------------------
+Lee \textit{et al.}, \cite{lee1988multiprocessor} ont l'idée d{\textquoteright}utiliser LPT (\ref{LPT}) pour réduire les bornes de départ de MULTIFIT (\ref{MF}) dans un algorithme nommé COMBINE.
 
 
 
 
-comme la dit legrand chneck, 
-\cite{della2018longest}
 
-\cite{garey1978strong}
+\end{itemize} 
+
+\subsubsection{Approche gloutonne}
 
 
+\subsection{Programmation linéaire}
 
+\subsection{Approximation}
+
+\subsection{Autres approches}
+
+\section{Synthèse}
+
+\section{Conclusion}
 
 \medskip
 
-\bibliographystyle{plain}
+
+\bibliographystyle{plain}				% NE PAS ENLEVER !!!!!!!!!!
 \bibliography{Bibliographie}			% Utilise Bibliographie.bib
+
+
+
 
 
 
