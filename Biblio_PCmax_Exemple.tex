@@ -1,0 +1,1453 @@
+\documentclass[a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb,amsfonts,textcomp}
+\usepackage{color}
+\usepackage{array}
+\usepackage{supertabular}
+\usepackage{hhline}
+\usepackage{hyperref}
+\hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=, pdfauthor=ASC, pdfsubject=, pdfkeywords=}
+\usepackage[pdftex]{graphicx}
+\newcommand\textsubscript[1]{\ensuremath{{}_{\text{#1}}}}
+
+% Styles de texte
+\newcommand\textstyleavatarimg[1]{#1}
+\newcommand\textstyleTitreivCar[1]{\textrm{\textbf{\textit{\textcolor[rgb]{0.30980393,0.5058824,0.7411765}{#1}}}}}
+
+% Compteurs
+\setcounter{secnumdepth}{0}
+\makeatletter
+\newcommand\arraybslash{\let\\\@arraycr}
+\makeatother
+
+% Liste des styles
+\newcounter{saveenum}
+\newcommand\liststyleWWNumxvii{%
+\renewcommand\labelitemi{{}-}
+\renewcommand\labelitemii{o}
+\renewcommand\labelitemiii{[F0A7?]}
+\renewcommand\labelitemiv{[F0B7?]}
+}
+\newcommand\liststyleWWNumxvi{%
+\renewcommand\labelitemi{{}-}
+\renewcommand\labelitemii{o}
+\renewcommand\labelitemiii{[F0A7?]}
+\renewcommand\labelitemiv{[F0B7?]}
+}
+\newcommand\liststyleWWNumxv{%
+\renewcommand\labelitemi{{}-}
+\renewcommand\labelitemii{o}
+\renewcommand\labelitemiii{[F0A7?]}
+\renewcommand\labelitemiv{[F0B7?]}
+}
+\newcommand\liststyleWWNumvii{%
+\renewcommand\labelitemi{{}-}
+\renewcommand\labelitemii{o}
+\renewcommand\labelitemiii{[F0A7?]}
+\renewcommand\labelitemiv{[F0B7?]}
+}
+\newcommand\liststyleWWNumxi{%
+\renewcommand\labelitemi{[F0B7?]}
+\renewcommand\labelitemii{o}
+\renewcommand\labelitemiii{[F0A7?]}
+\renewcommand\labelitemiv{[F0B7?]}
+}
+\newcommand\liststyleWWNumx{%
+\renewcommand\theenumi{\arabic{enumi}}
+\renewcommand\theenumii{\arabic{enumi}.\arabic{enumii}}
+\renewcommand\theenumiii{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}}
+\renewcommand\theenumiv{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.\arabic{enumiv}}
+\renewcommand\labelenumi{\theenumi.}
+\renewcommand\labelenumii{\theenumii.}
+\renewcommand\labelenumiii{\theenumiii.}
+\renewcommand\labelenumiv{\theenumiv.}
+}
+\newcommand\liststyleWWNumviii{%
+\renewcommand\theenumi{\arabic{enumi}}
+\renewcommand\theenumii{\arabic{enumi}.\arabic{enumii}}
+\renewcommand\theenumiii{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}}
+\renewcommand\theenumiv{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}.\arabic{enumiv}}
+\renewcommand\labelenumi{\theenumi.}
+\renewcommand\labelenumii{\theenumii.}
+\renewcommand\labelenumiii{\theenumiii.}
+\renewcommand\labelenumiv{\theenumiv.}
+}
+% Page layout (geometry)
+\setlength\voffset{-1in}
+\setlength\hoffset{-1in}
+\setlength\topmargin{2.499cm}
+\setlength\oddsidemargin{2.499cm}
+\setlength\textheight{23.550999cm}
+\setlength\textwidth{16.002998cm}
+\setlength\footskip{2.401cm}
+\setlength\headheight{0cm}
+\setlength\headsep{0cm}
+
+% Footnote rule
+\setlength{\skip\footins}{0.119cm}
+\renewcommand\footnoterule{\vspace*{-0.018cm}\setlength\leftskip{0pt}\setlength\rightskip{0pt plus 1fil}\noindent\textcolor{black}{\rule{0.0\columnwidth}{0.018cm}}\vspace*{0.101cm}}
+
+% Pages styles
+\makeatletter
+\newcommand\ps@Standard{
+  \renewcommand\@oddhead{}
+  \renewcommand\@evenhead{}
+  \renewcommand\@oddfoot{\thepage{}}
+  \renewcommand\@evenfoot{\@oddfoot}
+  \renewcommand\thepage{\arabic{page}}
+}
+\makeatother
+\pagestyle{Standard}
+\setlength\tabcolsep{1mm}
+\renewcommand\arraystretch{1.3}
+\title{}
+\author{ASC}
+\date{2020-01-13}
+
+% =====================================================================
+%
+% 				DOCUMENT
+%
+% =====================================================================
+
+\begin{document}
+
+\clearpage\setcounter{page}{1}\pagestyle{Standard}
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+Historique des travaux autour du problème P{\textbar}{\textbar}Cmax
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+\clearpage
+\bigskip
+
+\section{Introduction}
+
+\bigskip
+
+\section{Présentation du problème.}
+\subsection{Parallélisme.}
+Le parallélisme est un type d{\textquotesingle}architecture informatique
+dans lequel plusieurs processeurs exécutent ou traitent une application
+ou un calcul simultanément. IL aide à effectuer de grands calculs en
+divisant la charge de travail entre plusieurs processeurs, qui
+fonctionnent tous en même temps. 
+
+Il existe quatre types de parallélismes, définis par la taxonomie de
+Flynn\textsuperscript{(1)}. Cette classification est basée sur deux
+notions : le flot d{\textquoteright}instructions (simple ou multiple),
+et le flot de données (simple ou multiples) ; un algorithme est un flot
+d{\textquoteright}instructions à exécuter sur un flot de données. 
+
+\begin{flushleft}
+\tablehead{}
+\begin{supertabular}{|m{5.215cm}|m{5.2130003cm}|m{5.2200003cm}|}
+\hline
+Instructions / Données &
+Simple &
+Multiple\\\hline
+Simple &
+SISD 
+
+premiers PC
+
+machine de Von Neumann
+
+~
+
+Obsolète, car tous les PC sont désormais multi-c{\oe}ur. &
+SIMD
+
+Machines synchrones
+
+Pipeline
+
+~
+
+Exécution d{\textquoteright}une instruction unique sur des données
+différentes.\\\hline
+Multiple &
+MISD
+
+Machines vectoriels
+
+Tableau de processeurs
+
+~
+
+Exécute plusieurs instructions sur une même donnée. &
+MIMD
+
+Multi processeurs à mémoire distribuée.
+
+Multi processeurs à mémoire partagée (multi-c{\oe}ur).
+
+Multi Ordinateur.\\\hline
+\end{supertabular}
+\end{flushleft}
+Taxonomie de Flynn
+
+
+\bigskip
+
+Les premières machines parallèles étaient des réseaux
+d{\textquoteright}ordinateurs, et des machines vectorielles (faiblement
+parallèles, très coûteuses), telles que l{\textquoteright}IBM 360, les
+Cray1. La plupart des machines parallèles contemporaines sont désormais
+MIMD.
+
+On peut définir une machine parallèle comme un ensemble de processeurs
+qui coopèrent et communiquent.
+
+{\centering 
+\includegraphics[width=8.334cm,height=4.034cm]{BiblioPCmaxLatex-img1.jpg}
+\par}
+
+{\centering
+IBM 360-91 (le plus rapide et le plus puissant en service en 1968) NASA.
+Centre de vols de Greenbelt (Md)
+\par}
+
+
+\bigskip
+
+\subsection[Ordonnancement]{Ordonnancement}
+Sur une machine non parallèle, les tâches sont exécutées
+séquentiellement, les unes après les autres. Certaines tâches, ou jobs
+peuvent demander plus de temps que d{\textquoteright}autres pour être
+entièrement traitées. 
+
+Lorsque plusieurs ressources (processeurs, machines, c{\oe}urs) sont
+disponibles, ou que des jobs a exécuter ne sont pas indépendants (même
+traités sur un seul processeur), se pose alors, un problème
+d{\textquoteright}ordonnancement. 
+
+Celui-ci consiste à organiser, dans le temps, les jobs à exécuter, en
+les affectant à une ressource donnée, de manière à satisfaire un
+certain nombre de contraintes, tout en optimisant un ou des objectifs.
+
+L{\textquoteright}ordonnancement, fait partie de la catégorie des
+problèmes d{\textquoteright}optimisation combinatoire. 
+
+
+\bigskip
+
+Les problèmes qui s{\textquoteright}y rattachent sont très variés. 
+
+Premièrement, la nature des machines parallèles doit être considérée.
+Celles-ci peuvent être identiques (Le même temps de traitement sera
+nécessaire, d{\textquoteright}une machine à l{\textquoteright}autre) ;
+uniformes (un quotient de vitesse qi propre à une machine est à
+appliquer pour chaque tâche affectée \ à cette machine pour déterminer
+le temps de traitement nécessaire) ; ou indépendantes (les temps de
+traitements des tâches sont ni uniformes ni proportionnels
+d{\textquoteright}une machine à l{\textquoteright}autre).
+
+Ensuite, des contraintes peuvent affecter les jobs eux-mêmes. Dans le
+cas d{\textquoteright}un problème préemptif, les taches peuvent être
+interrompues, et reprises ultérieurement. Il est possible que les jobs
+soient indépendants, ou au contraire, être liées par des relations de
+précédence. Ces jobs ne sont disponibles qu{\textquoteright}à partir
+d{\textquoteright}une certaine date. Ou encore, être de durée égale, ou
+tous de durée différente.
+
+Pour finir, l{\textquoteright}objectif de
+l{\textquoteright}ordonnancement est d{\textquoteright}optimiser un
+critère. Par exemple, minimiser la somme des dates de fin, la somme des
+retards, le nombre de tâches en retard, ou simplement, le retard total.
+Mais le plus habituel, est de chercher à minimiser le temps total de
+traitement de tous les jobs, i.e minimiser le makespan.
+
+
+\bigskip
+
+\subsection[Enoncé du P{\textbar}{\textbar}Cmax]{Enoncé du
+P{\textbar}{\textbar}C\textsubscript{max}}
+Ces diverses possibilités définissent divers problèmes
+d{\textquoteright}ordonnancements différents, recensés et classifiés
+\ par Graham et al. [1], qui introduit la notation trois-champs $\alpha
+${\textbar}$\beta ${\textbar}$\gamma $ .
+
+
+\bigskip
+
+Le problème P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}
+se définit alors ainsi :
+
+\liststyleWWNumxvii
+\begin{itemize}
+\item $\alpha $ = $\alpha $1 $\alpha $2, détermine
+\ l{\textquoteright}environnement machines.
+\end{itemize}
+$\alpha $ = P : Les machines sont parallèles et identiques : Un job, une
+tâche prendra le même temps de traitement qu{\textquoteright}il soit
+exécuté sur une machine ou une autre. Le nombre de machine (m) est
+variable.
+
+\liststyleWWNumxvi
+\begin{itemize}
+\item $\beta $ c \{ $\beta $1, $\beta $2, $\beta $3, $\beta $4, $\beta
+$5, $\beta $6\}, détermine les caractéristiques des jobs, ou des
+tâches.
+\end{itemize}
+$\beta $ est vide. Ce qui signifie~que la préemption
+n{\textquoteright}est pas autorisée (les jobs doivent être exécutés
+d{\textquoteright}une traite, sans interruption ni coupure) \ et
+qu{\textquoteright}il n{\textquoteright}y a pas de relation entre les
+jobs (ils sont indépendants).
+
+\liststyleWWNumxv
+\begin{itemize}
+\item $\gamma $ détermine le critère à optimiser.
+\end{itemize}
+$\gamma $ = C\textsubscript{max} : on cherche à optimiser le makespan,
+i.e le temps de traitement total.
+
+
+\bigskip
+
+P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max} consiste à
+planifier un ensemble J = \{1,2,{\dots},n) de n jobs simultanés, pour
+être traités par m machines identiques et parallèles. Chaque job, qui
+requière une opération, peut être traité par une des m machines. Le
+temps de traitement de chaque job (P\textsubscript{i} avec i~${\in}$ N)
+est connu à l{\textquoteright}avance. Un job commencé, et complété sans
+interruption. \ Les jobs, \ indépendants, sont exécutés par une seule
+machine, et une machine ne peut traiter qu{\textquoteright}un seul job
+à la fois.
+
+
+\bigskip
+
+\subsection[Problématique]{Problématique}
+Comme l{\textquoteright}ont démontré Garey et Johnson,
+P\textsubscript{2}{\textbar}{\textbar}C\textsubscript{max} est un
+problème NP-Difficile [4], et P{\textbar}{\textbar}C\textsubscript{max}
+est un problème NP-Difficile au sens fort [3]. Cependant,
+P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max} devient un
+problème NP-Difficile, du moment que le nombre de machines est fixé
+[2], comme l{\textquoteright}a montré Rothkopf [5], qui a présenté un
+algorithme de programmation dynamique.
+
+
+\bigskip
+
+Donner la solution optimale \ à un problème
+d{\textquoteright}ordonnancement (dans notre cas
+P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}
+n{\textquoteright}est pas réaliste. \ Même pour un problème de taille
+modeste, la résolution de celui-ci demanderait un temps excessif et
+donc rédhibitoire. 
+
+
+\bigskip
+
+La résolution du problème d{\textquoteright}ordonnancement va reposer
+sur des méthodes d{\textquoteright}approche, qui consistent à calculer
+en temps polynomial, une solution «~assez~» proche de la valeur
+optimale.
+
+Dans la littérature, l{\textquoteright}étude
+d{\textquoteright}ordonnancement est très riche et abondante. Le but
+étant d{\textquoteright}améliorer le temps de calcul, et
+d{\textquoteright}approcher le résultat optimal.
+
+
+\bigskip
+
+\section{Résoudre le problème}
+//*****************************
+
+// \ \ \ Phrase choc d{\textquoteright}introduction
+
+\ Comme évoqué précédemment, l{\textquoteright}existence
+d{\textquoteright}une solution qui résout le problème
+n{\textquoteright}est // // pas pensable (à moins que P=NP {\dots}). De
+fait, les solutions proposées en temps polynomial // sont approchées.
+Il est impossible de présenter une liste exhaustive des solutions
+proposées tant la recherche dans ce domaine est soutenue. \ .
+
+\ Il existe plein de solutions blabla LS, {\dots} Reseaux de neurones,
+genetique{\dots} 
+
+Petit plan
+
+\ Ici on presente les methodes les plus utilisées, et quelques algo par
+methode.
+
+Après un rappel des notations utilisées, methode basée sur LP, des
+heuristiques basées sur LS, Bin pacqking, pour finir avec un PTAS, et
+un partitionnement. 
+
+/*****************************
+
+
+\bigskip
+
+\subsection{Notations utilisées}
+Chaque document utilise sa propre notation, mais les notions sont les
+mêmes.
+
+Soient les données du problème Pm{\textbar}{\textbar}Cmax, 
+
+
+\bigskip
+
+Un ensemble de n jobs J = \{1,2,{\dots},n)\ \ 
+
+Chaque job j a un temps de traitement pj P= \{p\textsubscript{1},
+p\textsubscript{2}, {\dots}, p\textsubscript{n}\}
+
+
+\bigskip
+
+m machines parallèles identique Mi avec (i=1,2,{\dots},m)
+
+
+\bigskip
+
+\ \  ${C}_{m}^{A}$ (J)\ \ : le résultat de
+l{\textquoteright}ordonnancement d{\textquoteright}un ensemble J de
+jobs, sur m machines parallèles, identiques, obtenu par un algorithme
+A.
+
+ ${C}_{m}^{?}$ (J) : le makespan optimal.
+
+
+\bigskip
+
+r(A) =  ${C}_{m}^{A}$ (J) /  ${C}_{m}^{?}$ le ratio
+d{\textquoteright}approximation atteint par
+l{\textquoteright}algorithme A au pire cas.
+
+
+\bigskip
+
+\subsection{Heuristiques}
+Les heuristiques présentent plusieurs avantages. Leur complexité est
+réduite, et obtiennent de bonnes performances. Elles représentent la
+plus grande partie des recherches concernant le problème
+d{\textquoteright}ordonnancement, même si leurs performances, au pire
+cas, n{\textquoteright}est pas garantie.
+
+Sont abordées ici les heuristiques les plus présentes dans la
+littérature.
+
+
+\bigskip
+
+\subsubsection{Basé LS (List scheduling)}
+L{\textquoteright}idée d{\textquoteright}une LS est de stocker
+l{\textquoteright}ensemble des jobs dans celle-ci, les trier dans un
+ordre particulier, avant de les affecter à une machine selon des règles
+définies. 
+
+\paragraph[Algorithme LPT rule \ graham 1969 ]{Algorithme LPT rule
+\ graham 1969 }
+Graham propose [8] \ Longest Processing Time (LPT) rule. \ 
+
+
+\bigskip
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+Algorithme LPT 
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+Input : instance de Pm{\textbar}{\textbar}Cmax, avec m machines, n jobs
+et leur temps d{\textquoteright}exécution
+
+1 : \ \  trie les jobs de l{\textquoteright}ensemble J dans
+l{\textquoteright}ordre décroissant de leur temps
+d{\textquoteright}exécution et réindexe l{\textquoteright}ensemble, de
+telle manière à obtenir :
+
+P\textsubscript{1} {\textgreater}= P\textsubscript{2} {\textgreater}=
+{\dots} {\textgreater}= P\textsubscript{n}
+
+2 : \ \  Parcours la liste, et affecte chaque job à la machine la moins
+chargées, à ce moment-là.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\bigskip
+
+Exemple.
+
+Soit P = (13,10,7,6,6,5,3,2) l{\textquoteright}ensemble des Pj déjà
+triés dans l{\textquoteright}ordre décroissant 
+
+à appliquer sur 4 machines parallèles identiques.
+
+
+\bigskip
+
+{\centering   [Warning: Image ignored]
+% Unhandled or unsupported graphics:
+%\includegraphics[width=10.478cm,height=3.861cm]{BiblioPCmaxLatex-img2}
+ \par}
+
+
+\bigskip
+
+Nous obtenons  ${C}_{4}^{\mathit{lpt}}$ (J) = 14
+
+
+\bigskip
+
+
+\bigskip
+
+Le tri puis l{\textquoteright}affectation s{\textquoteright}effectuent
+en \ \ \textbf{O(n log n + n log m)}
+
+
+\bigskip
+
+Le ratio d{\textquoteright}approximation \ \ \ \ \ \ \textbf{r(LPT)
+{\textless}= } $\frac{4}{3}$\textbf{{}- } $\frac{1}{3\ast m}$
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+\paragraph{Algorithme LPT-REV (Croce et Scatamacchia, 2018)}
+Ce ratio d{\textquoteright}approximation obtenu par LPT (r(LPT) = 
+$\frac{4}{3}${}-  $\frac{1}{3\ast m}$) est une borne supérieure que LPT
+peut atteindre, mais qu{\textquoteright}il ne dépassera jamais. Chaque
+utilisation de LPT donnera un résultat qui oscillera entre 1 et = 
+$\frac{4}{3}${}-  $\frac{1}{3\ast m}$. 
+
+
+\bigskip
+
+Exemple de pire cas.
+
+Soit P = (7,7,6,6,5,5,4,4,4) l{\textquoteright}ensemble des Pj déjà
+triés dans l{\textquoteright}ordre décroissant
+
+à appliquer sur 4 machines parallèles identiques.
+
+
+\bigskip
+
+\liststyleWWNumvii
+\begin{itemize}
+\item LPT donne le résultat suivant :
+\end{itemize}
+{\centering   [Warning: Image ignored]
+% Unhandled or unsupported graphics:
+%\includegraphics[width=11.033cm,height=3.466cm]{BiblioPCmaxLatex-img3}
+ \par}
+
+ ${C}_{4}^{\mathit{lpt}}$ (J) = 15
+
+
+\bigskip
+
+\liststyleWWNumvii
+\begin{itemize}
+\item Un bon ordonnancement aurait donné :
+\end{itemize}
+{\centering   [Warning: Image ignored]
+% Unhandled or unsupported graphics:
+%\includegraphics[width=11.033cm,height=3.466cm]{BiblioPCmaxLatex-img4}
+ \par}
+
+ ${C}_{4}^{?}$ (J) = 12
+
+
+\bigskip
+
+\liststyleWWNumvii
+\begin{itemize}
+\item Soit une marge d{\textquoteright}erreur de 15/12
+\end{itemize}
+Pour m = 4
+
+ $\frac{4}{3}${}-  $\frac{1}{3\ast m}$= \  $\frac{16}{12}${}- 
+$\frac{1}{12}$ = \  $\frac{15}{12}$
+
+Ce cas représente un pire cas pour LPT
+
+
+\bigskip
+
+Croce et Scatamacchia [9] en examinant le comportement de «~LPT rule~»,
+notamment au niveau du ratio d{\textquoteright}approximation,
+constatent que celui-ci peut être réduit selon certaines
+configurations, ou instances du problème, et rédigent le théorème
+suivant :
+
+
+\bigskip
+
+LPT a un rapport d{\textquotesingle}approximation non supérieur à \ 
+$\frac{4}{3}${}-  $\frac{1}{3\ast (m-1)}$ pour m ${\geq}$3 et n
+{\textless}{\textgreater} 2m + 1.
+
+LPT atteint la limite de Graham de  $\frac{4}{3}${}-  $\frac{1}{3\ast
+m}$ pour m ${\geq}$2 et uniquement dans les cas où 
+
+n = 2m + 1, et la machine critique traite 3 jobs, tandis que les autres
+en traitent 2.
+
+La machine critique est la machine qui exécute le job critique
+
+Le job critique (noté J{\textquoteright}) est le job qui détermine le
+makespan.
+
+
+\bigskip
+
+Le rapport d{\textquoteright}approximation augmente moins vite (en
+fonction du nombre de machines) que le précédent à condition
+d{\textquoteright}éviter certaines instances.
+
+
+\bigskip
+
+NB 
+
+L{\textquoteright}exemple précédant (pire cas) a les caractéristiques
+suivantes :
+
+\ \ Nombre de jobs n = 2m +1
+
+\ \ La machine critique exécute 3 jobs
+
+\ \ Les autres exécutent 2 jobs
+
+Un rapport d{\textquoteright}approximation de  $\frac{4}{3}${}- 
+$\frac{1}{3\ast m}$
+
+
+\bigskip
+
+Une modification à l{\textquoteright}algorithme LPT est apportée pour
+placer le problème
+P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max} toujours
+dans une instance où le ratio d{\textquoteright}approximation est 
+$\frac{4}{3}${}-  $\frac{1}{3\ast (m-1)}$. Cette modification consiste
+à planifier en premier, le job critique sur une machine M1.
+
+
+\bigskip
+
+
+\includegraphics[width=8.784cm,height=5.212cm]{BiblioPCmaxLatex-img5.png}
+
+
+
+\bigskip
+
+Le ratio d{\textquoteright}approximation \ \ \ \ \ \ \textbf{r(LPT-REV)
+{\textless}= } $\frac{4}{3}$\textbf{{}- } $\frac{1}{3\ast (m-1)}$
+
+
+\bigskip
+
+
+\bigskip
+
+\subsubsection{Basé Bin-Packing}
+Le problème Bin-packing, est semblable au problème
+P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}. Il consiste
+à ranger des objets dans des bacs de taille similaires, tout en
+minimisant le nombre de boites. 
+
+
+\bigskip
+
+L{\textquoteright}ensemble des n jobs J = \{1,2,{\dots},n) et de leur
+temps de traitement pj P= \{p\textsubscript{1}, p\textsubscript{2},
+{\dots}, p\textsubscript{n}\} peuvent être vus respectivement, comme :
+
+un ensemble d{\textquoteright}objets \textbf{T =
+\{T}\textbf{\textsubscript{1}}\textbf{,T}\textbf{\textsubscript{2}}\textbf{,
+{\dots} ,T}\textbf{\textsubscript{n}}\textbf{\}}, 
+
+et leur taille \textbf{L(Ti)} 
+
+Une taille maximale \textbf{C} des bacs (ou boîtes) est donnée.
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+Un packing, est une partition P{\textless}P\textsubscript{1},
+P\textsubscript{2},{\dots},Pm{\textgreater} de T telle que
+L(P\textsubscript{j}) {\textless}= C (avec 1{\textless}=j{\textless}=m)
+
+Le but est de placer les T\textsubscript{i} dans des bacs
+P\textsubscript{j} de taille C, de manière à minimiser le nombre de
+bacs m.
+
+
+\bigskip
+
+L{\textquoteright}idée est d{\textquoteright}utiliser le problème à
+l{\textquoteright}envers, pour approcher une solution au problème
+d{\textquoteright}ordonnancement.
+
+\paragraph{Algorithme MULTIFIT}
+Coffman, Garey, et Johnson [10] se sont intéressés à
+l{\textquoteright}algorithme FFD (First Fit Decreasing), \ un outil de
+résolution du problème «~bin-packing~», pour l{\textquoteright}adapter
+au problème d{\textquoteright}ordonnancement. 
+
+FFD(T,C) renvoie le nombre \ de bacs de taille C non vides nécessaires,
+et l{\textquoteright}arrangement correspondant de
+l{\textquoteright}ensemble T d{\textquoteright}objets.
+
+
+\bigskip
+
+Soit  ${T}_{m}^{?}$ = min\{C :FFD(T,C) {\textless}= m\} la plus petite
+valeur de C (taille des bacs) qui permet à T d{\textquoteright}être
+pacqué dans m (ou moins) bacs.
+
+
+\bigskip
+
+Le but de Multifit, est donc, de réduire la valeur de C, faire tourner
+FFD(T,C), jusqu{\textquoteright}à ce que \ le nombre m de bacs alors,
+devenu insuffisant, augmente à m+1. 
+
+Cette valeur charnière de C est  ${T}_{m}^{?}$, qui correspond au
+makespan minimum recherché, de l{\textquoteright}ordonnancement de
+l{\textquoteright}ensemble T de jobs sur m machines parallèles
+identiques. 
+
+
+\bigskip
+
+{\centering   [Warning: Image ignored]
+% Unhandled or unsupported graphics:
+%\includegraphics[width=6.138cm,height=7.62cm]{BiblioPCmaxLatex-img6}
+ \par}
+
+{\centering
+Fonctionnement de FFD et principe de MULTIFIT
+\par}
+
+
+\bigskip
+
+La recherche de \  ${T}_{m}^{?}$ s{\textquoteright}effectue par
+dichotomie.
+
+La borne supérieure\ \ Cu[T,m] = max\{(2/m)*L(T),
+max\textsubscript{i}\{L(Ti)\}\}
+
+La borne inférieure\ \ Cl[T,m] = max\{(1/m)* L(T),
+max\textsubscript{i}\{L(Ti)\}\}
+
+
+\bigskip
+
+Multifit reçoit les paramètres suivants
+
+\ \ T, un ensemble de jobs
+
+\ \ m, un nombre de processeurs
+
+\ \ k, un nombre d{\textquoteright}itérations maximal (pour la recherche
+dichotomique)
+
+
+\bigskip
+
+Après k itérations, Multifit renvoie Cu(k) qui correspond à la plus
+petite valeur C pour laquelle FFD[T,C] {\textless}= m
+
+
+\bigskip
+
+
+\bigskip
+
+Le tri puis k FFD s{\textquoteright}effectuent en \ \ \textbf{O(n log n
++ kn log m)}
+
+Ratio\textbf{\ \ }[11]\textbf{\ \ \ \ \ \ \ \ r(MF) {\textless}= 1.220 +
+2}\textbf{\textsuperscript{{}-k}}
+
+
+\bigskip
+
+
+\bigskip
+
+Généralement, Multifit donne un résultat très satisfaisant \ avec k=7. 
+
+
+\bigskip
+
+\paragraph{Algorithme COMBINE}
+Lee et Massey [11] ont l{\textquoteright}idée d{\textquoteright}utiliser
+LPT pour réduire les bornes de départ de Multifit dans un algorithme
+nommé COMBINE.
+
+
+\bigskip
+
+Soient la moyenne des poids des jobs par processeur A =  $\sum
+_{i=1}^{n}{\frac{\mathit{Pi}}{m}}$
+
+M \ \ =  ${C}_{m}^{\mathit{lpt}}$ (J)\ \ 
+
+Et \ \ M* \ \ =  ${C}_{m}^{?}$ (J)\ \ 
+
+
+\bigskip
+
+Si M {\textgreater}= 1.5 A alors M* = M
+
+
+\bigskip
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+Algorithme COMBINE 
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+Input : instance de Pm{\textbar}{\textbar}Cmax, avec m machines, n jobs
+et un coefficient \ d{\textquoteright}arrêt $\alpha $ (0.005)
+
+1 :\ \ A =  $\sum _{i=1}^{n}{\frac{\mathit{Pi}}{m}}$
+
+M [F0DF?] \  ${C}_{m}^{\mathit{lpt}}$ (J)
+
+\ \ Si M {\textgreater}= 1.5 A alors M* = M
+
+\ \ Sinon aller en 2 :
+
+2 :\ \ Appliquer Multifit avec
+
+Cu = M
+
+\ \ \ \ Cl = max\{ ( M / (  $\frac{4}{3}${}-  $\frac{1}{3\ast m}$) ),
+P1, A\}\ \ (P1 : job le plus long)
+
+\ \ Arrêter lorsque Cu -- Cl {\textless}= $\alpha $A 
+
+
+\bigskip
+
+
+\bigskip
+
+Complexité\ \ \ \ \ \ \ \ \textbf{O(nlogn + knLogm)}
+
+Ratio\textbf{\ \ }[12]\textbf{\ \ \ \ \ \ \ \ r(CB) {\textless}= 13/11 +
+2}\textbf{\textsuperscript{{}-k}}
+
+
+\bigskip
+
+
+\bigskip
+
+Avec k le nombre d{\textquoteright}itérations de recherches
+dichotomiques. 
+
+Concernant la complexité
+
+Généralement les itérations Combine k = 6 (lorsque Cu -- Cl {\textless}=
+$\alpha $A), mais il a déjà exécuté une fois LPT, donc, généralement, k
+= 7.
+
+
+\bigskip
+
+\paragraph{Algorithme LISTFIT}
+Gupta et Ruiz-Torres [12], ont aussi l{\textquoteright}idée
+d{\textquoteright}utiliser Multifit, afin de réaliser
+l{\textquoteright}algorithme Listfit. 
+
+Celui-ci sépare la liste des travaux en 2 sous-listes, traitées soit
+dans un ordre LPT (longest Time Processing), soit dans un ordre SPT
+(Shortest Time Processing). Puis, Listfit combine ces deux sous-listes
+en appliquant MultiFit à chaque itération.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+Algorithme Listfit
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+\begin{figure}
+\centering
+\includegraphics[width=11.753cm,height=12.435cm]{BiblioPCmaxLatex-img7.png}
+\end{figure}
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\bigskip
+
+
+\bigskip
+
+
+\bigskip
+
+Complexité\ \ \ \ \ \ \ \ \textbf{O(n}\textbf{\textsuperscript{2
+}}\textbf{log n + kn}\textbf{\textsuperscript{2}}\textbf{blog m)}
+
+Ratio \ \ \ \ \ \ \ \ \ \ \textbf{r(MF) {\textless}= 13/11 +
+2}\textbf{\textsuperscript{{}-k}}
+
+
+\bigskip
+
+Où k est le nombre d{\textquoteright}itérations pour Multifit.
+
+
+\bigskip
+
+\subsubsection{Aproche gloutonne}
+\paragraph{Algorithme SLACK (Croce et Scatamacchia, 2018)}
+Croce et Scatamacchia [9], en effectuant la preuve d{\textquoteright}une
+borne d{\textquoteright}approximation pour le développement de LPT-Rev,
+ont mis en évidence l{\textquoteright}importance des différences de
+temps entre les jobs, ainsi que le regroupement de ceux-ci en
+sous-ensembles.
+
+Notamment, pour l{\textquoteright}instance suivante
+
+Nombre de jobs n = 2m+1 
+
+Avec P\textsubscript{2m+1} {\textgreater}= P\textsubscript{1} -
+P\textsubscript{m}. 
+
+Où ils ont planifié le job 2m+1, puis le sous ensemble trié \{1 {\dots}
+m\}, puis le sous ensemble trié \{m+1 {\dots} 2m\}.
+
+
+\bigskip
+
+En résulte la stratégie gloutonne suivante
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+Algorithme SLACK
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+1 :\ \ Trier la liste des jobs dans l{\textquoteright}ordre décroissant
+des temps nécessaires de traitement
+
+2 :\ \ Réindexer les jobs, de manière à obtenir P\textsubscript{1}
+{\textgreater}= P\textsubscript{2} {\textgreater}= {\dots}
+{\textgreater}= P\textsubscript{n}
+
+3 :\ \ Découper l{\textquoteright}ensemble en n/m tuples de m Jobs
+(ajout de jobs «~dummy~» de taille nulle pour le dernier tuple, si n
+n{\textquoteright}est pas un multiple de m).
+
+4 : \ \ Considérer chaque tuple avec la différence de temps entre le
+premier job du tuple, et le dernier, appelée Slack. 
+
+\{ \{ 1, {\dots} , m\}\ \ \{m+1 , {\dots} , 2m\} {\dots} \}
+
+P1 -- Pm\ \ Pm+1 -- P2m\ \ {\dots}
+
+5 : \ \ Trier les tuples par ordre décroissant de Slack, et ainsi former
+un nouvel ensemble
+
+\ \{\{m+1 , {\dots} , 2m\} \ \{ 1, {\dots} , m\}\} \ (si Pm+1 -- P2m
+{\textgreater} P1 -- Pm)
+
+6 :\ \ Appliquer L{\textquoteright}ordonnancement (Affectation à la
+machine la moins chargée à ce moment-là) à l{\textquoteright}ensemble
+ainsi obtenu
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+\bigskip
+
+\subsection{Programmation Linéaire}
+L{\textquoteright}ordonnancement, et plus particulièrement
+P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max
+}s{\textquoteright}inscrit parfaitement dans l{\textquoteright}énoncé
+d{\textquoteright}un problème de programmation linéaire. En effet la
+fonction objectif, minimiser le makespan, ainsi que les contraintes
+sont des fonctions linéaires. 
+
+Toutefois, les variables, et le résultat attendus sont discrets, ce qui
+rend la résolution du problème nettement plus difficile comparé à une
+programmation linéaire à variables continues.
+
+Ces algorithmes donnent une solution faisable, exacte.
+
+
+\bigskip
+
+\paragraph{Algorithme «~PA~» de Mokotoff.}
+Makatoff [6] présente un algorithme basé sur la formulation de la
+programmation linéaire, en utilisant des variables booléennes
+d{\textquoteright}affectation des jobs à une machine.
+
+
+\bigskip
+
+La minimisation du makespan peut être posée ainsi :
+
+
+\bigskip
+
+Min y tel que
+
+
+\bigskip
+
+ $\sum _{j=1}^{m}{\mathit{xij}}$ = 1 \ \ \ \ \ \ pour 1{\textless}= i
+{\textless}= n \ \ 
+
+Sur toutes les machines, au moins un et un seul x\textsubscript{i} est
+égal à 1.
+
+Un job est affecté à une et une seule machine.
+
+
+\bigskip
+
+Y -  $\sum _{i=1}^{n}{\mathit{Pi}\mathit{xij}{\geq}0}$ \ \ pour
+1{\textless}= j {\textless}= m
+
+Pour une machine donnée, la somme des temps {\textless}= y
+
+
+\bigskip
+
+Où \ \ la valeur optimale de y est le Cmax
+
+et \ \ X\textsubscript{ij} \ \ = 1 si le job i est affecté à la machine
+j
+
+\ \ \ \ \ \ = 0 si le job i n{\textquoteright}est pas affecté à la
+machine j
+
+
+\bigskip
+
+Le programme linéaire est donc composé de
+
+\ \ n*m + 1 \ \ variables (les variables x\textsubscript{ij} et la
+variable y)
+
+\ \ n+m\ \ \ \ contraintes
+
+
+\bigskip
+
+La zone F peut être définie ainsi :
+
+F = \{ (x,y) : x  ${\in}$ B\textsuperscript{n*m}, y 
+${\in}R$\textsubscript{+}:  $\sum _{j=1}^{m}{\mathit{xij}}$ = 1 \ \ 
+${\forall}i\text{~}$; Y -  $\sum
+_{i=1}^{n}{\mathit{Pi}\mathit{xij}{\geq}0}$,  ${\forall}j$\}
+
+
+\bigskip
+
+avec B = 
+$\left[\begin{matrix}\mathit{x11}&{\cdots}&\mathit{xn1}\\{\vdots}&{\ddots}&{\vdots}\\\mathit{x1m}&{\cdots}&\mathit{xnm}\end{matrix}\right]$\ \ 
+
+
+\bigskip
+
+Le polytope P, relatif à F est défini ainsi
+
+P = \{ (x,y) : x  ${\in}$ R\textsubscript{+}\textsuperscript{n*m}, y 
+${\in}R$\textsubscript{+} :  $\sum _{j=1}^{m}{\mathit{xij}}$ = 1 \ \ 
+${\forall}i\text{~}$; Y -  $\sum
+_{i=1}^{n}{\mathit{Pi}\mathit{xij}{\geq}0}$,  ${\forall}j$\}
+
+
+\bigskip
+
+Il est possible de construire un ensemble fini
+d{\textquoteright}\textbf{inégalités} 
+
+\ \ Ax + Dy {\textless}= 
+\includegraphics[width=0.238cm,height=0.45cm]{BiblioPCmaxLatex-img8.png}
+ telles que min\{y : (x,y)  ${\in}$ F\} = min\{y : x  ${\in}$
+R\textsubscript{+}\textsuperscript{n*m }, y  ${\in}$
+R\textsubscript{+}, Ax+Dy {\textless}= 
+\includegraphics[width=0.238cm,height=0.45cm]{BiblioPCmaxLatex-img9.png}
+\}
+
+NB : Une solution (x°,y°)  ${\in}$ P doit être exclue
+(n{\textquoteright}est pas un vecteur entier) si (x°,y°)
+\textstyleavatarimg{${\notin}$ F}
+
+
+\bigskip
+
+Des \textbf{Inégalités transitoires} peuvent être générées ( nombre maxi
+de job par machine)
+
+ $\sum _{i{\in}\mathit{Sj}}^{\Box }{\mathit{xij}}$ {\textless}= Lj
+\ \ \ \ \ \ (Lj = h-1 [F0F3?] S\textsubscript{jh} {\textgreater} Lb et
+S\textsubscript{j(h-1)} {\textless}= Lb)
+
+Lb : Borne inférieure
+
+
+\bigskip
+
+Pour un problème Pm{\textbar}{\textbar}Cmax, même de taille modeste, le
+nombre de variables, contraintes, et très important, dont certaines
+sont inutiles. L{\textquoteright}algorithme va donc utiliser la méthode
+des plans sécants (Cutting Planes Technique). A chaque itération, des
+inégalités valides sont générées, puis une relaxation est exécutée.
+Jusqu{\textquoteright}à l{\textquoteright}obtention
+d{\textquoteright}une solution faisable. 
+
+
+\bigskip
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+Algorithme PA
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+Détermination de la borne inférieure (Lb) suivant
+l{\textquoteright}algorithme de McNaughton [7].
+
+Détermination de la borne supérieure Ub (juste pour la nommer) suivant
+l{\textquoteright}heuristique LPT.
+
+Si Lb coïncide avec Ub, alors la solution optimale est trouvée
+
+
+\bigskip
+
+Sinon, le processus itératif démarre : 
+
+Dans chaque itération, un programme de relaxation linéaire est résolu
+dans lequel Cmax doit être égal à la borne inférieure actuelle Lb. 
+
+Si la solution obtenue est entière, donc faisable,
+l{\textquotesingle}algorithme s{\textquotesingle}arrête et la solution
+actuelle est optimale. 
+
+Sinon, des nouvelles inégalités (inégalités et/ou inégalités
+transitoires), sont ajoutées à la relaxation linéaire. Le nouveau
+programme linéaire est résolu et l{\textquotesingle}algorithme
+s{\textquotesingle}arrête si la solution est entière.
+
+Si la relaxation n{\textquotesingle}est pas possible, la limite
+inférieure Lb est augmentée d{\textquoteright}une unité et le
+processus, redémarre.
+
+Par contre, Si les inégalités ne peuvent pas être générées, un
+algorithme Branch\&Bound prend le relais pour résoudre le problème. 
+
+
+\bigskip
+
+\subsection{Approximation}
+Une catégorie d{\textquoteright}algorithmes fournit une garantie
+d{\textquoteright}approche. C{\textquoteright}est le cas, notamment,
+des PTAS (Schéma d{\textquoteright}Approximation en Temps Polynomial). 
+
+
+\bigskip
+
+Principe PTAS (programmation dynamique, approximation $\varepsilon $
+{\dots}
+
+\liststyleWWNumxi
+\begin{itemize}
+\item \textstyleTitreivCar{Algorithme «~Using dual approximation
+Algorithm for Scheduling problems : }Theorical and Practical Results~»
+(Hochbaum et Shmoys 1987)
+\end{itemize}
+
+\bigskip
+
+
+\bigskip
+
+\subsection{Autres approches }
+\paragraph{LDM}
+
+\bigskip
+
+Transition
+
+LPT fait toujours référence pour comparer chaque algorithme
+développé{\dots}
+
+..
+
+Les heuristiques, font plus l{\textquoteright}objet de recherches
+{\dots}.
+
+
+\bigskip
+
+\section{Synthèse}
+
+\bigskip
+
+Récapitulatif complexité / Borne d{\textquoteright}approximation{\dots}
+théoriques
+
+Quelques résultats comparés expérimentaux 
+
+Avantages inconvénients 
+
+
+\bigskip
+
+
+\bigskip
+
+\section{Conclusion}
+Utilisation des algorithmes
+\ \ Slack est utilisé dans {\dots} 
+
+\liststyleWWNumx
+\setcounter{saveenum}{\value{enumi}}
+\begin{enumerate}
+\setcounter{enumi}{\value{saveenum}}
+\item \begin{enumerate}
+\item Point de vue personnel
+\end{enumerate}
+\end{enumerate}
+\liststyleWWNumviii
+\begin{enumerate}
+\item Recherche documentaire 
+\end{enumerate}
+Document LDM n{\textquoteright}explique pas comment les partitions sont
+construites (semble utiliser LPT)
+
+Difficulté de trouver \ des applications aux algorithmes
+
+Beaucoup de documents indisponibles, payant{\dots} 
+
+\ \ \ \ Acteurs prolifiques Graham, Mokotoff, {\dots} 
+
+\liststyleWWNumx
+\begin{enumerate}
+\item \begin{enumerate}
+\item Futur ? {\dots}
+\end{enumerate}
+\end{enumerate}
+
+\bigskip
+
+\clearpage
+Remarques
+
+(1). A été trouvé aussi sous le nom de «~taxonomie de Tanenbaum~»
+
+
+\bigskip
+
+Un site effectue régulièrement, un top 500 des machines les plus
+puissantes : 
+
+\url{https://www.top500.org/}
+
+
+\bigskip
+
+Des sites internet rassemblent des documents concernant les problèmes
+d{\textquoteright}ordonnancement :
+
+\url{http://www.mathematik.uni-osnabrueck.de/research/OR/class/}
+
+\url{http://schedulingzoo.lip6.fr/}
+
+
+\bigskip
+
+
+\bigskip
+
+\section{Références}
+
+\bigskip
+
+[1]
+
+Graham, R. L., Lawler, E. L., Lenstra, J. K., \& Rinnooy Kan, A. H. G.
+(1979).Optimization and approximation in deterministic sequencing and
+scheduling: a survey. In P. L. Hammer, E. L. Johnson, \& B. H. Korte
+(Eds.), Discrete optimization II, annals of discrete mathematics (Vol.
+5, pp. 287--326).
+
+
+\bigskip
+
+[2]
+
+Chen B.,Potts C.N.,and Woeginger G.J.(1999).Areviewofmachine scheduling:
+Complexity, algorithms and approximability. In D. Z.
+Du\&P.M.Pardalos(Eds.),Handbookofcombinatorialoptimization: Volume
+1--3. New York: Springer.
+
+
+\bigskip
+
+[3]* 
+
+M.R. Garey and D.S. Johnson, Computers and Intractability: A Guide to
+the TheoryofNP-Completeness,Freeman,SanFrancisco,1979.
+
+
+\bigskip
+
+[4]* 
+
+M.R. Garey and D.S. Johnson, Strong NP-completeness results: motivation,
+examples and implications, Journal of the Association for Computing
+Machinery 25 (1978), 499-508.
+
+
+\bigskip
+
+[5]*
+
+M.H. Rothkopf, Scheduling independent tasks on parallel processors,
+Management Science 12 (1966), 437-447.
+
+
+\bigskip
+
+[6]
+
+E. Mokoto[FB00?], Scheduling to minimize the makespan on identical
+parallel machines: An LP-based algorithm, Investigacioon Operativa
+8(1999)97--108.
+
+
+\bigskip
+
+[7]
+
+McNaughton, R., {\textquotedbl}Scheduling with deadlines and loss
+function{\textquotedbl}, Management Science 6, 1959, 1-12.
+
+
+\bigskip
+
+
+\bigskip
+
+[8]
+
+R.L. Graham, Bounds for certain multiprocessing anomalies, Bell System
+TechnicalJournal 45 (1966), 1563-1581.
+
+
+\bigskip
+
+
+\bigskip
+
+[9]
+
+F. Della Croce and R. Scatamacchia, {\textquotedblleft}The Longest
+Processing Time rule for identical parallel machines
+revisited,{\textquotedblright} Journal of Scheduling, 2018.
+
+
+\bigskip
+
+[10]
+
+Coffman E.G Jr., Garey M. R., \& Johnson, D. S. (1978). An application
+of bin-packing to multiprocessor scheduling. SIAM Journal on Computing,
+7, 1--17.
+
+
+\bigskip
+
+[11]
+
+Lee, C. Y., \& Massey, J. D. (1988). Multiprocessor scheduling:
+Combining LPT and MULTIFIT. Discrete Applied Mathematics, 20(3),
+233--242.
+
+
+\bigskip
+
+[12]
+
+Gupta J. N. D., \& Ruiz-Torres, A. J. (2001). A list[FB01?]t heuristic
+for minimizing makespan on identical parallel machines. Production
+Planning \& Control, 12(1), 28--36.
+
+
+\bigskip
+
+
+\bigskip
+\end{document}

@@ -78,6 +78,10 @@
 % -------------------------------------------------------
 \usepackage[linesnumbered, ruled, vlined]{algorithm2e} 
 \SetKwProg{Init}{init}{}{}
+% mettre les commentaire des algos en bleu
+\usepackage{xcolor}
+\newcommand\commentairesBleus[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{commentairesBleus}
 
 % -------------------------------------------------------
 % Information PDF généré
@@ -97,7 +101,7 @@
 
 % ######################################################################
 %
-% 			SOUVENT UTILIS3
+% 			SOUVENT UTILISES
 %
 % ######################################################################
 % Pm||Cmax 				: P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}
@@ -473,7 +477,7 @@ Le~ratio~d{\textquoteright}approximation	&	$\Gamma(LPT)\leq \dfrac{4}{3} - \dfra
 
 % Présentaion
 % ---------------------
-Le ratio d{\textquoteright}approximation obtenu par LPT $(\Gamma(LPT)\leq \dfrac{4}{3} - \dfrac{1}{3m})$ est une borne supérieure que cet algorithme peut atteindre, mais qu{\textquoteright}il ne dépassera jamais. Chaque utilisation de LPT produira un résultat dont le ratio $\Gamma$ oscillera entre 1 et $\dfrac{4}{3} - \dfrac{1}{3m})$.
+Le ratio d{\textquoteright}approximation obtenu par LPT (\ref{LPT}) $(\Gamma(LPT)\leq \dfrac{4}{3} - \dfrac{1}{3m})$ est une borne supérieure que cet algorithme peut atteindre, mais qu{\textquoteright}il ne dépassera jamais. Chaque utilisation de LPT produira un résultat dont le ratio $\Gamma$ oscillera entre 1 et $\dfrac{4}{3} - \dfrac{1}{3m})$.
 
 \bigskip
 % Exemple pour l'explication
@@ -690,7 +694,7 @@ La recherche de $T_m^\star$ s{\textquoteright}effectue par dichotomie sur k itér
 \BlankLine % Petit espace 
 Après les k itérations, MULTIFIT \textbf{ renvoie $Cu(k)$} qui correspond à la plus petite valeur de $C$ pour laquelle $FFD[T,C] \leq m$
 
-\caption{MULTIFIT\label{MF}}
+\caption{MULTIFIT\label{MULTIFIT}}
 \end{algorithm}
 
 \bigskip
@@ -706,14 +710,14 @@ Après les k itérations, MULTIFIT \textbf{ renvoie $Cu(k)$} qui correspond à la p
  & \\	
 
 % Ligne Complexité
-Le~tri~puis~k FFD~s{\textquoteright}effectuent~en & $O(n log n + kn log m)$
+Tri~puis~k FFD~s{\textquoteright}effectuent~en & $O(n log n + kn log m)$
 \\	% pas de ligne \hline
 
 % Ligne blanche
  & \\	
 
 % RATIO 
-Ratio \cite{lee1988multiprocessor} & $\Gamma(MF) \leq 1,220 + 2^k$
+Ratio \cite{lee1988multiprocessor} & $\Gamma(MULTIFIT) \leq 1,220 + 2^{-k}$
 
 \\ 
 
@@ -729,25 +733,248 @@ Généralement, MULTIFIT donne des résultats très satisfaisant avec $k~=~7$
 
 \bigskip
 % -------------------------------------------------------
-% MULTIFIT
+% COMBINE
 % -------------------------------------------------------
 \item \textbf{algorithme COMBINE}
 
 
 % Présentaion
 % ---------------------
-Lee \textit{et al.}, \cite{lee1988multiprocessor} ont l'idée d{\textquoteright}utiliser LPT (\ref{LPT}) pour réduire les bornes de départ de MULTIFIT (\ref{MF}) dans un algorithme nommé COMBINE.
+Lee \textit{et al.}, \cite{lee1988multiprocessor} ont l'idée d{\textquoteright}utiliser LPT (\ref{LPT}) pour réduire les bornes de départ de MULTIFIT (\ref{MULTIFIT}) dans un algorithme nommé COMBINE.
+
+\bigskip
+soient
+\begin{align*}
+&la~moyenne~des~poids~des~jobs~par~processeur &A &= \sum_{i=1}^{n}(\dfrac{P_i}{m})\\
+&et &M &= C_m^lpt(J) \\
+& &M^\star &= C_m^\star(J)
+\end{align*}
+ Si $M \geq 1,5\cdot A$ alors $M^\star ~=~M$
+ 
+\bigskip
+
+% Algorithme
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\KwData{instance de P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}, avec m machines, n jobs, et un coefficient~$\alpha~(0,005)$ }
+
+A = $\sum_{i=1}^{n}(\dfrac{P_i}{m})$
+
+\BlankLine % Petit espace 
+
+M $\leftarrow  C_m^{lpt}(J)$
+
+\BlankLine % Petit espace 
+
+\If {$M \geq 1,5 \cdot A$}
+ {
+ 	$M^\star~=~M$ \;
+ }
+\Else
+ {
+	$C_u~\leftarrow~M$					\;
+	$C_l~\leftarrow~max \{(\dfrac{M}{\dfrac{4}{3}-\dfrac{1}{3\cdot m}}),P1,1     \}$	\;
+	\While {$C_u - C_l > \alpha \cdot A$}
+	 {
+	 appliquer MULTIFIT \;
+	 
+	 } \tcp{on arrête lorsque $C_u - C_l \leq \alpha \cdot A$}
+ }
+
+\caption{COMBINE\label{COMBINE}}
+
+\end{algorithm}
+
+
+\bigskip
+
+% Complexité
+% -------------------------------------------------------
+\begin{flushleft}
+\begin{tabular}{|p{10cm}p{4cm}|}
+% TITRES (pas de titre)
+\hline 
+
+% Ligne blanche
+ & \\	
+
+% Ligne Complexité
+Conplexité & $O(n log n + kn log m)$
+\\	% pas de ligne \hline
+
+% Ligne blanche
+ & \\	
+
+% RATIO 
+Ratio \cite{gupta2001listfit} & $\Gamma(COMBINE) \leq \dfrac{13}{12} + 2^{-k}$
+
+\\ 
+
+% Ligne blanche
+& \\
+\hline
+\end{tabular}
+%pas de legende
+\end{flushleft}
+
+avec k le nombre d'itérations pour la recherche dichotomique. 
+Concernant la complexité, pour atteindre $C_u - C_l \leq \alpha \cdot A$, généralement, 6 itérations suffisent ($k=6$). Mais COMBINE a déjà exécuté une fois LPT (k=7). 
 
 
 
+\bigskip
+% -------------------------------------------------------
+% LISTFIT
+% -------------------------------------------------------
+\item \textbf{algorithme LISTFIT}
 
+% Présentaion
+% ---------------------
+Gupta \textit{et al.}, \cite{gupta2001listfit}, ont aussi l{\textquoteright}idée d{\textquoteright}utiliser MULTIFIT (\ref{MULTIFIT}), afin de réaliser l'olgorithme LISTFIT.
+
+Celui-ci sépare la liste des travaux en 2 sous-listes, traitée soit dans un ordre LPT (Longest Time Processing), soit dans un ordre SPT (Shortest Time Processing). Puis LISTFIT combine ces 2 sous-listes en appliquant MULTIFIT à chaque itération.
+
+\bigskip
+% Algorithme
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\KwData{n,~m,~$p_i$ for $i=1, ..., n$}
+
+%STEP 1
+let $r=1$, $q=1$, and $C_{max}=C_{max}(LPT)$, the makespan obtained by the LPT algorithm. \textbf{Goto step 2}.
+
+%STEP 2
+\BlankLine % Petit espace 
+let $\Phi = \varnothing$, A = $\{1,...,n\}$, and $B = \varnothing$. let $\omega_r$ be the sequence of jobs in job-list A sorted according to ordering $\tau$. \textbf{Goto step 3}.
+
+%STEP 3
+\BlankLine % Petit espace 
+let $\alpha=C_{max}(MULTIFIT)$ be the makespan obtained by using algorithm MULTIFIT, with $\sigma = \Phi_q \cdot \omega_r$ in step 1 of algorithm MULTIFIT. 
+If $C_{max}>\alpha$ then set $C_{max} = \alpha$ and $\gamma_h = \pi_h$ for $h=1,2,...,m$. If $A \neq \varnothing$ then \textbf{goto step 4}; otherwise \textbf{goto step 5}.
+
+%STEP 4
+\BlankLine % Petit espace 
+remove the last job of $\omega_r$ and place it into $B$. Update $A$, $\Phi_q$ and $\omega_r$. Let $\sigma = \Phi_q \cdot \omega_r$. \textbf{goto step 3}.
+
+%STEP 5
+\BlankLine % Petit espace 
+If {$\tau < 2$} then set $\tau = \tau + 1$ and	\textbf{goto step 2}; otherwise \textbf{goto step 6}
+
+%STEP 6
+\BlankLine % Petit espace 
+If $q<2$ then set $q=q+1$, $\tau = 1$, and \textbf{goto step 2}; oterwise \textbf{stop}; \tcp{The schedule where jobs in $\gamma_h$ are proceded on machine $h$ is an approximate solution of the P{\textbar}{\textbar}C\textsubscript{max} problem with makespan $C_{max}$.}
+
+\caption{LISTFIT\label{LISTFIT}}
+\end{algorithm}
+
+\bigskip
+% Complexité
+% -------------------------------------------------------
+\begin{flushleft}
+\begin{tabular}{|p{10cm}p{4cm}|}
+% TITRES (pas de titre)
+\hline 
+
+% Ligne blanche
+ & \\	
+
+% Ligne Complexité
+Conplexité & $O(n^2 log(n) + k \cdot n^2 log(m))$
+\\	% pas de ligne \hline
+
+% Ligne blanche
+ & \\	
+
+% RATIO 
+Ratio \cite{gupta2001listfit} & $\Gamma(LISTFIT) \leq \dfrac{13}{12} + 2^{-k}$
+
+\\ 
+
+% Ligne blanche
+& \\
+\hline
+\end{tabular}
+%pas de legende
+\end{flushleft}
+
+avec k le nombre d{\textquoteright}itérations pour la recherche dichotomique. 
 
 \end{itemize} 
 
 \subsubsection{Approche gloutonne}
 
+\begin{itemize}
+
+\bigskip
+% -------------------------------------------------------
+% SLACK
+% -------------------------------------------------------
+\item \textbf{algorithme SLACK (Croce \textit{et al.}, 2018)}.
+
+% Présentaion
+% ---------------------
+Croce \textit{et al.} \cite{della2018longest}, en effectuant la preuve d{\textquoteright}une borne d{\textquoteright}approximation pour le développement de LPT-Rev (\ref{LPTRev}), ont mis en évidence l{\textquoteright}importance des différences de temps entre les jobs, ainsi que le regroupement de ceux-ci en sous-ensembles.
+
+notamment pour l{\textquoteright}instance suivante :
+% * pour ne pas numéroter. Juste besoin d'aligner 
+\begin{align*}	
+& Nombre~de~jobs &n &=2 \cdot m + 1			\\
+& Avec &P_{2 \cdot m + 1} &\geq P_1 - P_m
+\end{align*}
+Où ils ont planifié d'abord, le job $2 \cdot m + 1$, puis un sous-ensemble de jobs triés $\{1,...,m\}$ et pour finir un sous-ensemble de jobs triés $\{m+1,...,2 \cdot m \}$  	
+	
+En résulte l'algorithme suivant :
+
+\bigskip
+
+\bigskip
+% Algorithme
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+% \KwData{une instance ...}
+
+%Etape 1
+trier la liste des jobs dans l{\textquoteright}ordre décroissant des temps nécessaires de traitements
+
+%ETAPE 2
+\BlankLine % Petit espace 
+réindexer les jobs, de manière à obtenir $P_1 \geq P_2 \geq ... \geq P_n$
+
+%ETAPE 3
+\BlankLine % Petit espace 
+Découper l{\textquoteright}ensemble obtenu en $\dfrac{n}{m}$ tuples de $m$ jobs (ajout de jobs "dummy" de taille nulle pour le dernier tuple, si $n$ n{\textquoteright}est pas un multiple de $m$)
+
+%ETAPE 4
+\BlankLine % Petit espace 
+considérer chaque tuple avec la différence de temps (SLACK) entre le premier job du tuple et le dernier.
+\begin{align*}
+\{ &\{1, ..., m\} &\{m+1,..., 2 \cdot m\} &... \} \\
+   &P_1 - P_m     &P_{m+1}-P_{2 \cdot m}  &...
+\end{align*} 
+
+
+%STEP 5
+\BlankLine % Petit espace 
+trier les tuples par ordre décroissant de "Slack" et ainsi former un  nouvel ensemble 
+\tcp{e.g : $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $P_{m+1} - P_{2 \cdot m} >  P_1 - P_m$.}
+
+%STEP 6
+\BlankLine % Petit espace 
+applique l{\textquoteright}ordonnancement (Affectation à la machine la moins chargée à ce moment là) à l{\textquoteright}ensemble ainsi obtenu.
+
+\caption{SLACK\label{SLACK}}
+\end{algorithm}
+
+\end{itemize}
 
 \subsection{Programmation linéaire}
+
+
+
+
 
 \subsection{Approximation}
 
@@ -756,6 +983,14 @@ Lee \textit{et al.}, \cite{lee1988multiprocessor} ont l'idée d{\textquoteright}u
 \section{Synthèse}
 
 \section{Conclusion}
+
+
+
+
+
+
+
+
 
 \medskip
 

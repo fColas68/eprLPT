@@ -34,6 +34,12 @@ Ronald~L. Graham.
 \newblock Bounds on multiprocessing timing anomalies.
 \newblock {\em SIAM journal on Applied Mathematics}, 17(2):416--429, 1969.
 
+\bibitem{gupta2001listfit}
+Jatinder~ND Gupta and Alex~J Ruiz-Torres.
+\newblock A listfit heuristic for minimizing makespan on identical parallel
+  machines.
+\newblock {\em Production Planning \& Control}, 12(1):28--36, 2001.
+
 \bibitem{lee1988multiprocessor}
 Chung-Yee Lee and J~David Massey.
 \newblock Multiprocessor scheduling: combining lpt and multifit.
