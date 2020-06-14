@@ -16,8 +16,9 @@
 % -------------------------------------------------------
 \usepackage[latin1]{inputenc}
 
+% Vu dans un forum : utiliser plutôt frenchb, french est obsolete
 \usepackage[T1]{fontenc}
-\usepackage[english,french]{babel}
+\usepackage[english,frenchb]{babel}
 
 % -------------------------------------------------------
 % Trouvé dans un forum a voir plus tard 
@@ -149,8 +150,8 @@
 % -------------------------------------------------------
 \renewcommand{\thesection}{\arabic{section}}
 \renewcommand{\contentsname}{Sommaire}
-\setcounter{tocdepth}{2}	% pour la table des matières
-\setcounter{secnumdepth}{3}	% pour les section sous et sous sous
+\setcounter{tocdepth}{4}	% avant 2pour la table des matières
+\setcounter{secnumdepth}{3}	% pour les section sous et sous sous et paragraphes
 \tableofcontents
 
 % =======================================================
@@ -396,14 +397,12 @@ Sont abordées ici les heuristiques les plus présentes dans la littérature.
 
 L{\textquoteright}idée d{\textquoteright}une LS est de stocker l{\textquoteright}ensemble des jobs dans celle-ci, les trier dans un ordre particulier, avant de les affecter à une machine selon des règles définies.
 
-
-\begin{itemize}
-
-\bigskip
+%\bigskip
 % -------------------------------------------------------
 % LPT Rule
 % -------------------------------------------------------
-\item \textbf{algorithme LPT rule Graham \textit{et al.}, 1969}
+\paragraph{LPT rule (Graham \textit{et al.}, 1969)}
+~~\\ % le saut de ligne pour le paragraphe
 
 % Présentaion
 % ---------------------
@@ -467,13 +466,13 @@ Le~ratio~d{\textquoteright}approximation	&	$\Gamma(LPT)\leq \dfrac{4}{3} - \dfra
 %pas de legende
 \end{flushleft}
 
-\bigskip
+%\bigskip
 % -------------------------------------------------------
 % LPT-REV 
 % -------------------------------------------------------
 
-\item \textbf{algorithme LPT-REV (Croce \textit{et al.}, 2018)}
-
+\paragraph{LPT-REV (Croce \textit{et al.}, 2018)}
+~~\\ % le saut de ligne pour le paragraphe
 
 % Présentaion
 % ---------------------
@@ -614,9 +613,6 @@ Le~ratio~d{\textquoteright}approximation	&	$\Gamma(LPT-REV)\leq \dfrac{4}{3} - \
 \end{flushleft}
 
 
-\end{itemize}
-
-
 \subsubsection{Basé Bin-Packing}
 Le problème Bin-packing, est semblable au problème P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}. Il consiste à ranger des objets de taille différentes, dans des bacs identiques, tout en minimisant leur nombre.
 
@@ -637,14 +633,11 @@ L{\textquoteright}idée est d{\textquoteright}utiliser le problème Bin-Packing à 
 
 
 
-\begin{itemize}
-
-\bigskip
 % -------------------------------------------------------
 % MULTIFIT
 % -------------------------------------------------------
-\item \textbf{algorithme MULTIFIT}
-
+\paragraph{MULTIFIT}
+~~\\
 
 % Présentaion
 % ---------------------
@@ -731,12 +724,11 @@ Ratio \cite{lee1988multiprocessor} & $\Gamma(MULTIFIT) \leq 1,220 + 2^{-k}$
 Généralement, MULTIFIT donne des résultats très satisfaisant avec $k~=~7$
 
 
-\bigskip
 % -------------------------------------------------------
 % COMBINE
 % -------------------------------------------------------
-\item \textbf{algorithme COMBINE}
-
+\paragraph{COMBINE}
+~~\\
 
 % Présentaion
 % ---------------------
@@ -823,11 +815,12 @@ Concernant la complexité, pour atteindre $C_u - C_l \leq \alpha \cdot A$, généra
 
 
 
-\bigskip
+
 % -------------------------------------------------------
 % LISTFIT
 % -------------------------------------------------------
-\item \textbf{algorithme LISTFIT}
+\paragraph{LISTFIT}
+~~\\
 
 % Présentaion
 % ---------------------
@@ -901,17 +894,14 @@ Ratio \cite{gupta2001listfit} & $\Gamma(LISTFIT) \leq \dfrac{13}{12} + 2^{-k}$
 
 avec k le nombre d{\textquoteright}itérations pour la recherche dichotomique. 
 
-\end{itemize} 
 
 \subsubsection{Approche gloutonne}
 
-\begin{itemize}
-
-\bigskip
 % -------------------------------------------------------
 % SLACK
 % -------------------------------------------------------
-\item \textbf{algorithme SLACK (Croce \textit{et al.}, 2018)}.
+\paragraph{SLACK (Croce \textit{et al.}, 2018)}.
+~~\\
 
 % Présentaion
 % ---------------------
@@ -926,8 +916,6 @@ notamment pour l{\textquoteright}instance suivante :
 Où ils ont planifié d'abord, le job $2 \cdot m + 1$, puis un sous-ensemble de jobs triés $\{1,...,m\}$ et pour finir un sous-ensemble de jobs triés $\{m+1,...,2 \cdot m \}$  	
 	
 En résulte l'algorithme suivant :
-
-\bigskip
 
 \bigskip
 % Algorithme
@@ -968,15 +956,122 @@ applique l{\textquoteright}ordonnancement (Affectation à la machine la moins cha
 \caption{SLACK\label{SLACK}}
 \end{algorithm}
 
+\subsection{Programmation linéaire}
+L{\textquoteright}ordonnancement, et plus particulièrement P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max} s{\textquoteright}inscrit parfaitement dans l{\textquoteright}énoncé d{\textquoteright}un problème de programmation linéaire. En effet, la fonction objectif i.e minimiser le makespan, ainsi que les contraintes sont des fonctions linéaires. Toutefois, les variables, et le résultat attendu sont discrets, ce qui rend la résolution du problème nettement plus difficile comparé à une programmation linéaire à variables continues.
+Ces algorithmes, donnent une solution faisable exacte.
+
+\paragraph{PA (Mokotoff)}
+~~\\
+
+Mokotoff \cite{mokoto1999scheduling} présente un algorithme basé sur la formulation de la programmation linéaire, en utilisant des variables booléennes d{\textquoteright}affectation des jobs à une machine.
+
+% Présentaion
+% ---------------------
+\bigskip
+La minimisation du makespan peut être posée ainsi :
+
+Minimiser y tel que :
+
+\begin{itemize}
+\item $\sum_{j=1}^{m}x_{ij}=1$ \quad pour~$1 \leq i \leq n$ 		\\
+Sur toutes les machines, au moins un et un seul $x_i$ est égal à 1.	\\
+Un job est affecté à une, et une seule machine.
+
+\item $y-\sum_{i=1}^{n}P_i \cdot x_{ij} \geq 0$ \quad pour~$1 \leq j \leq m$ \\
+Pour une machine donnée, la somme des temps est $\leq$ à $y$.
 \end{itemize}
 
-\subsection{Programmation linéaire}
+\bigskip
+Où	\quad	la valeur optimale de $y$ est $C_{max}$
 
+et	\quad	$x_{ij}~=$	
 
+\begin{itemize}
+\item 1 si le job $i$ est affecté à la machine $j$.
+\item 0 si le job $i$ n{\textquoteright}est pas affecté à la machine $j$.
+\end{itemize} 	
+ 
+ \bigskip
+ Le programme linéaire est donc composé de
+ \begin{itemize}
+ \item $n \cdot m + 1$ variables (les variables $x_{ij}$ et la variable $y$)
+ \item $n+m$ contraintes
+ \end{itemize}
 
+\bigskip
+La zone F peut être définie ainsi : \\
+$F=\{ (x,y) : x \in B^{n \cdot m}, y \in \mathbb{R_+} : \sum_{j=1}^{m} x_{ij}=1~\forall i; 
+y-\sum_{i=1}^{n} P_i \cdot x_{ij} \geq 0~\forall j \}$
+
+avec $B=\begin{bmatrix}
+x_{11}&x_{\dots 1}&x_{n1}\\
+x_{1 \dots}& \rotatebox{-30}{\dots}&x_{n \dots}\\
+x_{1m}&x_{\dots m}&x_{nm1}
+\end{bmatrix}$
+
+\bigskip
+le polytope $P$, relatif à $F$ est défini ainsi : \\
+$F=\{ (x,y) : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} : \sum_{j=1}^{m} x_{ij}=1~\forall i; 
+y-\sum_{i=1}^{n} P_i \cdot x_{ij} \geq 0~\forall j	\}$
+
+\bigskip
+il est possible de construire un ensemble fini d'\textbf{inégalités} \\
+$Ax+Dy \leq \overline{b}$ telles que \\
+$min \{y : (x,y) \in F \}~=~min \{y : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} Ax+Dy \leq \underline{b}$ \\
+% \ensuremath{^\circ} pour le symbole °
+NB : Une solution $(x \ensuremath{^\circ} , y\ensuremath{^\circ}) \in P$ doit être exclue (car n'est pas un vecteur entier) si $(x\ensuremath{^\circ}, y\ensuremath{^\circ}) \notin P $
+
+\bigskip
+Des \textbf{inégalités transitoires} peuvent être générées (nombre maxi de jobs par machine) \\
+$\sum_{i \in S_j} x_{ij} \leq L_j$ \quad $(L_j = h-1 \iff S_{J_h} > LB~et~S_{J_{(h-1)}} \leq LB)$\\
+LB : Borne inférieure.
+
+\bigskip
+Pour un problème P\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}, même de taille modeste, le nombre de variables et contrites est très important, dont certaines sont inutiles. L{\textquoteright}algorithme va donc utiliser la méthode des plans sécants (Cutting Plane Method). \`A chaque itération , des inégalités valides sont générées, puis une relaxation est exécutée, jusqu{\textquoteright}à l{\textquoteright}obtention d{\textquoteright}une solution faisable.
+
+\bigskip
+% Algorithme
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+
+Détermination de la borne inférieure $(LB)$ suivant l{\textquoteright}algorithme de McNaughton \cite{mcnaughton1959scheduling}.
+
+\BlankLine % Petit espace 
+Détermination de la borne Supérieure ($UB$ juste pour la nommer) suivant l{\textquoteright}heuristique LPT (\ref{LPT}).
+
+\BlankLine % Petit espace 
+Si $LB$ coïncide avec $UB$ la solution optimale est trouvée Sinon le processus itératif démarre.
+
+\BlankLine
+\`A chaque itération un programme de relaxation linéaire est résolu.dans lequel $C_{max}$ doit être égal à la borne inférieure actuelle ($LB$). Si la solution obtenue est entière (donc faisable), l{\textquoteright}algorithme s{\textquoteright}arrête et la solution actuelle est optimale.
+
+\BlankLine
+Sinon, des nouvelles inégalité (inégalités et/ou inégalités transitoires) sont ajoutées à la nouvelle relaxation linéaire.Le nouveau programme linéaire est résolu et l{\textquoteright}algorithme s{\textquoteright}arrête si la solution est entière.
+
+\BlankLine
+Si la relaxation n{\textquoteright}est pas possible, la limite inférieure ($LB$) est augmentée d{\textquoteright}une unité et le processus itératif redémarre.
+
+\BlankLine
+Par contre, si les inégalités ne peuvent pas être générées, un algorithme \textit{Branch\&Bound} prend le relais pour résoudre le problème.
+
+\caption{PA\label{PA}}
+\end{algorithm}
 
 
 \subsection{Approximation}
+Une catégorie d{\textquoteright}algorithmes fournit une garantie d{\textquoteright}approche. Notamment les PTAS (Schéma d{\textquoteright}Approximation en Temps Polynomial).
+
+\paragraph{PTAS}
+~~\\
+
+Un PTAS est un algorithme qui calcule, pour tout $\epsilon > 0$ donné, une solution proche à un facteur $(1+\epsilon)$ pour un problème de minimisation, ou $(1-\epsilon$ pour un problème de maximisation, de l{\textquoteright}optimal, en temps polynomial dépendant de $\epsilon$.
+
+\bigskip
+Hochbaum \textit{et al.} \cite{hochbaum1987using} proposent le premier PTAS.
+
+
+
 
 \subsection{Autres approches}
 

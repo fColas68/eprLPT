@@ -1,18 +1,26 @@
 \select@language {french}
 \contentsline {section}{\numberline {1}Introduction}{1}{section.0.1}
-\contentsline {section}{\numberline {2}Pr\'esentation du probl\`eme.}{1}{section.0.2}
-\contentsline {subsection}{\numberline {2.1}Parall\'elisme.}{1}{subsection.0.2.1}
+\contentsline {section}{\numberline {2}Pr\'esentation du probl\`eme.}{2}{section.0.2}
+\contentsline {subsection}{\numberline {2.1}Parall\'elisme.}{2}{subsection.0.2.1}
 \contentsline {subsection}{\numberline {2.2}Ordonnancement.}{3}{subsection.0.2.2}
-\contentsline {subsection}{\numberline {2.3}Enonc\'e du P{\textbar }{\textbar }C \textsubscript {max}}{3}{subsection.0.2.3}
+\contentsline {subsection}{\numberline {2.3}Enonc\'e du P{\textbar }{\textbar }C \textsubscript {max}}{4}{subsection.0.2.3}
 \contentsline {subsection}{\numberline {2.4}Probl\'ematique}{4}{subsection.0.2.4}
-\contentsline {section}{\numberline {3}R\'esoudre le probl\`eme}{4}{section.0.3}
+\contentsline {section}{\numberline {3}R\'esoudre le probl\`eme}{5}{section.0.3}
 \contentsline {subsection}{\numberline {3.1}Notations utilis\'ees}{5}{subsection.0.3.1}
 \contentsline {subsection}{\numberline {3.2}Heuristiques}{5}{subsection.0.3.2}
 \contentsline {subsubsection}{\numberline {3.2.1}Bas\'e LS (List Scheduling)}{5}{subsubsection.0.3.2.1}
-\contentsline {subsubsection}{\numberline {3.2.2}Bas\'e Bin-Packing}{8}{subsubsection.0.3.2.2}
-\contentsline {subsubsection}{\numberline {3.2.3}Approche gloutonne}{12}{subsubsection.0.3.2.3}
-\contentsline {subsection}{\numberline {3.3}Programmation lin\'eaire}{13}{subsection.0.3.3}
-\contentsline {subsection}{\numberline {3.4}Approximation}{13}{subsection.0.3.4}
-\contentsline {subsection}{\numberline {3.5}Autres approches}{13}{subsection.0.3.5}
-\contentsline {section}{\numberline {4}Synth\`ese}{13}{section.0.4}
-\contentsline {section}{\numberline {5}Conclusion}{13}{section.0.5}
+\contentsline {paragraph}{LPT rule (Graham \textit {et al.}, 1969)}{6}{section*.2}
+\contentsline {paragraph}{LPT-REV (Croce \textit {et al.}, 2018)}{6}{section*.3}
+\contentsline {subsubsection}{\numberline {3.2.2}Bas\'e Bin-Packing}{9}{subsubsection.0.3.2.2}
+\contentsline {paragraph}{MULTIFIT}{9}{section*.4}
+\contentsline {paragraph}{COMBINE}{11}{section*.5}
+\contentsline {paragraph}{LISTFIT}{12}{section*.6}
+\contentsline {subsubsection}{\numberline {3.2.3}Approche gloutonne}{13}{subsubsection.0.3.2.3}
+\contentsline {paragraph}{SLACK (Croce \textit {et al.}, 2018)}{13}{section*.7}
+\contentsline {subsection}{\numberline {3.3}Programmation lin\'eaire}{14}{subsection.0.3.3}
+\contentsline {paragraph}{PA (Mokotoff)}{14}{section*.8}
+\contentsline {subsection}{\numberline {3.4}Approximation}{16}{subsection.0.3.4}
+\contentsline {paragraph}{PTAS}{16}{section*.9}
+\contentsline {subsection}{\numberline {3.5}Autres approches}{16}{subsection.0.3.5}
+\contentsline {section}{\numberline {4}Synth\`ese}{16}{section.0.4}
+\contentsline {section}{\numberline {5}Conclusion}{16}{section.0.5}

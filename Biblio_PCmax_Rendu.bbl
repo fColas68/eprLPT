@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{chen1999potts}
 Bo~Chen and N~Chris.
@@ -40,10 +40,27 @@ Jatinder~ND Gupta and Alex~J Ruiz-Torres.
   machines.
 \newblock {\em Production Planning \& Control}, 12(1):28--36, 2001.
 
+\bibitem{hochbaum1987using}
+Dorit~S Hochbaum and David~B Shmoys.
+\newblock Using dual approximation algorithms for scheduling problems
+  theoretical and practical results.
+\newblock {\em Journal of the ACM (JACM)}, 34(1):144--162, 1987.
+
 \bibitem{lee1988multiprocessor}
 Chung-Yee Lee and J~David Massey.
 \newblock Multiprocessor scheduling: combining lpt and multifit.
 \newblock {\em Discrete applied mathematics}, 20(3):233--242, 1988.
+
+\bibitem{mcnaughton1959scheduling}
+Robert McNaughton.
+\newblock Scheduling with deadlines and loss functions.
+\newblock {\em Management Science}, 6(1):1--12, 1959.
+
+\bibitem{mokoto1999scheduling}
+Ethel Mokoto.
+\newblock Scheduling to minimize the makespan on identical parallel machines:
+  an lp-based algorithm.
+\newblock {\em Investigacion Operative}, 97107, 1999.
 
 \bibitem{rothkopf1966scheduling}
 Michael~H Rothkopf.
