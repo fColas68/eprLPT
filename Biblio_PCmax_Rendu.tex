@@ -180,8 +180,8 @@ fonctionnent tous en même temps.
 
 Il existe quatre types de parallélismes, définis par la taxonomie de
 Flynn\textsuperscript{(1)}. Cette classification est basée sur deux
-notions : le flot d'instructions (simple ou multiple),
-et le flot de données (simple ou multiples) ; un algorithme est un flot
+notions: le flot d'instructions (simple ou multiple),
+et le flot de données (simple ou multiples); un algorithme est un flot
 d'instructions à exécuter sur un flot de données.
 
 \tdi{LP: la classification de Flynn date un peu... Peut-être faut-il
@@ -294,19 +294,41 @@ Centre de vols de Greenbelt (Md)
 
 
 \subsection{Ordonnancement.}
-Sur une machine non parallèle, les tâches sont exécutées séquentiellement, les unes après les autres. Certaines tâches, ou jobs peuvent demander plus de temps que d'autres pour être entièrement traitées.
-Lorsque plusieurs ressources (processeurs, machines, coeurs) sont disponibles, ou que des jobs a exécuter ne sont pas indépendants (même traités sur un seul processeur), se pose alors, un problème d'ordonnancement.
-Celui-ci consiste à organiser, dans le temps, les jobs à exécuter, en les affectant à une ressource donnée, de manière à satisfaire un certain nombre de contraintes, tout en optimisant un ou des objectifs.
-L'ordonnancement, fait partie de la catégorie des problèmes d'optimisation combinatoire.
+
+Sur une machine non parallèle, les tâches sont exécutées
+séquentiellement, les unes après les autres.
+Certaines tâches, ou jobs peuvent demander plus de temps que d'autres
+pour être entièrement traitées.
+Lorsque plusieurs ressources (processeurs, machines, coeurs) sont
+disponibles, ou que des jobs a exécuter ne sont pas indépendants (même
+traités sur un seul processeur), se pose alors, un problème
+d'ordonnancement.
+Celui-ci consiste à organiser, dans le temps, les jobs à exécuter, en
+les affectant à une ressource donnée, de manière à satisfaire un
+certain nombre de contraintes, tout en optimisant un ou des objectifs.
+L'ordonnancement, fait partie de la catégorie des problèmes
+d'optimisation combinatoire.
 
 Les problèmes qui s'y rattachent sont très variés.
-Premièrement, la nature des machines parallèles doit être considérée. Celles-ci peuvent être :
+Premièrement, la nature des machines parallèles doit être considérée.
+Celles-ci peuvent être:
 \begin{itemize}
-\item identiques. (Le même temps de traitement sera nécessaire, d'une machine à l'autre) ;
-\item uniformes (un quotient de vitesse qi propre à une machine est à appliquer pour chaque tâche affectée à cette machine pour déterminer le temps de traitement nécessaire) ;
-\item indépendantes (les temps de traitements des tâches sont ni uniformes ni proportionnels d'une machine à l'autre).
+\item identiques.
+  (Le même temps de traitement sera nécessaire, d'une machine à
+  l'autre);
+\item uniformes (un quotient de vitesse qi propre à une machine est à
+  appliquer pour chaque tâche affectée à cette machine pour déterminer
+  le temps de traitement nécessaire);
+\item indépendantes (les temps de traitements des tâches sont ni
+  uniformes ni proportionnels d'une machine à l'autre).
 \end{itemize}
-Ensuite, des contraintes peuvent affecter les jobs eux-mêmes. Dans le cas d'un problème préemptif, les taches peuvent être interrompues, et reprises ultérieurement. Il est possible que les jobs soient indépendants, ou au contraire, être liées par des relations de précédence. Ces jobs ne sont disponibles qu'à partir d'une certaine date. Ou encore, être de durée égale, ou tous de durée différente.
+Ensuite, des contraintes peuvent affecter les jobs eux-mêmes.
+Dans le cas d'un problème préemptif, les taches peuvent être
+interrompues, et reprises ultérieurement.
+Il est possible que les jobs soient indépendants, ou au contraire,
+être liées par des relations de précédence.
+Ces jobs ne sont disponibles qu'à partir d'une certaine date.
+Ou encore, être de durée égale, ou tous de durée différente.
 
 Pour finir, l'objectif de
 l'ordonnancement est d'optimiser un
@@ -328,27 +350,37 @@ ${\textbar}$\beta ${\textbar}$\gamma $ .
 
 \bigskip
 
-Le problème \problemGraham se définit alors ainsi :
+Le problème \problemGraham se définit alors ainsi:
 
 \begin{itemize}
 
 % -------------------------------------------------------
 % ALPHA P Type de machines
 % -------------------------------------------------------
-\item $\alpha $ = $\alpha $1 $\alpha $2, détermine l'environnement machines.
-$\alpha $ = P : Les machines sont parallèles et identiques : Un job, une tâche prendra le même temps de traitement qu'il soit exécuté sur une machine ou une autre. Le nombre de machines (m) est variable.
+\item $\alpha $ = $\alpha $1 $\alpha $2, détermine l'environnement
+  machines.
+  $\alpha $ = P: Les machines sont parallèles et identiques: Un job,
+  une tâche prendra le même temps de traitement qu'il soit exécuté sur
+  une machine ou une autre.
+  Le nombre de machines (m) est variable.
 
 % -------------------------------------------------------
 % BETA Contraintes
 % -------------------------------------------------------
-\item $\beta $ $\subset$ \{ $\beta $1, $\beta $2, $\beta $3, $\beta $4, $\beta $5, $\beta $6\}, détermine les caractéristiques des jobs, ou des tâches.
-$\beta $ est vide. Ce qui signifie que la préemption n'est pas autorisée (les jobs doivent être exécutés d'une traite, sans interruption ni coupure) \ et qu'il n'y a pas de relation entre les jobs (ils sont indépendants).
+\item $\beta $ $\subset$ \{ $\beta $1, $\beta $2, $\beta $3,
+  $\beta $4, $\beta $5, $\beta $6\}, détermine les caractéristiques
+  des jobs, ou des tâches.
+  $\beta $ est vide.
+  Ce qui signifie que la préemption n'est pas autorisée (les jobs
+  doivent être exécutés d'une traite, sans interruption ni coupure) \
+  et qu'il n'y a pas de relation entre les jobs (ils sont
+  indépendants).
 
 % -------------------------------------------------------
 % GEMEL Optimisation
 % -------------------------------------------------------
 \item $\gamma $ détermine le critère à optimiser.
-$\gamma $ = C\textsubscript{max} : on cherche à optimiser le makespan,
+$\gamma $ = C\textsubscript{max}: on cherche à optimiser le makespan,
 i.e le temps de traitement total.
 
 \end{itemize}
@@ -357,8 +389,16 @@ i.e le temps de traitement total.
 
 \begin{definition1}{\problemGraham}
 
-\problemGraham consiste à planifier un ensemble J~=~\{1,2,{\dots},n) de n jobs simultanés, pour être traités par m machines identiques et parallèles. Chaque job, qui requière une opération, peut être traité par une des m machines. Le temps de traitement de chaque job (P\textsubscript{i} avec i~${\in}$ N) est connu à l'avance. Un job commencé, et complété sans interruption. Les jobs, indépendants, sont exécutés par une seule machine, et une machine ne peut traiter qu'un seul job
-à la fois.
+  \problemGraham consiste à planifier un ensemble J~=~\{1,2,{\dots},n)
+  de n jobs simultanés, pour être traités par m machines identiques et
+  parallèles.
+  Chaque job, qui requière une opération, peut être traité par une des
+  m machines.
+  Le temps de traitement de chaque job (P\textsubscript{i} avec
+  i~${\in}$ N) est connu à l'avance.
+  Un job commencé, et complété sans interruption.
+  Les jobs, indépendants, sont exécutés par une seule machine, et une
+  machine ne peut traiter qu'un seul job à la fois.
 
 \end{definition1}
 
@@ -374,18 +414,34 @@ i.e le temps de traitement total.
 
 \subsection{Problématique}
 
-Comme l'ont démontré Garey et Johnson, P\textsubscript{2}{\textbar}{\textbar}C\textsubscript{max} est un problème NP-Difficile \citep{garey1978strong}, et P{\textbar}{\textbar}C\textsubscript{max} est un problème NP-Difficile au sens fort \citep{garey1982computers}. Cependant, P~\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max} devient un problème NP-Difficile, du moment que le nombre de machines est fixé \cite{chen1999potts}, comme l'a montré Rothkopf \cite{rothkopf1966scheduling}, qui a présenté un algorithme de programmation dynamique.
+Comme l'ont démontré Garey et Johnson,
+P\textsubscript{2}{\textbar}{\textbar}C\textsubscript{max} est un
+problème NP-Difficile \citep{garey1978strong}, et
+P{\textbar}{\textbar}C\textsubscript{max} est un problème NP-Difficile
+au sens fort \citep{garey1982computers}.
+Cependant, \problemGraham devient un problème NP-Difficile, du moment
+que le nombre de machines est fixé \cite{chen1999potts}, comme l'a
+montré Rothkopf \cite{rothkopf1966scheduling}, qui a présenté un
+algorithme de programmation dynamique.
 
-Donner la solution optimale à un problème d'ordonnancement (dans notre cas P~\textsubscript{m}{\textbar}{\textbar}C\textsubscript{max}) n'est pas réaliste. Même pour un problème de taille modeste, la résolution de celui-ci demanderait un temps excessif et donc rédhibitoire.
+Donner la solution optimale à un problème d'ordonnancement (dans notre
+cas \problemGraham) n'est pas réaliste.
+Même pour un problème de taille modeste, la résolution de celui-ci
+demanderait un temps excessif et donc rédhibitoire.
 
-La résolution du problème d'ordonnancement va reposer
-sur des méthodes d'approche\todo{LP: approximation?}, qui consistent à calculer en temps polynomial, une solution ``assez'' proche de la valeur optimale.
+La résolution du problème d'ordonnancement va reposer sur des méthodes
+d'approche\todo{LP: approximation?}, qui consistent à calculer en
+temps polynomial, une solution ``assez'' proche de la valeur optimale.
 
-Dans la littérature, l'étude d'ordonnancement est très riche et abondante. Le but étant d'améliorer le temps de calcul, et d'approcher le résultat optimal.
+Dans la littérature, l'étude d'ordonnancement est très riche et
+abondante.
+Le but étant d'améliorer le temps de calcul, et d'approcher le
+résultat optimal.
 
 \section{Résoudre le problème}
 
-Comme évoqué précédemment, l'existence d'une solution qui résout le problème n'est pas pensable, à moins que P = NP.
+Comme évoqué précédemment, l'existence d'une solution qui résout le
+problème n'est pas pensable, à moins que P = NP.
 
 \subsection{Notations utilisées}
 
@@ -396,8 +452,10 @@ Soient les données du problème
 % -------------------------------------------------------
 % ENSEMBLE DES JOBS J
 % -------------------------------------------------------
-\item un ensemble de n jobs (ou tâches) $J = \{1, 2, ..., n\}$
-Chaque job j a un temps de traitement connu $p\textsubscript{j} P = \{p\textsubscript{1}, p\textsubscript{2}, ..., p\textsubscript{n}\}$
+\item un ensemble de n jobs (ou tâches) $J = \{1, 2, ..., n\}$ Chaque
+  job j a un temps de traitement connu
+  $p\textsubscript{j} P = \{p\textsubscript{1}, p\textsubscript{2},
+  ..., p\textsubscript{n}\}$
 
 % -------------------------------------------------------
 % ENSEMBLE DES MACHINES M
@@ -450,7 +508,9 @@ Sont abordées ici les heuristiques les plus présentes dans la littérature.
 \subsubsection{Basé LS (List Scheduling)}
 % '
 
-L'idée d'une LS est de stocker l'ensemble des jobs dans celle-ci, les trier dans un ordre particulier, avant de les affecter à une machine selon des règles définies.
+L'idée d'une LS est de stocker l'ensemble des jobs dans celle-ci, les
+trier dans un ordre particulier, avant de les affecter à une machine
+selon des règles définies.
 
 \tdi{LP: un algorithme de liste affecte aussi un job, le premier de la
 lsite, à la première machine prête}
@@ -473,10 +533,14 @@ Graham propose \cite{graham1969bounds} \textit{\textbf{Longest Processing Time (
 %\Begin{ %inutile ici et rajoute un nuero de ligne
 
 \BlankLine % Petit espace
-Trie les jobs de l'ensemble J dans l'ordre décroissant de leur temps d'exécution et ré-indexe l'ensemble de telle manière à obtenir : $p_1 \geq p_2 \geq ... \geq p_n$
+Trie les jobs de l'ensemble J dans l'ordre décroissant de leur temps
+d'exécution et ré-indexe l'ensemble de telle manière à obtenir:
+$p_1 \geq p_2 \geq ...
+\geq p_n$
 
 \BlankLine % Petit espace
-Parcours la liste, et affecte chaque job à la machine la moins chargée, à ce moment là.
+Parcours la liste, et affecte chaque job à la machine la moins
+chargée, à ce moment là.
 % }
 \caption{LPT Rule\label{LPT}}
 \end{algorithm}
@@ -486,7 +550,8 @@ Parcours la liste, et affecte chaque job à la machine la moins chargée, à ce 
 % ---------------------
 Exemple
 
-Soit $P=\{13,10,7,6,6,5,3,2\}$, l'ensemble des $p_j$ déjà triés dans l'ordre décroissant à appliquer sur 4 machines parallèles identiques :
+Soit $P=\{13,10,7,6,6,5,3,2\}$, l'ensemble des $p_j$ déjà triés dans
+l'ordre décroissant à appliquer sur 4 machines parallèles identiques:
 
 {\centering
 \includegraphics[width=8.334cm,height=4.034cm]{Biblio_PCmax_Rendu_exLPT1.jpg}
@@ -531,14 +596,20 @@ Le ratio d'approximation	&	$\Gamma(LPT)\leq \dfrac{4}{3} - \dfrac{1}{3m}$
 
 % Présentaion
 % ---------------------
-Le ratio d'approximation obtenu par LPT (\ref{LPT}) $(\Gamma(LPT)\leq \dfrac{4}{3} - \dfrac{1}{3m})$ est une borne supérieure que cet algorithme peut atteindre, mais qu'il ne dépassera jamais. Chaque utilisation de LPT produira un résultat dont le ratio $\Gamma$ oscillera entre 1 et $\dfrac{4}{3} - \dfrac{1}{3m})$.
+Le ratio d'approximation obtenu par LPT (\ref{LPT})
+$(\Gamma(LPT)\leq \dfrac{4}{3} - \dfrac{1}{3m})$ est une borne
+supérieure que cet algorithme peut atteindre, mais qu'il ne dépassera
+jamais.
+Chaque utilisation de LPT produira un résultat dont le ratio $\Gamma$
+oscillera entre 1 et $\dfrac{4}{3} - \dfrac{1}{3m})$.
 
 \bigskip
 % Exemple pour l'explication
 % ---------------------
 Exemple de pire cas
 
-Soit $P=\{7,7,6,6,5,5,4,4,4\}$, l'ensemble des $p_j$ déjà triés dans l'ordre décroissant à appliquer sur 4 machines parallèles identiques :
+Soit $P=\{7,7,6,6,5,5,4,4,4\}$, l'ensemble des $p_j$ déjà triés dans
+l'ordre décroissant à appliquer sur 4 machines parallèles identiques:
 
 \bigskip
 
@@ -564,7 +635,7 @@ $C_4^{lpt}(J)=15$
 \begin{minipage}{\linewidth}
 
 \begin{flushleft}
-Un ordonnancement optimal aurait été :
+Un ordonnancement optimal aurait été:
 \end{flushleft}
 
 {\centering
@@ -585,30 +656,40 @@ $\dfrac{4}{3} - \dfrac{1}{3m}=\dfrac{16}{12} - \dfrac{1}{12}=\dfrac{15}{12}$
 
 Ce cas, représente donc un pire cas pour LPT.
 
-Croce \textit{et al.} \cite{della2018longest}, en examinant le comportement de LPT rule, notamment au niveau du ratio d'approximation, constatent qu'icelui peut être réduit selon certaines configurations, ou instances du problème, et rédigent le théorème suivant :
+Croce \textit{et al.}
+\cite{della2018longest}, en examinant le comportement de LPT rule,
+notamment au niveau du ratio d'approximation, constatent qu'icelui
+peut être réduit selon certaines configurations, ou instances du
+problème, et rédigent le théorème suivant:
 
 \bigskip
 
 \begin{theoreme1}
 
-LPT a un rapport d'approximation non supérieur à $\dfrac{4}{3} - \dfrac{1}{3(m-1)}$ pour $m \geq 3$ et $n \neq 2m+1$.
+  LPT a un rapport d'approximation non supérieur à
+  $\dfrac{4}{3} - \dfrac{1}{3(m-1)}$ pour $m \geq 3$ et $n \neq 2m+1$.
 
-LPT atteint la limite de Graham $\dfrac{4}{3} - \dfrac{1}{3m}$ pour $m \geq 2$ et uniquement dans le cas où $n=2m+1$, et la machine critique traite 3 jobs, tandis que les autres en traitent 2.
+  LPT atteint la limite de Graham $\dfrac{4}{3} - \dfrac{1}{3m}$ pour
+  $m \geq 2$ et uniquement dans le cas où $n=2m+1$, et la machine
+  critique traite 3 jobs, tandis que les autres en traitent 2.
 
-La machine critique est la machine qui exécute le job critique.
+  La machine critique est la machine qui exécute le job critique.
 
-Le job critique (noté $J^\prime$) est le job qui détermine le makespan.
+  Le job critique (noté $J^\prime$) est le job qui détermine le
+  makespan.
 \end{theoreme1}
 
 \bigskip
 
-Le rapport d' $\dfrac{4}{3} - \dfrac{1}{3(m-1)}$ est inférieur au ration $\dfrac{4}{3} - \dfrac{1}{3m}$ (quel que soit le nombre de machines)
+Le rapport d' $\dfrac{4}{3} - \dfrac{1}{3(m-1)}$ est inférieur au
+ration $\dfrac{4}{3} - \dfrac{1}{3m}$ (quel que soit le nombre de
+machines)
 
 \bigskip
 
 NB
 
-L'exemple précédant (pire cas) a les caractéristiques suivantes :
+L'exemple précédant (pire cas) a les caractéristiques suivantes:
 \begin{itemize}
 	\item nombre de job $n=2m+1$.
 	\item la machine critique exécute 3 jobs.
@@ -618,7 +699,11 @@ L'exemple précédant (pire cas) a les caractéristiques suivantes :
 
 \bigskip
 
-Une modification à l'algorithme LPT rule est apportée afin de placer le problème \problemGraham toujours dans une instance où le ratio d'approximation est $\leq \dfrac{4}{3} - \dfrac{1}{3(m-1)}$. Cette modification consiste à planifier en premier, le job critique sur une machine M1.
+Une modification à l'algorithme LPT rule est apportée afin de placer
+le problème \problemGraham toujours dans une instance où le ratio
+d'approximation est $\leq \dfrac{4}{3} - \dfrac{1}{3(m-1)}$.
+Cette modification consiste à planifier en premier, le job critique
+sur une machine M1.
 
 \bigskip
 
@@ -629,12 +714,15 @@ Une modification à l'algorithme LPT rule est apportée afin de placer le probl�
 \KwData{instance de \problemGraham, avec m machines, n jobs}
 %\Begin{ %inutile ici et rajoute un nuero de ligne
 
-Apply LPT yielding a schedule with makespan $z_1$ and $k-1$ jobs on the critical macine before job $J^\prime$
-\BlankLine % Petit espace
+Apply LPT yielding a schedule with makespan $z_1$ and $k-1$ jobs on
+the critical macine before job $J^\prime$ \BlankLine % Petit espace
 Apply $LPT^\prime = LPT(J^\prime)$ with solution value $z_2$
 
 \BlankLine % Petit espace
-\textbf{If} $m=2$ \textbf{then} apply $LPT''=LPT([(J^\prime - k + 1), ... , J^\prime])$ with solution value $z_3$ and \textbf{return} $min[z_1,z_2,z_3]$
+\textbf{If} $m=2$ \textbf{then} apply
+$LPT''=LPT([(J^\prime - k + 1), ...
+, J^\prime])$ with solution value $z_3$ and \textbf{return}
+$min[z_1,z_2,z_3]$
 
 \BlankLine % Petit espace
 \textbf{Else} \textbf{return} $min(z_1,z_2)$
@@ -669,9 +757,14 @@ Le ratio d'approximation	&	$\Gamma(LPT-REV)\leq \dfrac{4}{3} - \dfrac{1}{3(m-1)}
 
 
 \subsubsection{Basé Bin-Packing}
-Le problème Bin-packing, est semblable au problème \problemGraham. Il consiste à ranger des objets de taille différentes, dans des bacs identiques, tout en minimisant leur nombre.
 
-L'ensemble des n jobs $J = \{1, 2, ..., n\}$, et de leurs temps de traitement $p_j P = \{p_1, p_2, ..., p_n\}$, peuvent être vus respectivement comme :
+Le problème Bin-packing, est semblable au problème \problemGraham.
+Il consiste à ranger des objets de taille différentes, dans des bacs
+identiques, tout en minimisant leur nombre.
+
+L'ensemble des n jobs $J = \{1, 2, ..., n\}$, et de leurs temps de
+traitement $p_j P = \{p_1, p_2, ..., p_n\}$, peuvent être vus
+respectivement comme:
 \begin{itemize}
 \item un ensemble d'objets $T = \{T_1, T_2, ..., T_n\}$
 \item leur taille $L(T_i)$
@@ -680,11 +773,14 @@ Une taille maximale $C$ des bacs (ou boites) est donnée.
 \bigskip
 
 \begin{definition1}{Packing}
-
-Un packing, est une partition $P<P_1, P_2, ..., P_m>$ tel que $L(P_j) \leq C$ avec $1 \leq j\leq m$. Le but est de placer les objets $T_i$ dans des bacs $P_j$ de taille $C$, de manière à minimiser le nombre de bacs $m$.
+  Un packing, est une partition $P<P_1, P_2, ..., P_m>$ tel que
+  $L(P_j) \leq C$ avec $1 \leq j\leq m$.
+  Le but est de placer les objets $T_i$ dans des bacs $P_j$ de taille
+  $C$, de manière à minimiser le nombre de bacs $m$.
 \end{definition1}
 
-L'idée est d'utiliser le problème Bin-Packing à l'envers, pour approcher une solution au problème d'ordonnancement.
+L'idée est d'utiliser le problème Bin-Packing à l'envers, pour
+approcher une solution au problème d'ordonnancement.
 
 \tdi{LP: petite remarque sur la complexité du problème ?}
 
@@ -696,17 +792,28 @@ L'idée est d'utiliser le problème Bin-Packing à l'envers, pour approcher une 
 
 % Présentaion
 % ---------------------
-Coffman \textit{et al.}, \cite{coffman1978application} se sont intéressés à l'algorithme FFD (First Fit Decreasing), un outil de résolution du problème de Bin-Packing, pour l'adapter au problème P{\textbar}{\textbar}C\textsubscript{max}.
-$FFD(T,C)$ renvoie le nombre de bacs de taille C non vides nécessaires, et l'arrangement correspondant de l'ensemble T d'objets.
+Coffman \textit{et al.}, \cite{coffman1978application} se sont
+intéressés à l'algorithme FFD (First Fit Decreasing), un outil de
+résolution du problème de Bin-Packing, pour l'adapter au problème
+P{\textbar}{\textbar}C\textsubscript{max}.
+$FFD(T,C)$ renvoie le nombre de bacs de taille C non vides
+nécessaires, et l'arrangement correspondant de l'ensemble T d'objets.
 
 \bigskip
 % Principe de l'algorithme
 % ---------------------
-Soit $T_m^\star = min\{C:FFD(T,C) \leq m\}$ la plus petite valeur de $C$ (taille des bacs) qui permet à $T$ d'être pacqué dans m (ou moins) bacs.
+Soit $T_m^\star = min\{C:FFD(T,C) \leq m\}$ la plus petite valeur de
+$C$ (taille des bacs) qui permet à $T$ d'être pacqué dans m (ou moins)
+bacs.
 
 \bigskip
-Le but de MULTIFIT est donc de réduire la valeur de $C$, faire tourner $FFD(T,C) $,jusqu'à ce que le nombre $m$ de bacs, alors devenu insuffisant, augmente à $m+1$.
-Cette valeur charnière de $C$ est $T_m^\star$, qui correspond au makespan minimum recherché, de l'ordonnancement de l'ensemble $T$ de jobs sur $m$ machine identiques parallèles.
+
+Le but de MULTIFIT est donc de réduire la valeur de $C$, faire tourner
+$FFD(T,C) $,jusqu'à ce que le nombre $m$ de bacs, alors devenu
+insuffisant, augmente à $m+1$.
+Cette valeur charnière de $C$ est $T_m^\star$, qui correspond au
+makespan minimum recherché, de l'ordonnancement de l'ensemble $T$ de
+jobs sur $m$ machine identiques parallèles.
 \tdi{LP: deux mots pour dire comment est implémentée la recherche}
 
 
@@ -729,9 +836,9 @@ Fonctionnement de FFD et principe de MULTIFIT
 
 m, un nombre de processeurs
 
-borne supérieure : $Cu[T,m] = \max\{\dfrac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \}$
+borne supérieure: $Cu[T,m] = \max\{\dfrac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \}$
 
-borne inférieure : $Cl[T,m] = \max\{\dfrac{1}{m} \cdot L(T), \max_i\{L(T_i)\} \}$
+borne inférieure: $Cl[T,m] = \max\{\dfrac{1}{m} \cdot L(T), \max_i\{L(T_i)\} \}$
 
 k un nombre d'itérations
 }
@@ -790,7 +897,9 @@ Généralement, MULTIFIT donne des résultats très satisfaisant avec $k = 7$
 
 % Présentaion
 % ---------------------
-Lee \textit{et al.}, \cite{lee1988multiprocessor} ont l'idée d'utiliser LPT (\ref{LPT}) pour réduire les bornes de départ de MULTIFIT (\ref{MULTIFIT}) dans un algorithme nommé COMBINE.
+Lee \textit{et al.}, \cite{lee1988multiprocessor} ont l'idée
+d'utiliser LPT (\ref{LPT}) pour réduire les bornes de départ de
+MULTIFIT (\ref{MULTIFIT}) dans un algorithme nommé COMBINE.
 
 \tdi{LP: développer/préciser un peu}
 \bigskip
@@ -870,7 +979,10 @@ Ratio \cite{gupta2001listfit} & $\Gamma(COMBINE) \leq \dfrac{13}{12} + 2^{-k}$
 \end{flushleft}
 
 avec k le nombre d'itérations pour la recherche dichotomique.
-Concernant la complexité, pour atteindre $C_u - C_l \leq \alpha \cdot A$, généralement, 6 itérations suffisent ($k=6$). Mais COMBINE a déjà exécuté une fois LPT (k=7).
+Concernant la complexité, pour atteindre
+$C_u - C_l \leq \alpha \cdot A$, généralement, 6 itérations suffisent
+($k=6$).
+Mais COMBINE a déjà exécuté une fois LPT (k=7).
 
 
 
@@ -882,9 +994,15 @@ Concernant la complexité, pour atteindre $C_u - C_l \leq \alpha \cdot A$, gén�
 
 % Présentaion
 % ---------------------
-Gupta \textit{et al.}, \cite{gupta2001listfit}, ont aussi l'idée d'utiliser MULTIFIT (\ref{MULTIFIT}), afin de réaliser l'olgorithme LISTFIT.
+Gupta \textit{et al.}, \cite{gupta2001listfit}, ont aussi l'idée
+d'utiliser MULTIFIT (\ref{MULTIFIT}), afin de réaliser l'olgorithme
+LISTFIT.
 
-Celui-ci sépare la liste des travaux en 2 sous-listes, traitée soit dans un ordre LPT (Longest Time Processing), soit dans un ordre SPT (Shortest Time Processing). Puis LISTFIT combine ces 2 sous-listes en appliquant MULTIFIT à chaque itération.
+Celui-ci sépare la liste des travaux en 2 sous-listes, traitée soit
+dans un ordre LPT (Longest Time Processing), soit dans un ordre SPT
+(Shortest Time Processing).
+Puis LISTFIT combine ces 2 sous-listes en appliquant MULTIFIT à chaque
+itération.
 
 \bigskip
 % Algorithme
@@ -894,28 +1012,46 @@ Celui-ci sépare la liste des travaux en 2 sous-listes, traitée soit dans un or
 \KwData{n, m, $p_i$ for $i=1, ..., n$}
 
 %STEP 1
-let $r=1$, $q=1$, and $C_{\max}=C_{\max}(LPT)$, the makespan obtained by the LPT algorithm. \textbf{Goto step 2}.
+let $r=1$, $q=1$, and $C_{\max}=C_{\max}(LPT)$, the makespan obtained
+by the LPT algorithm.
+\textbf{Goto step 2}.
 
 %STEP 2
 \BlankLine % Petit espace
-let $\Phi = \varnothing$, A = $\{1,...,n\}$, and $B = \varnothing$. let $\omega_r$ be the sequence of jobs in job-list A sorted according to ordering $\tau$. \textbf{Goto step 3}.
+let $\Phi = \varnothing$, A = $\{1,...,n\}$, and $B = \varnothing$.
+let $\omega_r$ be the sequence of jobs in job-list A sorted according
+to ordering $\tau$.
+\textbf{Goto step 3}.
 
 %STEP 3
 \BlankLine % Petit espace
-let $\alpha=C_{\max}(MULTIFIT)$ be the makespan obtained by using algorithm MULTIFIT, with $\sigma = \Phi_q \cdot \omega_r$ in step 1 of algorithm MULTIFIT.
-If $C_{\max}>\alpha$ then set $C_{\max} = \alpha$ and $\gamma_h = \pi_h$ for $h=1,2,...,m$. If $A \neq \varnothing$ then \textbf{goto step 4}; otherwise \textbf{goto step 5}.
+let $\alpha=C_{\max}(MULTIFIT)$ be the makespan obtained by using
+algorithm MULTIFIT, with $\sigma = \Phi_q \cdot \omega_r$ in step 1 of
+algorithm MULTIFIT.
+If $C_{\max}>\alpha$ then set $C_{\max} = \alpha$ and
+$\gamma_h = \pi_h$ for $h=1,2,...,m$.
+If $A \neq \varnothing$ then \textbf{goto step 4}; otherwise
+\textbf{goto step 5}.
 
 %STEP 4
 \BlankLine % Petit espace
-remove the last job of $\omega_r$ and place it into $B$. Update $A$, $\Phi_q$ and $\omega_r$. Let $\sigma = \Phi_q \cdot \omega_r$. \textbf{goto step 3}.
+remove the last job of $\omega_r$ and place it into $B$.
+Update $A$, $\Phi_q$ and $\omega_r$.
+Let $\sigma = \Phi_q \cdot \omega_r$.
+\textbf{goto step 3}.
 
 %STEP 5
 \BlankLine % Petit espace
-If {$\tau < 2$} then set $\tau = \tau + 1$ and	\textbf{goto step 2}; otherwise \textbf{goto step 6}
+If {$\tau < 2$} then set $\tau = \tau + 1$ and \textbf{goto step 2};
+otherwise \textbf{goto step 6}
 
 %STEP 6
 \BlankLine % Petit espace
-If $q<2$ then set $q=q+1$, $\tau = 1$, and \textbf{goto step 2}; oterwise \textbf{stop}; \tcp{The schedule where jobs in $\gamma_h$ are proceded on machine $h$ is an approximate solution of the P{\textbar}{\textbar}C\textsubscript{max} problem with makespan $C_{\max}$.}
+If $q<2$ then set $q=q+1$, $\tau = 1$, and \textbf{goto step 2};
+oterwise \textbf{stop}; \tcp{The schedule where jobs in $\gamma_h$ are
+  proceded on machine $h$ is an approximate solution of the
+  P{\textbar}{\textbar}C\textsubscript{max} problem with makespan
+  $C_{\max}$.}
 
 \caption{LISTFIT\label{LISTFIT}}
 \end{algorithm}
@@ -970,15 +1106,17 @@ ainsi que le regroupement de ceux-ci en sous-ensembles.
 
 \tdi{LP: est-ce qu'on sait dire pourquoi ? faire une petite analyse}
 
-notamment pour l'instance suivante :
+notamment pour l'instance suivante:
 % * pour ne pas numéroter. Juste besoin d'aligner
 \begin{align*}
 & Nombre de jobs &n &=2 \cdot m + 1			\\
 & Avec &P_{2 \cdot m + 1} &\geq P_1 - P_m
 \end{align*}
-Où ils ont planifié d'abord, le job $2 \cdot m + 1$, puis un sous-ensemble de jobs triés $\{1,...,m\}$ et pour finir un sous-ensemble de jobs triés $\{m+1,...,2 \cdot m \}$
+Où ils ont planifié d'abord, le job $2 \cdot m + 1$, puis un
+sous-ensemble de jobs triés $\{1,...,m\}$ et pour finir un
+sous-ensemble de jobs triés $\{m+1,...,2 \cdot m \}$
 
-En résulte l'algorithme suivant :
+En résulte l'algorithme suivant:
 
 \bigskip
 % Algorithme
@@ -996,11 +1134,14 @@ réindexer les jobs, de manière à obtenir $P_1 \geq P_2 \geq ... \geq P_n$
 
 %ETAPE 3
 \BlankLine % Petit espace
-Découper l'ensemble obtenu en $\dfrac{n}{m}$ tuples de $m$ jobs (ajout de jobs "dummy" de taille nulle pour le dernier tuple, si $n$ n'est pas un multiple de $m$)
+Découper l'ensemble obtenu en $\dfrac{n}{m}$ tuples de $m$ jobs (ajout
+de jobs "dummy" de taille nulle pour le dernier tuple, si $n$ n'est
+pas un multiple de $m$)
 
 %ETAPE 4
 \BlankLine % Petit espace
-considérer chaque tuple avec la différence de temps (SLACK) entre le premier job du tuple et le dernier.
+considérer chaque tuple avec la différence de temps (SLACK) entre le
+premier job du tuple et le dernier.
 \begin{align*}
 \{ &\{1, ..., m\} &\{m+1,..., 2 \cdot m\} &... \} \\
    &P_1 - P_m     &P_{m+1}-P_{2 \cdot m}  &...
@@ -1010,7 +1151,7 @@ considérer chaque tuple avec la différence de temps (SLACK) entre le premier j
 %STEP 5
 \BlankLine % Petit espace
 trier les tuples par ordre décroissant de "Slack" et ainsi former un nouvel ensemble
-\tcp{e.g : $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $P_{m+1} - P_{2 \cdot m} > P_1 - P_m$.}
+\tcp{e.g: $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $P_{m+1} - P_{2 \cdot m} > P_1 - P_m$.}
 
 %STEP 6
 \BlankLine % Petit espace
@@ -1020,20 +1161,29 @@ applique l'ordonnancement (Affectation à la machine la moins chargée à ce mom
 \end{algorithm}
 
 \subsection{Programmation linéaire}
-L'ordonnancement, et plus particulièrement \problemGraham s'inscrit parfaitement dans l'énoncé d'un problème de programmation linéaire. En effet, la fonction objectif i.e minimiser le makespan, ainsi que les contraintes sont des fonctions linéaires. Toutefois, les variables, et le résultat attendu sont discrets, ce qui rend la résolution du problème nettement plus difficile comparé à une programmation linéaire à variables continues.
+
+L'ordonnancement, et plus particulièrement \problemGraham s'inscrit
+parfaitement dans l'énoncé d'un problème de programmation linéaire.
+En effet, la fonction objectif i.e minimiser le makespan, ainsi que
+les contraintes sont des fonctions linéaires.
+Toutefois, les variables, et le résultat attendu sont discrets, ce qui
+rend la résolution du problème nettement plus difficile comparé à une
+programmation linéaire à variables continues.
 Ces algorithmes, donnent une solution faisable exacte.
 
 \paragraph{PA (Mokotoff)}
 
-Mokotoff \cite{mokoto1999scheduling} présente un algorithme basé sur la formulation de la programmation linéaire, en utilisant des variables booléennes d'affectation des jobs à une machine.
+Mokotoff \cite{mokoto1999scheduling} présente un algorithme basé sur
+la formulation de la programmation linéaire, en utilisant des
+variables booléennes d'affectation des jobs à une machine.
 
 \tdi{LP: définir $x_{ij}$}
 % Présentaion
 % ---------------------
 \bigskip
-La minimisation du makespan peut être posée ainsi :
+La minimisation du makespan peut être posée ainsi:
 
-Minimiser y tel que :
+Minimiser y tel que:
 
 \begin{itemize}
 \item $\sum_{j=1}^{m}x_{ij}=1$ \quad pour $1 \leq i \leq n$ 		\\
@@ -1062,7 +1212,7 @@ et	\quad	$x_{ij} =$
  \end{itemize}
 
 \bigskip
-La zone F peut être définie ainsi : \\
+La zone F peut être définie ainsi: \\
 $F=\{ (x,y) : x \in B^{n \cdot m}, y \in \mathbb{R_+} : \sum_{j=1}^{m} x_{ij}=1 \forall i;
 y-\sum_{i=1}^{n} P_i \cdot x_{ij} \geq 0 \forall j \}$
 
@@ -1073,7 +1223,7 @@ x_{1m}&x_{\dots m}&x_{nm1}
 \end{bmatrix}$
 
 \bigskip
-le polytope $P$, relatif à $F$ est défini ainsi : \\
+le polytope $P$, relatif à $F$ est défini ainsi: \\
 $F=\{ (x,y) : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} : \sum_{j=1}^{m} x_{ij}=1 \forall i;
 y-\sum_{i=1}^{n} P_i \cdot x_{ij} \geq 0 \forall j	\}$
 
@@ -1082,15 +1232,22 @@ il est possible de construire un ensemble fini d'\textbf{inégalités} \\
 $Ax+Dy \leq \overline{b}$ telles que \\
 $min \{y : (x,y) \in F \} = min \{y : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} Ax+Dy \leq \underline{b}$ \\
 % \ensuremath{^\circ} pour le symbole °
-NB : Une solution $(x \ensuremath{^\circ} , y\ensuremath{^\circ}) \in P$ doit être exclue (car n'est pas un vecteur entier) si $(x\ensuremath{^\circ}, y\ensuremath{^\circ}) \notin P $
+NB: Une solution $(x \ensuremath{^\circ} , y\ensuremath{^\circ}) \in P$ doit être exclue (car n'est pas un vecteur entier) si $(x\ensuremath{^\circ}, y\ensuremath{^\circ}) \notin P $
 
 \bigskip
 Des \textbf{inégalités transitoires} peuvent être générées (nombre maxi de jobs par machine) \\
 $\sum_{i \in S_j} x_{ij} \leq L_j$ \quad $(L_j = h-1 \iff S_{J_h} > LB et S_{J_{(h-1)}} \leq LB)$\\
-LB : Borne inférieure.
+LB: Borne inférieure.
 
 \bigskip
-Pour un problème \problemGraham, même de taille modeste, le nombre de variables et contrites est très important, dont certaines sont inutiles. L'algorithme va donc utiliser la méthode des plans sécants (Cutting Plane Method). \`A chaque itération , des inégalités valides sont générées, puis une relaxation est exécutée, jusqu'à l'obtention d'une solution faisable.
+
+Pour un problème \problemGraham, même de taille modeste, le nombre de
+variables et contrites est très important, dont certaines sont
+inutiles.
+L'algorithme va donc utiliser la méthode des plans sécants (Cutting
+Plane Method).
+\`A chaque itération , des inégalités valides sont générées, puis une
+relaxation est exécutée, jusqu'à l'obtention d'une solution faisable.
 
 \bigskip
 % Algorithme
@@ -1098,36 +1255,54 @@ Pour un problème \problemGraham, même de taille modeste, le nombre de variable
 \begin{algorithm}[H]
 \DontPrintSemicolon
 
-Détermination de la borne inférieure $(LB)$ suivant l'algorithme de McNaughton \cite{mcnaughton1959scheduling}.
+Détermination de la borne inférieure $(LB)$ suivant l'algorithme de
+McNaughton \cite{mcnaughton1959scheduling}.
 
 \BlankLine % Petit espace
-Détermination de la borne Supérieure ($UB$ juste pour la nommer) suivant l'heuristique LPT (\ref{LPT}).
+Détermination de la borne Supérieure ($UB$ juste pour la nommer)
+suivant l'heuristique LPT (\ref{LPT}).
 
 \BlankLine % Petit espace
-Si $LB$ coïncide avec $UB$ la solution optimale est trouvée Sinon le processus itératif démarre.
+Si $LB$ coïncide avec $UB$ la solution optimale est trouvée Sinon le
+processus itératif démarre.
 
 \BlankLine
-À chaque itération un programme de relaxation linéaire est résolu.dans lequel $C_{\max}$ doit être égal à la borne inférieure actuelle ($LB$). Si la solution obtenue est entière (donc faisable), l'algorithme s'arrête et la solution actuelle est optimale.
+À chaque itération un programme de relaxation linéaire est résolu.dans
+lequel $C_{\max}$ doit être égal à la borne inférieure actuelle
+($LB$).
+Si la solution obtenue est entière (donc faisable), l'algorithme
+s'arrête et la solution actuelle est optimale.
 
 \BlankLine
-Sinon, des nouvelles inégalité (inégalités et/ou inégalités transitoires) sont ajoutées à la nouvelle relaxation linéaire.Le nouveau programme linéaire est résolu et l'algorithme s'arrête si la solution est entière.
+Sinon, des nouvelles inégalité (inégalités et/ou inégalités
+transitoires) sont ajoutées à la nouvelle relaxation linéaire.Le
+nouveau programme linéaire est résolu et l'algorithme s'arrête si la
+solution est entière.
 
 \BlankLine
-Si la relaxation n'est pas possible, la limite inférieure ($LB$) est augmentée d'une unité et le processus itératif redémarre.
+Si la relaxation n'est pas possible, la limite inférieure ($LB$) est
+augmentée d'une unité et le processus itératif redémarre.
 
 \BlankLine
-Par contre, si les inégalités ne peuvent pas être générées, un algorithme \textit{Branch\&Bound} prend le relais pour résoudre le problème.
+Par contre, si les inégalités ne peuvent pas être générées, un
+algorithme \textit{Branch\&Bound} prend le relais pour résoudre le
+problème.
 
 \caption{PA\label{PA}}
 \end{algorithm}
 
 
 \subsection{Approximation}
-Une catégorie d'algorithmes fournit une garantie d'approche. Notamment les PTAS (Schéma d'Approximation en Temps Polynomial).
+
+Une catégorie d'algorithmes fournit une garantie d'approche.
+Notamment les PTAS (Schéma d'Approximation en Temps Polynomial).
 
 \paragraph{PTAS}
 
-Un PTAS est un algorithme qui calcule, pour tout $\epsilon > 0$ donné, une solution proche à un facteur $(1+\epsilon)$ pour un problème de minimisation, ou $(1-\epsilon$ pour un problème de maximisation, de l'optimal, en temps polynomial dépendant de $\epsilon$.
+Un PTAS est un algorithme qui calcule, pour tout $\epsilon > 0$ donné,
+une solution proche à un facteur $(1+\epsilon)$ pour un problème de
+minimisation, ou $(1-\epsilon$ pour un problème de maximisation, de
+l'optimal, en temps polynomial dépendant de $\epsilon$.
 
 \bigskip
 Hochbaum \textit{et al.} \cite{hochbaum1987using} proposent le premier PTAS.
