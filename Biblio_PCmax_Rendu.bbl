@@ -17,6 +17,16 @@ Federico Della~Croce and Rosario Scatamacchia.
   revisited.
 \newblock {\em Journal of Scheduling}, pages 1--14, 2018.
 
+\bibitem{44900}
+R.~{Duncan}.
+\newblock A survey of parallel computer architectures.
+\newblock {\em Computer}, 23(2):5--16, 1990.
+
+\bibitem{5009071}
+M.~J. {Flynn}.
+\newblock Some computer organizations and their effectiveness.
+\newblock {\em IEEE Transactions on Computers}, C-21(9):948--960, 1972.
+
 \bibitem{garey1978strong}
 Michael~R Garey and David~S Johnson.
 \newblock ``strong''np-completeness results: Motivation, examples, and
@@ -46,6 +56,12 @@ Dorit~S Hochbaum and David~B Shmoys.
   theoretical and practical results.
 \newblock {\em Journal of the ACM (JACM)}, 34(1):144--162, 1987.
 
+\bibitem{Johnson1974WorstCasePB}
+D.~Johnson, A.~Demers, J.~Ullman, M.~Garey, and R.~Graham.
+\newblock Worst-case performance bounds for simple one-dimensional packing
+  algorithms.
+\newblock {\em SIAM J. Comput.}, 3:299--325, 1974.
+
 \bibitem{lee1988multiprocessor}
 Chung-Yee Lee and J~David Massey.
 \newblock Multiprocessor scheduling: combining lpt and multifit.
@@ -66,5 +82,10 @@ Ethel Mokoto.
 Michael~H Rothkopf.
 \newblock Scheduling independent tasks on parallel processors.
 \newblock {\em Management Science}, 12(5):437--447, 1966.
+
+\bibitem{86786}
+D.~B. {Skillicorn}.
+\newblock A taxonomy for computer architectures.
+\newblock {\em Computer}, 21(11):46--57, 1988.
 
 \end{thebibliography}
