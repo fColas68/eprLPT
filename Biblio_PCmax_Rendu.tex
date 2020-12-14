@@ -329,7 +329,7 @@ Il compte 7,630,848 c\oe{}urs basés sur des processeurs ARM A64FX 48C cadencés
 \tdi{FCO: ok, fait}
   
 On peut définir une machine parallèle comme un ensemble de processeurs capables de coopérer et de communiquer dans le but de résoudre un problème plus rapidement. 
-Les \textbf{clusters}, ou grappes (MIMD à mémoire distribuée), sont principalement homogènes. Avec internet, il devient possible d'interconnecter des ordinateurs, voire des grappes, et de créer ainsi, à l'instar d'un réseau de distribution d'électricité, un système distribué grande échelle, appelé \textbf{grid}, ou grille. Une grille relie des \textbf{ordinateurs} (PC, portable, Superordinateur, cluster), des \textbf{systèmes de bases de données} (e.g base du génome humain, atlas astronomique de Strasbourg), et dans certains cas, des \textbf{instruments spéciaux} (e.g le radio-télescope d'Arecibo). Les applications liées aux grilles sont diverses. On peut citer le web (la première grille), le \textit{"Cloud computing"}, les web-services, les réseaux \textit{"peer-to-peer"}, l'\textit{internet computing}, comme le projet SETI (www.boinc-af.org/setihome.html). Ce projet consiste à rechercher des preuves possibles de transmissions radio provenant d'intelligences, autres que terrestres, à l'aide de données fournies par un radiotélescope. Le "serveur", distribue, une portion d'échantillons radio à traiter aux clients volontaires (logiciel client installé sur un PC), pour ensuite recouper les résultats. En tout, ce sont cinq millions de participants, qui ont accumulé deux millions d'années de calculs depuis la création du projet en 1999. Se pose alors le problème de l'attribution des tâches aux clients, un problème d'ordonnancement.   
+Les \textbf{clusters}, ou grappes (MIMD à mémoire distribuée), sont principalement homogènes. Avec internet, il devient possible d'interconnecter des ordinateurs, voire des grappes, et de créer ainsi, à l'instar d'un réseau de distribution d'électricité, un système distribué grande échelle, appelé \textbf{grid}, ou grille. Une grille relie des \textbf{ordinateurs} (PC, portable, Superordinateur, cluster), des \textbf{systèmes de bases de données} (e.g base du génome humain, atlas astronomique de Strasbourg), et dans certains cas, des \textbf{instruments spéciaux} (e.g le radio-télescope d'Arecibo). Les applications liées aux grilles sont diverses. On peut citer le web (la première grille), le \textit{"Cloud computing"}, les web-services, les réseaux \textit{"peer-to-peer"}, l'\textit{internet computing}, comme le projet SETI (www.boinc-af.org/setihome.html). Ce projet consiste à rechercher des preuves possibles de transmissions radio provenant d'intelligences, autres que terrestres, à l'aide de données fournies par un radiotélescope. Le "serveur", distribue, une portion d'échantillons radio à traiter aux clients volontaires (logiciel client installé sur un PC), pour ensuite recouper les résultats. En tout, ce sont cinq millions de participants, qui ont accumulé deux millions d'années de calculs depuis la création du projet en 1999. Se pose alors le problème de l'attribution des tâches aux postes clients, un problème d'ordonnancement.   
 
 
 \subsection{Ordonnancement}
@@ -1336,7 +1336,7 @@ LB: Borne inférieure.
 \bigskip
 
 Pour un problème \problemGrahamP, même de taille modeste, le nombre de
-variables et contrites est très important, dont certaines sont
+variables et contraintes est très important, dont certaines sont
 inutiles.
 L'algorithme va donc utiliser la méthode des plans sécants (Cutting
 Plane Method).
@@ -1391,20 +1391,142 @@ problème.
 Une catégorie d'algorithmes fournit une garantie d'approche.
 Notamment les PTAS (Schéma d'Approximation en Temps Polynomial).
 
-\paragraph{PTAS}
-
 Un PTAS est un algorithme qui calcule, pour tout $\epsilon > 0$ donné,
 une solution proche à un facteur $(1+\epsilon)$ pour un problème de
 minimisation, ou $(1-\epsilon$ pour un problème de maximisation, de
 l'optimal, en temps polynomial dépendant de $\epsilon$.
 
+
+\paragraph{PTAS (Hochbaum \textit{et al.})} 
+
+Hochbaum \textit{et al.} \cite{hochbaum1987using} proposent le premier PTAS adapté au problème 
+\problemGrahamP. Cette approche s'appuie aussi sur le problème semblable à \problemGrahamP, celui du bin packing et prend MULTIFIT (\ref{MULTIFIT}) comme réflexion de départ. 
+Le problèmebin-packing est posé différemment :
+
+Soient:
+\begin{itemize}
+\item un ensemble d'objets $T_j ~ \in ~ T = \{T_1, T_2, ..., T_n\}$
+\item leur taille $L(T_j)~ avec ~ 1 \le j \le n$ et \textbf{$0 \le L(T_j) \le 1$}
+\end{itemize}
+Une taille maximale $C$ des bacs (ou boites).
+
+$T^{\star}(T)$, définit plus haut, correspond au bin-packing idéal, et donc, 
+au nombre minimum de bacs nécessaires pour l'organisation des pièces de l'ensemble $T$.
+Le but de l'algorithme proposé, et de construire un arrangement bin-packing, 
+qui utilise au plus $T^{\star}_m$ bacs, remplit 
+avec des pièces totalisant une taille au plus de $1+ \epsilon$, 
+et ainsi donner une réponse au problème \problemGrahamP en temps polynomial.
+
+Le problème bin-packing et \problemGrahamP sont reliés de la façon suivante :
+$T^{\star}(\dfrac{J}{C}) \le m$ si et seulement si $C^{\star}_m(J) \le C$. 
+Donc la taille minimale des bacs, $C^{\star}$ correspondant au délai idéal makespan, est telle que $T^{\star}(\dfrac{J}{C^{\star}}) \le m$.
+
+Nous sommes en présence de deux paramètres critiques :
+\begin{itemize}
+\item m le nombre de machines parallèles identiques;
+\item C la taille des bacs, et aussi, le makespan recherché.
+\end{itemize}
+Il y a donc Deux problèmes d'optimisation, 
+dont l'un consiste à fixer le premier paramètre pour optimiser l'autre, 
+et inversement, fixer l'autre pour optimiser le premier. 
+Ce qui constitue un problème de reconnaissance (ou décision) à deux paramètres $R(p_1, p_2)$.
+
 \bigskip
-Hochbaum \textit{et al.} \cite{hochbaum1987using} proposent le premier PTAS.
+
+\textbf{Problème primal et approximation $\epsilon-$primal}
+
+soit le problème primal $(J,\bar{p_1})$
+où $p_1$ est donné en paramètre et $p_2$ est optimisé.
+
+La valeur optimale est $OPT_P(J,\bar{p_1})$.
+
+soit l'algorithme d'approximation $\epsilon-$primal pour le problème primal, qui donne comme résultats :
+
+\begin{itemize}
+\item poru le premier paramètre $p_1$ une valeur $\le \bar{p_1}$  
+\item pour le deuxième paramètre $p_2$ une valeur $PRIMAL_{P,\epsilon} \le (1+\epsilon)\cdot OPT_P(J,\bar{p_1})$
+\end{itemize}
+\bigskip
+
+\textbf{Problème dual et approximation $\epsilon-$dual}
+
+soit le problème primal $(J,\bar{p_2})$
+où $p_2$ est donné en paramètre et $p_1$ est optimisé.
+
+La valeur optimale est $OPT_D(J,\bar{p_2})$.
+
+soit l'algorithme d'approximation $\epsilon-$dual pour le problème dual, qui donne comme résultats :
+
+\begin{itemize}
+\item pour le premier paramètre $p_1$ une valeur $DUAL_{D,\epsilon}(J, \bar{p_2})\le OPT_D(J,\bar{p_2})$.  
+\item pour le deuxième paramètre $p_2$ une valeur $ \le (1+\epsilon)\cdot \bar{p_2}$
+\end{itemize}
+
+\bigskip
+
+Trouver un algorithme $\epsilon-$primal pour le problème primal, 
+peut être réduit à trouver un algorithme $\epsilon-$dual pour le problème dual.
+
+Trouver un algorithme d'approximation $\epsilon-$dual, peut être réduit à trouver un algorithme 
+d'approximation $\epsilon-$dual pour une instance du problème où la taille des pièces sont $> \epsilon$. 
+
+\bigskip
+L'intervalle de la taille des pièces (devenu $]\epsilon, 1]$) est découpé en S = $\lceil \dfrac{1}{\epsilon^2}\rceil$ sous intervalles de taille identique $]\epsilon = l_1, l_2], ]l_2, l_3], \ldots , ]l_S, L_{S+1}=1]$.
+Chaque bac $P_i$, sera rempli au maximum avec $\lfloor \dfrac{1}{\epsilon} \lfloor$ pièces.
+
+Soit $x_k avec 1 \le k \le S$ le nombre de pièces d'un bac dont la taille $\in ]l_k, l_{k+1}]$. Chaque $x_k$ peut prendre une valeur dans l'intervalle $[0,\dfrac{1}{\epsilon•}[$
+
+La configuration d'un bac $P_i$ peut être donnée pas un s-tuple $(x_1, x_2, \ldots, x_S)$.
+Une configuration est dite faisable si $\sum_{k=1}^{S}x_k \cdot l_k \le 1$ avec $l_k$ de $]l_k, l_{k+1}]$.
+
+Nous avons donc 
+
+$L(P_i) \le \sum_{k=1}^{S}x_k \cdot l_{k+1}$
+ 
+$\le$ 
+$\sum_{k=1}^{S}x_k \cdot (l_k+\epsilon^2)$ 
+
+$=$ 
+$\sum_{k=1}^{S}x_k \cdot l_k  +  \epsilon^2 \cdot \sum_{k=1}^{S}x_k$
+
+$\le$
+$1 + \epsilon^2 \cdot \dfrac{1}{\epsilon}$
+
+$=$
+$1 + \epsilon$
+  
+\bigskip
+Soit $b_k avec 1 \le k \le S$ le nombre de pièces utilisées dans tous les bacs dont la taille $\in ]l_k, l_{k+1}]$.
+
+Soit $Bins(b_1, b_2, \ldots, b_S)$ le nombre minimum de bacs nécessaires, lorsqu'il y a $b_k$ pièces de taille $l_k$, et considérons que le premier bac soit rempli, nous obtenons :
+
+$Bins(b_1, b_2, \ldots, b_S) = 1 + \underset{configuraion faisable (x_1, \ldots, x_S)}{min} Bins(b_1-x_1, b_2-x_2, \ldots, b_S-x_S)$
+
+Ce qui est résolu par programmation dynamique.
+  
+\todo{FCO : Algos $\epsilon$ $=$ $1/5$ et $1/6$}
 
 
+
+
+
+\bigskip
 
 
 \subsection{Autres approches}
+
+\subsubsection{Partitionnement}
+\paragraph{LDM}
+\todo{FCO : Rappels, Lipshitz, fonction densité, loi triangulaire, loi beta}
+
+\subsubsection{autre}
+\paragraph{algorithmes génétiques}
+\paragraph{algorithmes à réseaux de neurones}
+
+
+
+
+
 
 \section{Synthèse}
 
