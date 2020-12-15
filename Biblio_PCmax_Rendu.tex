@@ -26,7 +26,8 @@
 % significations
 % -------------------------------------------------------
 \usepackage{amsmath}
-\usepackage{amssymb,amsfonts,textcomp}
+\usepackage{amssymb,amsfonts}
+\usepackage{textcomp}
 \usepackage{color}
 \usepackage{array}
 \usepackage{supertabular}
@@ -41,10 +42,11 @@
 % -------------------------------------------------------
 \usepackage{amsthm}
 \theoremstyle{plain}				% Choix du style
-\newtheorem{theoreme1}{Théorème}	% Définition de l'environnement 1
+\newtheorem{theoreme}{Théorème}	% Définition de l'environnement 1
+\newtheorem{example}{Exemple}
 
 \theoremstyle{definition}				% Choix du style
-\newtheorem{definition1}{Definition} %[section]	% Définition de l'environnement définition
+\newtheorem{definition}{Définition} %[section]	% Définition de l'environnement définition
 % -------------------------------------------------------
 %pour utiliser
 % \textsubscript{}
@@ -96,11 +98,11 @@
 % MACRO
 % -------------------------------------------------------
 % Pm||Cmax
-\newcommand\problemGrahamPm{$P_m||C_{\max}$}
+\newcommand\problemGrahamPm{$P_m||C_{\max}$\xspace}
 % P2||Cmax
-\newcommand\problemGrahamPII{$P_2||C_{\max}$}	%aparemment ne supporte pas les chiffres.
-% P||Cax	
-\newcommand\problemGrahamP{$P||C_{\max}$}
+\newcommand\problemGrahamPII{$P_2||C_{\max}$\xpsace}	%apparemment ne supporte pas les chiffres.
+% P||Cmax
+\newcommand\problemGrahamP{$P||C_{\max}$\xspace}
 
 % -------------------------------------------------------
 % Ajout L. Philippe
@@ -108,7 +110,7 @@
 % -------------------------------------------------------
 \usepackage{todonotes}
 \newcommand{\tdi}[1]{\todo[inline]{{#1}}{}}
-\newcommand{\lp}[1]{\todo[author=LP,inline]{#1}}
+\newcommand{\lp}[1]{\todo[author=LP,color=yellow,inline]{#1}}
 \newcommand{\lcc}[1]{\todo[author=LCC,color=green,inline]{#1}}
 
 % -------------------------------------------------------
@@ -194,7 +196,10 @@ divisant la charge de travail entre plusieurs processeurs, capables de communiqu
 % -------------------------------------------------------
 % FLYNN 1972
 % -------------------------------------------------------
-En 1972, Flynn propose une première classification des architectures parallèles \cite{5009071}. Cette taxonomie repose sur le nombre de flux de données (simple ou multiple) et le nombre de flux d'instructions (simple ou multiple).  
+En 1972, Flynn propose une première classification des architectures
+parallèles \cite{5009071}.
+Cette taxonomie repose sur le nombre de flux de données (simple ou
+multiple) et le nombre de flux d'instructions (simple ou multiple).
 % -------------------------------------------------------
 % TABLEAU taxonomie de Flynn
 % diagbox permet d'avoir une barre oblique pour les deux entrées
@@ -232,7 +237,7 @@ Obsolète, car tous les PC sont désormais multi-c{\oe}ur
 
 Machines synchrones
 
-Pipeline	%~
+Pipeline	%
 
 Exécution d'une instruction unique sur des données différentes
 \\	\hline
@@ -265,18 +270,24 @@ Taxonomie de Flynn
 % -------------------------------------------------------
 % Skilicorn 1988
 % -------------------------------------------------------
-En 1988, Skilicorn étoffe la taxonomie de Flynn et propose une classification plus complète \cite{86786}, basée sur l'architecture, avec 28 taxons. 
+En 1988, Skilicorn étoffe la taxonomie de Flynn et propose une
+classification plus complète \cite{86786}, basée sur l'architecture,
+avec 28 taxons
 % -------------------------------------------------------
 % Dasgupta 1990
 % Inutile ici.
 % -------------------------------------------------------
-% \item en 1990, Dasqupta présente une classification, toujours orientée 
+% \item en 1990, Dasqupta présente une classification, toujours orientée
 % \cite{50273}  3 si pas desactivé
 
 % -------------------------------------------------------
 % Duncan 1990
 % -------------------------------------------------------
-En 1990, Duncan présente une taxonomie de haut niveau \cite{44900}, reprenant les bases de la classification de Flynn, tout en incluant les architectures modernes, et celles qui n'ont pas encore été considérées comme architectures parallèle (e.g es processeurs vectoriels à chaînes de traitement).
+En 1990, Duncan présente une taxonomie de haut niveau \cite{44900},
+reprenant les bases de la classification de Flynn, tout en incluant
+les architectures modernes, et celles qui n'ont pas encore été
+considérées comme architectures parallèle (e.g es processeurs
+vectoriels à chaînes de traitement).
 
 {\centering
 \includegraphics[width=16.272cm,height=14.605cm]{Biblio_PCmax_Rendu_Taxonomie_Duncan.jpg}
@@ -284,13 +295,44 @@ En 1990, Duncan présente une taxonomie de haut niveau \cite{44900}, reprenant l
 {\centering
 Taxonomie de haut niveau de l'architecture de l'informatique parallèle.
 \par}
- 
+
 \bigskip
 
 \begin{itemize}
-\item Les architecture synchrones. Ces architectures coordonnent les opérations concurrentes via une horloge globale et un contrôleur de programmes.(i) Les processeurs vectoriels permettent un traitement parallèle en envoyant séquentiellement des éléments vectoriels dans des pipelines d'unités de traitements mis en cascades.(ii) Les  machines systoliques, pulsent le déplacement des données entre mémoire et réseau de processeurs,à un rythme soutenu. (iii) Les SIMD, emploient une unité de contrôle centrale, et de multiples processeurs. On distingue les SIMD à matrice de processeurs, (calibrés pour le calcul scientifique à grande échelle, le traitement d'images) où on retrouve les GPU, et les SIMD à mémoire associative (particulièrement adaptés pour le traitement de bases de données, le suivi, la surveillance).
-\item Les architectures asynchrones, de type MIMD, emploient plusieurs processeurs pour exécuter des flux d'instructions indépendant, en utilisant des données locales. On distingue, d'une part, les MIMD à mémoire distribuée. Les processeurs ont leur propre mémoire, et le partage d'information s'opère uniquement par échange de messages. On rencontre dans ce type d'architecture, les grappes, les MPP (Massive Parallel Processing) et les COW (Cluster Of Workstations). Et d'autre part les MIMD  à mémoire partagées, telles que les machines muti-processeurs, ou les processeurs multi-c\oe{}urs.
-\item Les architectures mixtes, ou basées sur le paradigme MIMS. (i) Les hybrides MIMS/SIMS sont des architectures MIMD pilotées de la même façon que les SIMD. (ii) Les architectures à flots de données sont pilotées par les dépendances des données elles-mêmes. (iii) Les architectures à réductions sont utilisée pour les langages de programmation fonctionnels, dont les expressions sont récursives. (iv) Les architectures Front d'onde (wavefront) sont un mélange des architectures à flots de données et des architectures systoliques.
+\item Les architecture synchrones.
+  Ces architectures coordonnent les opérations concurrentes via une
+  horloge globale et un contrôleur de programmes.(i) Les processeurs
+  vectoriels permettent un traitement parallèle en envoyant
+  séquentiellement des éléments vectoriels dans des pipelines d'unités
+  de traitements mis en cascades.(ii) Les machines systoliques,
+  pulsent le déplacement des données entre mémoire et réseau de
+  processeurs,à un rythme soutenu.
+  (iii) Les SIMD, emploient une unité de contrôle centrale, et de
+  multiples processeurs.
+  On distingue les SIMD à matrice de processeurs, (calibrés pour le
+  calcul scientifique à grande échelle, le traitement d'images) où on
+  retrouve les GPU, et les SIMD à mémoire associative
+  (particulièrement adaptés pour le traitement de bases de données, le
+  suivi, la surveillance).
+\item Les architectures asynchrones, de type MIMD, emploient plusieurs
+  processeurs pour exécuter des flux d'instructions indépendant, en
+  utilisant des données locales.
+  On distingue, d'une part, les MIMD à mémoire distribuée.
+  Les processeurs ont leur propre mémoire, et le partage d'information
+  s'opère uniquement par échange de messages.
+  On rencontre dans ce type d'architecture, les grappes, les MPP
+  (Massive Parallel Processing) et les COW (Cluster Of Workstations).
+  Et d'autre part les MIMD à mémoire partagées, telles que les
+  machines muti-processeurs, ou les processeurs multi-c\oe{}urs.
+\item Les architectures mixtes, ou basées sur le paradigme MIMS.
+  (i) Les hybrides MIMS/SIMS sont des architectures MIMD pilotées de
+  la même façon que les SIMD.
+  (ii) Les architectures à flots de données sont pilotées par les
+  dépendances des données elles-mêmes.
+  (iii) Les architectures à réductions sont utilisée pour les langages
+  de programmation fonctionnels, dont les expressions sont récursives.
+  (iv) Les architectures Front d'onde (wavefront) sont un mélange des
+  architectures à flots de données et des architectures systoliques.
 
 
 
@@ -300,9 +342,9 @@ Taxonomie de haut niveau de l'architecture de l'informatique parallèle.
 
 
 
-\tdi{LP: la classification de Flynn date un peu... Peut-être faut-il
+\lp{la classification de Flynn date un peu... Peut-être faut-il
   trouver qlqchose de plus récent}
-\tdi{FCO: ok, fait}  
+\tdi{FCO: ok, fait}
 
 
 
@@ -335,9 +377,36 @@ Cray1.
   nombre de proc, cores, etc. Parler peut-être aussi des clouds ? Des
   applications ? Pour intro}
 \tdi{FCO: ok, fait}
-  
-On peut définir une machine parallèle comme un ensemble de processeurs capables de coopérer et de communiquer dans le but de résoudre un problème plus rapidement. 
-Les \textbf{clusters}, ou grappes (MIMD à mémoire distribuée), sont principalement homogènes. Avec internet, il devient possible d'interconnecter des ordinateurs, voire des grappes, et de créer ainsi, à l'instar d'un réseau de distribution d'électricité, un système distribué grande échelle, appelé \textbf{grid}, ou grille. Une grille relie des \textbf{ordinateurs} (PC, portable, Superordinateur, cluster), des \textbf{systèmes de bases de données} (e.g base du génome humain, atlas astronomique de Strasbourg), et dans certains cas, des \textbf{instruments spéciaux} (e.g le radio-télescope d'Arecibo). Les applications liées aux grilles sont diverses. On peut citer le web (la première grille), le \textit{"Cloud computing"}, les web-services, les réseaux \textit{"peer-to-peer"}, l'\textit{internet computing}, comme le projet SETI (www.boinc-af.org/setihome.html). Ce projet consiste à rechercher des preuves possibles de transmissions radio provenant d'intelligences, autres que terrestres, à l'aide de données fournies par un radiotélescope. Le "serveur", distribue, une portion d'échantillons radio à traiter aux clients volontaires (logiciel client installé sur un PC), pour ensuite recouper les résultats. En tout, ce sont cinq millions de participants, qui ont accumulé deux millions d'années de calculs depuis la création du projet en 1999. Se pose alors le problème de l'attribution des tâches aux postes clients, un problème d'ordonnancement.   
+
+On peut définir une machine parallèle comme un ensemble de processeurs
+capables de coopérer et de communiquer dans le but de résoudre un
+problème plus rapidement.
+Les \textbf{clusters}, ou grappes (MIMD à mémoire distribuée), sont
+principalement homogènes.
+Avec internet, il devient possible d'interconnecter des ordinateurs,
+voire des grappes, et de créer ainsi, à l'instar d'un réseau de
+distribution d'électricité, un système distribué grande échelle,
+appelé \textbf{grid}, ou grille.
+Une grille relie des \textbf{ordinateurs} (PC, portable,
+Superordinateur, cluster), des \textbf{systèmes de bases de données}
+(e.g base du génome humain, atlas astronomique de Strasbourg), et dans
+certains cas, des \textbf{instruments spéciaux} (e.g le
+radio-télescope d'Arecibo).
+Les applications liées aux grilles sont diverses.
+On peut citer le web (la première grille), le \textit{"Cloud
+  computing"}, les web-services, les réseaux \textit{"peer-to-peer"},
+l'\textit{internet computing}, comme le projet SETI
+(www.boinc-af.org/setihome.html).
+Ce projet consiste à rechercher des preuves possibles de transmissions
+radio provenant d'intelligences, autres que terrestres, à l'aide de
+données fournies par un radiotélescope.
+Le "serveur", distribue, une portion d'échantillons radio à traiter
+aux clients volontaires (logiciel client installé sur un PC), pour
+ensuite recouper les résultats.
+En tout, ce sont cinq millions de participants, qui ont accumulé deux
+millions d'années de calculs depuis la création du projet en 1999.
+Se pose alors le problème de l'attribution des tâches aux postes
+clients, un problème d'ordonnancement.
 
 
 \subsection{Ordonnancement}
@@ -354,7 +423,8 @@ Celui-ci consiste à organiser, dans le temps, les jobs à exécuter, en
 les affectant à une ressource donnée, de manière à satisfaire un
 certain nombre de contraintes, tout en optimisant un ou des objectifs.
 L'ordonnancement fait partie de la catégorie des problèmes
-d'optimisation combinatoire, et est un champ de la recherche opérationnelle, très actif depuis plus d'un siècle.
+d'optimisation combinatoire, et est un champ de la recherche
+opérationnelle, très actif depuis plus d'un siècle.
 
 Les problèmes qui s'y rattachent sont très variés.
 Premièrement, la nature des machines parallèles doit être considérée.
@@ -414,9 +484,9 @@ Le problème \problemGrahamP se définit alors ainsi:
 \item $\beta \subset \{ \beta_1, \beta_2, \beta_3,
   \beta_4, \beta_5, \beta_6\}$, détermine les caractéristiques
   des jobs, ou des tâches.
-  $\beta $ est vide.
+  $\beta$ est vide.
   Ce qui signifie que la préemption n'est pas autorisée (les jobs
-  doivent être exécutés d'une traite, sans interruption ni coupure) \
+  doivent être exécutés d'une traite, sans interruption ni coupure)
   et qu'il n'y a pas de relation entre les jobs (ils sont
   indépendants).
 
@@ -436,25 +506,28 @@ i.e.\ le temps de traitement total.
 
 
 
-\begin{definition1}{\problemGrahamP}
+\begin{definition}{\problemGrahamP}
 
   \problemGrahamP consiste à planifier un ensemble $J = \{j_1,j_2,\ldots,j_n)$
-  de n jobs simultanés, pour être traités par m machines identiques et
+  de $n$ jobs simultanés, pour être traités par $m$ machines identiques et
   parallèles.
   Chaque job, qui requière une opération, peut être traité par une des
-  m machines.
-  Le temps de traitement de chaque job $p_i$ (avec $i~{\in} \mathbb{N}$ ) est connu à l'avance.
+  $m$ machines.
+  Le temps de traitement de chaque job $p_i$ (avec $i \in \mathbb{N}$) est connu à l'avance.
   Un job commencé, et complété sans interruption.
   Les jobs, indépendants, sont exécutés par une seule machine, et une
   machine ne peut traiter qu'un seul job à la fois.
 
-la notation :
+la notation:
 \begin{itemize}
-\item \problemGrahamP ~ou \problemGrahamPm ~précise que le nombre de machines $m$ est fixe, et est connu à l'avance dans l'instance du problème, mais reste une variable. 
-\item  \problemGrahamPII fixe le nombre de machines parallèles. ici, deux.
+\item \problemGrahamP ou \problemGrahamPm précise que le nombre de
+  machines $m$ est fixe, et est connu à l'avance dans l'instance du
+  problème, mais reste une variable.
+\item \problemGrahamPII fixe le nombre de machines parallèles.
+  ici, deux.
 \end{itemize}
 
-\end{definition1}
+\end{definition}
 
 =======
 
@@ -520,7 +593,14 @@ Soient les données du problème
 
   \lp{au besoin définir $M = \{ m_1, m_2, \ldots, m_m \}$ mais du
   coup il faut choiir à quoi sert le $m$}
-  \tdi{FCO: M (majuscule) est l'ensemble des m machines parallèles identiques. $m_i$ est une machine de M, avec $1<= i<= m$, il y a double emploi entre m la machine et m le nombre de machines, mais m en tant que nombre est utilisé (aussi) dans \problemGrahamPm. Donc j'ai tout mis en majuscule lorsqu'il s'agit d'une entité, (machine, job, temps) et en minuscule, pour les nombres}
+
+\tdi{FCO: M (majuscule) est l'ensemble des m machines parallèles
+  identiques.
+  $m_i$ est une machine de M, avec $1<= i<= m$, il y a double emploi
+  entre m la machine et m le nombre de machines, mais m en tant que
+  nombre est utilisé (aussi) dans \problemGrahamPm.
+  Donc j'ai tout mis en majuscule lorsqu'il s'agit d'une entité,
+  (machine, job, temps) et en minuscule, pour les nombres}
 
 % -------------------------------------------------------
 % RESULTAT DE L'ALGORITHME A
@@ -528,51 +608,53 @@ Soient les données du problème
 \item $C_m^A(J)$ Le résultat (makespan) de l'ordonnancement d'un
   ensemble $J$ de jobs, sur m machines parallèles, identiques, obtenu
   par l'algorithme $A$.
-  \tdi{LP: à quoi sert $j$ ici ?}
+  \lp{à quoi sert $j$ ici ?}
   \tdi{FCO  ok, fait : C'était une erreur de frappe ...le copier/coller qui va avec}
 
 % -------------------------------------------------------
 % RESULTAT OPTIMAL
 % -------------------------------------------------------
-\item $C_j^\star(J)$ Le makespan optimal, idéal, de l'ordonnancement d'un
+\item $C_m^\star(J)$ Le makespan optimal, idéal, de l'ordonnancement d'un
   ensemble $J$ de jobs, sur $m$ machines parallèles identiques.
-  \tdi{LP: idem}
+  \lp{idem}
 \tdi{FCO: ok, fait}
 % -------------------------------------------------------
 % RATIO OBTENU/OPTIMAL
 % -------------------------------------------------------
-\item $\Gamma(A)=\dfrac{C_m^A(J)}{C_m^\star(J)}$ Le ratio d'approximation atteint par l'algorithme $A$ au pire cas.
+\item $\Gamma(A)=\dfrac{C_m^A(J)}{C_m^\star(J)}$ Le ratio
+  d'approximation atteint par l'algorithme $A$ au pire cas.
 
-  \tdi{LP: idem}
+  \lp{idem}
   \tdi{FCO: ok, fait}
 \end{itemize}
 
 \subsection{Heuristiques}
 
-\tdi{LP: définir heuristic ?}
+\lp{définir heuristic ?}
 \tdi{FCO: ok, fait}
 
-Le but d'une heuristique (du grec \textit{heuriskein} : trouver) est
-de trouver une solution respectant les contraintes du problème, et de
+Le but d'une heuristique (du grec \textit{heuriskein}: trouver) est
+de trouver une solution respectant les contraintes du problème et de
 bonne qualité selon le critère d'optimisation considéré.
 La solution ne sera pas forcément optimale, mais une heuristique
 efficace tente de trouver une solution de bonne qualité, suivant le
 temps de résolution imparti.
-e.g pour le voyageur de commerce, on peut choisir l'heuristique "du
-plus proche voisin".
+E.g.\ pour le voyageur de commerce, on peut choisir l'heuristique ``du
+plus proche voisin''.
 on choisit la ville la plus proche de la ville courante, jusqu'à avoir
 visité toutes les villes.
 Cette heuristique est simple, mais donne un très mauvais résultat.
 
 %Les heuristiques présentent plusieurs avantages. Leur complexité est
-%réduite\tdi{LP: ça dépend de leur conception}, et obtiennent de bonne
-%performances\tdi{LP: ça dépend aussi, je suis capable de faire des
+%réduite\lp{ça dépend de leur conception}, et obtiennent de bonne
+%performances\lp{ça dépend aussi, je suis capable de faire des
 %heuristiques non performantes}.
 Ces algorithmes donnent des résultats, dont la borne minimale
-$ max_j\{P_j\} \le C_m^A(J)_{minimal} \le \dfrac{\sum_{j=1}^{n}
+$ \max_j\{P_j\} \le C_m^A(J)_{minimal} \le \dfrac{\sum_{j=1}^{n}
   P_j}{m}$ \todo{FCO: Trouver référence dans les publis} et la borne
-maximale (au pire des cas $C_m^A(J)_{maximal}$ n'est pas maîtrise.
-une étude du comportement est nécessaire pour définir cette borne
+maximale (au pire des cas $C_m^A(J)_{maximal}$ n'est pas maîtrise).
+\lcc{revoir notation et phrase}
+Une étude du comportement est nécessaire pour définir cette borne
 maximum.
 
 Les heuristiques représentent la plus grande partie des recherches concernant le problème
@@ -588,8 +670,8 @@ d'ordonnancement.
 \subsubsection{Basé LS (List Scheduling)}
 % '
 
-L'idée d'une LS est de stocker l'ensemble des jobs dans celle-ci, 
-les trier dans un ordre particulier, 
+L'idée d'une LS est de stocker l'ensemble des jobs dans celle-ci,
+les trier dans un ordre particulier,
 avant de les affecter à une machine selon des règles définies.
 Le premier job de la liste étant affecté à la première machine disponible.
 
@@ -611,17 +693,17 @@ Graham propose \emph{Longest Processing Time (LPT) rule} \cite{graham1969bounds}
 % ---------------------
 \begin{algorithm}[H]
 \DontPrintSemicolon
-\KwData{instance de \problemGrahamP, avec m machines, n jobs et leur temps d'exécution}
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
 %\Begin{ %inutile ici et rajoute un nuero de ligne
 
 \BlankLine % Petit espace
-Trie les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
-d'exécution et ré-indexe l'ensemble de telle manière à obtenir:
+Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
+d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
 $P_1 \geq P_2 \geq \ldots \geq P_n$
 
 \BlankLine % Petit espace
-Parcours la liste, et affecte chaque job à la machine la moins
-chargée, à ce moment là.
+Parcourir la liste et affecter chaque job à la machine la moins
+chargée à ce moment là.
 % }
 \caption{LPT Rule\label{LPT}}
 \end{algorithm}
@@ -629,8 +711,8 @@ chargée, à ce moment là.
 \bigskip
 % Exemple
 % ---------------------
-Exemple
 
+\begin{example}
 Soit $P=\{13,10,7,6,6,5,3,2\}$, l'ensemble des $P_j$ déjà triés dans
 l'ordre décroissant à appliquer sur 4 machines parallèles identiques:
 
@@ -639,9 +721,8 @@ l'ordre décroissant à appliquer sur 4 machines parallèles identiques:
 \par}
 {\centering
 \par}
-Nous obtenons $C_4^{LPT}(J)=14$
-
-\bigskip
+Nous obtenons $C_4^{LPT}(J)=14$.
+\end{example}
 
 % Complexité
 % -------------------------------------------------------
@@ -667,6 +748,8 @@ Le ratio d'approximation	&	$\Gamma(LPT)\leq \dfrac{4}{3} - \dfrac{1}{3m}$
 \end{tabular}
 %pas de legende
 \end{flushleft}
+
+\lcc{précision complexité en temps}
 
 %\bigskip
 % -------------------------------------------------------
@@ -734,21 +817,19 @@ Soit une marge de $\dfrac{15}{12}$
 
 Le ratio d'approximation prévu pour $m=4$:
 
-$\dfrac{4}{3} - \dfrac{1}{3m}=\dfrac{16}{12} - \dfrac{1}{12}=\dfrac{15}{12}$
+\[
+  \dfrac{4}{3} - \dfrac{1}{3m}=\dfrac{16}{12} - \dfrac{1}{12}=\dfrac{15}{12}
+\]
 
 Ce cas représente donc un pire cas pour LPT.
 
 \bigskip
-\begin{definition1}{Job et machine critique}
-
+\begin{definition}{Job et machine critique}
 Le job critique (noté $J^\prime$) est le job qui détermine le
 makespan.
 
 La machine critique est la machine qui exécute le job critique.
-\end{definition1}
-
-
-\bigskip
+\end{definition}
 
 Croce \textit{et al.}
 \cite{della2018longest}, en examinant le comportement de LPT rule,
@@ -756,9 +837,7 @@ notamment au niveau du ratio d'approximation, constatent que celui-ci
 peut être réduit selon certaines configurations, ou instances du
 problème, et rédigent le théorème suivant:
 
-\bigskip
-
-\begin{theoreme1}
+\begin{theoreme}
   LPT a un rapport d'approximation non supérieur à
   $\dfrac{4}{3} - \dfrac{1}{3(m-1)}$ pour $m \geq 3$ et $n \neq 2m+1$.
 
@@ -766,7 +845,7 @@ problème, et rédigent le théorème suivant:
   $m \geq 2$ et uniquement dans le cas où $n=2m+1$, et la machine
   critique traite 3 jobs, tandis que les autres en traitent 2.
 
-\end{theoreme1}
+\end{theoreme}
 
 \lcc{Les définitions à l'extérieur des théorèmes.}
 
@@ -858,21 +937,20 @@ L'ensemble des n jobs $J = \{J_1, J_2, \ldots, J_n\}$, et de leurs temps de
 traitement $P_j \in P = \{P_1, P_2, ..., P_n\}$, peuvent être vus
 respectivement comme:
 \begin{itemize}
-\item un ensemble d'objets $T_j ~ \in ~ T = \{T_1, T_2, ..., T_n\}$
-\item leur taille $L(T_j)~ avec ~ 1 \le j \le n$
+\item un ensemble d'objets $T_j \in T = \{T_1, T_2, ..., T_n\}$
+\item leur taille $L(T_j)$ avec $1 \le j \le n$
 \end{itemize}
 Une taille maximale $C$ des bacs (ou boites) est donnée.
 \bigskip
 
-\begin{definition1}{Packing}
-
+\begin{definition}{Packing}
   Un packing, est une partition $P<P_1, P_2, ..., P_m>$ tel que
   $L(P_i) \leq C$ avec $1 \leq i\leq m$.
   Le but est de placer les objets $T_j$ dans des bacs $P_i$ de taille
   $C$, de manière à minimiser le nombre de bacs $m$.
-\end{definition1}
+\end{definition}
 
-le problème Bin-packing est NP-Complet \cite{Johnson1974WorstCasePB}. 
+le problème Bin-packing est NP-Complet \cite{Johnson1974WorstCasePB}.
 
 L'idée est d'utiliser le problème Bin-Packing à l'envers, pour
 approcher une solution au problème d'ordonnancement.
@@ -906,24 +984,32 @@ bacs.
 \bigskip
 
 
-L'idée de MULTIFIT est donc de proposer une valeur pour $C$, 
-faire tourner $FFD(T,C) $, 
-et réduire à chaque itération cette valeur de $C$ jusqu'à ce que le nombre $m$ de bacs renvoyé par $FFD(T,C) $, alors devenu insuffisant, augmente à $m+1$.
+L'idée de MULTIFIT est donc de proposer une valeur pour $C$, faire
+tourner $FFD(T,C) $, et réduire à chaque itération cette valeur de $C$
+jusqu'à ce que le nombre $m$ de bacs renvoyé par $FFD(T,C) $, alors
+devenu insuffisant, augmente à $m+1$.
 Cette valeur charnière de $C$ est $T_m^\star$, qui correspond au
 makespan minimum recherché, de l'ordonnancement de l'ensemble $T$ de
 jobs sur $m$ machines identiques parallèles.
-La difficulté, est de proposer une première valeur de $C$ pas trop éloignée de la valeur recherchée, afin de réduire au maximum le nombre d'itérations. 
+La difficulté, est de proposer une première valeur de $C$ pas trop
+éloignée de la valeur recherchée, afin de réduire au maximum le nombre
+d'itérations.
 \lp{deux mots pour dire comment est implémentée la recherche}
 \tdi{FCO: ok, fait}
 
-La méthode utilisée est une recherche dichotomique. 
-Après avoir défini les bornes 
-supérieure $C_u = \max\{\dfrac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \}$ et 
-inférieure $C_l = \max\{\dfrac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \}$ de départ, 
-FFD est exécuté avec le milieu $C_d = \frac{C_u + C_l}{2}$. 
-si $FFD(T,C_d)\le m$ alors la nouvelle fourchette de recherche devient $C_u = C_d$ et $C_l$, 
-sinon (si $FFD(T,C_d)> m$) alors la nouvelle fourchette devient  $C_u$ et $C_l = C_d$. 
-Un nombre d'itérations $k$ et donné à l'exécution de MULTIFIT, estimé en fonction de la taille du problème (n et m). Mais même pour un problèmes de grande taille, le résultat ne change plus après $7$ itérations. Il est donc inutile d'utiliser $k>7$.
+La méthode utilisée est une recherche dichotomique.
+Après avoir défini les bornes supérieure
+$C_u = \max\{\dfrac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \}$ et
+inférieure $C_l = \max\{\dfrac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \}$
+de départ, FFD est exécuté avec le milieu $C_d = \frac{C_u + C_l}{2}$.
+si $FFD(T,C_d)\le m$ alors la nouvelle fourchette de recherche devient
+$C_u = C_d$ et $C_l$, sinon (si $FFD(T,C_d)> m$) alors la nouvelle
+fourchette devient $C_u$ et $C_l = C_d$.
+Un nombre d'itérations $k$ et donné à l'exécution de MULTIFIT, estimé
+en fonction de la taille du problème (n et m).
+Mais même pour un problèmes de grande taille, le résultat ne change
+plus après $7$ itérations.
+Il est donc inutile d'utiliser $k>7$.
 
 {\centering
 \includegraphics[width=6.138cm,height=7.62cm]{Biblio_PCmax_Rendu_exMULTIFIT1.jpg}
@@ -961,7 +1047,7 @@ m$
 
 \caption{MULTIFIT\label{MULTIFIT}}
 \end{algorithm}
-\tdi{LP: $k$ fixé ? ou seuil entre deux iter ?}
+\lp{$k$ fixé ? ou seuil entre deux iter ?}
 \tdi{FCO: ok, fait}
 
 \bigskip
@@ -1006,7 +1092,7 @@ Généralement, MULTIFIT donne des résultats très satisfaisant avec $k = 7$
 % Présentaion
 % ---------------------
 Lee \textit{et al.}, \cite{lee1988multiprocessor} ont l'idée
-d'utiliser LPT (\ref{LPT}) pour réduire les bornes de départ 
+d'utiliser LPT (\ref{LPT}) pour réduire les bornes de départ
 et ainsi optimiser MULTIFIT (\ref{MULTIFIT}) dans un algorithme nommé COMBINE.
 
 \lp{développer/préciser un peu}
@@ -1014,18 +1100,30 @@ et ainsi optimiser MULTIFIT (\ref{MULTIFIT}) dans un algorithme nommé COMBINE.
 \bigskip
 soient
 \begin{align*}
-&la~moyenne~des~poids~des~jobs~par~processeur &A &= \sum_{i=1}^{n}(\dfrac{P_i}{m})\\
+&\textnormal{la moyenne des poids des jobs par processeur} &A &= \sum_{i=1}^{n}(\dfrac{P_i}{m})\\
 &et &M &= C_m^{lpt}(J) \\
 & &M^\star &= C_m^\star(J)
 \end{align*}
 
-COMBINE, améliore certains point de l'algorithme MULTIFIT en se basant sur les principes suivants :
+COMBINE, améliore certains point de l'algorithme MULTIFIT en se basant
+sur les principes suivants:
 \begin{itemize}
-\item Le résultat $M$ obtenu par LPT, est forcément supérieur ou égal à $M^\star$, soit $M>M^\star$. COMBINE utilise donc $M = C_m^{lpt}(J)$ comme borne supérieur $C_u$ de départ pour la recherche dichotomique utilisée par MULTIFIT. celle-ci est beaucoup plus proche du résultat optimal que la borne supérieure de départ $2\cdot A$ utilisé à l'origine par MULTIFIT.
-\item Si Le résultat $M$ obtenu par LPT est tel que $M \geq 1,5\cdot A$ alors $M=M^\star$. Il n'est donc pas nécessaire de poursuivre la recherche.
-\item Au lieu de prédéterminer un nombre d'itérations, COMBINE utilise une condition d'arrêt de la recherche dichotomique, en fonction de l'écart entre les deux bornes. COMBINE stope la recherche dès que $C_u - C_l \le \alpha \cdot A$. Les tests de COMBINE ont été effetués avec $\alpha = 0,005$  
+\item Le résultat $M$ obtenu par LPT, est forcément supérieur ou égal
+  à $M^\star$, soit $M>M^\star$.
+  COMBINE utilise donc $M = C_m^{lpt}(J)$ comme borne supérieur $C_u$
+  de départ pour la recherche dichotomique utilisée par MULTIFIT.
+  celle-ci est beaucoup plus proche du résultat optimal que la borne
+  supérieure de départ $2\cdot A$ utilisé à l'origine par MULTIFIT.
+\item Si Le résultat $M$ obtenu par LPT est tel que
+  $M \geq 1,5\cdot A$ alors $M=M^\star$.
+  Il n'est donc pas nécessaire de poursuivre la recherche.
+\item Au lieu de prédéterminer un nombre d'itérations, COMBINE utilise
+  une condition d'arrêt de la recherche dichotomique, en fonction de
+  l'écart entre les deux bornes.
+  COMBINE stope la recherche dès que $C_u - C_l \le \alpha \cdot A$.
+  Les tests de COMBINE ont été effetués avec $\alpha = 0,005$
 \end{itemize}
- 
+
 
 \bigskip
 \todo{FCO: Algo en anglais}
@@ -1226,7 +1324,7 @@ ainsi que le regroupement de ceux-ci en sous-ensembles.
 notamment pour l'instance suivante:
 % * pour ne pas numéroter. Juste besoin d'aligner
 \begin{align*}
-& Nombre~ de~ jobs &n &=2 \cdot m + 1			\\
+& \textnormal{Nombre de jobs} &n &=2 \cdot m + 1			\\
 & Avec &P_{2 \cdot m + 1} &\geq P_1 - P_m
 \end{align*}
 Où ils ont planifié d'abord, le job $2 \cdot m + 1$, puis un
@@ -1313,44 +1411,50 @@ Pour une machine donnée, la somme des temps est $\leq$ à $y$.
 
 \bigskip
 Où la valeur optimale de $y$ est $C_{\max}$
-et $x_{ij} =$
+et
+\[
+  x_{ij} =
+  \begin{cases}
+    1 \textnormal{ si le job $i$ est affecté à la machine $j$}\\
+    0 \textnormal{ sinon.}\\
+  \end{cases}
+\]
 
+Le programme linéaire est donc composé de
 \begin{itemize}
-\item 1 si le job $i$ est affecté à la machine $j$.
-\item 0 si le job $i$ n'est pas affecté à la machine $j$.
+\item $n \cdot m + 1$ variables (les variables $x_{ij}$ et la variable $y$)
+\item $n+m$ contraintes
 \end{itemize}
 
-\lcc{cases pour la définition}
+La zone F peut être définie ainsi:
+\[
+  F=\{ (x,y) : x \in B^{n \cdot m}, y \in \mathbb{R_+} : \sum_{j=1}^{m} x_{ij}=1 \forall i;
+y-\sum_{i=1}^{n} P_i \cdot x_{ij} \geq 0 \forall j \}
+\]
 
- \bigskip
- Le programme linéaire est donc composé de
- \begin{itemize}
- \item $n \cdot m + 1$ variables (les variables $x_{ij}$ et la variable $y$)
- \item $n+m$ contraintes
- \end{itemize}
+avec
+\[
+B=\begin{bmatrix}
+x_{11}& &x_{n1}\\
+& \ddots & \\
+x_{1m}& &x_{nm1}
+\end{bmatrix}.
+\]
 
-\bigskip
-La zone F peut être définie ainsi: \\
-$F=\{ (x,y) : x \in B^{n \cdot m}, y \in \mathbb{R_+} : \sum_{j=1}^{m} x_{ij}=1 ~ \forall i;
-y-\sum_{i=1}^{n} P_i \cdot x_{ij} \geq 0 \forall j \}$
+Le polytope $P$ relatif à $F$ est défini ainsi:
+\[
+  F=\{ (x,y) : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} : \sum_{j=1}^{m} x_{ij}=1 \forall i;
+  y-\sum_{i=1}^{n} P_i \cdot x_{ij} \geq 0 \forall j	\}
+\]
 
-avec $B=\begin{bmatrix}
-x_{11}&x_{\dots 1}&x_{n1}\\
-x_{1 \dots}& \rotatebox{-30}{\dots}&x_{n \dots}\\
-x_{1m}&x_{\dots m}&x_{nm1}
-\end{bmatrix}$
-
-\bigskip
-le polytope $P$, relatif à $F$ est défini ainsi: \\
-$F=\{ (x,y) : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} : \sum_{j=1}^{m} x_{ij}=1 \forall i;
-y-\sum_{i=1}^{n} P_i \cdot x_{ij} \geq 0 \forall j	\}$
-
-\bigskip
-il est possible de construire un ensemble fini d'\textbf{inégalités} \\
+Il est possible de construire un ensemble fini d'\textbf{inégalités} \\
 $Ax+Dy \leq \overline{b}$ telles que \\
 $\min \{y : (x,y) \in F \} = \min \{y : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} Ax+Dy \leq \underline{b}$ \\
 % \ensuremath{^\circ} pour le symbole °
-NB: une solution $(x \ensuremath{^\circ} , y\ensuremath{^\circ}) \in P$ doit être exclue (car n'est pas un vecteur entier) si $(x\ensuremath{^\circ}, y\ensuremath{^\circ}) \notin P $
+NB: une solution
+$(x \ensuremath{^\circ} , y\ensuremath{^\circ}) \in P$ doit être
+exclue (car n'est pas un vecteur entier) si
+$(x\ensuremath{^\circ}, y\ensuremath{^\circ}) \notin P $
 
 \bigskip
 Des \textbf{inégalités transitoires} peuvent être générées (nombre maxi de jobs par machine) \\
@@ -1385,7 +1489,7 @@ Si $LB$ coïncide avec $UB$ la solution optimale est trouvée Sinon le
 processus itératif démarre.
 
 \BlankLine
-À chaque itération un programme de relaxation linéaire est résolu.dans
+À chaque itération un programme de relaxation linéaire est résolu dans
 lequel $C_{\max}$ doit être égal à la borne inférieure actuelle
 ($LB$).
 Si la solution obtenue est entière (donc faisable), l'algorithme
@@ -1421,38 +1525,41 @@ minimisation, ou $(1-\epsilon$ pour un problème de maximisation, de
 l'optimal, en temps polynomial dépendant de $\epsilon$.
 
 
-\paragraph{PTAS (Hochbaum \textit{et al.})} 
+\paragraph{PTAS (Hochbaum \textit{et al.})}
 
-Hochbaum \textit{et al.} \cite{hochbaum1987using} proposent le premier PTAS adapté au problème 
-\problemGrahamP. Cette approche s'appuie aussi sur le problème semblable à \problemGrahamP, celui du bin packing et prend MULTIFIT (\ref{MULTIFIT}) comme réflexion de départ. 
-Le problèmebin-packing est posé différemment :
+Hochbaum \textit{et al.}\ \cite{hochbaum1987using} proposent le
+premier PTAS adapté au problème \problemGrahamP.
+Cette approche s'appuie aussi sur le problème semblable à
+\problemGrahamP, celui du bin packing et prend MULTIFIT
+(\ref{MULTIFIT}) comme réflexion de départ.
+Le problème bin-packing est posé différemment:
 
 Soient:
 \begin{itemize}
-\item un ensemble d'objets $T_j ~ \in ~ T = \{T_1, T_2, ..., T_n\}$
-\item leur taille $L(T_j)~ avec ~ 1 \le j \le n$ et \textbf{$0 \le L(T_j) \le 1$}
+\item un ensemble d'objets $T_j \in T = \{T_1, T_2, ..., T_n\}$
+\item leur taille $L(T_j)$ avec $1 \le j \le n$ et $0 \le L(T_j) \le 1$
 \end{itemize}
 Une taille maximale $C$ des bacs (ou boites).
 
-$T^{\star}(T)$, définit plus haut, correspond au bin-packing idéal, et donc, 
+$T^{\star}(T)$, définit plus haut, correspond au bin-packing idéal, et donc,
 au nombre minimum de bacs nécessaires pour l'organisation des pièces de l'ensemble $T$.
-Le but de l'algorithme proposé, et de construire un arrangement bin-packing, 
-qui utilise au plus $T^{\star}_m$ bacs, remplit 
-avec des pièces totalisant une taille au plus de $1+ \epsilon$, 
+Le but de l'algorithme proposé, et de construire un arrangement bin-packing,
+qui utilise au plus $T^{\star}_m$ bacs, remplit
+avec des pièces totalisant une taille au plus de $1+ \epsilon$,
 et ainsi donner une réponse au problème \problemGrahamP en temps polynomial.
 
-Le problème bin-packing et \problemGrahamP sont reliés de la façon suivante :
-$T^{\star}(\dfrac{J}{C}) \le m$ si et seulement si $C^{\star}_m(J) \le C$. 
+Le problème bin-packing et \problemGrahamP sont reliés de la façon suivante:
+$T^{\star}(\dfrac{J}{C}) \le m$ si et seulement si $C^{\star}_m(J) \le C$.
 Donc la taille minimale des bacs, $C^{\star}$ correspondant au délai idéal makespan, est telle que $T^{\star}(\dfrac{J}{C^{\star}}) \le m$.
 
-Nous sommes en présence de deux paramètres critiques :
+Nous sommes en présence de deux paramètres critiques:
 \begin{itemize}
-\item m le nombre de machines parallèles identiques;
-\item C la taille des bacs, et aussi, le makespan recherché.
+\item $m$ le nombre de machines parallèles identiques;
+\item $C$ la taille des bacs, et aussi, le makespan recherché.
 \end{itemize}
-Il y a donc Deux problèmes d'optimisation, 
-dont l'un consiste à fixer le premier paramètre pour optimiser l'autre, 
-et inversement, fixer l'autre pour optimiser le premier. 
+Il y a donc Deux problèmes d'optimisation,
+dont l'un consiste à fixer le premier paramètre pour optimiser l'autre,
+et inversement, fixer l'autre pour optimiser le premier.
 Ce qui constitue un problème de reconnaissance (ou décision) à deux paramètres $R(p_1, p_2)$.
 
 \bigskip
@@ -1464,10 +1571,10 @@ où $p_1$ est donné en paramètre et $p_2$ est optimisé.
 
 La valeur optimale est $OPT_P(J,\bar{p_1})$.
 
-soit l'algorithme d'approximation $\epsilon-$primal pour le problème primal, qui donne comme résultats :
+soit l'algorithme d'approximation $\epsilon-$primal pour le problème primal, qui donne comme résultats:
 
 \begin{itemize}
-\item poru le premier paramètre $p_1$ une valeur $\le \bar{p_1}$  
+\item poru le premier paramètre $p_1$ une valeur $\le \bar{p_1}$
 \item pour le deuxième paramètre $p_2$ une valeur $PRIMAL_{P,\epsilon} \le (1+\epsilon)\cdot OPT_P(J,\bar{p_1})$
 \end{itemize}
 \bigskip
@@ -1479,38 +1586,44 @@ où $p_2$ est donné en paramètre et $p_1$ est optimisé.
 
 La valeur optimale est $OPT_D(J,\bar{p_2})$.
 
-soit l'algorithme d'approximation $\epsilon-$dual pour le problème dual, qui donne comme résultats :
+soit l'algorithme d'approximation $\epsilon-$dual pour le problème dual, qui donne comme résultats:
 
 \begin{itemize}
-\item pour le premier paramètre $p_1$ une valeur $DUAL_{D,\epsilon}(J, \bar{p_2})\le OPT_D(J,\bar{p_2})$.  
+\item pour le premier paramètre $p_1$ une valeur $DUAL_{D,\epsilon}(J, \bar{p_2})\le OPT_D(J,\bar{p_2})$.
 \item pour le deuxième paramètre $p_2$ une valeur $ \le (1+\epsilon)\cdot \bar{p_2}$
 \end{itemize}
 
 \bigskip
 
-Trouver un algorithme $\epsilon-$primal pour le problème primal, 
+Trouver un algorithme $\epsilon-$primal pour le problème primal,
 peut être réduit à trouver un algorithme $\epsilon-$dual pour le problème dual.
 
-Trouver un algorithme d'approximation $\epsilon-$dual, peut être réduit à trouver un algorithme 
-d'approximation $\epsilon-$dual pour une instance du problème où la taille des pièces sont $> \epsilon$. 
+Trouver un algorithme d'approximation $\epsilon-$dual, peut être réduit à trouver un algorithme
+d'approximation $\epsilon-$dual pour une instance du problème où la taille des pièces sont $> \epsilon$.
 
-\bigskip
-L'intervalle de la taille des pièces (devenu $]\epsilon, 1]$) est découpé en S = $\lceil \dfrac{1}{\epsilon^2}\rceil$ sous intervalles de taille identique $]\epsilon = l_1, l_2], ]l_2, l_3], \ldots , ]l_S, L_{S+1}=1]$.
-Chaque bac $P_i$, sera rempli au maximum avec $\lfloor \dfrac{1}{\epsilon} \lfloor$ pièces.
+L'intervalle de la taille des pièces (devenu $]\epsilon, 1]$) est
+découpé en S = $\lceil \dfrac{1}{\epsilon^2}\rceil$ sous intervalles
+de taille identique
+$]\epsilon = l_1, l_2], ]l_2, l_3], \ldots , ]l_S, L_{S+1}=1]$.
+Chaque bac $P_i$, sera rempli au maximum avec
+$\lfloor \dfrac{1}{\epsilon} \lfloor$ pièces.
 
-Soit $x_k avec 1 \le k \le S$ le nombre de pièces d'un bac dont la taille $\in ]l_k, l_{k+1}]$. Chaque $x_k$ peut prendre une valeur dans l'intervalle $[0,\dfrac{1}{\epsilon•}[$
+Soit $x_k avec 1 \le k \le S$ le nombre de pièces d'un bac dont la
+taille $\in ]l_k, l_{k+1}]$.
+Chaque $x_k$ peut prendre une valeur dans l'intervalle
+$[0,\dfrac{1}{\epsilon•}[$
 
 La configuration d'un bac $P_i$ peut être donnée pas un s-tuple $(x_1, x_2, \ldots, x_S)$.
 Une configuration est dite faisable si $\sum_{k=1}^{S}x_k \cdot l_k \le 1$ avec $l_k$ de $]l_k, l_{k+1}]$.
 
-Nous avons donc 
+Nous avons donc
 
 $L(P_i) \le \sum_{k=1}^{S}x_k \cdot l_{k+1}$
- 
-$\le$ 
-$\sum_{k=1}^{S}x_k \cdot (l_k+\epsilon^2)$ 
 
-$=$ 
+$\le$
+$\sum_{k=1}^{S}x_k \cdot (l_k+\epsilon^2)$
+
+$=$
 $\sum_{k=1}^{S}x_k \cdot l_k  +  \epsilon^2 \cdot \sum_{k=1}^{S}x_k$
 
 $\le$
@@ -1518,17 +1631,19 @@ $1 + \epsilon^2 \cdot \dfrac{1}{\epsilon}$
 
 $=$
 $1 + \epsilon$
-  
+
 \bigskip
 Soit $b_k avec 1 \le k \le S$ le nombre de pièces utilisées dans tous les bacs dont la taille $\in ]l_k, l_{k+1}]$.
 
-Soit $Bins(b_1, b_2, \ldots, b_S)$ le nombre minimum de bacs nécessaires, lorsqu'il y a $b_k$ pièces de taille $l_k$, et considérons que le premier bac soit rempli, nous obtenons :
+Soit $Bins(b_1, b_2, \ldots, b_S)$ le nombre minimum de bacs
+nécessaires, lorsqu'il y a $b_k$ pièces de taille $l_k$, et
+considérons que le premier bac soit rempli, nous obtenons:
 
 $Bins(b_1, b_2, \ldots, b_S) = 1 + \underset{configuraion faisable (x_1, \ldots, x_S)}{min} Bins(b_1-x_1, b_2-x_2, \ldots, b_S-x_S)$
 
 Ce qui est résolu par programmation dynamique.
-  
-\todo{FCO : Algos $\epsilon$ $=$ $1/5$ et $1/6$}
+
+\todo{FCO: Algos $\epsilon$ $=$ $1/5$ et $1/6$}
 
 
 
@@ -1541,7 +1656,7 @@ Ce qui est résolu par programmation dynamique.
 
 \subsubsection{Partitionnement}
 \paragraph{LDM}
-\todo{FCO : Rappels, Lipshitz, fonction densité, loi triangulaire, loi beta}
+\todo{FCO: Rappels, Lipshitz, fonction densité, loi triangulaire, loi beta}
 
 \subsubsection{autre}
 \paragraph{algorithmes génétiques}
