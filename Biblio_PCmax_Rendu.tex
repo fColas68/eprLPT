@@ -98,7 +98,7 @@
 % -------------------------------------------------------
 % Information PDF généré
 % -------------------------------------------------------
-\hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=, pdfauthor=florianColas, pdfsubject=, pdfkeywords=}
+\hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=, pdfauthor=Florian Colas, pdfsubject=, pdfkeywords=}
 \usepackage[pdftex]{graphicx}
 \usepackage{subcaption}
 % -------------------------------------------------------
@@ -125,7 +125,7 @@
 % Utilisé par \maketitle
 % -------------------------------------------------------
 \title{Historique des travaux autour du problème $P||C_{\max}$}
-\author{florian colas}
+\author{Florian Colas}
 % \date{2020-05-01}
 \date{\today}
 
@@ -400,9 +400,9 @@ Superordinateur, cluster), des \textbf{systèmes de bases de données}
 certains cas, des \textbf{instruments spéciaux} (e.g le
 radio-télescope d'Arecibo).
 Les applications liées aux grilles sont diverses.
-On peut citer le web (la première grille), le \textit{"Cloud
-  computing"}, les web-services, les réseaux \textit{"peer-to-peer"},
-l'\textit{internet computing}, comme le projet SETI
+On peut citer le web (la première grille), le \emph{Cloud
+  computing}, les web-services, les réseaux \emph{peer-to-peer},
+l'\emph{internet computing}, comme le projet SETI
 (www.boinc-af.org/setihome.html).
 Ce projet consiste à rechercher des preuves possibles de transmissions
 radio provenant d'intelligences, autres que terrestres, à l'aide de
@@ -640,7 +640,7 @@ Soient les données du problème
 \lp{définir heuristic ?}
 \tdi{FCO: ok, fait}
 
-Le but d'une heuristique (du grec \textit{heuriskein}: trouver) est
+Le but d'une heuristique (du grec \emph{heuriskein}: trouver) est
 de trouver une solution respectant les contraintes du problème et de
 bonne qualité selon le critère d'optimisation considéré.
 La solution ne sera pas forcément optimale, mais une heuristique
@@ -689,7 +689,7 @@ liste, à la première machine prête}
 % -------------------------------------------------------
 % LPT Rule
 % -------------------------------------------------------
-\paragraph{LPT rule (Graham \textit{et al.}, 1969)}
+\paragraph{LPT rule (Graham \emph{et al.}, 1969)}
 
 % Présentaion
 % ---------------------
@@ -763,7 +763,7 @@ Le ratio d'approximation	&	$\Gamma(LPT)\leq \dfrac{4}{3} - \dfrac{1}{3m}$
 % LPT-REV
 % -------------------------------------------------------
 
-\paragraph{LPT-REV (Croce \textit{et al.}, 2018)}
+\paragraph{LPT-REV (Croce \emph{et al.}, 2018)}
 
 % Présentaion
 % ---------------------
@@ -838,7 +838,7 @@ makespan.
 La machine critique est la machine qui exécute le job critique.
 \end{definition}
 
-Croce \textit{et al.}
+Croce \emph{et al.}
 \cite{della2018longest}, en examinant le comportement de LPT rule,
 notamment au niveau du ratio d'approximation, constatent que celui-ci
 peut être réduit selon certaines configurations, ou instances du
@@ -974,7 +974,7 @@ approcher une solution au problème d'ordonnancement.
 
 % Présentaion
 % ---------------------
-Coffman \textit{et al.} \cite{coffman1978application} se sont
+Coffman \emph{et al.} \cite{coffman1978application} se sont
 intéressés à l'algorithme FFD (First Fit Decreasing), un outil de
 résolution du problème de Bin-Packing, pour l'adapter au problème
 \problemGrahamP.
@@ -1098,7 +1098,7 @@ Généralement, MULTIFIT donne des résultats très satisfaisant avec $k = 7$
 
 % Présentaion
 % ---------------------
-Lee \textit{et al.}, \cite{lee1988multiprocessor} ont l'idée
+Lee \emph{et al.}, \cite{lee1988multiprocessor} ont l'idée
 d'utiliser LPT (\ref{LPT}) pour réduire les bornes de départ
 et ainsi optimiser MULTIFIT (\ref{MULTIFIT}) dans un algorithme nommé COMBINE.
 
@@ -1215,7 +1215,7 @@ Mais COMBINE a déjà exécuté une fois LPT ($k=7$).
 
 % Présentaion
 % ---------------------
-Gupta \textit{et al.}, \cite{gupta2001listfit}, ont aussi l'idée
+Gupta \emph{et al.}, \cite{gupta2001listfit}, ont aussi l'idée
 d'utiliser MULTIFIT (\ref{MULTIFIT}), afin de réaliser l'olgorithme
 LISTFIT.
 
@@ -1316,11 +1316,11 @@ avec k le nombre d'itérations pour la recherche dichotomique.
 % -------------------------------------------------------
 % SLACK
 % -------------------------------------------------------
-\paragraph{SLACK (Croce \textit{et al.}, 2018)}
+\paragraph{SLACK (Croce \emph{et al.}, 2018)}
 
 % Présentaion
 % ---------------------
-Croce \textit{et al.} \cite{della2018longest}, en effectuant la preuve
+Croce \emph{et al.} \cite{della2018longest}, en effectuant la preuve
 d'une borne d'approximation pour le
 développement de LPT-Rev (\ref{LPTRev}), ont mis en évidence
 l'importance des différences de temps entre les jobs,
@@ -1514,7 +1514,7 @@ augmentée d'une unité et le processus itératif redémarre.
 
 \BlankLine
 Par contre, si les inégalités ne peuvent pas être générées, un
-algorithme \textit{Branch\&Bound} prend le relais pour résoudre le
+algorithme \emph{Branch\&Bound} prend le relais pour résoudre le
 problème.
 
 \caption{PA\label{PA}}
@@ -1532,9 +1532,9 @@ minimisation, ou $(1-\epsilon$ pour un problème de maximisation, de
 l'optimal, en temps polynomial dépendant de $\epsilon$.
 
 
-\paragraph{PTAS (Hochbaum \textit{et al.})}
+\paragraph{PTAS (Hochbaum \emph{et al.})}
 
-Hochbaum \textit{et al.}\ \cite{hochbaum1987using} proposent le
+Hochbaum \emph{et al.}\ \cite{hochbaum1987using} proposent le
 premier PTAS adapté au problème \problemGrahamP.
 Cette approche s'appuie aussi sur le problème semblable à
 \problemGrahamP, celui du bin packing et prend MULTIFIT
@@ -1615,7 +1615,7 @@ $]\epsilon = l_1, l_2], ]l_2, l_3], \ldots , ]l_S, L_{S+1}=1]$.
 Chaque bac $P_i$, sera rempli au maximum avec
 $\lfloor \dfrac{1}{\epsilon} \lfloor$ pièces.
 
-Soit $x_k avec 1 \le k \le S$ le nombre de pièces d'un bac dont la
+Soit $x_k$ avec $1 \le k \le S$ le nombre de pièces d'un bac dont la
 taille $\in ]l_k, l_{k+1}]$.
 Chaque $x_k$ peut prendre une valeur dans l'intervalle
 $[0,\dfrac{1}{\epsilon•}[$
@@ -1640,13 +1640,13 @@ $=$
 $1 + \epsilon$
 
 \bigskip
-Soit $b_k avec 1 \le k \le S$ le nombre de pièces utilisées dans tous les bacs dont la taille $\in ]l_k, l_{k+1}]$.
+Soit $b_k$ avec $1 \le k \le S$ le nombre de pièces utilisées dans tous les bacs dont la taille $\in ]l_k, l_{k+1}]$.
 
 Soit $Bins(b_1, b_2, \ldots, b_S)$ le nombre minimum de bacs
 nécessaires, lorsqu'il y a $b_k$ pièces de taille $l_k$, et
 considérons que le premier bac soit rempli, nous obtenons:
 
-$Bins(b_1, b_2, \ldots, b_S) = 1 + \underset{configuraion faisable (x_1, \ldots, x_S)}{min} Bins(b_1-x_1, b_2-x_2, \ldots, b_S-x_S)$
+$Bins(b_1, b_2, \ldots, b_S) = 1 + \underset{configuraion faisable (x_1, \ldots, x_S)}{\min} Bins(b_1-x_1, b_2-x_2, \ldots, b_S-x_S)$
 
 Ce qui est résolu par programmation dynamique.
 
@@ -1669,7 +1669,7 @@ Ce problème est NP-difficile.
 % \todo{FCO: Rappels, Lipshitz, fonction densité, triangulaire pas pertinent pour l'instant}
 
 
-Karmarkar \textit{et al.} \cite{karmarkar1982differencing} posent le problème de partition d'ensemble suivant :
+Karmarkar \emph{et al.} \cite{karmarkar1982differencing} posent le problème de partition d'ensemble suivant :
 Soit un ensemble fini $P=\{P_1, P_2, \ldots, P_n\}$ de 
 n nombres réels 
 à partitionner dans m sous ensembles $M_1, M_2, \ldots, M_m$ 
@@ -1697,7 +1697,7 @@ Puis, par un retour sur trace (backtracking), les partitions $M_1$ et $M_2$ sont
 
 % Algorithme
 % ---------------------
-\begin{algorithm}[H]
+\begin{algorithm}
 \DontPrintSemicolon
 \KwData{un ensemble $P = \{P_1, P_2, \ldots, P_n\}$ de n nombres positifs réels (correspondant aux temps d'exécution de n job indépendants)}
 
@@ -1718,7 +1718,7 @@ Puis, par un retour sur trace (backtracking), les partitions $M_1$ et $M_2$ sont
 
 % Exemple et figures
 % ---------------------
-\begin{figure}[h!]
+\begin{figure}
 {\centering}
 % ALGO à gauche
 	\begin{subfigure}[b]{0.45\linewidth}
@@ -1733,20 +1733,18 @@ Puis, par un retour sur trace (backtracking), les partitions $M_1$ et $M_2$ sont
     {Biblio_PCmax_Rendu_exLDM_2_2m.jpg}
     \caption{Partitionnement (retour sur trace)}
   	\end{subfigure}
-%CAPTION/FIGURE	
+%CAPTION/FIGURE
   	\caption{LDM, avec $m=2$.}
   	\label{fig:LDM2M}
 \end{figure}
 
  \begin{example}
 Soit $P=\{3,6,13,20,30,40,73\}$, l'ensemble des $P_j$.
- 
-40 et 73 sont les nombres les plus grands. On les remplace dans P pas $73 - 40 = 33$, pour donner $P=\{3,6,13,20,30,33\}$ et ainsi de suite.
-La valeur restante est P= {1}, ce qui est le résultat de l'opération.
-Par un retour sur trace, nous obtenons le partitionnement suivant :
-$M_1 = \{ 6,13,73 \}$ et  $M_2 = \{ 3,20,30,40 \}$ 
 
-figure \ref{fig:LDM2M}
+40 et 73 sont les nombres les plus grands. On les remplace dans $P$ pas $73 - 40 = 33$, pour donner $P=\{3,6,13,20,30,33\}$ et ainsi de suite.
+La valeur restante est $P= \{1\}$, ce qui est le résultat de l'opération.
+Par un retour sur trace, nous obtenons le partitionnement suivant:
+$M_1 = \{ 6,13,73 \}$ et  $M_2 = \{ 3,20,30,40 \}$ (voir Figure \ref{fig:LDM2M}).
 
 \end{example}
 
@@ -1771,16 +1769,16 @@ figure \ref{fig:LDM2M}
 %alors la pente maximale (en valeur absolue) du graphe représentant cette fonction 
 %est inférieure à un nombre appelé Constante de Lipschitz.
 %------------------------------------------------------------------
-LDM effectue tout d'abord, une opération de préparation de l'instance du problème. Chaque élément de $P = \{ P_1, P_2, \ldots, P_n \}$ est converti en m-tuple. les m-1 premiers composants sont vides, et le dernier (position m) est égal au nombre lui-même. Ainsi chaque $\underline{P_i} = \{P_{i 1}=0,P_{i 2}=0, \ldots, P_{i m}=\{P_i\} \}$
+LDM effectue tout d'abord, une opération de préparation de l'instance du problème. Chaque élément de $P = \{ P_1, P_2, \ldots, P_n \}$ est converti en $m$-tuple. Les $m-1$ premiers composants sont vides, et le dernier (position m) est égal au nombre lui-même. Ainsi chaque $\underline{P_i} = \{P_{i 1}=0,P_{i 2}=0, \ldots, P_{i m}=\{P_i\} \}$
 
-Puis, n-1 itérations des opérations suivantes sont effectuées :
+Puis, $n-1$ itérations des opérations suivantes sont effectuées:
 
 
 Soit $d(\underline{P_i})$ la différence entre la valeur maximale et la valeur minimale des composants du sous-ensemble $\underline{P_i}$.
 
-Extraction de $\underline{P_a}$ et $\underline{P_b}$ les deux m-tuples qui ont la plus grande différence $d(\underline{P_a})$ et $d(\underline{P_b})$. Ces deux solutions partielles, sont combinées pour former une nouvelle solution partielle $\underline{P_{ab}}$, en joignant le premier plus petit élément (ou l'élément vide) de $\underline{P_a}$ avec le premier élément le plus grand de $\underline{P_b}$, puis le deuxième élément le plus petit de $\underline{P_a}$ avec le deuxième élément le plus grand de $\underline{P_b}$ et ainsi de suite.... la nouvelle solution partielle $\underline{P_{ab}}$, remplace $\underline{P_a}$ et $\underline{P_b}$ dans l'instance.
+Extraction de $\underline{P_a}$ et $\underline{P_b}$ les deux m-tuples qui ont la plus grande différence $d(\underline{P_a})$ et $d(\underline{P_b})$. Ces deux solutions partielles, sont combinées pour former une nouvelle solution partielle $\underline{P_{ab}}$, en joignant le premier plus petit élément (ou l'élément vide) de $\underline{P_a}$ avec le premier élément le plus grand de $\underline{P_b}$, puis le deuxième élément le plus petit de $\underline{P_a}$ avec le deuxième élément le plus grand de $\underline{P_b}$ et ainsi de suite\ldots la nouvelle solution partielle $\underline{P_{ab}}$, remplace $\underline{P_a}$ et $\underline{P_b}$ dans l'instance.
 
-Le résultat du partitionnement est donné après n-1 itérations.
+Le résultat du partitionnement est donné après $n-1$ itérations.
 
 
 %exemple
