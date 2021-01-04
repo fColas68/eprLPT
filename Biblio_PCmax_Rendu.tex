@@ -19,7 +19,8 @@
 % Vu dans un forum : utiliser plutôt frenchb, french est obsolete
 \usepackage[T1]{fontenc}
 \usepackage[english,frenchb]{babel}
-
+% Pouvoir ecrire sur plusieurs colonnes
+\usepackage{multicol}
 % -------------------------------------------------------
 % Trouvé dans un forum a voir plus tard
 % utile ou pas
@@ -82,6 +83,12 @@
 % vlined		: Regroupement des bloc d'instructions par ligne verticales
 % -------------------------------------------------------
 \usepackage[linesnumbered, ruled, vlined]{algorithm2e}
+
+% Commandes en français:
+\SetKwInput{KwRes}{R\'esultat}%
+\SetKwIF{Si}{SinonSi}{Sinon}{si}{alors}{sinon si}{sinon}{fin si}%
+\SetKwFor{Tq}{tant que}{faire}{fin tq}%
+
 \SetKwProg{Init}{init}{}{}
 % mettre les commentaire des algos en bleu
 \usepackage{xcolor}
@@ -93,14 +100,14 @@
 % -------------------------------------------------------
 \hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=, pdfauthor=florianColas, pdfsubject=, pdfkeywords=}
 \usepackage[pdftex]{graphicx}
-
+\usepackage{subcaption}
 % -------------------------------------------------------
 % MACRO
 % -------------------------------------------------------
 % Pm||Cmax
 \newcommand\problemGrahamPm{$P_m||C_{\max}$\xspace}
 % P2||Cmax
-\newcommand\problemGrahamPII{$P_2||C_{\max}$\xpsace}	%apparemment ne supporte pas les chiffres.
+\newcommand\problemGrahamPII{$P_2||C_{\max}$\xspace}	%apparemment ne supporte pas les chiffres.
 % P||Cmax
 \newcommand\problemGrahamP{$P||C_{\max}$\xspace}
 
@@ -1141,15 +1148,15 @@ M $\leftarrow C_m^{lpt}(J)$
 
 \BlankLine % Petit espace
 
-\If {$M \geq 1,5 \cdot A$}
+\Si {$M \geq 1,5 \cdot A$}
  {
  	$M^\star = M$ \;
  }
-\Else
+\Sinon
  {
 	$C_u \leftarrow M$					\;
 	$C_l \leftarrow \max \{(\dfrac{M}{\dfrac{4}{3}-\dfrac{1}{3 \cdot m}}),P1,1 \}$	\;
-	\While {$C_u - C_l > \alpha \cdot A$}
+	\Tq {$C_u - C_l > \alpha \cdot A$}
 	 {
 	 appliquer MULTIFIT \;
 
@@ -1647,16 +1654,246 @@ Ce qui est résolu par programmation dynamique.
 
 
 
-
-
 \bigskip
 
 
 \subsection{Autres approches}
 
-\subsubsection{Partitionnement}
+\subsubsection{Basé partition}
+Le problème \problemGrahamP peut être vu comme le problème de partition ou partitionnement de nombres (Npp). 
+En effet, ce problème consiste à partitionner un ensemble de n nombres dans m sous-ensembles, 
+tout en minimisant la somme des nombres de chaque sous ensembles.
+Ce problème est NP-difficile.  
+
 \paragraph{LDM}
-\todo{FCO: Rappels, Lipshitz, fonction densité, loi triangulaire, loi beta}
+% \todo{FCO: Rappels, Lipshitz, fonction densité, triangulaire pas pertinent pour l'instant}
+
+
+Karmarkar \textit{et al.} \cite{karmarkar1982differencing} posent le problème de partition d'ensemble suivant :
+Soit un ensemble fini $P=\{P_1, P_2, \ldots, P_n\}$ de 
+n nombres réels 
+à partitionner dans m sous ensembles $M_1, M_2, \ldots, M_m$ 
+de manière à minimiser 
+$D(M_1, M_2, \ldots, M_m) = max_i \left\{ \sum_{P_j \in M_i}P_j \right\} - min_i \left\{ \sum_{P_j \in M_i}P_j \right\}$  
+
+Le principe de l'algorithme consiste à remplacer les deux plus grands nombres de l'ensemble de n éléments de départ 
+(les plus importants, ou \textbf{Largest}), 
+par leur différence 
+(opération appelée Differentiation, ou \textbf{Differencing}), 
+et ainsi donner un nouvel ensemble de $n-1$ éléments. 
+D'où le nom LDM, ou Largest Differencing Methd.
+
+
+La réflexion est tout d'abord faite sur 2 sous-ensembles ( $M_1$ et $M_2$), pour être généralisée à m sous-ensembles.
+
+\begin{itemize}
+\item cas de $m=2$, deux sous-ensembles $M_1$ et $M_2$.
+
+L'algorithme prend les deux nombres, 
+et les remplace par leur différence., Et ainsi de suite jusqu'à ce qu'il n'en reste plus qu'un. le dernier nombre correspond à la différence recherchée $D(M_1, M_2)$.
+Puis, par un retour sur trace (backtracking), les partitions $M_1$ et $M_2$ sont créées.
+
+\bigskip
+
+% Algorithme
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\KwData{un ensemble $P = \{P_1, P_2, \ldots, P_n\}$ de n nombres positifs réels (correspondant aux temps d'exécution de n job indépendants)}
+
+
+\BlankLine % Petit espace
+\Tq { $\lvert P \rvert > 1$ }
+{
+	Prendre les 2 plus grands nombres $a,b \in P$  \;
+	$P \leftarrow P - \{a, b\} + \{ \lvert a-b \rvert \}$\;
+	
+} \tcp{on arrête lorsqu'il ne reste plus qu'un seul élément dans P}
+
+\caption{LDM (m=2)\label{LPT}}
+\end{algorithm}
+
+
+\bigskip
+
+% Exemple et figures
+% ---------------------
+\begin{figure}[h!]
+{\centering}
+% ALGO à gauche
+	\begin{subfigure}[b]{0.45\linewidth}
+    \includegraphics[width=\linewidth]
+    {Biblio_PCmax_Rendu_exLDM_1_2m.jpg}
+    \caption{Différentiation}
+  	\end{subfigure}
+\hfill% sinon, en fin de page, et pas sur la même ligne
+% Backtracking à droite
+	\begin{subfigure}[b]{0.45\linewidth}
+    \includegraphics[width=\linewidth]
+    {Biblio_PCmax_Rendu_exLDM_2_2m.jpg}
+    \caption{Partitionnement (retour sur trace)}
+  	\end{subfigure}
+%CAPTION/FIGURE	
+  	\caption{LDM, avec $m=2$.}
+  	\label{fig:LDM2M}
+\end{figure}
+
+ \begin{example}
+Soit $P=\{3,6,13,20,30,40,73\}$, l'ensemble des $P_j$.
+ 
+40 et 73 sont les nombres les plus grands. On les remplace dans P pas $73 - 40 = 33$, pour donner $P=\{3,6,13,20,30,33\}$ et ainsi de suite.
+La valeur restante est P= {1}, ce qui est le résultat de l'opération.
+Par un retour sur trace, nous obtenons le partitionnement suivant :
+$M_1 = \{ 6,13,73 \}$ et  $M_2 = \{ 3,20,30,40 \}$ 
+
+figure \ref{fig:LDM2M}
+
+\end{example}
+
+\bigskip
+
+\item cas de $m>2$, m sous-ensembles $M_1,M_2, \ldots, M_m $.
+
+% PAS PERTINENT --------------------------------------------------
+%Quelques rappels :
+%
+%Fonction densité :
+%S'applique aux variables aléatoires continues (réelles), 
+% pour lesquelles la probabilité ($\mathbb{P}$) d'appartenir à un domaine 
+%($[a, b]$)  
+%se calcule à l'aide d'une intégrale sur le domaine. 
+%La fonction à intégrer ( $f(x)$ ) est la fonction de densité. 
+%$\mathbb{P}(a \le X \le b) =  \int_{a}^b f(x)dx$.
+%
+%Condition de Lipschitz:
+%Va déterminer la "douceur" d'une fonction. 
+%Si une fonction répond à la condition de Lipschitz, 
+%alors la pente maximale (en valeur absolue) du graphe représentant cette fonction 
+%est inférieure à un nombre appelé Constante de Lipschitz.
+%------------------------------------------------------------------
+LDM effectue tout d'abord, une opération de préparation de l'instance du problème. Chaque élément de $P = \{ P_1, P_2, \ldots, P_n \}$ est converti en m-tuple. les m-1 premiers composants sont vides, et le dernier (position m) est égal au nombre lui-même. Ainsi chaque $\underline{P_i} = \{P_{i 1}=0,P_{i 2}=0, \ldots, P_{i m}=\{P_i\} \}$
+
+Puis, n-1 itérations des opérations suivantes sont effectuées :
+
+
+Soit $d(\underline{P_i})$ la différence entre la valeur maximale et la valeur minimale des composants du sous-ensemble $\underline{P_i}$.
+
+Extraction de $\underline{P_a}$ et $\underline{P_b}$ les deux m-tuples qui ont la plus grande différence $d(\underline{P_a})$ et $d(\underline{P_b})$. Ces deux solutions partielles, sont combinées pour former une nouvelle solution partielle $\underline{P_{ab}}$, en joignant le premier plus petit élément (ou l'élément vide) de $\underline{P_a}$ avec le premier élément le plus grand de $\underline{P_b}$, puis le deuxième élément le plus petit de $\underline{P_a}$ avec le deuxième élément le plus grand de $\underline{P_b}$ et ainsi de suite.... la nouvelle solution partielle $\underline{P_{ab}}$, remplace $\underline{P_a}$ et $\underline{P_b}$ dans l'instance.
+
+Le résultat du partitionnement est donné après n-1 itérations.
+
+
+%exemple
+% ---------------------
+\begin{example}
+
+Soit $P=\{1,3,3,4,4,5,5,5\}$\\
+nombre de machines $m=3$\\
+\textbf{Création des m-tuples}:\\
+\begin{multicols}{3}
+$\underline{P_{1}} = \{,,1\}$\\
+$\underline{P_{2}} = \{,,3\}$\\
+$\underline{P_{3}} = \{,,3\}$\\
+$\underline{P_{4}} = \{,,4\}$\\
+$\underline{P_{5}} = \{,,4\}$\\
+$\underline{P_{6}} = \{,,5\}$\\
+$\underline{P_{7}} = \{,,5\}$\\
+$\underline{P_{8}} = \{,,5\}$\\
+\end{multicols}
+
+\textbf{Itération 1}:\\
+les tuples qui ont la différence la plus grande sont 
+$\underline{P_{8}}$  et $\underline{P_{7}}$. 
+on combine $\underline{P_{8}}$  et $\underline{P_{7}}$ pour créer un $\underline{P_{78}}$. Le premier plus petit élément de $\underline{P_{8}}$ (élément vide) est joint par le premier plus grand élément de $\underline{P_{8}}$ (5) pour donner  $\underline{P_{78}} = \{,5,5\}$. $d(\underline{P_{78}}) = 5-0 = 5$.\\
+La nouvelle instance devient :\\
+\begin{multicols}{3}
+$\underline{P_{1}} = \{,,1\}$\\
+$\underline{P_{2}} = \{,,3\}$\\
+$\underline{P_{3}} = \{,,3\}$\\
+$\underline{P_{4}} = \{,,4\}$\\
+$\underline{P_{5}} = \{,,4\}$\\
+$\underline{P_{6}} = \{,,5\}$\\
+$\underline{P_{78}} = \{,5,5\}=5$\\
+\end{multicols}
+
+\textbf{Itération 2}:\\
+On conbine $\underline{P_{6}}$ avec $\underline{P_{78}}$ pour donner $\underline{P_{678}} = \{5,5,5\}$. $d(\underline{P_{678}}) = 5-5 = 0$.\\
+La nouvelle instance devient :\\
+\begin{multicols}{3}
+$\underline{P_{1}} = \{,,1\}$\\
+$\underline{P_{2}} = \{,,3\}$\\
+$\underline{P_{3}} = \{,,3\}$\\
+$\underline{P_{4}} = \{,,4\}$\\
+$\underline{P_{5}} = \{,,4\}$\\
+$\underline{P_{678}} = \{5,5,5\}=0$\\
+\end{multicols}
+
+\textbf{Itération 3}:\\
+les tuples qui ont la différence la plus grande sont 
+$\underline{P_{5}}$  et $\underline{P_{4}}$. 
+on les combine pour créer un $\underline{P_{45}}$. Le premier plus petit élément de $\underline{P_{5}}$ (élément vide) est joint par le premier plus grand élément de $\underline{P_{4}}$ (4) pour donner  $\underline{P_{45}} = \{,4,4\}$. $d(\underline{P_{45}}) = 4-0 = 4$.\\
+La nouvelle instance devient :\\
+\begin{multicols}{3}
+$\underline{P_{1}} = \{,,1\}$\\
+$\underline{P_{2}} = \{,,3\}$\\
+$\underline{P_{3}} = \{,,3\}$\\
+$\underline{P_{45}} = \{,4,4\}=4$\\
+$\underline{P_{678}} = \{5,5,5\}=0$\\
+\end{multicols}
+
+\textbf{Itération 4}:\\
+les tuples qui ont la différence la plus grande sont 
+$\underline{P_{45}}$  et $\underline{P_{3}}$. 
+on les combine pour créer un $\underline{P_{345}}$. Le premier plus petit élément de $\underline{P_{45}}$ (élément vide) est joint par le premier plus grand élément de $\underline{P_{3}}$ (3) pour donner  $\underline{P_{345}} = \{3,4,4\}$. $d(\underline{P_{345}}) = 4-3 = 1$.\\
+La nouvelle instance devient :\\
+\begin{multicols}{3}
+$\underline{P_{1}} = \{,,1\}$\\
+$\underline{P_{2}} = \{,,3\}$\\
+$\underline{P_{345}} = \{3,4,4\}=1$\\
+$\underline{P_{678}} = \{5,5,5\}=0$\\
+\end{multicols}
+
+\textbf{Itération 5}:\\
+les tuples qui ont la différence la plus grande sont 
+$\underline{P_{345}}$  et $\underline{P_{2}}$. 
+on les combine pour créer un $\underline{P_{2345}}$. Le premier plus petit élément de $\underline{P_{345}}$ (3) est joint par le premier plus grand élément de $\underline{P_{2}}$ (3) pour donner  $\underline{P_{2345}} = \{(3,3),4,4\}$. La première association, vient d'être créée. elle a pour valeur 6. 
+$d(\underline{P_{2345}}) = (3+3)-4 = 6-4=2$.\\
+La nouvelle instance devient :\\
+\begin{multicols}{2}
+$\underline{P_{1}} = \{,,1\}$\\
+$\underline{P_{2345}} = \{(3,3),4,4\}=2$\\
+$\underline{P_{678}} = \{5,5,5\}=0$\\
+\end{multicols}
+
+\textbf{Itération 6}:\\
+les tuples qui ont la différence la plus grande sont 
+$\underline{P_{2345}}$  et $\underline{P_{1}}$. 
+on les combine pour créer un $\underline{P_{2345}}$. Le premier plus petit élément de $\underline{P_{2345}}$ (4) est joint par le premier plus grand élément de $\underline{P_{2}}$ (1) pour donner  $\underline{P_{12345}} = \{(3,3),(1,4),4\}$.  
+$d(\underline{P_{12345}}) = (3+3)-4 = 6-4=2$.\\
+La nouvelle instance devient :\\
+$\underline{P_{12345}} = \{(3,3),(1,4),4\}=2$\\
+$\underline{P_{678}} = \{5,5,5\}=0$\\
+
+\textbf{Itération 6}:\\
+Reste à combiner $\underline{P_{12345}}$ et $\underline{P_{678}} = \{5,5,5\}=0$\\
+Le premier plus petit élément de $\underline{P_{12345}}$ (4) est joint avec le premier plus grand de  $\underline{P_{678}}$ (5) et ainsi de suite... pour créer le résultat final \\
+$\underline{P_{LDM}}= \{(3,3,5),(1,4,5),(4,5)\}$.\\
+ 
+Nous avons donc un makespan $C_m^{LDM}(P) = 11 $ \\
+Alors que $C_m^{\star}(P) = 10$ avec $\underline{P^{\star}}= \{(5,5),(1,4,5),(4,3,3)\}$.
+\end{example}
+
+
+
+  
+
+
+
+    
+
+\end{itemize}
+ 
+
 
 \subsubsection{autre}
 \paragraph{algorithmes génétiques}
