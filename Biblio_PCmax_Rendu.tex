@@ -483,7 +483,7 @@ total de traitement de tous les jobs, i.e minimiser le makespan.
 
 Ces diverses possibilités définissent divers problèmes
 d'ordonnancements différents, recensés et classifiés
-\ par Graham et al. [1], qui introduit la notation trois-champs $\alpha
+\ par Graham \emph{et al.} [1], qui introduit la notation trois-champs $\alpha
 ${\textbar}$\beta ${\textbar}$\gamma $ .
 
 \bigskip
@@ -973,6 +973,13 @@ Ratio d'approximation:	&	$\Gamma(LPT-REV)\leq \dfrac{4}{3} - \dfrac{1}{3(m-1)}$
 \end{flushleft}
 \end{theoreme}
 
+\subsubsection{D'autres algorithmes}
+Il existe d'autres propositions basée LS, telles que :
+
+AP de mokotoff \emph{et al.} \cite{mokotoff2004exact}
+ 
+
+
 \subsection{Basé Bin-Packing}
 
 Le problème Bin-packing, est semblable au problème \problemGrahamP.
@@ -1335,6 +1342,13 @@ Ratio \cite{gupta2001listfit} & $\Gamma(LISTFIT) \leq \dfrac{13}{12} + 2^{-k}$
 \end{flushleft}
 avec k le nombre d'itérations pour la recherche dichotomique.
 \end{theoreme}
+
+\subsubsection{D'autres algorithmes}
+Il existe d'autres propositions telles que :
+
+3-phase de França \emph{et al.} \cite{francca1994composite}
+
+HI-Pcmax de Alvim \emph{et al.} \cite{alvim2004hybrid}
 
 
 \subsection{Approche gloutonne}
@@ -1857,9 +1871,12 @@ avec k le nombre ...
 \tdi{FCO: Trouver k !}
 
 
+\subsubsection{d'autres algorithmes}
+Il existe d'autres PTAS, tels que :
 
+PTAS GPU-DP de Ghalami \emph{et al.} \cite{li2018gpu} optimisé pour l'exécution en GPU.
 
-
+PTAS DP de Ghalami \emph{et al.} \cite{ghalami2019scheduling}
 
 
 \section{Autres approches}
@@ -2086,13 +2103,21 @@ Alors que $C_m^{\star}(P) = 10$ avec $\underline{P^{\star}}= \{(5,5),(1,4,5),(4,
 \end{example}
 
 \end{itemize}
+
+\subsubsection{d'autres algorithmes}
+D'autres algorithme basés sur le partitionnement de nombres :
+
+MPS, de Paletta et al \cite{paletta2007new}
+
+SPS, de Chiaselotti \emph{et al.} \cite{chiaselotti2010minimizing}
+
  
 \subsection{autre}
 % \subsubsection{algorithmes génétiques}
 % \paragraph{algorithmes à réseaux de neurones}
-D'autres pistes sont explorées pour répondre au problème \problemGrahamP, comme l'algorithmique génétique, l'utilisation de réseaux de neurones ou de méta-heuristiques. Mais il s'avère que ces techniques sont très coûteuses en temps, et ne donnent pas de solutions satisfaisantes. 
+D'autres pistes sont explorées pour répondre au problème \problemGrahamP, comme l'algorithmique génétique, l'utilisation de réseaux de neurones ou de méta-heuristiques. Mais il s'avère que ces techniques sont très coûteuses en temps, et ne donnent pas de solutions satisfaisantes. Ces techniques, complexes, sortent en partie du cadre de cette bibliographie.
 
-
+Min et al \cite{min1999genetic}
 
 
 \section{Synthèse}
