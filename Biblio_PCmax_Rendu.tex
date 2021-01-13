@@ -960,8 +960,10 @@ ce qui donne une solution avec un makespan $z_3$ \\
 \begin{tabular}{|p{8cm}p{6cm}|}
 % TITRES (pas de titre)
 \hline
+\\
 % Ligne blanche
- & \\
+Complexité en temps:	& $O(n \cdot log (n))$
+\\
 % RATIO
 Ratio d'approximation:	&	$\Gamma(LPT-REV)\leq \dfrac{4}{3} - \dfrac{1}{3(m-1)}$
 \\
@@ -1422,6 +1424,33 @@ applique l'ordonnancement (Affectation à la machine la moins chargée à ce mom
 \caption{SLACK\label{algo:SLACK}}
 \end{algorithm}
 
+\bigskip
+% Complexité
+% -------------------------------------------------------
+\begin{theoreme}
+\begin{flushleft}
+\begin{tabular}{|p{8cm}p{6cm}|}
+% TITRES (pas de titre)
+\hline
+% Ligne blanche
+& \\
+% Ligne Complexité
+Complexité en temps:& $O(n \cdot log (n))$
+%	\\	% pas de ligne \hline
+%	% Ligne blanche
+%	& \\
+%	% RATIO
+%	Ratio \cite{gupta2001listfit} & $\Gamma(LISTFIT) \leq \dfrac{13}{12} + 2^{-k}$
+\\
+% Ligne blanche
+& \\
+\hline
+\end{tabular}
+%pas de legende
+\end{flushleft}
+\end{theoreme}
+
+
 \section{Programmation linéaire}
 
 L'ordonnancement, et plus particulièrement \problemGrahamP s'inscrit
@@ -1439,8 +1468,8 @@ Mokotoff \cite{mokoto1999scheduling} présente un algorithme basé sur
 la formulation de la programmation linéaire, en utilisant des
 variables booléennes d'affectation des jobs à une machine, i.e $x_{ij}$ égale à 1 si le job $J_j$ est affecté à la machine $M_i$, ou 0 dans le cas contraire.
 
-\lp{définir $x_{ij}$}
-\tdi{FCO: ok, fait}
+% \lp{définir $x_{ij}$}
+% \tdi{FCO: ok, fait}
 % Présentation
 % ---------------------
 \bigskip
@@ -1738,33 +1767,6 @@ Sinon, pacquer le reste dans 3-bin.
 
 \bigskip
 
-% Complexité
-% -------------------------------------------------------
-\begin{theoreme}
-\begin{flushleft}
-\begin{tabular}{|p{8cm}p{6cm}|}
-% TITRES (pas de titre)
-\hline
-% Ligne blanche
-& \\
-% Ligne Complexité
-Complexité en temps:& $O(n \cdot (k + \log(n)))$
-\\	% pas de ligne \hline
-% Ligne blanche
-& \\
-% RATIO
-Ratio & $\Gamma(\frac{1}{5}$dual PTAS$) = \dfrac{1}{5} + 2^{-k}$
-\\
-% Ligne blanche
-& \\
-\hline
-\end{tabular}
-%pas de legende
-\end{flushleft}
-avec k le nombre ...
-\end{theoreme}
-\tdi{FCO: Trouver k !}
-
 % Algorithme 1/6
 % ---------------------
 \begin{algorithm}[H]
@@ -1853,12 +1855,27 @@ $L[\frac{1}{5}+\frac{\delta}{4},
 % Ligne blanche
 & \\
 % Ligne Complexité
-Complexité en temps:& $O(n \cdot (k \cdot m^4 + \log(n)))$
+Complexité en temps:& \\
+général& 
+	$ O(( \frac{n}{\epsilon})^\frac{1}{\epsilon ^ 2})$\\
+pour $ \epsilon = \frac{1}{5}$ & 
+	$O(n \cdot (k + \log(n)))$ \\
+pour $ \epsilon = \frac{1}{6}$ & 
+	$O(n \cdot (k \cdot m^4 + \log(n)))$
+
 \\	% pas de ligne \hline
 % Ligne blanche
 & \\
 % RATIO
-Ratio & $\Gamma(\frac{1}{6}$dual PTAS$) = \dfrac{1}{6} + 2^{-k}$
+Ratio & \\
+général &
+	$\Gamma(dual PTAS) = 1 + \epsilon$\\
+	
+pour $ \epsilon = \frac{1}{5}$ & 
+	$\Gamma(\frac{1}{5}$dual PTAS$) = \dfrac{1}{5} + 2^{-k}$\\
+		
+pour $ \epsilon = \frac{1}{5}$ & 
+	$\Gamma(\frac{1}{6}$dual PTAS$) = \dfrac{1}{6} + 2^{-k}$
 \\
 % Ligne blanche
 & \\
@@ -1866,9 +1883,9 @@ Ratio & $\Gamma(\frac{1}{6}$dual PTAS$) = \dfrac{1}{6} + 2^{-k}$
 \end{tabular}
 %pas de legende
 \end{flushleft}
-avec k le nombre ...
+avec k le nombre d'itérations qu'il a été nécessaire pour terminer l'algorithme.
 \end{theoreme}
-\tdi{FCO: Trouver k !}
+
 
 
 \subsubsection{d'autres algorithmes}
@@ -2104,6 +2121,40 @@ Alors que $C_m^{\star}(P) = 10$ avec $\underline{P^{\star}}= \{(5,5),(1,4,5),(4,
 
 \end{itemize}
 
+
+
+% Complexité
+% -------------------------------------------------------
+\begin{theoreme}
+\begin{flushleft}
+\begin{tabular}{|p{8cm}p{6cm}|}
+% TITRES (pas de titre)
+\hline
+% Ligne blanche
+& \\
+% Ligne Complexité
+Complexité en temps \cite{michiels2003performance} :& $n^{- \Theta (log(n))}$
+\\	% pas de ligne \hline
+% Ligne blanche
+& \\
+% RATIO
+Ratio \cite{michiels2003performance} &\\
+% RATIO M= 2
+pour $m=2$						& $\Gamma(LDM) = \dfrac{7}{6}$\\
+pour $m\geq 3$					& $ \frac{4}{3}-\frac{1}{3 \cdot m} \leq
+   									\Gamma(LDM) 						\leq 
+   									\frac{4}{3}-\frac{1}{3 \cdot (m-1}$
+\\
+% Ligne blanche
+& \\
+\hline
+\end{tabular}
+%pas de legende
+\end{flushleft}
+
+\end{theoreme}
+
+
 \subsubsection{d'autres algorithmes}
 D'autres algorithme basés sur le partitionnement de nombres :
 
@@ -2119,13 +2170,178 @@ D'autres pistes sont explorées pour répondre au problème \problemGrahamP, com
 
 Min et al \cite{min1999genetic}
 
-
 \section{Synthèse}
+
+
+\subsection{Comparaisons}
+
+Chaque étude du problème \problemGrahamP tente 
+d'améliorer le ratio d'approximation, ainsi que le coût en temps requis 
+pour obtenir cette solution approchée, 
+soit en reprenant une piste déjà explorée afin de l'optimiser, 
+soit en expérimentant d'autres méthodes. 
+Les résultats théoriques attendus, définies et déterminées par démonstrations, ne sont pas forcément cohérents avec les performances réelles.
+
+\subsubsection{Théoriques}
+
+% -------------------------------------------------------
+% Tableau coupé en 2 car trop large !
+% -------------------------------------------------------
+% TABLEAU Comparatif RATIOS COÛTS EN TEMPS de chaque approche
+% quand on les a !
+% diagbox permet d'avoir une barre oblique pour les deux entrées
+% \backslashbox{Instructions}{Donnée} & Simple & Multiple NE FONCTIONNE PAS
+% on cadre à gauche le tableau pour avoir plus de place
+% -------------------------------------------------------
+
+Ce tableau est un comparatif des performances calculées et déterminées de chaque algorithme présenté. 
+
+$n$ est le nombre de jobs à planifier.
+$m$ est le nombre de machines parallèles identiques.
+$k$ est un nombre d'itérations, soit  fixé via un paramètre de l'algorithme, ou le résultat d'une condition d'arrêt.
+$\epsilon$ est un nombre positif ( e.g $\frac{1}{5}$ ) et désigne le ratio d'approximation d'un PTAS.
+
+% 1/2
+\begin{flushleft}
+\begin{tabular}{p{0.17\linewidth}
+				p{0.16\linewidth}
+				p{0.16\linewidth}
+				p{0.16\linewidth}
+				p{0.16\linewidth}
+				p{0.16\linewidth}}
+
+% ----------------------------------------------------
+% TITRES
+% ----------------------------------------------------
+\hline
+performance 						& 	
+							LPT 	& 
+							LPT-Rev &
+							Slack 	&
+							multifit& 
+							combine  
+%							listfit &
+%							PA		&
+%							PTAS	&
+%							LDM  	\\
+\\ \hline
+
+% --------------------------
+% LIGNE O()
+% --------------------------
+Complexité \newline (en temps) 		& 
+							$O(n \cdot \log n) $ (*) &		% LPT
+							$O(n \cdot \log n)$  (*) & 			% LPT-REV	
+							$O(n \cdot \log n)$  (*) & 			% SLACK
+							$O(n \log n + kn \log m)$& 		% MULTIFIT
+							$O(n \log n + kn \log m)$		% COMBINE
+													 
+\\	\hline
+% --------------------------
+% LIGNE Ration
+% --------------------------
+Ratio \newline (pire des cas)		& 
+							$\frac{4}{3} - \frac{1}{3m}$&		% LPT
+							$\frac{4}{3} - \frac{1}{3(m-1)}$&	% LPT-REV
+							/&								% SLACK (pas d'info)
+							$1,220 + 2^{-k}$& 					% MULTIFIT
+							$\frac{13}{12} + 2^{-k}$			% COMBINE
+%---------------------------
+\\
+\hline
+\end{tabular}
+Comparaison des performances des algorithmes présentés. tableau 1/2.
+
+(*) $+ (n \cdot \log m)$ si on prend en compte le tri des jobs au préalable.
+\end{flushleft}
+
+% 2/2
+\begin{flushleft}
+\begin{tabular}{p{0.17\linewidth}
+				p{0.16\linewidth}
+				p{0.16\linewidth}
+				p{0.16\linewidth}
+				p{0.32\linewidth}}
+
+
+% ----------------------------------------------------
+% TITRES
+% ----------------------------------------------------
+\hline
+performance 						& 	
+							listfit &
+							PA		&
+							PTAS	&
+							LDM  	
+\\ \hline
+
+% --------------------------
+% LIGNE O()
+% --------------------------
+Complexité \newline (en temps) & 
+							$O(n^2 \log(n) + k \cdot n^2 \log(m))$&	% LISTFIT
+							/& 		% PA (pas d'infos)
+							$ O(( \frac{n}{\epsilon})^\frac{1}{\epsilon ^ 2})$&
+					 		$n^{- \Theta (log(n))}$% LDM
+						 
+\\	\hline
+% --------------------------
+% LIGNE Ration
+% --------------------------
+Ratio \newline (pire des cas)		& 
+							$\dfrac{13}{12} + 2^{-k}$&		% LISTFIT
+							/&								% PA (pas d'info)
+							$1 + \epsilon$	&				%PTAS
+							compris entre \newline						% LDM
+								$\frac{4}{3}-\frac{1}{3 \cdot m}$ et	% LDM
+								\newline 								% LDM
+								$\frac{4}{3}-\frac{1}{3 \cdot (m-1}$	%LDM
+
+%---------------------------
+\\
+\hline
+\end{tabular}
+Comparaison des performances des algorithmes présentés. tableau 2/2.
+\end{flushleft}
+
+LPT rule et LPT-REV présentent un ratio d'approximation qui s'approche du pire cas lorsque le nombre de machines augmente. Multifit, Combine et Listfit se suivent dans leurs performances (ListFit est plus coûteux en temps). Concernant le PTAS, plus $\epsilon$ est petit (ratio tend vers $1$)  plus l'algorithme se rapproche de la solution optimale, mais plus il pèse dans la complexité en temps (exponentiel en $\epsilon$).
+
+
+\subsubsection{Expérimentales}
+
+En général, LPT donne des performances pratiques bien meilleurs que les ratios théoriques attendus \cite{della2018longest}, surtout dans les instances à nombre élevé de jobs. 
+
+
+
+\begin{figure}
+\centering
+\includegraphics[width=4.56cm,height=3.10cm]
+{Biblio_PCmax_Rendu_CompborneInf_LPT_LDM_MULTIFIT.jpg}
+\caption{Ecarts par rapport à la borne inférieure, LPT, LDM, Multifit.}
+\label{comparaison:LPTLDMMFBorneInf}
+\end{figure}
+
+
+\cite{michiels2003performance} comparent 
+dans (figure \ref{comparaison:LPTLDMMFBorneInf})
+
+
+\subsection{Informations manquantes}
+
+
+
+
+
 
 \section{Conclusion}
 
 
 
+
+
+
+
+\section{remerciements}
 
 
 
