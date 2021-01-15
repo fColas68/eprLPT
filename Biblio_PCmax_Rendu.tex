@@ -293,7 +293,7 @@ Multiple
 &
 \textbf{MISD}
 
-Machines vectoriels
+Machines vectorielles
 
 Tableau de processeurs
 
@@ -311,6 +311,7 @@ Multi processeurs à mémoire partagée (multi-c{\oe}urs)
 \end{tabular}
 Taxonomie de Flynn
 \end{flushleft}
+\lp{Mettre le titre avec caption, environnement table}
 % -------------------------------------------------------
 % Skilicorn 1988
 % -------------------------------------------------------
@@ -339,6 +340,7 @@ vectoriels à chaînes de traitement).
 {\centering
 Taxonomie de haut niveau de l'architecture de l'informatique parallèle.
 \par}
+\lp{Mettre le titre avec caption, environnement figure}
 
 \bigskip
 
@@ -350,7 +352,7 @@ Taxonomie de haut niveau de l'architecture de l'informatique parallèle.
   séquentiellement des éléments vectoriels dans des pipelines d'unités
   de traitements mis en cascades.(ii) Les machines systoliques,
   pulsent le déplacement des données entre mémoire et réseau de
-  processeurs,à un rythme soutenu.
+  processeurs, à un rythme soutenu.
   (iii) Les SIMD, emploient une unité de contrôle centrale, et de
   multiples processeurs.
   On distingue les SIMD à matrice de processeurs, (calibrés pour le
@@ -368,12 +370,13 @@ Taxonomie de haut niveau de l'architecture de l'informatique parallèle.
   (Massive Parallel Processing) et les COW (Cluster Of Workstations).
   Et d'autre part les MIMD à mémoire partagées, telles que les
   machines muti-processeurs, ou les processeurs multi-c\oe{}urs.
+  \lp{Dire que c'est le contexte de ton travail ?}
 \item Les architectures mixtes, ou basées sur le paradigme MIMS.
   (i) Les hybrides MIMS/SIMS sont des architectures MIMD pilotées de
   la même façon que les SIMD.
   (ii) Les architectures à flots de données sont pilotées par les
   dépendances des données elles-mêmes.
-  (iii) Les architectures à réductions sont utilisée pour les langages
+  (iii) Les architectures à réductions sont utilisées pour les langages
   de programmation fonctionnels, dont les expressions sont récursives.
   (iv) Les architectures Front d'onde (wavefront) sont un mélange des
   architectures à flots de données et des architectures systoliques.
@@ -492,6 +495,7 @@ critère. Par exemple, minimiser la somme des dates de fin, la somme
 des retards, le nombre de tâches en retard, ou simplement, le retard
 total. Mais le plus habituel, est de chercher à minimiser le temps
 total de traitement de tous les jobs, i.e minimiser le makespan.
+\lp{Ajouter: ``noté $C_{\max}$'' sinon ce n'est pas défini.}
 
 % \lp{définir la notation de Graham à la fin de cette partie
 %   puisque tout y est déjà dit.}
@@ -505,6 +509,7 @@ ${\textbar}$\beta ${\textbar}$\gamma $ .
 \bigskip
 
 Le problème \problemGrahamP se définit alors ainsi:
+\lp{Ajouter: ``Dans cette classification, ...''}
 
 \begin{itemize}
 
@@ -513,7 +518,9 @@ Le problème \problemGrahamP se définit alors ainsi:
 % -------------------------------------------------------
 \item $\alpha = \alpha_1 \alpha_2$, détermine l'environnement
   machines.
-  $\alpha P$: les machines sont parallèles et identiques: un job,
+  $\alpha P$:
+  \lp{Je ne comprends pas pourquoi $\alpha$ ? $\alpha=P$?}
+  les machines sont parallèles et identiques: un job,
   une tâche prendra le même temps de traitement qu'il soit exécuté sur
   une machine ou une autre.
   Le nombre de machines ($m$) est variable.
@@ -521,46 +528,54 @@ Le problème \problemGrahamP se définit alors ainsi:
 % -------------------------------------------------------
 % BETA Contraintes
 % -------------------------------------------------------
-\item $\beta \subset \{ \beta_1, \beta_2, \beta_3,
-  \beta_4, \beta_5, \beta_6\}$, détermine les caractéristiques
-  des jobs, ou des tâches.
-  $\beta$ est vide.
-  Ce qui signifie que la préemption n'est pas autorisée (les jobs
-  doivent être exécutés d'une traite, sans interruption ni coupure)
-  et qu'il n'y a pas de relation entre les jobs (ils sont
-  indépendants).
+\item
+  $\beta \subset \{ \beta_1, \beta_2, \beta_3, \beta_4, \beta_5,
+  \beta_6\}$, détermine les caractéristiques des jobs, ou des
+  tâches. Ici $\beta$ est vide, ce qui signifie que la préemption
+  n'est pas autorisée (les jobs doivent être exécutés d'une traite,
+  sans interruption ni coupure) et qu'il n'y a pas de relation entre
+  les jobs (ils sont indépendants).
 
 % -------------------------------------------------------
 % GEMEL Optimisation
 % -------------------------------------------------------
 \item $\gamma $ détermine le critère à optimiser.
-$\gamma C_{\max}$: on cherche à optimiser le makespan,
+  $\gamma C_{\max}$:
+\lp{Idem $\gamma = C_{\max}$?}
+  on cherche à optimiser le makespan,
 i.e.\ le temps de traitement total.
 
 \end{itemize}
 \bigskip
 
 
-\subsection{Énoncé du \problemGrahamP}
+\subsection{Énoncé du problème GrahamP\problemGrahamP}
 
 
 \begin{definition}{\problemGrahamP}
 
-  \problemGrahamP consiste à planifier un ensemble $J = \{j_1,j_2,\ldots,j_n)$
-  de $n$ jobs simultanés, pour être traités par $m$ machines identiques et
-  parallèles.
-  Chaque job, qui requière une opération, peut être traité par une des
-  $m$ machines.
-  Le temps de traitement de chaque job $p_i$ (avec $i \in \mathbb{N}$) est connu à l'avance.
-  Un job commencé, et complété sans interruption.
-  Les jobs, indépendants, sont exécutés par une seule machine, et une
-  machine ne peut traiter qu'un seul job à la fois.
+  \problemGrahamP consiste à planifier un ensemble
+  $J = \{j_1,j_2,\ldots,j_n)$ de $n$ jobs simultanés, pour être
+  traités par $m$ machines identiques et parallèles.  \lp{Ce sont des
+    machines identiques mais non parallèles. Le fait qu'il y en ait
+    plusieurs fait que c'est un problème de parallélisme} Chaque job,
+  qui requière une opération, peut être traité par une des $m$
+  machines.  Le temps de traitement de chaque job $p_i$ (avec
+  $i \in \mathbb{N}$) est connu à l'avance.  Un job commencé est
+  complété sans interruption.  Les jobs, indépendants, sont exécutés
+  par une seule machine, et une machine ne peut traiter qu'un seul job
+  à la fois.
+  \lp{Dire jobs séquentiels et non parallèles?}
 
 la notation:
 \begin{itemize}
 \item \problemGrahamP ou \problemGrahamPm précise que le nombre de
   machines $m$ est fixe, et est connu à l'avance dans l'instance du
   problème, mais reste une variable.
+  \lp{Pour moi $P_m$ signifie que la solution donnée ne l'est que pour
+    $m$ machines. Si la solution l'est quelquesoit le nombre de
+    machines, le nombre de machines étant fixe mais une donnée du
+    problème alors c'est \problemGrahamP}
 \item \problemGrahamPII fixe le nombre de machines parallèles.
   ici, deux.
 \end{itemize}
@@ -581,7 +596,7 @@ la notation:
 % \todo{FCO: Rechercher exemples}
 \subsection{Notations}
 Chaque document utilise sa propre notation, mais les notions sont les mêmes.
-Soient les données du problème
+Soient les données du problème:
 
 \begin{itemize}
 % -------------------------------------------------------
@@ -590,7 +605,11 @@ Soient les données du problème
 \item J, un ensemble de $n$ jobs (ou tâches) 
 	$J = \{J_1, J_2, ..., J_n\}$ 
 dont chaque job $J_j$ a un temps de traitement connu 
-	$P_j \in P = \{P_1, P_2, ..., P_n\}$
+$P_j \in P = \{P_1, P_2, ..., P_n\}$
+\lp{Je ne pense pas qu'il soit utile (nous ne le faisons pas en
+  général) de définir un ensemble de temps d'exécution.}
+\lp{Il serait mieux de garder les majuscules pour les ensembles et les
+  minuscules pour les éléments}
 
 % -------------------------------------------------------
 % ENSEMBLE DES MACHINES M (itérateur i)
@@ -634,9 +653,10 @@ dont chaque job $J_j$ a un temps de traitement connu
 \item $\Gamma(A)=\dfrac{C_m^A(J)}{C_m^\star(J)}$ 
 	Le ratio d'approximation atteint par l'algorithme $A$ au pire cas.
 
-%  \lp{idem}
+\lp{Définir $C^*$}
 %  \tdi{FCO: ok, fait}
 \end{itemize}
+
 
 
 \subsection{Problématique}
@@ -645,7 +665,7 @@ Comme l'ont démontré Garey et Johnson,
 \problemGrahamPII est un
 problème NP-Difficile \citep{garey1978strong}, et
 \problemGrahamP est un problème NP-Difficile
-au sens fort \citep{garey1982computers}.
+au sens fort \citep{garey1982computers} \lp{Pour plus de 3 machines ?}.
 Cependant, \problemGrahamP devient un problème NP-Difficile, du moment
 que le nombre de machines est fixé \cite{chen1999potts}, comme l'a
 montré Rothkopf \cite{rothkopf1966scheduling}, qui a présenté un
@@ -653,12 +673,20 @@ algorithme de programmation dynamique.
 
 Donner la solution optimale à un problème d'ordonnancement (dans notre
 cas \problemGrahamP) n'est pas réaliste.
-Même pour un problème de taille modeste, la résolution de celui-ci
+Même pour un problème de taille modeste\lp{Tout dépend du niveau
+  auquel tu places la modestie, donc peut-relativisé. Perso je n'ai
+  aucune idée de la taille limite}, la résolution de celui-ci
 demanderait un temps excessif et donc rédhibitoire.
 
-Comme les machines sont identiques, et travaillent à la même vitesse, 
-la difficulté, repose uniquement sur le regroupement des jobs et le choix d'affectation d'une machine pour chaque regroupement.
- 
+Comme les machines sont identiques, et travaillent à la même vitesse,
+la difficulté, repose uniquement sur le regroupement des jobs et choix
+d'affectation d'une machine pour chaque regroupement.  \lp{Justement
+  non, il n'y a plus de choix d'affectation à faire une fois les
+  regroupements fait puisque toutes les machines sont les mêmes cela
+  ne change rien qu'on en prenne l'une ou l'autre. Par contre on peut
+  aussi dire qu'on affecte les tâches à des machines, pour définir
+  implicitement les regroupements}
+
 La résolution du problème d'ordonnancement va reposer sur des méthodes
 d'approche, qui consistent à calculer en
 temps polynomial, une solution ``assez'' proche de la valeur optimale.
@@ -669,17 +697,18 @@ Toutes les solutions ont une borne minimale \\
  $= \max \{ \max_j\{P_j\}, \sum_{j=1}^{n} \dfrac{P_j}{m} \}$
 \label{theoreme:borneMini}
 \end{theoreme}
-
+\lp{Si on ne le démontre pas je pense que ça n'est pas la peine de
+  mettre cette borne sous la forme d'un théorème. Par contre, cela
+  pourrait avoir du sens d'expliquer informellement cette borne}
 
 Dans la littérature, l'étude d'ordonnancement est très riche et
 abondante.
 Le but étant d'améliorer le temps de calcul, et d'approcher le
 résultat optimal.
-
-
-
-L'existence d'une solution qui résout le
-problème n'est pas pensable, à moins que $P = NP$.
+L'existence d'une solution qui résout le problème \lp{... de manière
+  optimale...} n'étant pas pensable, à moins que $P = NP$, \lp{les
+  solutions proposées dans la littérature sont des heuristisques ou
+  des approximations}. 
 
 
 \section{Heuristiques}
@@ -695,17 +724,19 @@ efficace tente de trouver une solution de bonne qualité, suivant le
 temps de résolution imparti.
 E.g.\ pour le voyageur de commerce, on peut choisir l'heuristique ``du
 plus proche voisin''.
-on choisit la ville la plus proche de la ville courante, jusqu'à avoir
+On choisit la ville la plus proche de la ville courante, jusqu'à avoir
 visité toutes les villes.
-Cette heuristique est simple, mais donne un très mauvais résultat.
+Cette heuristique est simple, mais donne un très mauvais résultat
+\lp{Je relativiserais le très, cela dépend du problème}.
 
 %Les heuristiques présentent plusieurs avantages. Leur complexité est
 %réduite\lp{ça dépend de leur conception}, et obtiennent de bonne
 %performances\lp{ça dépend aussi, je suis capable de faire des
 %heuristiques non performantes}.
 Ces algorithmes donnent des résultats, dont la borne maximale, au pire des cas  n'est pas maîtrisée : 
-Une étude du comportement est nécessaire pour définir cette borne
-maximale.
+une étude du comportement est nécessaire pour définir cette borne
+maximale.\lp{Elle n'existe pas parfois. Dans ce cas, l'étude de comportement (ou
+  simulation) permet d'avoir des indications générales sur le comportement}
 % \lcc{revoir notation et phrase}
 % \fco{ok, fait.}
 % $C_m^A(J)_{maximal}$
@@ -723,7 +754,7 @@ d'ordonnancement.
 % '
 
 L'idée d'une LS est de stocker l'ensemble des jobs dans celle-ci,
-les trier dans un ordre particulier,
+les trier dans un ordre \lp{on parle souvent de prioritté} particulier,
 avant de les affecter à une machine selon des règles définies.
 Le premier job de la liste étant affecté à la première machine disponible.
 
@@ -776,7 +807,7 @@ chargée à ce moment là.
 Soit $P=\{13,10,7,6,6,5,3,2\}$, l'ensemble des $P_j$ déjà triés dans
 l'ordre décroissant à appliquer sur 4 machines parallèles identiques:
 
-Nous obtenons $C_4^{LPT}(J)=14$ (figure \ref{ex:LPTexempleAlgo}).
+Nous obtenons $C_4^{LPT}(J)=14$ (figure \ref{ex:LPTExempleAlgo}).
 \end{example}
 
 % Complexité
@@ -913,7 +944,7 @@ machines)
 \bigskip
 
 \textbf{NB}
-
+\lp{Tout ceci est déjà dit}
 L'exemple précédant (pire cas) a les caractéristiques suivantes:
 \begin{itemize}
 	\item nombre de job $n=2m+1$.
@@ -989,9 +1020,9 @@ Ratio d'approximation:	&	$\Gamma(LPT-REV)\leq \dfrac{4}{3} - \dfrac{1}{3(m-1)}$
 \end{theoreme}
 
 \subsubsection{D'autres algorithmes}
-Il existe d'autres propositions basée LS, telles que :
-
+Il existe d'autres propositions basée LS, telles que 
 AP de mokotoff \emph{et al.} \cite{mokotoff2004exact}
+\lp{Dire en 2 mots ce qu'ils font ?}
  
 
 
@@ -1171,14 +1202,15 @@ COMBINE, améliore certains points de l'algorithme MULTIFIT en se basant
 sur les principes suivants:
 \begin{itemize}
 \item Le résultat $M$ obtenu par LPT, est forcément supérieur ou égal
-  à $M^\star$, soit $M>M^\star$.
-  COMBINE utilise donc $M = C_m^{lpt}(J)$ comme borne supérieur $C_u$
+  à $M^\star$, soit $M \ge M^\star$.
+  COMBINE utilise donc $M = C_m^{lpt}(J)$ comme borne supérieure $C_u$
   de départ pour la recherche dichotomique utilisée par MULTIFIT.
   celle-ci est beaucoup plus proche du résultat optimal que la borne
-  supérieure de départ $2\cdot A$ utilisé à l'origine par MULTIFIT.
+  supérieure de départ $2\cdot A$ utilisée à l'origine par MULTIFIT.
 \item Si Le résultat $M$ obtenu par LPT est tel que
   $M \geq 1,5\cdot A$ alors $M=M^\star$.
-  Il n'est donc pas nécessaire de poursuivre la recherche.
+  Il n'est donc pas nécessaire de poursuivre la recherche.\lp{Je ne
+    comprends pas pourquoi}
 \item Au lieu de prédéterminer un nombre d'itérations, COMBINE utilise
   une condition d'arrêt de la recherche dichotomique, en fonction de
   l'écart entre les deux bornes.
@@ -1273,6 +1305,7 @@ dans un ordre LPT (Longest Time Processing), soit dans un ordre SPT
 (Shortest Time Processing).
 Puis LISTFIT combine ces 2 sous-listes en appliquant MULTIFIT à chaque
 itération.
+\lp{Expliquer l'intérêt, donner une idée intuitive}
 
 \bigskip
 % \todo{FCO: enlever les goto}
@@ -1295,7 +1328,7 @@ Soient $r=1$, $q=0$, $C_{\max}=C_{\max}(LPT)$ : le makespan obtenu par LPT
 	{
 		$ t = t + 1$
 	
-		Soient $\Phi = \varnothing$, A = $\{1,...,n\}$, $B = \varnothing$\\
+		Soient $\Phi = \varnothing$, A = $\{1,...,n\}$, $B = \varnothing$\\\lp{$\Phi = \Phi_q $?}
 		Soit  $\omega_r$ la séquence des jobs de la liste des jobs A 
 		triés selon l'ordre $\tau$.\\
 		\tcp{Si $\tau$ = 1 alors tri en LPT,}
@@ -1306,7 +1339,9 @@ Soient $r=1$, $q=0$, $C_{\max}=C_{\max}(LPT)$ : le makespan obtenu par LPT
 
 
 			$\alpha=C_{\max}(MULTIFIT)$: le makespan obtenu via MULTIFIT, 
-			avec $\sigma = \Phi_q \cdot \omega_r$ ($1^{ère}$ étape de MULTIFIT)
+			avec $\sigma = \Phi_q \cdot \omega_r$
+                        ($1^{ère}$ étape de MULTIFIT)
+                        
 			
 			\Si {$C_{\max}>\alpha$} 
 				{
@@ -1363,7 +1398,8 @@ Il existe d'autres propositions telles que :
 
 3-phase de França \emph{et al.} \cite{francca1994composite}
 
-HI-Pcmax de Alvim \emph{et al.} \cite{alvim2004hybrid}
+HI-Pcmax de Alvim \emph{et al.} \cite{alvim2004hybrid}\lp{Deux mots explicatifs
+  sur ces propositions ?}
 
 
 \subsection{Approche gloutonne}
@@ -1393,7 +1429,7 @@ Où ils ont planifié d'abord, le job $2 \cdot m + 1$, puis un
 sous-ensemble de jobs triés $\{1,...,m\}$ et pour finir un
 sous-ensemble de jobs triés $\{m+1,...,2 \cdot m \}$
 
-En résulte l'algorithme suivant:
+En résulte l'algorithme suivant: \lp{C'est l'algo le résultat ?}
 
 \bigskip
 % Algorithme
@@ -1536,6 +1572,7 @@ Le polytope $P$ relatif à $F$ est défini ainsi:
   F=\{ (x,y) : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} : \sum_{i=1}^{m} x_{ij}=1 \forall j;
   y-\sum_{j=1}^{n} P_j \cdot x_{ij} \geq 0 \forall i	\}
 \]
+\lp{Tu n'avais pas dit P ?}
 
 Il est possible de construire un ensemble fini d'\textbf{inégalités} \\
 $Ax+Dy \leq \overline{b}$ telles que \\
@@ -1575,7 +1612,7 @@ Détermination de la borne Supérieure ($UB$ juste pour la nommer)
 suivant l'heuristique LPT (algorithme \ref{algo:LPT}).
 
 \BlankLine % Petit espace
-Si $LB$ coïncide avec $UB$ la solution optimale est trouvée Sinon le
+Si $LB$ coïncide avec $UB$ la solution optimale est trouvée, sinon le
 processus itératif démarre.
 
 \BlankLine
@@ -1587,7 +1624,7 @@ s'arrête et la solution actuelle est optimale.
 
 \BlankLine
 Sinon, des nouvelles inégalité (inégalités et/ou inégalités
-transitoires) sont ajoutées à la nouvelle relaxation linéaire.Le
+transitoires) sont ajoutées à la nouvelle relaxation linéaire. Le
 nouveau programme linéaire est résolu et l'algorithme s'arrête si la
 solution est entière.
 
@@ -1611,7 +1648,7 @@ Notamment les PTAS (Schéma d'Approximation en Temps Polynomial).
 
 Un PTAS est un algorithme qui calcule, pour tout $\epsilon > 0$ donné,
 une solution proche à un facteur $(1+\epsilon)$ pour un problème de
-minimisation, ou $(1-\epsilon$ pour un problème de maximisation, de
+minimisation, ou $(1-\epsilon)$ pour un problème de maximisation, de
 l'optimal, en temps polynomial dépendant de $\epsilon$.
 
 
@@ -1647,7 +1684,7 @@ Nous sommes en présence de deux paramètres critiques:
 \item $m$ le nombre de machines parallèles identiques;
 \item $C$ la taille des bacs, et aussi, le makespan recherché.
 \end{itemize}
-Il y a donc Deux problèmes d'optimisation,
+Il y a donc deux problèmes d'optimisation,
 dont l'un consiste à fixer le premier paramètre pour optimiser l'autre,
 et inversement, fixer l'autre pour optimiser le premier.
 Ce qui constitue un problème de reconnaissance (ou décision) à deux paramètres $R(p_1, p_2)$.
