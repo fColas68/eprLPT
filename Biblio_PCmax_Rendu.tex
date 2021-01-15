@@ -205,6 +205,8 @@
 \setcounter{secnumdepth}{3}	% pour les section sous et sous sous et paragraphes
 \tableofcontents
 
+\lp{Remarque générale: ajouter un peu de blabla pour rendre moins
+  lapidaire ?}
 % =======================================================
 % 1 INTRODUCTION
 % =======================================================
@@ -609,7 +611,8 @@ $P_j \in P = \{P_1, P_2, ..., P_n\}$
 \lp{Je ne pense pas qu'il soit utile (nous ne le faisons pas en
   général) de définir un ensemble de temps d'exécution.}
 \lp{Il serait mieux de garder les majuscules pour les ensembles et les
-  minuscules pour les éléments}
+  minuscules pour les éléments. Mais peut-être le travail est trop
+  conséquant pour valoir le coup ?}
 
 % -------------------------------------------------------
 % ENSEMBLE DES MACHINES M (itérateur i)
@@ -1726,7 +1729,12 @@ Trouver un algorithme $\epsilon-$primal pour le problème primal,
 peut être réduit à trouver un algorithme $\epsilon-$dual pour le problème dual.
 
 Trouver un algorithme d'approximation $\epsilon-$dual, peut être réduit à trouver un algorithme
-d'approximation $\epsilon-$dual pour une instance du problème où la taille des pièces sont $> \epsilon$.
+d'approximation $\epsilon-$dual pour une instance du problème où la
+taille des pièces sont $> \epsilon$.
+
+\lp{C'est dommage que par la suite te te sois concentrer sur
+  l'expression à partir des bins sans conserver le lien avec le
+  problème $P||C_{\max}$, en particulier pour les algos}
 
 L'intervalle de la taille des pièces (devenu $]\epsilon, 1]$) est
 découpé en S = $\lceil \dfrac{1}{\epsilon^2}\rceil$ sous intervalles
@@ -1740,7 +1748,7 @@ taille $\in ]l_k, l_{k+1}]$.
 Chaque $x_k$ peut prendre une valeur dans l'intervalle
 $[0,\dfrac{1}{\epsilon•}[$
 
-La configuration d'un bac $P_i$ peut être donnée pas un s-tuple $(x_1, x_2, \ldots, x_S)$.
+La configuration d'un bac $P_i$ peut être donnée par un s-tuple $(x_1, x_2, \ldots, x_S)$.
 Une configuration est dite faisable si $\sum_{k=1}^{S}x_k \cdot l_k \le 1$ avec $l_k$ de $]l_k, l_{k+1}]$.
 
 Nous avons donc
@@ -1959,7 +1967,7 @@ Ce problème est NP-difficile.
 
 
 Karmarkar \emph{et al.} \cite{karmarkar1982differencing} posent le problème de partition d'ensemble suivant :
-Soit un ensemble fini $P=\{P_1, P_2, \ldots, P_n\}$ de 
+soit un ensemble fini $P=\{P_1, P_2, \ldots, P_n\}$ de 
 n nombres réels 
 à partitionner dans m sous ensembles $M_1, M_2, \ldots, M_m$ 
 de manière à minimiser 
@@ -2030,7 +2038,7 @@ Puis, par un retour sur trace (backtracking), les partitions $M_1$ et $M_2$ sont
 \begin{example}
 Soit $P=\{3,6,13,20,30,40,73\}$, l'ensemble des $P_j$.
 
-40 et 73 sont les nombres les plus grands. On les remplace dans $P$ pas $73 - 40 = 33$, pour donner $P=\{3,6,13,20,30,33\}$ et ainsi de suite.
+40 et 73 sont les nombres les plus grands. On les remplace dans $P$ par $73 - 40 = 33$, pour donner $P=\{3,6,13,20,30,33\}$ et ainsi de suite.
 La valeur restante est $P= \{1\}$, ce qui est le résultat de l'opération.
 Par un retour sur trace, nous obtenons le partitionnement suivant:
 $M_1 = \{ 6,13,73 \}$ et  $M_2 = \{ 3,20,30,40 \}$ (figure \ref{fig:LDM2M}).
@@ -2213,10 +2221,25 @@ MPS, de Paletta et al \cite{paletta2007new}
 SPS, de Chiaselotti \emph{et al.} \cite{chiaselotti2010minimizing}
 
  
-\subsection{autre}
+\subsection{Autre}
 % \subsubsection{algorithmes génétiques}
 % \paragraph{algorithmes à réseaux de neurones}
-D'autres pistes sont explorées pour répondre au problème \problemGrahamP, comme l'algorithmique génétique, l'utilisation de réseaux de neurones ou de méta-heuristiques. Mais il s'avère que ces techniques sont très coûteuses en temps, et ne donnent pas de solutions satisfaisantes. Ces techniques, complexes, sortent en partie du cadre de cette bibliographie.
+
+\lp{Attention les algorithmes génétiques sont cosiédrés comme des méta
+  heuristiques} \lp{Un algorithme génétique initialisé avec le
+  résultat d'une heuristique performante donnera aussi un très bon
+  résultat, tu ne peux donc pas dire qu'ils ne donnent pas de solution
+  satisfaisantes. Par contre l'argument du temps tient bien. On a
+  aussi aucune garantie sur le résultat puisque la recherche est
+  aveugle. Mais il y a pas mal de travaux d'optimisation qui passent
+  une couche de metaheuristique derrière une heuristique ou autre
+  approx un pour voir s'il n'y aurait pas un meilleur résultat dans le
+  voisinnage.}  D'autres pistes sont explorées pour répondre au
+problème \problemGrahamP, comme l'algorithmique génétique,
+l'utilisation de réseaux de neurones ou de méta-heuristiques. Mais il
+s'avère que ces techniques sont très coûteuses en temps, et ne donnent
+pas de solutions satisfaisantes. Ces techniques, complexes, sortent en
+partie du cadre de cette bibliographie.
 
 Min et al \cite{min1999genetic}
 
@@ -2230,7 +2253,9 @@ d'améliorer le ratio d'approximation, ainsi que le coût en temps requis
 pour obtenir cette solution approchée, 
 soit en reprenant une piste déjà explorée afin de l'optimiser, 
 soit en expérimentant d'autres méthodes. 
-Les résultats théoriques attendus, définies et déterminées par démonstrations, ne sont pas forcément cohérents avec les performances réelles.
+Les résultats théoriques attendus, définies et déterminées par
+démonstrations, ne sont pas forcément cohérents avec les performances
+réelles.\lp{Je ne comprends pas ce que tu veux dire par là}
 
 \subsubsection{Théoriques}
 
