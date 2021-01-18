@@ -233,14 +233,16 @@ multiple) et le nombre de flux d'instructions (simple ou multiple).
 % \backslashbox{Instructions}{Donnée} & Simple & Multiple NE FONCTIONNE PAS
 % on cadre à gauche le tableau pour avoir plus de place
 % -------------------------------------------------------
-\begin{flushleft}
-\begin{tabular}{|p{3.6cm}|p{6cm}|p{6cm}|}
+
+\begin{table}
+\centering
+\begin{tabular}{|p{2.88cm}|p{4.5cm}|p{4.5cm}|}
 
 % --------------------------
 % TITRES
 % --------------------------
 \hline
-\diagbox[width=10em]{Instructions}{Données} & Simple & Multiple \\
+\diagbox[width=8em]{Instructions}{Données} & Simple & Multiple \\
 \hline
 
 % --------------------------
@@ -292,8 +294,8 @@ Multi processeurs à mémoire partagée (multi-c{\oe}urs)
 \\
 \hline
 \end{tabular}
-Taxonomie de Flynn
-\end{flushleft}
+\caption{Taxonomie de Flynn}
+\end{table}
 % -------------------------------------------------------
 % Skilicorn 1988
 % -------------------------------------------------------
@@ -316,31 +318,31 @@ les architectures modernes, et celles qui n'ont pas encore été
 considérées comme architectures parallèle (e.g les processeurs
 vectoriels à chaînes de traitement).
 
-{\centering
-\includegraphics[width=16.272cm,height=14.605cm]{Biblio_PCmax_Rendu_Taxonomie_Duncan.jpg}
-\par}
-{\centering
-Taxonomie de haut niveau de l'architecture de l'informatique parallèle.
-\par}
-
-\bigskip
+\begin{figure}
+\includegraphics[width=\columnwidth]{Biblio_PCmax_Rendu_Taxonomie_Duncan.jpg}
+\caption{Taxonomie de haut niveau de l'architecture de l'informatique parallèle.}
+\end{figure}
 
 \begin{itemize}
 \item Les architecture synchrones.
   Ces architectures coordonnent les opérations concurrentes via une
-  horloge globale et un contrôleur de programmes.(i) Les processeurs
+  horloge globale et un contrôleur de programmes.
+  \begin{itemize}
+  \item Les processeurs
   vectoriels permettent un traitement parallèle en envoyant
   séquentiellement des éléments vectoriels dans des pipelines d'unités
-  de traitements mis en cascades.(ii) Les machines systoliques,
+  de traitements mis en cascades.
+  \item Les machines systoliques,
   pulsent le déplacement des données entre mémoire et réseau de
   processeurs,à un rythme soutenu.
-  (iii) Les SIMD, emploient une unité de contrôle centrale, et de
+  \item Les SIMD, emploient une unité de contrôle centrale, et de
   multiples processeurs.
   On distingue les SIMD à matrice de processeurs, (calibrés pour le
   calcul scientifique à grande échelle, le traitement d'images) où on
   retrouve les GPU, et les SIMD à mémoire associative
   (particulièrement adaptés pour le traitement de bases de données, le
   suivi, la surveillance).
+  \end{itemize}
 \item Les architectures asynchrones, de type MIMD, emploient plusieurs
   processeurs pour exécuter des flux d'instructions indépendant, en
   utilisant des données locales.
@@ -352,14 +354,16 @@ Taxonomie de haut niveau de l'architecture de l'informatique parallèle.
   Et d'autre part les MIMD à mémoire partagées, telles que les
   machines muti-processeurs, ou les processeurs multi-c\oe{}urs.
 \item Les architectures mixtes, ou basées sur le paradigme MIMS.
-  (i) Les hybrides MIMS/SIMS sont des architectures MIMD pilotées de
+  \begin{itemize}
+  \item Les hybrides MIMS/SIMS sont des architectures MIMD pilotées de
   la même façon que les SIMD.
-  (ii) Les architectures à flots de données sont pilotées par les
+  \item Les architectures à flots de données sont pilotées par les
   dépendances des données elles-mêmes.
-  (iii) Les architectures à réductions sont utilisée pour les langages
+  \item Les architectures à réductions sont utilisée pour les langages
   de programmation fonctionnels, dont les expressions sont récursives.
-  (iv) Les architectures Front d'onde (wavefront) sont un mélange des
+  \item Les architectures Front d'onde (wavefront) sont un mélange des
   architectures à flots de données et des architectures systoliques.
+  \end{itemize}
 
 \end{itemize}
 
@@ -387,8 +391,7 @@ de l’Oak Ridge National Laboratory aux États-Unis.
 \bigskip
 
 \begin{figure}
-\centering
-\includegraphics[width=11.29cm,height=6.44cm]{Biblio_PCmax_Rendu_Fugaku.jpg}
+  \includegraphics[width=\columnwidth]{Biblio_PCmax_Rendu_Fugaku.jpg}
 \caption{Le Supercomputer Fugaku (Fujitsu), 
   Il compte 7,630,848 c\oe{}urs basés sur des processeurs ARM A64FX
   48C cadencés à 2.2GHz, 5,087,232 GB de ram, pour une performance de 442 PFLOPS. 
@@ -420,7 +423,7 @@ Les applications liées aux grilles sont diverses.
 On peut citer le web (la première grille), le \emph{Cloud
   computing}, les web-services, les réseaux \emph{peer-to-peer},
 l'\emph{internet computing}, comme le projet SETI
-(www.boinc-af.org/setihome.html).
+(\url{www.boinc-af.org/setihome.html}).
 Ce projet consiste à rechercher des preuves possibles de transmissions
 radio provenant d'intelligences, autres que terrestres, à l'aide de
 données fournies par un radiotélescope.
@@ -439,7 +442,7 @@ Sur une machine non parallèle, les tâches sont exécutées
 séquentiellement, les unes après les autres.
 Certaines tâches, ou jobs peuvent demander plus de temps que d'autres
 pour être entièrement traitées.
-Lorsque plusieurs ressources (processeurs, machines, c\oe{}urs) sont
+Lorsque plusieurs ressources (processeurs, machines, cœurs) sont
 disponibles, ou que des jobs a exécuter ne sont pas indépendants (même
 traités sur un seul processeur), se pose alors, un problème
 d'ordonnancement.
@@ -551,8 +554,6 @@ la notation:
 \end{itemize}
 
 \end{definition}
-
-=======
 
 
 
@@ -755,7 +756,7 @@ chargée à ce moment là.
 
 \begin{figure}
 {\centering
-\includegraphics[width=8.334cm,height=4.034cm]{Biblio_PCmax_Rendu_exLPT1.jpg}
+\includegraphics[width=\columnwidth]{Biblio_PCmax_Rendu_exLPT1.jpg}
 \caption{Ordonnancement obtenu avec LPT.}
 \label{ex:LPTExempleAlgo}
 \par}
@@ -765,7 +766,7 @@ chargée à ce moment là.
 Soit $P=\{13,10,7,6,6,5,3,2\}$, l'ensemble des $P_j$ déjà triés dans
 l'ordre décroissant à appliquer sur 4 machines parallèles identiques:
 
-Nous obtenons $C_4^{LPT}(J)=14$ (figure \ref{ex:LPTexempleAlgo}).
+Nous obtenons $C_4^{LPT}(J)=14$ (figure \ref{ex:LPTExempleAlgo}).
 \end{example}
 
 % Complexité
@@ -1057,7 +1058,7 @@ Il est donc inutile d'utiliser $k>7$.
 
 \begin{figure}
 \centering{
-\includegraphics[width=6.5261cm,height=8.12073cm]{Biblio_PCmax_Rendu_exMULTIFIT1.jpg}
+\includegraphics[width=6.5cm]{Biblio_PCmax_Rendu_exMULTIFIT1.jpg}
 \caption{Fonctionnement de FFD et principe de MULTIFIT.}
 \label{ex:MULTIFITExempleAlgo}
 \par}  	
@@ -1073,9 +1074,9 @@ Il est donc inutile d'utiliser $k>7$.
 
 m, un nombre de processeurs
 
-borne supérieure: $Cu[T,m] = \max\{\dfrac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \}$
+borne supérieure: $Cu[T,m] = \max\left\{\dfrac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
 
-borne inférieure: $Cl[T,m] = \max\{\dfrac{1}{m} \cdot L(T), \max_i\{L(T_i)\} \}$
+borne inférieure: $Cl[T,m] = \max\left\{\dfrac{1}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
 
 k un nombre d'itérations
 }
@@ -1173,14 +1174,8 @@ sur les principes suivants:
 \DontPrintSemicolon
 \KwData{instance de \problemGrahamP, avec m machines, n jobs, et un coefficient $\alpha (0,005)$ }
 
-A = $\sum_{i=1}^{n}(\dfrac{P_i}{m})$
-
-\BlankLine % Petit espace
-
-M $\leftarrow C_m^{lpt}(J)$
-
-\BlankLine % Petit espace
-
+A = $\sum_{i=1}^{n}(\dfrac{P_i}{m})$ \;
+M $\leftarrow C_m^{lpt}(J)$ \;
 \Si {$M \geq 1,5 \cdot A$}
  {
  	$M^\star = M$ \;
@@ -1188,11 +1183,10 @@ M $\leftarrow C_m^{lpt}(J)$
 \Sinon
  {
 	$C_u \leftarrow M$					\;
-	$C_l \leftarrow \max \{(\dfrac{M}{\dfrac{4}{3}-\dfrac{1}{3 \cdot m}}),P1,1 \}$	\;
+	$C_l \leftarrow \max \left\{\frac{M}{\frac{4}{3}-\frac{1}{3 \cdot m}},P_1,1 \right\}$ \;
 	\Tq {$C_u - C_l > \alpha \cdot A$}
 	 {
 	 appliquer MULTIFIT \;
-
 	 } \tcp{on arrête lorsque $C_u - C_l \leq \alpha \cdot A$}
  }
 
@@ -1218,7 +1212,7 @@ Complexité en temps: & $O(n \log n + kn \log m)$
 % Ligne blanche
 & \\
 % RATIO
-Ratio \cite{gupta2001listfit}: & $\Gamma(COMBINE) \leq \dfrac{13}{12} + 2^{-k}$
+Ratio \cite{gupta2001listfit}: & $\Gamma(COMBINE) \leq \frac{13}{12} + 2^{-k}$
 \\
 % Ligne blanche
 & \\
@@ -1267,35 +1261,30 @@ Soient $r=1$, $q=0$, $C_{\max}=C_{\max}(LPT)$ : le makespan obtenu par LPT
 \BlankLine % Petit espace
 \Tq {$q<2$}
 {
-	$t = 0$ \\
-	$q = q + 1$ \\
+	$t = 0$ \;
+	$q = q + 1$ \;
 	\Tq {t < 2}
 	{
-		$ t = t + 1$
-	
-		Soient $\Phi = \varnothing$, A = $\{1,...,n\}$, $B = \varnothing$\\
-		Soit  $\omega_r$ la séquence des jobs de la liste des jobs A 
-		triés selon l'ordre $\tau$.\\
+		$ t = t + 1$ \;
+		Soient $\Phi = \varnothing$, A = $\{1,...,n\}$, $B = \varnothing$ \;
+		Soit  $\omega_r$ la séquence des jobs de la liste des jobs A
+		triés selon l'ordre $\tau$. \;
 		\tcp{Si $\tau$ = 1 alors tri en LPT,}
 		\tcp{Si $\tau$ = 2 alors tri en SPT.}
-
 		\Tq{$A \neq \varnothing$}
 		{
-
-
-			$\alpha=C_{\max}(MULTIFIT)$: le makespan obtenu via MULTIFIT, 
-			avec $\sigma = \Phi_q \cdot \omega_r$ ($1^{ère}$ étape de MULTIFIT)
-			
-			\Si {$C_{\max}>\alpha$} 
+			$\alpha=C_{\max}(MULTIFIT)$: le makespan obtenu via MULTIFIT,
+			avec $\sigma = \Phi_q \cdot \omega_r$ ($1^{ère}$ étape de MULTIFIT) \;
+			\Si {$C_{\max}>\alpha$}
 				{
-				$C_{\max} = \alpha$\\ 
+				$C_{\max} = \alpha$ \;
 				\Pour {$h=1$ à $m$}
 					{$\gamma_h = \pi_h$}
 				}
 			\Si {$A \neq \varnothing$}
 			{
-				Retirer le dernier job de $\omega_r$ et le placer dans $B$\\
-				Mettre à jour $A$, $\Phi_q$, $\omega_r$.
+				Retirer le dernier job de $\omega_r$ et le placer dans $B$ \;
+				Mettre à jour $A$, $\Phi_q$, $\omega_r$. \;
 				$\sigma = \Phi_q \cdot \omega_r$.
 			}
 		}
@@ -1374,37 +1363,25 @@ En résulte l'algorithme suivant:
 % \KwData{une instance ...}
 
 %Etape 1
-trier la liste des jobs dans l'ordre décroissant des temps nécessaires de traitements
-
+trier la liste des jobs dans l'ordre décroissant des temps nécessaires de traitements \;
 %ETAPE 2
-\BlankLine % Petit espace
-réindexer les jobs, de manière à obtenir $P_1 \geq P_2 \geq ... \geq P_n$
-
+réindexer les jobs, de manière à obtenir $P_1 \geq P_2 \geq ... \geq P_n$ \;
 %ETAPE 3
-\BlankLine % Petit espace
 Découper l'ensemble obtenu en $\dfrac{n}{m}$ tuples de $m$ jobs (ajout
 de jobs "dummy" de taille nulle pour le dernier tuple, si $n$ n'est
-pas un multiple de $m$)
-
+pas un multiple de $m$) \;
 %ETAPE 4
-\BlankLine % Petit espace
 considérer chaque tuple avec la différence de temps (SLACK) entre le
 premier job du tuple et le dernier.
 \begin{align*}
 \{ &\{1, ..., m\} &\{m+1,..., 2 \cdot m\} &... \} \\
    &P_1 - P_m     &P_{m+1}-P_{2 \cdot m}  &...
-\end{align*}
-
-
+\end{align*} \;
 %STEP 5
-\BlankLine % Petit espace
 trier les tuples par ordre décroissant de "Slack" et ainsi former un nouvel ensemble
 \tcp{e.g: $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $P_{m+1} - P_{2 \cdot m} > P_1 - P_m$.}
-
 %STEP 6
-\BlankLine % Petit espace
 applique l'ordonnancement (Affectation à la machine la moins chargée à ce moment là) à l'ensemble ainsi obtenu.
-
 \caption{SLACK\label{algo:SLACK}}
 \end{algorithm}
 
