@@ -209,7 +209,7 @@
 
 Qu'ont en commun les lignes de productions industrielles, la gestion des quais d'expédition, l'organisation de partiels d'une université, la fabrication d'une maison, la planification des opérations d'un hôpital, ou l'attribution de tâches à un microprocesseur multi-cœurs ? Chacune de ces activités demande la résolution d'un problème d'ordonnancement, afin d'optimiser un coût, des priorités, un retard ou un temps total.
 
-Graham (1935 - 2020) est l'un des pionniers dans l'analyse mathématique du problème d'ordonnancement, et relève certaines anomalies \cite{graham1966bounds} : Des tâches dont certaines sont reliées entre elles par des contraintes, et exécutées en parallèle seront traitées en moins de temps que si les contraintes sont supprimées. D'où l'importance de la planification des tâches.
+Graham (1935 - 2020) est l'un des pionniers dans l'analyse mathématique du problème d'ordonnancement, et relève certaines anomalies \cite{graham1966bounds}: Des tâches dont certaines sont reliées entre elles par des contraintes, et exécutées en parallèle seront traitées en moins de temps que si les contraintes sont supprimées. D'où l'importance de la planification des tâches.
 
 Le problème \problemGrahamP consiste à planifier des tâches, sur des machines parallèles, dans le but de minimiser le temps total de traitement (makespan). Malgré cette apparente simplicité, le problème est NP-Difficile, de même que ses problèmes similaires, Bin-packing, et partition de nombres. Les algorithmes développés tentent de donner une solution la plus proche possible de la solution optimale, dans les meilleurs délais.
 
@@ -509,7 +509,7 @@ l'ordonnancement est d'optimiser un
 critère. Par exemple, minimiser la somme des dates de fin, la somme
 des retards, le nombre de tâches en retard, ou simplement, le retard
 total. Mais le plus habituel, est de chercher à minimiser le temps
-total de traitement de tous les jobs, i.e minimiser le makespan noté $C_{\max}$.
+total de traitement de tous les jobs, i.e.\ minimiser le makespan noté $C_{\max}$.
 \lp{Ajouter: ``noté $C_{\max}$'' sinon ce n'est pas défini.}
 \fco{ok, fait}
 
@@ -634,7 +634,7 @@ $P_j$.
 \lp{Il serait mieux de garder les majuscules pour les ensembles et les
   minuscules pour les éléments. Mais peut-être le travail est trop
   conséquant pour valoir le coup ?}
-\fco{ok, fait : je dois tout relire pour vérifier si ok, et si rien oublié. Attention les éléments de partitions sont de majuscules}  
+\fco{ok, fait: je dois tout relire pour vérifier si ok, et si rien oublié. Attention les éléments de partitions sont de majuscules}
 
 % -------------------------------------------------------
 % ENSEMBLE DES MACHINES M (itérateur i)
@@ -661,7 +661,7 @@ $P_j$.
 	sur m machines parallèles, identiques,
 	obtenu par l'algorithme $A$.
 %  \lp{à quoi sert $j$ ici ?}
-%  \tdi{FCO  ok, fait : C'était une erreur de frappe ...
+%  \tdi{FCO  ok, fait: C'était une erreur de frappe ...
 %	le copier/coller qui va avec}
 
 % -------------------------------------------------------
@@ -765,7 +765,7 @@ Cette heuristique est simple, mais donne, pour ce problème un mauvais résultat
 %réduite\lp{ça dépend de leur conception}, et obtiennent de bonne
 %performances\lp{ça dépend aussi, je suis capable de faire des
 %heuristiques non performantes}.
-Ces algorithmes donnent des résultats, dont la borne maximale, au pire des cas  n'est pas maîtrisée :
+Ces algorithmes donnent des résultats, dont la borne maximale, au pire des cas  n'est pas maîtrisée:
 une étude du comportement est nécessaire pour définir cette borne
 maximale.\lp{Elle n'existe pas parfois. Dans ce cas, l'étude de comportement (ou
   simulation) permet d'avoir des indications générales sur le comportement}
@@ -776,7 +776,7 @@ maximale.\lp{Elle n'existe pas parfois. Dans ce cas, l'étude de comportement (o
 Les heuristiques représentent la plus grande partie des recherches concernant le problème
 d'ordonnancement.
 
-%même si leurs performances, au pire cas, ne sont pas\todo{LP: ??}\todo{FCO : pour dire %que, contrairement aux PTAS, le ratio n\ap est pas maîtrisé} garanties.
+%même si leurs performances, au pire cas, ne sont pas\todo{LP: ??}\todo{FCO: pour dire %que, contrairement aux PTAS, le ratio n\ap est pas maîtrisé} garanties.
 %Sont abordées ici les heuristiques les plus présentes dans la littérature.
 
 % \lp{on a aussi une borne min qui est le max entre la plus grande
@@ -915,10 +915,10 @@ Exemple de pire cas (figure \ref{fig:LPTExemplePireCas}) de LPT (algorithme \ref
 Soit $P=\{7,7,6,6,5,5,4,4,4\}$, l'ensemble des $p_j$ déjà triés dans
 l'ordre décroissant à appliquer sur 4 machines parallèles identiques:
 \bigskip
-LPT donne le résultat suivant : $C_m^A(J) = 15$
+LPT donne le résultat suivant: $C_m^A(J) = 15$
 \bigskip
 
-Un ordonnancement optimal aurait été : $C_4^{\star}(J)=12$
+Un ordonnancement optimal aurait été: $C_4^{\star}(J)=12$
 
 Soit une marge de $\dfrac{15}{12}$
 
@@ -1349,7 +1349,7 @@ itération.
 \KwData{n, m, $p_j$ for $j=1, \ldots, n$}
 
 %STEP 1
-Soient $r=0$, $q=0$, $C_{\max}=C_{\max}(LPT)$ : le makespan obtenu par LPT
+Soient $r=0$, $q=0$, $C_{\max}=C_{\max}(LPT)$: le makespan obtenu par LPT
 
 \BlankLine % Petit espace
 \Tq {$q<2$}
@@ -1422,7 +1422,7 @@ avec k le nombre d'itérations pour la recherche dichotomique.
 \end{theoreme}
 
 \subsubsection{D'autres algorithmes}
-Il existe d'autres propositions telles que :
+Il existe d'autres propositions telles que:
 
 3-phase de França \emph{et al.} \cite{francca1994composite}
 
@@ -1518,20 +1518,22 @@ Complexité en temps:& $O(n \cdot log (n))$
 
 \section{Programmation linéaire}
 
-L'ordonnancement, et plus particulièrement \problemGrahamP s'inscrit
+L'ordonnancement, et plus particulièrement \problemGrahamP, s'inscrit
 parfaitement dans l'énoncé d'un problème de programmation linéaire.
-En effet, la fonction objectif i.e minimiser le makespan, ainsi que
+En effet, la fonction objectif, i.e.\ minimiser le makespan, ainsi que
 les contraintes sont des fonctions linéaires.
-Toutefois, les variables, et le résultat attendu sont discrets, ce qui
+Toutefois, les variables, et le résultat attendu, sont discrets, ce qui
 rend la résolution du problème nettement plus difficile comparé à une
 programmation linéaire à variables continues.
 Ces algorithmes, donnent une solution faisable exacte.
 
-\subsection{PA} %(Mokotoff)}
+%\subsection{PA} %(Mokotoff)}
 
 Mokotoff \cite{mokoto1999scheduling} présente un algorithme basé sur
-la formulation de la programmation linéaire, en utilisant des
-variables booléennes d'affectation des jobs à une machine, i.e $x_{ij}$ égale à 1 si le job $j_j$ est affecté à la machine $m_i$, ou 0 dans le cas contraire.
+la formulation de la programmation linéaire en utilisant des
+variables booléennes d'affectation des jobs à une machine, i.e.\
+$x_{ij}$ est égal à 1 si le job $j_j$ est affecté à la machine $m_i$, ou
+0 dans le cas contraire.
 
 % \lp{définir $x_{ij}$}
 % \tdi{FCO: ok, fait}
@@ -1543,12 +1545,14 @@ La minimisation du makespan peut être posée ainsi:
 Minimiser $y$ tel que:
 
 \begin{itemize}
-\item $\sum_{i=1}^{m}x_{ij}=1$ \quad pour $1 \leq j \leq n$ 		\\
-Sur toutes les machines, au moins un et un seul $x_j$ est égal à 1.	\\
-Un job est affecté à une, et une seule machine.
+\item $\sum_{i=1}^{m}x_{ij}=1$ \quad pour $1 \leq j \leq n$
 
-\item $y-\sum_{j=1}^{n}p_j \cdot x_{ij} \geq 0$ \quad pour $1 \leq i \leq m$ \\
-Pour une machine donnée, la somme des temps est $\leq$ à $y$.
+Sur toutes les machines, au moins un et un seul $x_j$ est égal à 1.
+Un job est affecté à une et une seule machine.
+
+\item $y-\sum_{j=1}^{n}p_j \cdot x_{ij} \geq 0$ \quad pour $1 \leq i \leq m$
+
+Pour une machine donnée, la somme des temps est inférieure ou égale à $y$.
 \end{itemize}
 
 \bigskip
@@ -1568,7 +1572,7 @@ Le programme linéaire est donc composé de
 \item $n+m$ contraintes
 \end{itemize}
 
-La zone F peut être définie ainsi:
+La zone $F$ peut être définie ainsi:
 \[
   F=\{ (x,y) : x \in B^{n \cdot m}, y \in \mathbb{R_+} : \sum_{i=1}^{m} x_{ij}=1 \forall j;
 y-\sum_{j=1}^{n} p_j \cdot x_{ij} \geq 0 \forall i \}
@@ -1590,24 +1594,34 @@ Le polytope $P$ relatif à $F$ est défini ainsi:
 \]
 \lp{Tu n'avais pas dit P ?}
 
-Il est possible de construire un ensemble fini d'\textbf{inégalités} \\
-$Ax+Dy \leq \overline{b}$ telles que \\
-$\min \{y : (x,y) \in F \} = \min \{y : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} Ax+Dy \leq \underline{b}$ \\
+Il est possible de construire un ensemble fini d'\textbf{inégalités}
+\[
+  Ax+Dy \leq \overline{b}
+\]
+telles que
+\[
+  \min \{y : (x,y) \in F \} = \min \{y : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} Ax+Dy \leq \underline{b}
+\]
 % \ensuremath{^\circ} pour le symbole °
 NB: une solution
 $(x \ensuremath{^\circ} , y\ensuremath{^\circ}) \in P$ doit être
 exclue (car n'est pas un vecteur entier) si
-$(x\ensuremath{^\circ}, y\ensuremath{^\circ}) \notin P $
+$(x\ensuremath{^\circ}, y\ensuremath{^\circ}) \notin P $.
 
 \bigskip
-Des \textbf{inégalités transitoires} peuvent être générées (nombre maxi de jobs par machine) \\
-$\sum_{j \in S_i} x_{ij} \leq L_i$ \quad $(L_i = h-1 \iff S_{j_h} > LB et S_{j_{(h-1)}} \leq LB)$\\
+
+Des \textbf{inégalités transitoires} peuvent être générées (nombre
+maximum de jobs par machine)
+\[
+  \sum_{j \in S_i} x_{ij} \leq L_i \quad (L_i = h-1 \iff S_{j_h} > LB
+  \textnormal{ et } S_{j_{(h-1)}} \leq LB)
+\]
 LB: borne inférieure.
 
 \bigskip
 
 Pour un problème \problemGrahamP, même de taille modeste, le nombre de
-variables et contraintes est très important, dont certaines sont
+variables et contraintes est très important, et certaines sont
 inutiles.
 L'algorithme va donc utiliser la méthode des plans sécants (Cutting
 Plane Method).
@@ -1620,42 +1634,42 @@ relaxation est exécutée, jusqu'à l'obtention d'une solution faisable.
 \begin{algorithm}[H]
 \DontPrintSemicolon
 
-Détermination de la borne inférieure $(LB)$ suivant l'algorithme de
-McNaughton \cite{mcnaughton1959scheduling}.
+Déterminer la borne inférieure $(LB)$ suivant l'algorithme de
+McNaughton \cite{mcnaughton1959scheduling}.\;
 
-\BlankLine % Petit espace
-Détermination de la borne Supérieure ($UB$ juste pour la nommer)
-suivant l'heuristique LPT (algorithme \ref{algo:LPT}).
+Déterminer la borne supérieure $UB$ suivant l'heuristique LPT
+(algorithme \ref{algo:LPT}).\;
 
-\BlankLine % Petit espace
-Si $LB$ coïncide avec $UB$ la solution optimale est trouvée, sinon le
-processus itératif démarre.
+\Si{$LB=UB$}{
+  \Return la solution optimale est trouvée par l'heuristique LPT
+}
 
-\BlankLine
 À chaque itération un programme de relaxation linéaire est résolu dans
 lequel $C_{\max}$ doit être égal à la borne inférieure actuelle
 ($LB$).
 Si la solution obtenue est entière (donc faisable), l'algorithme
-s'arrête et la solution actuelle est optimale.
+s'arrête et la solution actuelle est optimale.\;
 
-\BlankLine
 Sinon, des nouvelles inégalité (inégalités et/ou inégalités
 transitoires) sont ajoutées à la nouvelle relaxation linéaire. Le
 nouveau programme linéaire est résolu et l'algorithme s'arrête si la
-solution est entière.
+solution est entière.\;
 
-\BlankLine
 Si la relaxation n'est pas possible, la limite inférieure ($LB$) est
-augmentée d'une unité et le processus itératif redémarre.
+augmentée d'une unité et le processus itératif redémarre.\;
 
-\BlankLine
 Par contre, si les inégalités ne peuvent pas être générées, un
 algorithme \emph{Branch\&Bound} prend le relais pour résoudre le
-problème.
-
+problème.\;
 \caption{PA\label{algo:PA}}
 \end{algorithm}
 
+\lcc{Transformer l'algorithme en pseudo-code avec une boucle, des
+  conditions et des ordos retournés.
+  J'ai commencé pour la première condition.
+  Aussi, il faut préférer des verbes à l'indicatif pour commencer
+  chaque action (comme une recette de cuisine: ``1.
+  Mélanger les œufs et le sucre.'').}
 
 \section{Approximation}
 
@@ -1960,7 +1974,7 @@ avec k le nombre d'itérations qu'il a été nécessaire pour terminer l'algorit
 
 
 \subsection{d'autres algorithmes}
-Il existe d'autres PTAS, tels que :
+Il existe d'autres PTAS, tels que:
 
 PTAS GPU-DP de Ghalami \emph{et al.} \cite{li2018gpu} optimisé pour l'exécution en GPU.
 
@@ -1979,7 +1993,7 @@ Ce problème est NP-difficile.
 % \todo{FCO: Rappels, Lipshitz, fonction densité, triangulaire pas pertinent pour l'instant}
 
 
-Karmarkar \emph{et al.} \cite{karmarkar1982differencing} posent le problème de partition d'ensemble suivant :
+Karmarkar \emph{et al.} \cite{karmarkar1982differencing} posent le problème de partition d'ensemble suivant:
 soit un ensemble fini $P=\{P_1, P_2, \ldots, P_n\}$ de
 n nombres réels
 à partitionner dans m sous ensembles $m_1, m_2, \ldots, m_m$
@@ -2063,9 +2077,9 @@ $m_1 = \{ 6,13,73 \}$ et  $m_2 = \{ 3,20,30,40 \}$ (figure \ref{fig:LDM2M}).
 \item cas de $m>2$, m sous-ensembles $m_1,m_2, \ldots, m_m $.
 
 % PAS PERTINENT --------------------------------------------------
-%Quelques rappels :
+%Quelques rappels:
 %
-%Fonction densité :
+%Fonction densité:
 %S'applique aux variables aléatoires continues (réelles),
 % pour lesquelles la probabilité ($\mathbb{P}$) d'appartenir à un domaine
 %($[a, b]$)
@@ -2112,7 +2126,7 @@ $\underline{P_{8}} = \{,,5\}$\\
 les tuples qui ont la différence la plus grande sont
 $\underline{P_{8}}$  et $\underline{P_{7}}$.
 on combine $\underline{P_{8}}$  et $\underline{P_{7}}$ pour créer un $\underline{P_{78}}$. Le premier plus petit élément de $\underline{P_{8}}$ (élément vide) est joint par le premier plus grand élément de $\underline{P_{8}}$ (5) pour donner  $\underline{P_{78}} = \{,5,5\}$. $d(\underline{P_{78}}) = 5-0 = 5$.\\
-La nouvelle instance devient :\\
+La nouvelle instance devient:\\
 \begin{multicols}{3}
 $\underline{P_{1}} = \{,,1\}$\\
 $\underline{P_{2}} = \{,,3\}$\\
@@ -2125,7 +2139,7 @@ $\underline{P_{78}} = \{,5,5\}=5$\\
 
 \textbf{Itération 2}:\\
 On conbine $\underline{P_{6}}$ avec $\underline{P_{78}}$ pour donner $\underline{P_{678}} = \{5,5,5\}$. $d(\underline{P_{678}}) = 5-5 = 0$.\\
-La nouvelle instance devient :\\
+La nouvelle instance devient:\\
 \begin{multicols}{3}
 $\underline{P_{1}} = \{,,1\}$\\
 $\underline{P_{2}} = \{,,3\}$\\
@@ -2139,7 +2153,7 @@ $\underline{P_{678}} = \{5,5,5\}=0$\\
 les tuples qui ont la différence la plus grande sont
 $\underline{P_{5}}$  et $\underline{P_{4}}$.
 on les combine pour créer un $\underline{P_{45}}$. Le premier plus petit élément de $\underline{P_{5}}$ (élément vide) est joint par le premier plus grand élément de $\underline{P_{4}}$ (4) pour donner  $\underline{P_{45}} = \{,4,4\}$. $d(\underline{P_{45}}) = 4-0 = 4$.\\
-La nouvelle instance devient :\\
+La nouvelle instance devient:\\
 \begin{multicols}{3}
 $\underline{P_{1}} = \{,,1\}$\\
 $\underline{P_{2}} = \{,,3\}$\\
@@ -2152,7 +2166,7 @@ $\underline{P_{678}} = \{5,5,5\}=0$\\
 les tuples qui ont la différence la plus grande sont
 $\underline{P_{45}}$  et $\underline{P_{3}}$.
 on les combine pour créer un $\underline{P_{345}}$. Le premier plus petit élément de $\underline{P_{45}}$ (élément vide) est joint par le premier plus grand élément de $\underline{P_{3}}$ (3) pour donner  $\underline{P_{345}} = \{3,4,4\}$. $d(\underline{P_{345}}) = 4-3 = 1$.\\
-La nouvelle instance devient :\\
+La nouvelle instance devient:\\
 \begin{multicols}{3}
 $\underline{P_{1}} = \{,,1\}$\\
 $\underline{P_{2}} = \{,,3\}$\\
@@ -2165,7 +2179,7 @@ les tuples qui ont la différence la plus grande sont
 $\underline{P_{345}}$  et $\underline{P_{2}}$.
 on les combine pour créer un $\underline{P_{2345}}$. Le premier plus petit élément de $\underline{P_{345}}$ (3) est joint par le premier plus grand élément de $\underline{P_{2}}$ (3) pour donner  $\underline{P_{2345}} = \{(3,3),4,4\}$. La première association, vient d'être créée. elle a pour valeur 6.
 $d(\underline{P_{2345}}) = (3+3)-4 = 6-4=2$.\\
-La nouvelle instance devient :\\
+La nouvelle instance devient:\\
 \begin{multicols}{2}
 $\underline{P_{1}} = \{,,1\}$\\
 $\underline{P_{2345}} = \{(3,3),4,4\}=2$\\
@@ -2177,7 +2191,7 @@ les tuples qui ont la différence la plus grande sont
 $\underline{P_{2345}}$  et $\underline{P_{1}}$.
 on les combine pour créer un $\underline{P_{2345}}$. Le premier plus petit élément de $\underline{P_{2345}}$ (4) est joint par le premier plus grand élément de $\underline{P_{2}}$ (1) pour donner  $\underline{P_{12345}} = \{(3,3),(1,4),4\}$.
 $d(\underline{P_{12345}}) = (3+3)-4 = 6-4=2$.\\
-La nouvelle instance devient :\\
+La nouvelle instance devient:\\
 $\underline{P_{12345}} = \{(3,3),(1,4),4\}=2$\\
 $\underline{P_{678}} = \{5,5,5\}=0$\\
 
@@ -2204,7 +2218,7 @@ Alors que $C_m^{\star}(P) = 10$ avec $\underline{P^{\star}}= \{(5,5),(1,4,5),(4,
 % Ligne blanche
 & \\
 % Ligne Complexité
-Complexité en temps \cite{michiels2003performance} :& $n^{- \Theta (log(n))}$
+Complexité en temps \cite{michiels2003performance}:& $n^{- \Theta (log(n))}$
 \\	% pas de ligne \hline
 % Ligne blanche
 & \\
@@ -2227,7 +2241,7 @@ pour $m\geq 3$					& $ \frac{4}{3}-\frac{1}{3 \cdot m} \leq
 
 
 \subsubsection{d'autres algorithmes}
-D'autres algorithme basés sur le partitionnement de nombres :
+D'autres algorithme basés sur le partitionnement de nombres:
 
 MPS, de Paletta et al \cite{paletta2007new}
 
