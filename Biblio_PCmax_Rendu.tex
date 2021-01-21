@@ -201,39 +201,66 @@
 \tableofcontents
 
 \lp{Remarque générale: ajouter un peu de blabla pour rendre moins
-  lapidaire ?}
+  lapidaire?}
 % =======================================================
 % 1 INTRODUCTION
 % =======================================================
 \section{Introduction}
 
-Qu'ont en commun les lignes de productions industrielles, la gestion des quais d'expédition, l'organisation de partiels d'une université, la fabrication d'une maison, la planification des opérations d'un hôpital, ou l'attribution de tâches à un microprocesseur multi-cœurs ? Chacune de ces activités demande la résolution d'un problème d'ordonnancement, afin d'optimiser un coût, des priorités, un retard ou un temps total.
+Qu'ont en commun les lignes de productions industrielles, la gestion
+des quais d'expédition, l'organisation de partiels d'une université,
+la fabrication d'une maison, la planification des opérations d'un
+hôpital, ou l'attribution de tâches à un microprocesseur multi-cœurs?
+Chacune de ces activités demande la résolution d'un problème
+d'ordonnancement, afin d'optimiser un coût, des priorités, un retard
+ou un temps total.
 
-Graham (1935 - 2020) est l'un des pionniers dans l'analyse mathématique du problème d'ordonnancement, et relève certaines anomalies \cite{graham1966bounds}: Des tâches dont certaines sont reliées entre elles par des contraintes, et exécutées en parallèle seront traitées en moins de temps que si les contraintes sont supprimées. D'où l'importance de la planification des tâches.
+Graham (1935 - 2020) est l'un des pionniers dans l'analyse
+mathématique du problème d'ordonnancement, et relève certaines
+anomalies \cite{graham1966bounds}: Des tâches dont certaines sont
+reliées entre elles par des contraintes, et exécutées en parallèle
+seront traitées en moins de temps que si les contraintes sont
+supprimées.
+D'où l'importance de la planification des tâches.
 
-Le problème \problemGrahamP consiste à planifier des tâches, sur des machines parallèles, dans le but de minimiser le temps total de traitement (makespan). Malgré cette apparente simplicité, le problème est NP-Difficile, de même que ses problèmes similaires, Bin-packing, et partition de nombres. Les algorithmes développés tentent de donner une solution la plus proche possible de la solution optimale, dans les meilleurs délais.
+Le problème \problemGrahamP consiste à planifier des tâches, sur des
+machines parallèles, dans le but de minimiser le temps total de
+traitement (makespan).
+Malgré cette apparente simplicité, le problème est NP-Difficile, de
+même que ses problèmes similaires, Bin-packing, et partition de
+nombres.
+Les algorithmes développés tentent de donner une solution la plus
+proche possible de la solution optimale, dans les meilleurs délais.
 
-Ce document tente d’énumérer et de présenter les algorithmes les plus courants ainsi que les différentes méthodes de résolution utilisées.
-Après une présentation du problème,
-nous étudierons, dans un premier temps, diverses heuristiques,
-plus précisément l'utilisation des "list scheduling",
-et des outils de résolution du problème Bin-packing.
-Ensuite, nous verrons  comment la programmation linéaire peut résoudre le problème,
-suivi par l'étude de la définition d'un schéma d'approximation en temps polynomial (PTAS).
-Le problème de partitionnement de nombres, ainsi que sa résolution approchée sera la dernière approche examinée. Ce document se termine par une synthèse.
+Ce document tente d’énumérer et de présenter les algorithmes les plus
+courants ainsi que les différentes méthodes de résolution utilisées.
+Après une présentation du problème, nous étudierons, dans un premier
+temps, diverses heuristiques, plus précisément l'utilisation des "list
+scheduling", et des outils de résolution du problème Bin-packing.
+Ensuite, nous verrons comment la programmation linéaire peut résoudre
+le problème, suivi par l'étude de la définition d'un schéma
+d'approximation en temps polynomial (PTAS).
+Le problème de partitionnement de nombres, ainsi que sa résolution
+approchée sera la dernière approche examinée.
+Ce document se termine par une synthèse.
 
 \jb{Mettre des références vers les sections}
 
 \section{Présentation du problème}
 
-Le problème d'ordonnancement se pose depuis l'apparition des premières machines parallèles. Après un rappel sur le parallélisme, nous verrons les divers problèmes d'ordonnancement, pour nous concentrer en particulier sur le problème \problemGrahamP, la problématique que cela pose.
+Le problème d'ordonnancement se pose depuis l'apparition des premières
+machines parallèles.
+Après un rappel sur le parallélisme, nous verrons les divers problèmes
+d'ordonnancement, pour nous concentrer en particulier sur le problème
+\problemGrahamP, la problématique que cela pose.
 
 
 \subsection{Parallélisme}
 Le parallélisme est un type d{\textquotesingle}architecture informatique
 dans lequel plusieurs processeurs exécutent ou traitent une application
 ou un calcul simultanément. Il aide à effectuer de grands calculs en
-divisant la charge de travail entre plusieurs processeurs, capables de communiquer et de coopérer.
+divisant la charge de travail entre plusieurs processeurs, capables de
+communiquer et de coopérer.
 
 % -------------------------------------------------------
 % FLYNN 1972
@@ -316,7 +343,7 @@ Multi processeurs à mémoire partagée (multi-c{\oe}urs)
 %\lp{Mettre le titre avec caption, environnement table}
 %\fco{ok fait, ajout d'un l'abel pour referencer} 
 \jb{les SISD ne sont pas obsolètes, les microcontrôlleurs qui sont dans les appareils ménagers sont des SISD}
-\fco{ok, fait. arduino ? par exemple ?}
+\fco{ok, fait. arduino? par exemple?}
 
 % -------------------------------------------------------
 % Skilicorn 1988
@@ -380,7 +407,7 @@ vectoriels à chaînes de traitement).
   Et d'autre part les MIMD à mémoire partagées, telles que les
   machines muti-processeurs, ou les processeurs multi-c\oe{}urs. 
   
-  \lp{Dire que c'est le contexte de ton travail ?}
+  \lp{Dire que c'est le contexte de ton travail?}
   \fco{Ok, fait.}
 \item Les architectures mixtes, ou basées sur le paradigme MIMS.
   \begin{itemize}
@@ -408,7 +435,9 @@ Les premières machines parallèles étaient des réseaux
 d'ordinateurs, et des machines vectorielles (faiblement
 parallèles, très coûteuses), telles que l'IBM 360, les
 Cray1.
-De nos jours, les super-ordinateurs ont un nombre de c\oe{}urs de l'ordre de plusieurs millions, et leur performances de calculs s'expriment
+De nos jours, les super-ordinateurs ont un nombre de c\oe{}urs de
+l'ordre de plusieurs millions, et leur performances de calculs
+s'expriment
 en centaines de petaFLOP. Les 500 super-ordinateurs les plus puissants
 sont recensés par le site www.top500.org.
 Le Supercomputer Fugaku (Fujitsu), du Centre pour la science
@@ -433,8 +462,8 @@ de l’Oak Ridge National Laboratory aux États-Unis.
 % \lp{pense à compléter cette partie avec des infos sur des
 %  machines actuelles. voir top500.org dont il serait peut-être plus
 %  judicieux de citer les infos: puissance des plus gros ordinateurs,
-%  nombre de proc, cores, etc. Parler peut-être aussi des clouds ? Des
-%  applications ? Pour intro}
+%  nombre de proc, cores, etc. Parler peut-être aussi des clouds? Des
+%  applications? Pour intro}
 % \tdi{FCO: ok, fait}
 On peut définir une machine parallèle comme un ensemble de processeurs
 capables de coopérer et de communiquer dans le but de résoudre un
@@ -519,7 +548,8 @@ total de traitement de tous les jobs, i.e.\ minimiser le makespan noté $C_{\max
 
 Ces diverses possibilités définissent divers problèmes
 d'ordonnancements différents, recensés et classifiés
-\ par Graham \emph{et al.} \citep{graham1979optimization}, qui introduit la notation trois-champs $\alpha
+par Graham \emph{et al.} \citep{graham1979optimization}, qui introduit
+la notation trois-champs $\alpha
 ${\textbar}$\beta ${\textbar}$\gamma $ .
 
 \bigskip
@@ -535,7 +565,7 @@ Dans cette classification, le problème \problemGrahamP se définit alors ainsi:
 \item $\alpha = \alpha_1 \alpha_2$, détermine l'environnement machines.
   \begin{itemize}
   \item $\alpha_1 = P$:
-  \lp{Je ne comprends pas pourquoi $\alpha$ ? $\alpha=P$?}
+  \lp{Je ne comprends pas pourquoi $\alpha$? $\alpha=P$?}
   \fco{ok, fait}
   les machines sont parallèles et identiques: un job,
   une tâche prendra le même temps de traitement qu'il soit exécuté sur
@@ -610,7 +640,7 @@ la notation:
   actuelle, bon nombre de centres de calcul ont un parc
   assez homogène. De même les clouds offrent des instances de VM, ce
   qui permet d'avoir un environnement d'exec homogène }
-\lp{faire un dessin illustratif ?}
+\lp{faire un dessin illustratif?}
 
 
 % \lp{dire que la difficulté repose uniquement sur le regourpement
@@ -633,7 +663,7 @@ $P_j$.
 \fco{ok, fait}  
 \lp{Il serait mieux de garder les majuscules pour les ensembles et les
   minuscules pour les éléments. Mais peut-être le travail est trop
-  conséquant pour valoir le coup ?}
+  conséquant pour valoir le coup?}
 \fco{ok, fait: je dois tout relire pour vérifier si ok, et si rien oublié. Attention les éléments de partitions sont de majuscules}
 
 % -------------------------------------------------------
@@ -660,7 +690,7 @@ $P_j$.
 	d'un ensemble $J$ de jobs,
 	sur m machines parallèles, identiques,
 	obtenu par l'algorithme $A$.
-%  \lp{à quoi sert $j$ ici ?}
+%  \lp{à quoi sert $j$ ici?}
 %  \tdi{FCO  ok, fait: C'était une erreur de frappe ...
 %	le copier/coller qui va avec}
 
@@ -690,7 +720,7 @@ Comme l'ont démontré Garey et Johnson,
 \problemGrahamPII est un
 problème NP-Difficile \citep{garey1978strong}, et
 \problemGrahamP avec $m \geq 3$ est un problème NP-Difficile
-au sens fort \citep{garey1982computers} \lp{Pour plus de 3 machines ?} \fco{ok, fait}.
+au sens fort \citep{garey1982computers} \lp{Pour plus de 3 machines?} \fco{ok, fait}.
 Cependant, \problemGrahamP devient un problème NP-Difficile, du moment
 que le nombre de machines est fixé \cite{chen1999potts}, comme l'a
 montré Rothkopf \cite{rothkopf1966scheduling}, qui a présenté un
@@ -731,10 +761,11 @@ Les jobs sont exécutés sans interruption ni coupure. Toutes les solutions ont 
 \fco{ok, fait}  
 
 L'existence d'une solution qui résout le problème de manière optimale 
-  n'est pas pensable, à moins que $P = NP$,
+n'est pas pensable, à moins que $P = NP$,
 Dans la littérature, l'étude d'ordonnancement est très riche et
 abondante. Le but étant d'améliorer le temps de calcul, et d'approcher le
-résultat optimal. Les solutions proposée sont des Heuristiques, ou des approximations.
+résultat optimal. Les solutions proposée sont des Heuristiques, ou des
+approximations.
 \lp{... de manière optimale...}	
 \fco{ok, fait}
 \lp{les solutions proposées dans la littérature sont 
@@ -744,7 +775,7 @@ résultat optimal. Les solutions proposée sont des Heuristiques, ou des approxi
 
 \section{Heuristiques}
 
-%	\lp{définir heuristic ?}
+%	\lp{définir heuristic?}
 %	\tdi{FCO: ok, fait}
 
 Le but d'une heuristique (du grec \emph{heuriskein}: trouver) est
@@ -765,10 +796,13 @@ Cette heuristique est simple, mais donne, pour ce problème un mauvais résultat
 %réduite\lp{ça dépend de leur conception}, et obtiennent de bonne
 %performances\lp{ça dépend aussi, je suis capable de faire des
 %heuristiques non performantes}.
-Ces algorithmes donnent des résultats, dont la borne maximale, au pire des cas  n'est pas maîtrisée:
-une étude du comportement est nécessaire pour définir cette borne
-maximale.\lp{Elle n'existe pas parfois. Dans ce cas, l'étude de comportement (ou
-  simulation) permet d'avoir des indications générales sur le comportement}
+Ces algorithmes donnent des résultats, dont la borne maximale, au pire
+des cas n'est pas maîtrisée: une étude du comportement est nécessaire
+pour définir cette borne maximale.
+
+\lp{Elle n'existe pas parfois.
+  Dans ce cas, l'étude de comportement (ou simulation) permet d'avoir
+  des indications générales sur le comportement}
 % \lcc{revoir notation et phrase}
 % \fco{ok, fait.}
 % $C_m^A(J)_{maximal}$
@@ -776,8 +810,11 @@ maximale.\lp{Elle n'existe pas parfois. Dans ce cas, l'étude de comportement (o
 Les heuristiques représentent la plus grande partie des recherches concernant le problème
 d'ordonnancement.
 
-%même si leurs performances, au pire cas, ne sont pas\todo{LP: ??}\todo{FCO: pour dire %que, contrairement aux PTAS, le ratio n\ap est pas maîtrisé} garanties.
-%Sont abordées ici les heuristiques les plus présentes dans la littérature.
+% même si leurs performances, au pire cas, ne sont
+% pas\todo{LP:??}\todo{FCO: pour
+% dire %que, contrairement aux PTAS, le ratio n\ap est pas maîtrisé} garanties.
+% Sont abordées ici les heuristiques les plus présentes dans la
+% littérature.
 
 % \lp{on a aussi une borne min qui est le max entre la plus grande
 %   des tâches et sum(pi)/m}
@@ -1056,11 +1093,19 @@ Ratio d'approximation:	&	$\Gamma(LPT-REV)\leq \dfrac{4}{3} - \dfrac{1}{3(m-1)}$
 \end{theoreme}
 
 \subsubsection{D'autres algorithmes}
-Il existe d'autres propositions basée LS, 
 
-telle que AP de mokotoff \emph{et al.} \cite{mokotoff2004exact}.
-AP trie les jobs selon LPT rule (algorithme \ref{algo:LPT}), partitionne l'ensemble des machines en $r$ sous-ensembles, et définit une limite que la somme des jobs par machine ne devra pas dépasser. Les jobs sont attribués selon l'algorithme de LPT rule, sur une première partition. Une fois la limite atteinte, les jobs restants sont attribués de la même façon à une deuxième partition. Et ainsi de suite.
-\lp{Dire en 2 mots ce qu'ils font ?}
+Il existe d'autres propositions basée LS, telle que AP de mokotoff
+\emph{et al.}
+\cite{mokotoff2004exact}.
+AP trie les jobs selon LPT rule (algorithme \ref{algo:LPT}),
+partitionne l'ensemble des machines en $r$ sous-ensembles, et définit
+une limite que la somme des jobs par machine ne devra pas dépasser.
+Les jobs sont attribués selon l'algorithme de LPT rule, sur une
+première partition.
+Une fois la limite atteinte, les jobs restants sont attribués de la
+même façon à une deuxième partition.
+Et ainsi de suite.
+\lp{Dire en 2 mots ce qu'ils font?}
 \fco{ok, fait}
 
 
@@ -1093,7 +1138,7 @@ le problème Bin-packing est NP-Complet \cite{Johnson1974WorstCasePB}.
 L'idée est d'utiliser le problème Bin-Packing à l'envers, pour
 approcher une solution au problème d'ordonnancement.
 
-% \lp{petite remarque sur la complexité du problème ?}
+% \lp{petite remarque sur la complexité du problème?}
 % \tdi{FCO: ok, fait}
 
 % -------------------------------------------------------
@@ -1182,7 +1227,7 @@ pour laquelle $FFD[T,C] \leq m$}
 
 \caption{MULTIFIT\label{algo:MULTIFIT}}
 \end{algorithm}
-% \lp{$k$ fixé ? ou seuil entre deux iter ?}
+% \lp{$k$ fixé? ou seuil entre deux iter?}
 % \tdi{FCO: ok, fait}
 
 \bigskip
@@ -1225,7 +1270,8 @@ Généralement, MULTIFIT donne des résultats très satisfaisant avec $k = 7$
 % ---------------------
 Lee \emph{et al.}, \cite{lee1988multiprocessor} ont l'idée
 d'utiliser LPT (algorithme \ref{algo:LPT}) pour réduire les bornes de départ
-et ainsi optimiser MULTIFIT (algorithme \ref{algo:MULTIFIT}) dans un algorithme nommé COMBINE.
+et ainsi optimiser MULTIFIT (algorithme \ref{algo:MULTIFIT}) dans un
+algorithme nommé COMBINE.
 
 % \lp{développer/préciser un peu}
 % \tdi{FCO: ok, fait}
@@ -1427,7 +1473,7 @@ Il existe d'autres propositions telles que:
 3-phase de França \emph{et al.} \cite{francca1994composite}
 
 HI-Pcmax de Alvim \emph{et al.} \cite{alvim2004hybrid}\lp{Deux mots explicatifs
-  sur ces propositions ?}
+  sur ces propositions?}
 
 
 \subsection{Approche gloutonne}
@@ -1445,7 +1491,7 @@ développement de LPT-Rev (algorithme \ref{algo:LPTRev}), ont mis en évidence
 l'importance des différences de temps entre les jobs,
 ainsi que le regroupement de ceux-ci en sous-ensembles.
 
-\lp{est-ce qu'on sait dire pourquoi ? faire une petite analyse}
+\lp{est-ce qu'on sait dire pourquoi? faire une petite analyse}
 
 notamment pour l'instance suivante:
 % * pour ne pas numéroter. Juste besoin d'aligner
@@ -1457,7 +1503,7 @@ Où ils ont planifié d'abord, le job $2 \cdot m + 1$, puis un
 sous-ensemble de jobs triés $\{1,...,m\}$ et pour finir un
 sous-ensemble de jobs triés $\{m+1,...,2 \cdot m \}$
 
-En résulte l'algorithme suivant: \lp{C'est l'algo le résultat ?}
+En résulte l'algorithme suivant: \lp{C'est l'algo le résultat?}
 
 \bigskip
 % Algorithme
@@ -1485,7 +1531,8 @@ premier job du tuple et le dernier.
 trier les tuples par ordre décroissant de "Slack" et ainsi former un nouvel ensemble
 \tcp{e.g: $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $p_{m+1} - p_{2 \cdot m} > p_1 - p_m$.}
 %STEP 6
-applique l'ordonnancement (Affectation à la machine la moins chargée à ce moment là) à l'ensemble ainsi obtenu.
+applique l'ordonnancement (Affectation à la machine la moins chargée à
+ce moment là) à l'ensemble ainsi obtenu.
 \caption{SLACK\label{algo:SLACK}}
 \end{algorithm}
 
@@ -1592,7 +1639,7 @@ Le polytope $P$ relatif à $F$ est défini ainsi:
   F=\{ (x,y) : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} : \sum_{i=1}^{m} x_{ij}=1 \forall j;
   y-\sum_{j=1}^{n} p_j \cdot x_{ij} \geq 0 \forall i	\}
 \]
-\lp{Tu n'avais pas dit P ?}
+\lp{Tu n'avais pas dit P?}
 
 Il est possible de construire un ensemble fini d'\textbf{inégalités}
 \[
@@ -1699,15 +1746,18 @@ Soient:
 Une taille maximale $C$ des bacs (ou boites).
 
 $T^{\star}(T)$, définit plus haut, correspond au bin-packing idéal, et donc,
-au nombre minimum de bacs nécessaires pour l'organisation des pièces de l'ensemble $T$.
-Le but de l'algorithme proposé, et de construire un arrangement bin-packing,
+au nombre minimum de bacs nécessaires pour l'organisation des pièces
+de l'ensemble $T$.
+Le but de l'algorithme proposé, et de construire un arrangement
+bin-packing,
 qui utilise au plus $T^{\star}_m$ bacs, remplit
 avec des pièces totalisant une taille au plus de $1+ \epsilon$,
 et ainsi donner une réponse au problème \problemGrahamP en temps polynomial.
 
 Le problème bin-packing et \problemGrahamP sont reliés de la façon suivante:
 $T^{\star}(\dfrac{J}{C}) \le m$ si et seulement si $C^{\star}_m(J) \le C$.
-Donc la taille minimale des bacs, $C^{\star}$ correspondant au délai idéal makespan, est telle que $T^{\star}(\dfrac{J}{C^{\star}}) \le m$.
+Donc la taille minimale des bacs, $C^{\star}$ correspondant au délai
+idéal makespan, est telle que $T^{\star}(\dfrac{J}{C^{\star}}) \le m$.
 
 Nous sommes en présence de deux paramètres critiques:
 \begin{itemize}
@@ -1717,7 +1767,8 @@ Nous sommes en présence de deux paramètres critiques:
 Il y a donc deux problèmes d'optimisation,
 dont l'un consiste à fixer le premier paramètre pour optimiser l'autre,
 et inversement, fixer l'autre pour optimiser le premier.
-Ce qui constitue un problème de reconnaissance (ou décision) à deux paramètres $R(p_1, p_2)$.
+Ce qui constitue un problème de reconnaissance (ou décision) à deux
+paramètres $R(p_1, p_2)$.
 
 \bigskip
 
@@ -1728,7 +1779,8 @@ où $p_1$ est donné en paramètre et $p_2$ est optimisé.
 
 La valeur optimale est $OPT_P(J,\bar{p_1})$.
 
-soit l'algorithme d'approximation $\epsilon-$primal pour le problème primal, qui donne comme résultats:
+soit l'algorithme d'approximation $\epsilon-$primal pour le problème
+primal, qui donne comme résultats:
 
 \begin{itemize}
 \item pour le premier paramètre $p_1$ une valeur $\le \bar{p_1}$
@@ -1743,7 +1795,8 @@ où $p_2$ est donné en paramètre et $p_1$ est optimisé.
 
 La valeur optimale est $OPT_D(J,\bar{p_2})$.
 
-soit l'algorithme d'approximation $\epsilon-$dual pour le problème dual, qui donne comme résultats:
+soit l'algorithme d'approximation $\epsilon-$dual pour le problème
+dual, qui donne comme résultats:
 
 \begin{itemize}
 \item pour le premier paramètre $p_1$ une valeur $DUAL_{D,\epsilon}(J, \bar{p_2})\le OPT_D(J,\bar{p_2})$.
@@ -1755,7 +1808,8 @@ soit l'algorithme d'approximation $\epsilon-$dual pour le problème dual, qui do
 Trouver un algorithme $\epsilon-$primal pour le problème primal,
 peut être réduit à trouver un algorithme $\epsilon-$dual pour le problème dual.
 
-Trouver un algorithme d'approximation $\epsilon-$dual, peut être réduit à trouver un algorithme
+Trouver un algorithme d'approximation $\epsilon-$dual, peut être
+réduit à trouver un algorithme
 d'approximation $\epsilon-$dual pour une instance du problème où la
 taille des pièces sont $> \epsilon$.
 
@@ -1776,7 +1830,8 @@ Chaque $x_k$ peut prendre une valeur dans l'intervalle
 $[0,\dfrac{1}{\epsilon•}[$
 
 La configuration d'un bac $P_i$ peut être donnée par un s-tuple $(x_1, x_2, \ldots, x_S)$.
-Une configuration est dite faisable si $\sum_{k=1}^{S}x_k \cdot l_k \le 1$ avec $l_k$ de $]l_k, l_{k+1}]$.
+Une configuration est dite faisable si $\sum_{k=1}^{S}x_k \cdot l_k
+\le 1$ avec $l_k$ de $]l_k, l_{k+1}]$.
 
 Nous avons donc
 
@@ -1795,13 +1850,15 @@ $=$
 $1 + \epsilon$
 
 \bigskip
-Soit $b_k$ avec $1 \le k \le S$ le nombre de pièces utilisées dans tous les bacs dont la taille $\in ]l_k, l_{k+1}]$.
+Soit $b_k$ avec $1 \le k \le S$ le nombre de pièces utilisées dans
+tous les bacs dont la taille $\in ]l_k, l_{k+1}]$.
 
 Soit $Bins(b_1, b_2, \ldots, b_S)$ le nombre minimum de bacs
 nécessaires, lorsqu'il y a $b_k$ pièces de taille $l_k$, et
 considérons que le premier bac soit rempli, nous obtenons:
 
-$Bins(b_1, b_2, \ldots, b_S) = 1 + \underset{configuraion faisable (x_1, \ldots, x_S)}{\min} Bins(b_1-x_1, b_2-x_2, \ldots, b_S-x_S)$
+$Bins(b_1, b_2, \ldots, b_S) = 1 + \underset{configuraion faisable
+  (x_1, \ldots, x_S)}{\min} Bins(b_1-x_1, b_2-x_2, \ldots, b_S-x_S)$
 
 Ce qui est résolu par programmation dynamique.
 Il existe 2 versions optimisées d'algorithmes pour
@@ -1824,17 +1881,22 @@ $p_{i_1} \leq p_{i_2} \leq \ldots \leq p_{i_k}$
 \begin{algorithm}[H]
 \DontPrintSemicolon
 
-Tant qu'il y a $1$ pièce $j$ avec $p_j \in [0,6, 1]$ emballer j avec $L[1 - p_j]$, si cette pièce existe. Emballer $j$ toute seule sinon.
+Tant qu'il y a $1$ pièce $j$ avec $p_j \in [0,6, 1]$ emballer j avec
+$L[1 - p_j]$, si cette pièce existe.
+Emballer $j$ toute seule sinon.
 
 \BlankLine % Petit espace
-Tant qu'il y a $2$ pièces $i$, $j$ avec $p_i, p_j \in [0,5, 0.6[$ emballer $i$ et $j$ ensembles.
+Tant qu'il y a $2$ pièces $i$, $j$ avec $p_i, p_j \in [0,5, 0.6[$
+emballer $i$ et $j$ ensembles.
 
 \BlankLine % Petit espace
 \tcp{Chaque pièce restante a une taille inférieure à 0.5}
-Tant qu'il existe $3$ pièces, dont la plus grande fait au moins 0.4, trouver $L[0.3,0.4,0.5]$ et les pacquer ensembles.
+Tant qu'il existe $3$ pièces, dont la plus grande fait au moins 0.4,
+trouver $L[0.3,0.4,0.5]$ et les pacquer ensembles.
 
 \BlankLine % Petit espace
-Tant qu'il existe des pièces dont à taille est dans [0.4,0.5[, pacquer les $2$ plus grandes ensembles.
+Tant qu'il existe des pièces dont à taille est dans [0.4,0.5[, pacquer
+les $2$ plus grandes ensembles.
 
 \BlankLine % Petit espace
 \tcp{Chaque pièce restante a une taille inférieure à 0.4}
@@ -1861,9 +1923,10 @@ Tant qu'il existe une pièce $j$, telle que $p_j \in (\frac{2}{3},1)$,
 emballer $p_j$ avec $L[1-p_j]$
 
 \BlankLine % Petit espace
-Estimer le nombre total de 1-bin ou 2-bin d'une solution optimale du reste de l'instance. Pour chacun de ces bacs,
-l'emballer avec $L[\frac{1}{2}, \frac{2}{3}]$ si de telles pièces existent,
-sinon, l'emballer avec $L[\frac{2}{3}]$.
+Estimer le nombre total de 1-bin ou 2-bin d'une solution optimale du
+reste de l'instance.
+Pour chacun de ces bacs, l'emballer avec $L[\frac{1}{2}, \frac{2}{3}]$
+si de telles pièces existent, sinon, l'emballer avec $L[\frac{2}{3}]$.
 
 \BlankLine % Petit espace
 \tcp{Pour le reste de la procédure, seuls les bacs qui ont }
@@ -1871,18 +1934,26 @@ sinon, l'emballer avec $L[\frac{2}{3}]$.
 
 \BlankLine % Petit espace
 \tcp{Chaque pièce restante a une taille inférieure à $\frac{2}{3}$}
-Pour chaque pièce $j$ restante, avec une taille $\frac{1}{2}+\delta; \delta \geq 0$, emballer $j$ avec $L[\frac{1}{4}-\frac{\delta}{2}, \frac{1}{3}-\delta]$
+Pour chaque pièce $j$ restante, avec une taille $\frac{1}{2}+\delta;
+\delta \geq 0$, emballer $j$ avec $L[\frac{1}{4}-\frac{\delta}{2},
+\frac{1}{3}-\delta]$
 
 \BlankLine % Petit espace
 \tcp{Chaque pièce restante a une taille inférieure à $\frac{1}{2}$}
-Estimer le nombre de 4-bin qui contient une pièce dont la taille est dans l'intervalle $[\frac{5}{12}, \frac{1}{2}[$ dans un packing optimal. Pacquer chaque bac avec $L[ \frac{7}{36}, \frac{5}{24}, \frac{1}{4}, \frac{1}{2}]$
+Estimer le nombre de 4-bin qui contient une pièce dont la taille est
+dans l'intervalle $[\frac{5}{12}, \frac{1}{2}[$ dans un packing
+optimal. Pacquer chaque bac avec $L[ \frac{7}{36}, \frac{5}{24},
+\frac{1}{4}, \frac{1}{2}]$
 
-Pour chaque pièce restante de taille $\frac{5}{12}+\delta, \delta \geq 0$, l'emballer dans un 3-bin
-avec $L[\frac{7}{24}-\frac{\delta}{2}, \frac{5}{12}-\delta]$
+Pour chaque pièce restante de taille
+$\frac{5}{12}+\delta, \delta \geq 0$, l'emballer dans un 3-bin avec
+$L[\frac{7}{24}-\frac{\delta}{2}, \frac{5}{12}-\delta]$
 
 \BlankLine % Petit espace
 \tcp{Chaque pièce restante a une taille inférieure à $\frac{5}{12}$}
-Estimer le nombre de 3-bin d'une solution optimale pour le reste de l'instance. Pour chacun d'eux, le pacquer avec $L[\frac{1}{3}, \frac{5}{12}, \frac{5}{12}]$
+Estimer le nombre de 3-bin d'une solution optimale pour le reste de
+l'instance. Pour chacun d'eux, le pacquer avec $L[\frac{1}{3},
+\frac{5}{12}, \frac{5}{12}]$
 
 \BlankLine % Petit espace
 \tcp{Pour le reste de la procédure, seuls les bacs qui ont }
@@ -1897,7 +1968,8 @@ avec $L[\frac{2}{9}-\frac{\delta}{3},
 \BlankLine % Petit espace
 \tcp{Chaque pièce restante a une taille inférieure à $\frac{1}{3}$}
 Estimer le nombre de 5-bin qui contienne une pièce
-dont la taille est comprise dans l'intervalle $[\frac{7}{24},\frac{1}{3}[$ d'une solution optimale.
+dont la taille est comprise dans l'intervalle
+$[\frac{7}{24},\frac{1}{3}[$ d'une solution optimale.
 Emballer de tels bacs avec
 $L[\frac{17}{96},
    \frac{13}{72},
@@ -1976,7 +2048,8 @@ avec k le nombre d'itérations qu'il a été nécessaire pour terminer l'algorit
 \subsection{d'autres algorithmes}
 Il existe d'autres PTAS, tels que:
 
-PTAS GPU-DP de Ghalami \emph{et al.} \cite{li2018gpu} optimisé pour l'exécution en GPU.
+PTAS GPU-DP de Ghalami \emph{et al.}
+\cite{li2018gpu} optimisé pour l'exécution en GPU.
 
 PTAS DP de Ghalami \emph{et al.} \cite{ghalami2019scheduling}
 
@@ -1984,38 +2057,47 @@ PTAS DP de Ghalami \emph{et al.} \cite{ghalami2019scheduling}
 \section{Autres approches}
 
 \subsection{partitionnement de nombres}
-Le problème \problemGrahamP peut être vu comme le problème de partition ou partitionnement de nombres (Npp).
-En effet, ce problème consiste à partitionner un ensemble de n nombres dans m sous-ensembles,
-tout en minimisant la somme des nombres de chaque sous ensembles.
+
+Le problème \problemGrahamP peut être vu comme le problème de
+partition ou partitionnement de nombres (Npp).
+En effet, ce problème consiste à partitionner un ensemble de n nombres
+dans m sous-ensembles, tout en minimisant la somme des nombres de
+chaque sous ensembles.
 Ce problème est NP-difficile.
 
 \subsubsection{LDM}
 % \todo{FCO: Rappels, Lipshitz, fonction densité, triangulaire pas pertinent pour l'instant}
 
 
-Karmarkar \emph{et al.} \cite{karmarkar1982differencing} posent le problème de partition d'ensemble suivant:
-soit un ensemble fini $P=\{P_1, P_2, \ldots, P_n\}$ de
-n nombres réels
-à partitionner dans m sous ensembles $m_1, m_2, \ldots, m_m$
-de manière à minimiser
-$D(m_1, m_2, \ldots, m_m) = max_i \left\{ \sum_{P_j \in m_i}P_j \right\} - min_i \left\{ \sum_{P_j \in m_i}P_j \right\}$
+Karmarkar \emph{et al.}
+\cite{karmarkar1982differencing} posent le problème de partition
+d'ensemble suivant: soit un ensemble fini
+$P=\{P_1, P_2, \ldots, P_n\}$ de n nombres réels à partitionner dans m
+sous ensembles $m_1, m_2, \ldots, m_m$ de manière à minimiser
+$D(m_1, m_2, \ldots, m_m) = max_i \left\{ \sum_{P_j \in m_i}P_j
+\right\} - min_i \left\{ \sum_{P_j \in m_i}P_j \right\}$
 
-Le principe de l'algorithme consiste à remplacer les deux plus grands nombres de l'ensemble de n éléments de départ
-(les plus importants, ou \textbf{Largest}),
-par leur différence
-(opération appelée Differentiation, ou \textbf{Differencing}),
-et ainsi donner un nouvel ensemble de $n-1$ éléments.
+Le principe de l'algorithme consiste à remplacer les deux plus grands
+nombres de l'ensemble de n éléments de départ (les plus importants, ou
+\textbf{Largest}), par leur différence (opération appelée
+Differentiation, ou \textbf{Differencing}), et ainsi donner un nouvel
+ensemble de $n-1$ éléments.
 D'où le nom LDM, ou Largest Differencing Methd.
 
 
-La réflexion est tout d'abord faite sur 2 sous-ensembles ( $m_1$ et $m_2$), pour être généralisée à m sous-ensembles.
+La réflexion est tout d'abord faite sur 2 sous-ensembles ( $m_1$ et
+$m_2$), pour être généralisée à m sous-ensembles.
 
 \begin{itemize}
 \item cas de $m=2$, deux sous-ensembles $m_1$ et $m_2$.
 
-L'algorithme prend les deux nombres,
-et les remplace par leur différence., Et ainsi de suite jusqu'à ce qu'il n'en reste plus qu'un. le dernier nombre correspond à la différence recherchée $D(m_1, m_2)$.
-Puis, par un retour sur trace (backtracking), les partitions $m_1$ et $m_2$ sont créées.
+  L'algorithme prend les deux nombres, et les remplace par leur
+  différence., Et ainsi de suite jusqu'à ce qu'il n'en reste plus
+  qu'un.
+  le dernier nombre correspond à la différence recherchée
+  $D(m_1, m_2)$.
+  Puis, par un retour sur trace (backtracking), les partitions $m_1$
+  et $m_2$ sont créées.
 
 \bigskip
 
@@ -2065,10 +2147,14 @@ Puis, par un retour sur trace (backtracking), les partitions $m_1$ et $m_2$ sont
 \begin{example}
 Soit $P=\{3,6,13,20,30,40,73\}$, l'ensemble des $P_j$.
 
-40 et 73 sont les nombres les plus grands. On les remplace dans $P$ par $73 - 40 = 33$, pour donner $P=\{3,6,13,20,30,33\}$ et ainsi de suite.
-La valeur restante est $P= \{1\}$, ce qui est le résultat de l'opération.
+40 et 73 sont les nombres les plus grands.
+On les remplace dans $P$ par $73 - 40 = 33$, pour donner
+$P=\{3,6,13,20,30,33\}$ et ainsi de suite.
+La valeur restante est $P= \{1\}$, ce qui est le résultat de
+l'opération.
 Par un retour sur trace, nous obtenons le partitionnement suivant:
-$m_1 = \{ 6,13,73 \}$ et  $m_2 = \{ 3,20,30,40 \}$ (figure \ref{fig:LDM2M}).
+$m_1 = \{ 6,13,73 \}$ et $m_2 = \{ 3,20,30,40 \}$ (figure
+\ref{fig:LDM2M}).
 
 \end{example}
 
@@ -2093,14 +2179,33 @@ $m_1 = \{ 6,13,73 \}$ et  $m_2 = \{ 3,20,30,40 \}$ (figure \ref{fig:LDM2M}).
 %alors la pente maximale (en valeur absolue) du graphe représentant cette fonction
 %est inférieure à un nombre appelé Constante de Lipschitz.
 %------------------------------------------------------------------
-LDM effectue tout d'abord, une opération de préparation de l'instance du problème. Chaque élément de $P = \{ P_1, P_2, \ldots, P_n \}$ est converti en $m$-tuple. Les $m-1$ premiers composants sont vides, et le dernier (position m) est égal au nombre lui-même. Ainsi chaque $\underline{P_i} = \{P_{i 1}=0,P_{i 2}=0, \ldots, P_{i m}=\{P_i\} \}$
+  LDM effectue tout d'abord, une opération de préparation de
+  l'instance du problème.
+  Chaque élément de $P = \{ P_1, P_2, \ldots, P_n \}$ est converti en
+  $m$-tuple.
+  Les $m-1$ premiers composants sont vides, et le dernier (position m)
+  est égal au nombre lui-même.
+  Ainsi chaque
+  $\underline{P_i} = \{P_{i 1}=0,P_{i 2}=0, \ldots, P_{i m}=\{P_i\}
+  \}$
 
 Puis, $n-1$ itérations des opérations suivantes sont effectuées:
 
 
-Soit $d(\underline{P_i})$ la différence entre la valeur maximale et la valeur minimale des composants du sous-ensemble $\underline{P_i}$.
+Soit $d(\underline{P_i})$ la différence entre la valeur maximale et la
+valeur minimale des composants du sous-ensemble $\underline{P_i}$.
 
-Extraction de $\underline{P_a}$ et $\underline{P_b}$ les deux m-tuples qui ont la plus grande différence $d(\underline{P_a})$ et $d(\underline{P_b})$. Ces deux solutions partielles, sont combinées pour former une nouvelle solution partielle $\underline{P_{ab}}$, en joignant le premier plus petit élément (ou l'élément vide) de $\underline{P_a}$ avec le premier élément le plus grand de $\underline{P_b}$, puis le deuxième élément le plus petit de $\underline{P_a}$ avec le deuxième élément le plus grand de $\underline{P_b}$ et ainsi de suite\ldots la nouvelle solution partielle $\underline{P_{ab}}$, remplace $\underline{P_a}$ et $\underline{P_b}$ dans l'instance.
+Extraction de $\underline{P_a}$ et $\underline{P_b}$ les deux m-tuples
+qui ont la plus grande différence $d(\underline{P_a})$ et
+$d(\underline{P_b})$.
+Ces deux solutions partielles, sont combinées pour former une nouvelle
+solution partielle $\underline{P_{ab}}$, en joignant le premier plus
+petit élément (ou l'élément vide) de $\underline{P_a}$ avec le premier
+élément le plus grand de $\underline{P_b}$, puis le deuxième élément
+le plus petit de $\underline{P_a}$ avec le deuxième élément le plus
+grand de $\underline{P_b}$ et ainsi de suite\ldots la nouvelle
+solution partielle $\underline{P_{ab}}$, remplace $\underline{P_a}$ et
+$\underline{P_b}$ dans l'instance.
 
 Le résultat du partitionnement est donné après $n-1$ itérations.
 
@@ -2406,7 +2511,13 @@ Ratio \newline (pire des cas)		&
 Comparaison des performances des algorithmes présentés. tableau 2/2.
 \end{center}
 
-LPT rule et LPT-REV présentent un ratio d'approximation qui s'approche du pire cas lorsque le nombre de machines augmente. Multifit, Combine et Listfit se suivent dans leurs performances (ListFit est plus coûteux en temps). Concernant le PTAS, plus $\epsilon$ est petit (ratio tend vers $1$)  plus l'algorithme se rapproche de la solution optimale, mais plus il pèse dans la complexité en temps (exponentiel en $\epsilon$).
+LPT rule et LPT-REV présentent un ratio d'approximation qui s'approche
+du pire cas lorsque le nombre de machines augmente.
+Multifit, Combine et Listfit se suivent dans leurs performances
+(ListFit est plus coûteux en temps).
+Concernant le PTAS, plus $\epsilon$ est petit (ratio tend vers $1$)
+plus l'algorithme se rapproche de la solution optimale, mais plus il
+pèse dans la complexité en temps (exponentiel en $\epsilon$).
 
 
 \subsubsection{Expérimentales}
@@ -2421,15 +2532,38 @@ LPT rule et LPT-REV présentent un ratio d'approximation qui s'approche du pire 
 \label{comparaison:LPTLDMMFBorneInf}
 \end{figure}
 
-En général, LPT donne des performances pratiques bien meilleures que les ratios théoriques attendus \cite{della2018longest}, surtout dans les instances à nombre élevé de jobs.
+En général, LPT donne des performances pratiques bien meilleures que
+les ratios théoriques attendus \cite{della2018longest}, surtout dans
+les instances à nombre élevé de jobs.
 
-Michiels \emph{et al.} \citep{michiels2003performance} étudient les performances des trois algorithmes phares (LPT, LDM, et Multifits), pour un nombre m=10 machines, et en fonction du nombre n d'éléments. Pour chaque n, 10 000 instances sont créées, à l'aide de nombres (temps des jobs) uniformément répartis (instances uniformes) dans l'intervalle [0,1]. La figure \ref{comparaison:LPTLDMMFBorneInf} représente l'écart moyen de chaque algorithme
-par rapport à la borne inférieure (théorème \ref{borneMini}).
-LPT est le moins performant, et Multifit supplante LDM à partir de $n=79$ éléments. Néanmoins, cette étude se base sur des éléments uniformément répartis, condition où LDM est très performant.
+Michiels \emph{et al.}
+\citep{michiels2003performance} étudient les performances des trois
+algorithmes phares (LPT, LDM, et Multifits), pour un nombre m=10
+machines, et en fonction du nombre n d'éléments.
+Pour chaque n, 10 000 instances sont créées, à l'aide de nombres
+(temps des jobs) uniformément répartis (instances uniformes) dans
+l'intervalle [0,1].
+La figure \ref{comparaison:LPTLDMMFBorneInf} représente l'écart moyen
+de chaque algorithme par rapport à la borne inférieure (théorème
+\ref{borneMini}).
+LPT est le moins performant, et Multifit supplante LDM à partir de
+$n=79$ éléments.
+Néanmoins, cette étude se base sur des éléments uniformément répartis,
+condition où LDM est très performant.
 
-Slack \ref{algo:SLACK}, qui n'est autre que LPT amélioré d'une heuristique, et accompagné d'une recherche locale devient globalement plus performant que LDM \cite{della2018longest}.
+Slack \ref{algo:SLACK}, qui n'est autre que LPT amélioré d'une
+heuristique, et accompagné d'une recherche locale devient globalement
+plus performant que LDM \cite{della2018longest}.
 
-Gupta \emph{et al.} prouvent que les performances de ListFit \ref{algo:LISTFIT} sont supérieures à LPT, Multifit et Combine.Ceux-ci sont comparés \cite{gupta2001listfit} \cite{lee1988multiprocessor} suivant des indices, en mettant de côté le nombre  k nécessaires à l’Achèvement des algorithmes. Behera et al \cite{behera2012comparison} comparent dans une étude le coût processeur de chaque heuristique, Qui indique que Listfit est très gourmand.
+Gupta \emph{et al.}
+prouvent que les performances de ListFit \ref{algo:LISTFIT} sont
+supérieures à LPT, Multifit et Combine.Ceux-ci sont comparés
+\cite{gupta2001listfit} \cite{lee1988multiprocessor} suivant des
+indices, en mettant de côté le nombre k nécessaires à l’Achèvement des
+algorithmes.
+Behera et al \cite{behera2012comparison} comparent dans une étude le
+coût processeur de chaque heuristique, Qui indique que Listfit est
+très gourmand.
 
 
 \begin{center}
@@ -2471,22 +2605,35 @@ Comparaison des temps moyens pour Multifit, Combine et Listfit
 
 
 \subsection{De la recherche d'informations}
-Il a été très difficile, voire impossible de trouver plus d'informations sur les performances
-de PA \ref{algo:PA} (résolution du problème \problemGrahamP par programmation linéaire),
-du PTAS dual-approximation \ref{algo:PTASDual1_5}   \ref{algo:PTASDual1_6}. En effet, Il aurait été intéressant d'avoir un aperçut de la complexité en temps de PA (Programmation linéaire + Branch\&Bound) et l'algorithme générique (non optimisé pour $\epsilon = \frac{1}{5}$ et $\epsilon = \frac{1}{6}$) du PTAS dual-approximation en programmation dynamique.
+
+Il a été très difficile, voire impossible de trouver plus
+d'informations sur les performances de PA \ref{algo:PA} (résolution du
+problème \problemGrahamP par programmation linéaire), du PTAS
+dual-approximation \ref{algo:PTASDual1_5} \ref{algo:PTASDual1_6}.
+En effet, Il aurait été intéressant d'avoir un aperçut de la
+complexité en temps de PA (Programmation linéaire + Branch\&Bound) et
+l'algorithme générique (non optimisé pour $\epsilon = \frac{1}{5}$ et
+$\epsilon = \frac{1}{6}$) du PTAS dual-approximation en programmation
+dynamique.
 
 \section{Conclusion}
 
-Dans cette bibliographie non-exhaustive, nous venons de voir différentes approches qui tentent de répondre au problème d'ordonnancement \problemGrahamP,
-soit directement, soit indirectement via des problèmes similaires,
-tels que le Bin-Packing ou le partitionnement de nombres.
-Chacune de ces méthodes a ses avantages et ses défauts. Soit leur complexité en temps est intéressante, mais leur ratio d'approximation est élevé, ou inversement, le résultat obtenu est très proche de l'optimal, au détriment d'un coût élevé en temps.
+Dans cette bibliographie non-exhaustive, nous venons de voir
+différentes approches qui tentent de répondre au problème
+d'ordonnancement \problemGrahamP, soit directement, soit indirectement
+via des problèmes similaires, tels que le Bin-Packing ou le
+partitionnement de nombres.
+Chacune de ces méthodes a ses avantages et ses défauts.
+Soit leur complexité en temps est intéressante, mais leur ratio
+d'approximation est élevé, ou inversement, le résultat obtenu est très
+proche de l'optimal, au détriment d'un coût élevé en temps.
 
 Il sera intéressant de définir un protocole expérimental afin de créer
 un spectre d'instances du problème plus complet, pour produire
 une comparaison d'un ensemble d'heuristiques.
 
-Et enfin, ces résultats pourrons être utilisés pour d'autres problèmes d'ordonnancements (contraintes, processeurs/machines hétérogènes).
+Et enfin, ces résultats pourrons être utilisés pour d'autres problèmes
+d'ordonnancements (contraintes, processeurs/machines hétérogènes).
 
 \section{remerciements}
 Laurent Philippe
