@@ -205,7 +205,7 @@
 % =======================================================
 % 1 INTRODUCTION
 % =======================================================
-\section{Introduction}
+\section{Introduction} \label{sec:introduction}
 
 Qu'ont en commun les lignes de productions industrielles, la gestion
 des quais d'expédition, l'organisation de partiels d'une université,
@@ -234,19 +234,23 @@ proche possible de la solution optimale, dans les meilleurs délais.
 
 Ce document tente d’énumérer et de présenter les algorithmes les plus
 courants ainsi que les différentes méthodes de résolution utilisées.
-Après une présentation du problème, nous étudierons, dans un premier
-temps, diverses heuristiques, plus précisément l'utilisation des "list
-scheduling", et des outils de résolution du problème Bin-packing.
-Ensuite, nous verrons comment la programmation linéaire peut résoudre
-le problème, suivi par l'étude de la définition d'un schéma
-d'approximation en temps polynomial (PTAS).
-Le problème de partitionnement de nombres, ainsi que sa résolution
-approchée sera la dernière approche examinée.
-Ce document se termine par une synthèse.
+Après une présentation du problème (\ref{sec:pesentationProbleme}), 
+nous étudierons, dans un premier temps, diverses heuristiques (\ref{sec:heuristiques}), 
+  plus précisément l'utilisation des "list scheduling", 
+  et des outils de résolution du problème Bin-packing.
+Ensuite, nous verrons comment la programmation linéaire
+  (\ref{sec:programmationLineaire}) peut résoudre le problème, 
+suivi par l'étude de la définition d'un schéma d'approximation 
+  en temps polynomial (PTAS) (\ref{sec:approximation}).
+Le problème de partitionnement de nombres, ainsi que sa 
+  résolution approchée sera la dernière approche examinée
+  (\ref{sec:autresApproches}).
+Ce document se termine par une synthèse (\ref{sec:synthese}).
 
 \jb{Mettre des références vers les sections}
+\fco{ok, fait}
 
-\section{Présentation du problème}
+\section{Présentation du problème} \label{sec:pesentationProbleme}
 
 Le problème d'ordonnancement se pose depuis l'apparition des premières
 machines parallèles.
@@ -255,7 +259,7 @@ d'ordonnancement, pour nous concentrer en particulier sur le problème
 \problemGrahamP, la problématique que cela pose.
 
 
-\subsection{Parallélisme}
+\subsection{Parallélisme} \label{ssec:pesentationProblemeParallelisme}
 Le parallélisme est un type d{\textquotesingle}architecture informatique
 dans lequel plusieurs processeurs exécutent ou traitent une application
 ou un calcul simultanément. Il aide à effectuer de grands calculs en
@@ -365,7 +369,7 @@ En 1990, Duncan présente une taxonomie de haut niveau \cite{44900}
 (figure \ref{fig:TaxonomieHautNiveau}), 
 reprenant les bases de la classification de Flynn, tout en incluant 
 les architectures modernes, et celles qui n'ont pas encore été 
-considérées comme architectures parallèle (e.g les processeurs 
+considérées comme architectures parallèles (e.g les processeurs 
 vectoriels à chaînes de traitement).
 
 \begin{figure}
@@ -400,12 +404,12 @@ vectoriels à chaînes de traitement).
   processeurs pour exécuter des flux d'instructions indépendant, en
   utilisant des données locales.
   On distingue, d'une part, les MIMD à mémoire distribuée.
-  Les processeurs ont leur propre mémoire, et le partage d'information
-  s'opère uniquement par échange de messages.
+  Les processeurs ont leur propre mémoire, et le partage d'informations
+  s'opère uniquement par échanges de messages.
   On rencontre dans ce type d'architecture, les grappes, les MPP
   (Massive Parallel Processing) et les COW (Cluster Of Workstations).
   Et d'autre part les MIMD à mémoire partagées, telles que les
-  machines muti-processeurs, ou les processeurs multi-c\oe{}urs. 
+  machines muti-processeurs, ou les processeurs multi-c\oe{}urs. C'est justement dans ce contexte que cette étude se situe.
   
   \lp{Dire que c'est le contexte de ton travail?}
   \fco{Ok, fait.}
@@ -496,7 +500,7 @@ Se pose alors le problème de l'attribution des tâches aux postes
 clients, un problème d'ordonnancement.
 
 
-\subsection{Ordonnancement}
+\subsection{Ordonnancement} \label{ssec:pesentationProblemeOrdonnancement}
 
 Sur une machine non parallèle, les tâches sont exécutées
 séquentiellement, les unes après les autres.
@@ -601,6 +605,7 @@ i.e.\ le temps de traitement total.
 \jb{Ici, soit il faut détailler $\alpha_x$ et $\beta_y$, soit il ne faut pas en parler du tout et en rester à $\alpha$ et $\beta$}
 \fco{ok, fait. J'ai laissé le $\beta$ car le fait qu'il soit vide a son importance}
 \subsection{Énoncé du problème \problemGrahamP}
+\label{ssec:pesentationProblemeEnonceDuProbleme}
 
 
 \begin{definition}{\problemGrahamP}
@@ -646,7 +651,7 @@ la notation:
 % \lp{dire que la difficulté repose uniquement sur le regourpement
 %   des jobs sur une machine puisque les machines sont identiques}
 % \todo{FCO: Rechercher exemples}
-\subsection{Notations}
+\subsection{Notations} \label{ssec:pesentationProblemeNotations}
 Chaque document utilise sa propre notation, mais les notions sont les mêmes.
 Soient les données du problème:
 
@@ -714,7 +719,7 @@ $P_j$.
 
 
 
-\subsection{Problématique}
+\subsection{Problématique} \label{ssec:pesentationProblemeProblematique}
 
 Comme l'ont démontré Garey et Johnson,
 \problemGrahamPII est un
@@ -750,10 +755,20 @@ La résolution du problème d'ordonnancement va reposer sur des méthodes
   une solution ``assez'' proche de la valeur optimale.
 % \todo{LP: approximation?}\todo{FCO: c'est bien le bon terme}
 
-Les jobs sont exécutés sans interruption ni coupure. Toutes les solutions ont donc
-  une borne minimale: \\
+Les jobs sont exécutés sans interruption ni coupure. Donc, 
+  le makespan ne  peut pas être inférieur à la taille du jobs 
+  le plus long i.e. $(\max_j\{p_j\})$. 
+  Dans le cas d'un nombre $n$ de jobs supérieur au nombre $m$ de machines,
+  le makespan ne peut pas être inférieur à la moyenne 
+  des tailles des jobs par machine 
+  i.e. $\dfrac{1}{m} \sum_{j=1}^{n} p_j$.
+Donc Toutes les solutions ont une borne minimale 
+  \cite{mcnaughton1959scheduling}: \\
+
+  \begin{center}
   $= \max \{ \max_j\{p_j\}, \dfrac{1}{m} \sum_{j=1}^{n} p_j \}$
   \label{borneMini}
+  \end{center}
 
 \lp{Si on ne le démontre pas je pense que ça n'est pas la peine de
   mettre cette borne sous la forme d'un théorème. Par contre, cela
@@ -773,7 +788,7 @@ approximations.
   ou des approximations}.
 \fco{ok, fait}
 
-\section{Heuristiques}
+\section{Heuristiques} \label{sec:heuristiques}
 
 %	\lp{définir heuristic?}
 %	\tdi{FCO: ok, fait}
@@ -819,7 +834,7 @@ d'ordonnancement.
 % \lp{on a aussi une borne min qui est le max entre la plus grande
 %   des tâches et sum(pi)/m}
 % \fco{FCO: ok, fait: Cette borne est une caractéristique du problème.}
-\subsection{LS (List Scheduling)}
+\subsection{LS (List Scheduling)} \label{ssec:heuristiquesLS}
 % '
 
 L'idée d'une LS est de stocker l'ensemble des jobs dans celle-ci,
@@ -1094,9 +1109,11 @@ Ratio d'approximation:	&	$\Gamma(LPT-REV)\leq \dfrac{4}{3} - \dfrac{1}{3(m-1)}$
 
 \subsubsection{D'autres algorithmes}
 
-Il existe d'autres propositions basée LS, telle que AP de mokotoff
-\emph{et al.}
-\cite{mokotoff2004exact}.
+Il existe d'autres propositions basée LS, telles que 
+\begin{itemize}
+
+
+\item AP de mokotoff\emph{et al.} \cite{mokotoff2004exact}:
 AP trie les jobs selon LPT rule (algorithme \ref{algo:LPT}),
 partitionne l'ensemble des machines en $r$ sous-ensembles, et définit
 une limite que la somme des jobs par machine ne devra pas dépasser.
@@ -1105,12 +1122,24 @@ première partition.
 Une fois la limite atteinte, les jobs restants sont attribués de la
 même façon à une deuxième partition.
 Et ainsi de suite.
+
+\item 3-phase de França \emph{et al.} \cite{francca1994composite}: 
+  Cet algorithme se déroule en 3 phases : 
+  (i) Construction: chaque job est affecté aux machines, de telle 
+  sorte d'obtenir un résultat assez équilibré. 
+  (ii) Redistribution: L'équilibre est réajusté, en déplaçant à 
+  plusieurs reprises un job de la machine la plus chargée, vers 
+  la machine la moins chargée. 
+  (iii) Amélioration: Echange de jobs entre les machines pour 
+  finaliser l'équilibre des charges de l'ensemble des machines.
+
+\end{itemize}
+
 \lp{Dire en 2 mots ce qu'ils font?}
 \fco{ok, fait}
 
 
-
-\subsection{Bin-Packing}
+\subsection{Bin-Packing} \label{ssec:heuristiquesBinPacking}
 
 Le problème Bin-packing, est semblable au problème \problemGrahamP.
 Il consiste à ranger des objets de taille différentes, dans des bacs
@@ -1378,7 +1407,7 @@ Gupta \emph{et al.}, \cite{gupta2001listfit}, ont aussi l'idée
 d'utiliser MULTIFIT (algorithme \ref{algo:MULTIFIT}), afin de réaliser l'algorithme
 LISTFIT.
 
-Celui-ci sépare la liste des travaux en 2 sous-listes, traitée soit
+Celui-ci sépare la liste des travaux en 2 sous-listes, traitées soit
 dans un ordre LPT (Longest Time Processing), soit dans un ordre SPT
 (Shortest Time Processing).
 Puis LISTFIT combine ces 2 sous-listes en appliquant MULTIFIT à chaque
@@ -1467,16 +1496,8 @@ Ratio \cite{gupta2001listfit} & $\Gamma(LISTFIT) \leq \dfrac{13}{12} + 2^{-k}$
 avec k le nombre d'itérations pour la recherche dichotomique.
 \end{theoreme}
 
-\subsubsection{D'autres algorithmes}
-Il existe d'autres propositions telles que:
 
-3-phase de França \emph{et al.} \cite{francca1994composite}
-
-HI-Pcmax de Alvim \emph{et al.} \cite{alvim2004hybrid}\lp{Deux mots explicatifs
-  sur ces propositions?}
-
-
-\subsection{Approche gloutonne}
+\subsection{Approche gloutonne} \label{ssec:heuristiquesGloutonne}
 
 % -------------------------------------------------------
 % SLACK
@@ -1563,7 +1584,7 @@ Complexité en temps:& $O(n \cdot log (n))$
 \end{theoreme}
 
 
-\section{Programmation linéaire}
+\section{Programmation linéaire} \label{sec:programmationLineaire}
 
 L'ordonnancement, et plus particulièrement \problemGrahamP, s'inscrit
 parfaitement dans l'énoncé d'un problème de programmation linéaire.
@@ -1718,7 +1739,7 @@ problème.\;
   chaque action (comme une recette de cuisine: ``1.
   Mélanger les œufs et le sucre.'').}
 
-\section{Approximation}
+\section{Approximation} \label{sec:approximation}
 
 Une catégorie d'algorithmes fournit une garantie d'approche.
 Notamment les PTAS (Schéma d'Approximation en Temps Polynomial).
@@ -1729,7 +1750,7 @@ minimisation, ou $(1-\epsilon)$ pour un problème de maximisation, de
 l'optimal, en temps polynomial dépendant de $\epsilon$.
 
 
-\subsection{PTAS dual} % (Hochbaum \emph{et al.})}
+\subsection{PTAS dual} \label{ssec:approximationPTAS} % (Hochbaum \emph{et al.})}
 
 Hochbaum \emph{et al.}\ \cite{hochbaum1987using} proposent le
 premier PTAS adapté au problème \problemGrahamP.
@@ -1819,7 +1840,7 @@ taille des pièces sont $> \epsilon$.
 
 L'intervalle de la taille des pièces (devenu $]\epsilon, 1]$) est
 découpé en S = $\lceil \dfrac{1}{\epsilon^2}\rceil$ sous intervalles
-de taille identique
+de tailles identiques
 $]\epsilon = l_1, l_2], ]l_2, l_3], \ldots , ]l_S, L_{S+1}=1]$.
 Chaque bac $P_i$, sera rempli au maximum avec
 $\lfloor \dfrac{1}{\epsilon} \lfloor$ pièces.
@@ -1895,13 +1916,13 @@ Tant qu'il existe $3$ pièces, dont la plus grande fait au moins 0.4,
 trouver $L[0.3,0.4,0.5]$ et les pacquer ensembles.
 
 \BlankLine % Petit espace
-Tant qu'il existe des pièces dont à taille est dans [0.4,0.5[, pacquer
+Tant qu'il existe des pièces dont la taille est dans [0.4,0.5[, pacquer
 les $2$ plus grandes ensembles.
 
 \BlankLine % Petit espace
 \tcp{Chaque pièce restante a une taille inférieure à 0.4}
 Prendre la plus petite pièce des pièces restantes, Si $p_j > 0.25$
-alors pacquer le reste des pièce en 3-bin.
+alors pacquer le reste des pièces en 3-bin.
 Sinon, $p_j = 0.25 - \delta$ pour $\delta \geq 0$,
  si $3$ autres pièces existent, pacquer $j$
  avec $L[0.25, \frac{+\delta}{3}, 0.25 + \delta, 0.25 + 3 \cdot \delta]$.
@@ -1985,7 +2006,7 @@ $L[\frac{17}{72}-\frac{\delta}{3},
    \frac{7}{24}+\delta]$
 
 Considérer la plus petite pièce $j$.
-Si $p_j>\frac{1}{5}$, emballer les pièces restante à raison de $4$ pièces par bac.
+Si $p_j>\frac{1}{5}$, emballer les pièces restantes à raison de $4$ pièces par bac.
 Si $p_j=\frac{1}{5}-\delta, \delta \geq 0$, pacquer $j$ avec
 $L[\frac{1}{5}+\frac{\delta}{4},
    \frac{1}{5}+\frac{2 \cdot \delta}{3},
@@ -2044,19 +2065,41 @@ avec k le nombre d'itérations qu'il a été nécessaire pour terminer l'algorit
 \end{theoreme}
 
 
+\subsection{d'autres algorithmes} 
+Il existe d'autres PTAS, ou utilisant des PTAS, tels que:
+\begin{itemize}
+\item HI-Pcmax de Alvim \emph{et al.} \cite{alvim2004hybrid}:
+  Cet algorithme se déroule en 3 phases : 
+  (i) Utilisation d'un PTAS MTSS pour affecter 
+  les jobs aux 	machines et proposer une première solution $S$.
+  (ii) Utilisation du PTAS de 
+  Hauchbaum \emph{et al.} (algorithme 
+  \ref{algo:PTASDual1_5}, \ref{algo:PTASDual1_6}) 
+  pour proposer une deuxième solution $S^\prime$ . 
+  et comparaison des deux solutions $S$ et $S\prime$
+  (iii) Utilisation de LPT rule (algorithme \ref{algo:LPT} et 
+  comparaison de cette solution avec la meilleure des solutions
+  précédente.
 
-\subsection{d'autres algorithmes}
-Il existe d'autres PTAS, tels que:
+\item PTAS GPU-DP de Ghalami \emph{et al.} \cite{li2018gpu}: 
+  Un PTAS optimisé pour l'exécution en GPU.
+  
+\item PTAS DP de Ghalami \emph{et al.} \cite{ghalami2019scheduling}:
+Cet algorithme est basé sur la formulation de PTAS dual de Hochbaum emph{et al.} et utilise le solveur CPLEX, pour résoudre cette formulation.
+  
+\end{itemize}
 
-PTAS GPU-DP de Ghalami \emph{et al.}
-\cite{li2018gpu} optimisé pour l'exécution en GPU.
-
-PTAS DP de Ghalami \emph{et al.} \cite{ghalami2019scheduling}
 
 
-\section{Autres approches}
 
-\subsection{partitionnement de nombres}
+
+
+
+
+\section{Autres approches} \label{sec:autresApproches}
+
+\subsection{partitionnement de nombres} 
+\label{ssec:autresApprochesPartitionnement}
 
 Le problème \problemGrahamP peut être vu comme le problème de
 partition ou partitionnement de nombres (Npp).
@@ -2346,7 +2389,7 @@ pour $m\geq 3$					& $ \frac{4}{3}-\frac{1}{3 \cdot m} \leq
 
 
 \subsubsection{d'autres algorithmes}
-D'autres algorithme basés sur le partitionnement de nombres:
+D'autres algorithmes basés sur le partitionnement de nombres:
 
 MPS, de Paletta et al \cite{paletta2007new}
 
@@ -2375,10 +2418,10 @@ partie du cadre de cette bibliographie.
 
 Min et al \cite{min1999genetic}
 
-\section{Synthèse}
+\section{Synthèse} \label{sec:synthese}
 
 
-\subsection{Comparaisons}
+\subsection{Comparaisons} \label{ssec:syntheseComparaison}
 
 Chaque étude du problème \problemGrahamP tente
 d'améliorer le ratio d'approximation, ainsi que le coût en temps requis
@@ -2605,6 +2648,7 @@ Comparaison des temps moyens pour Multifit, Combine et Listfit
 
 
 \subsection{De la recherche d'informations}
+\label{ssec:syntheseRechercheInformation}
 
 Il a été très difficile, voire impossible de trouver plus
 d'informations sur les performances de PA \ref{algo:PA} (résolution du
@@ -2616,7 +2660,7 @@ l'algorithme générique (non optimisé pour $\epsilon = \frac{1}{5}$ et
 $\epsilon = \frac{1}{6}$) du PTAS dual-approximation en programmation
 dynamique.
 
-\section{Conclusion}
+\section{Conclusion} \label{sec:conclusion}
 
 Dans cette bibliographie non-exhaustive, nous venons de voir
 différentes approches qui tentent de répondre au problème
@@ -2635,7 +2679,7 @@ une comparaison d'un ensemble d'heuristiques.
 Et enfin, ces résultats pourrons être utilisés pour d'autres problèmes
 d'ordonnancements (contraintes, processeurs/machines hétérogènes).
 
-\section{remerciements}
+\section{remerciements} \label{sec:remerciements}
 Laurent Philippe
 Louis-Claude Canon
 Julien Bernard
