@@ -27,7 +27,9 @@
 % significations
 % -------------------------------------------------------
 \usepackage{amsmath}
-\usepackage{amssymb,amsfonts}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{booktabs}
 \usepackage{textcomp}
 \usepackage{color}
 \usepackage{array}
@@ -287,8 +289,8 @@ communiquer et de coopérer.
 % FLYNN 1972
 % -------------------------------------------------------
 En 1972, Flynn propose une première classification des
-architectures parallèles \cite{5009071}.
-Cette taxonomie (table \ref{table:taxonomyDeFlyn})
+architectures parallèles~\cite{5009071}.
+Cette taxonomie (table~\ref{table:taxonomyDeFlyn})
 repose sur le nombre de flux de données (simple ou
 multiple) et le nombre de flux d'instructions (simple ou multiple).
 % -------------------------------------------------------
@@ -1263,10 +1265,10 @@ k un nombre d'itérations
 }
 
 \BlankLine % Petit espace
-La recherche de $T_m^\star$ s'effectue par dichotomie sur k itérations
+La recherche de $T_m^\star$ s'effectue par dichotomie sur $k$ itérations
 
 \BlankLine % Petit espace
-Après les k itérations, MULTIFIT \Return {$Cu(k)$} \\
+Après les $k$ itérations, MULTIFIT \Return {$Cu(k)$} \\
 \tcp{qui correspond à la plus petite valeur de $C$
 pour laquelle $FFD[T,C] \leq m$}
 
@@ -1287,7 +1289,7 @@ pour laquelle $FFD[T,C] \leq m$}
 % Ligne blanche
 & \\
 % Ligne Complexité
-Tri puis k FFD coûtent en temps: & $O(n \log n + kn \log m)$
+Tri puis $k$ FFD coûtent en temps: & $O(n \log n + kn \log m)$
 \\	% pas de ligne \hline
 % Ligne blanche
 & \\
@@ -1300,7 +1302,7 @@ Ratio \cite{lee1988multiprocessor}:& $\Gamma(MULTIFIT) \leq 1,220 + 2^{-k}$
 \end{tabular}
 %pas de legende
 \end{flushleft}
-avec k le nombre d'itérations pour la recherche dichotomique.
+avec $k$ le nombre d'itérations pour la recherche dichotomique.
 \end{theoreme}
 
 Généralement, MULTIFIT donne des résultats très satisfaisant avec $k = 7$
@@ -1403,7 +1405,7 @@ Ratio \cite{gupta2001listfit}: & $\Gamma(COMBINE) \leq \frac{13}{12} + 2^{-k}$
 \end{tabular}
 %pas de legende
 \end{flushleft}
-avec k le nombre d'itérations pour la recherche dichotomique.
+avec $k$ le nombre d'itérations pour la recherche dichotomique.
 \end{theoreme}
 
 Concernant la complexité, pour atteindre
@@ -1509,7 +1511,7 @@ Ratio \cite{gupta2001listfit} & $\Gamma(LISTFIT) \leq \frac{13}{12} + 2^{-k}$
 \end{tabular}
 %pas de legende
 \end{flushleft}
-avec k le nombre d'itérations pour la recherche dichotomique.
+avec $k$ le nombre d'itérations pour la recherche dichotomique.
 \end{theoreme}
 
 
@@ -2086,7 +2088,7 @@ Il existe d'autres PTAS, ou utilisant des PTAS, tels que:
   \item Utilisation d'un PTAS MTSS pour affecter les jobs aux machines
     et proposer une première solution $S$.
   \item Utilisation du PTAS de Hauchbaum \emph{et al.}
-    (algorithme \ref{algo:PTASDual1_5}, \ref{algo:PTASDual1_6}) pour
+    (algorithmes \ref{algo:PTASDual1_5}, \ref{algo:PTASDual1_6}) pour
     proposer une deuxième solution $S^\prime$
     et comparaison des deux solutions $S$ et $S^\prime$.
   \item Utilisation de LPT rule (algorithme \ref{algo:LPT}) et
@@ -2487,14 +2489,11 @@ réelles.\lp{Je ne comprends pas ce que tu veux dire par là}
 % on cadre à gauche le tableau pour avoir plus de place
 % -------------------------------------------------------
 
-Ce tableau est un comparatif des performances calculées et déterminées de chaque algorithme présenté.
-
-$n$ est le nombre de jobs à planifier.
-$m$ est le nombre de machines parallèles identiques.
-$k$ est un nombre d'itérations, soit  fixé via un paramètre de l'algorithme, ou le résultat d'une condition d'arrêt.
-$\epsilon$ est un nombre positif ( e.g $\frac{1}{5}$ ) et désigne le ratio d'approximation d'un PTAS.
+Le tableau~\ref{table:synth} est un comparatif des performances
+calculées et déterminées de chaque algorithme présenté.
 
 % 1/2
+\begin{table}
 \begin{center}
 \begin{tabular}{p{0.17\linewidth}
 				p{0.16\linewidth}
@@ -2506,7 +2505,7 @@ $\epsilon$ est un nombre positif ( e.g $\frac{1}{5}$ ) et désigne le ratio d'ap
 % ----------------------------------------------------
 % TITRES
 % ----------------------------------------------------
-\hline
+\toprule
 performance 						&
 							LPT 	&
 							LPT-Rev &
@@ -2517,7 +2516,8 @@ performance 						&
 %							PA		&
 %							PTAS	&
 %							LDM  	\\
-\\ \hline
+\\
+\midrule
 
 % --------------------------
 % LIGNE O()
@@ -2529,23 +2529,20 @@ Complexité \newline (en temps) 		&
 							$O(n \log n + kn \log m)$& 		% MULTIFIT
 							$O(n \log n + kn \log m)$		% COMBINE
 
-\\	\hline
+\\
 % --------------------------
 % LIGNE Ration
 % --------------------------
 Ratio \newline (pire des cas)		&
 							$\frac{4}{3} - \frac{1}{3m}$&		% LPT
 							$\frac{4}{3} - \frac{1}{3(m-1)}$&	% LPT-REV
-							/&								% SLACK (pas d'info)
+							-&								% SLACK (pas d'info)
 							$1,220 + 2^{-k}$& 					% MULTIFIT
 							$\frac{13}{12} + 2^{-k}$			% COMBINE
 %---------------------------
 \\
-\hline
+\bottomrule
 \end{tabular}
-Comparaison des performances des algorithmes présentés. tableau 1/2.
-
-(*) $+ (n \cdot \log m)$ si on prend en compte le tri des jobs au préalable.
 \end{center}
 
 % 2/2
@@ -2554,36 +2551,37 @@ Comparaison des performances des algorithmes présentés. tableau 1/2.
 				p{0.16\linewidth}
 				p{0.16\linewidth}
 				p{0.16\linewidth}
-				p{0.32\linewidth}}
+				p{0.25\linewidth}}
 
 
 % ----------------------------------------------------
 % TITRES
 % ----------------------------------------------------
-\hline
+\toprule
 performance 						&
 							listfit &
 							PA		&
 							PTAS	&
 							LDM
-\\ \hline
+\\
+\midrule
 
 % --------------------------
 % LIGNE O()
 % --------------------------
 Complexité \newline (en temps) &
 							$O(n^2 \log(n) + k \cdot n^2 \log(m))$&	% LISTFIT
-							/& 		% PA (pas d'infos)
+							-& 		% PA (pas d'infos)
 							$ O(( \frac{n}{\epsilon})^\frac{1}{\epsilon ^ 2})$&
 					 		$n^{- \Theta (log(n))}$% LDM
 
-\\	\hline
+\\
 % --------------------------
 % LIGNE Ration
 % --------------------------
 Ratio \newline (pire des cas)		&
 							$\frac{13}{12} + 2^{-k}$&		% LISTFIT
-							/&								% PA (pas d'info)
+							-&								% PA (pas d'info)
 							$1 + \epsilon$	&				%PTAS
 							compris entre \newline						% LDM
 								$\frac{4}{3}-\frac{1}{3 \cdot m}$ et	% LDM
@@ -2592,10 +2590,19 @@ Ratio \newline (pire des cas)		&
 
 %---------------------------
 \\
-\hline
+\bottomrule
 \end{tabular}
-Comparaison des performances des algorithmes présentés. tableau 2/2.
 \end{center}
+\caption{\label{table:synth}
+Comparaison des performances des algorithmes présentés.
+$n$ est le nombre de jobs à planifier.
+$m$ est le nombre de machines parallèles identiques.
+$k$ est un nombre d'itérations, soit  fixé via un paramètre de l'algorithme, ou le résultat d'une condition d'arrêt.
+$\epsilon$ est un nombre positif (e.g.\ $\frac{1}{5}$) et désigne le ratio d'approximation d'un PTAS.
+(*) signifie qu'il faut rajouter $(n \cdot \log m)$ si on prend en compte le tri des jobs au
+préalable.
+}
+\end{table}
 
 LPT rule et LPT-REV présentent un ratio d'approximation qui s'approche
 du pire cas lorsque le nombre de machines augmente.
@@ -2612,9 +2619,9 @@ pèse dans la complexité en temps (exponentiel en $\epsilon$).
 \centering
 \includegraphics[width=10cm,height=6.80cm]
 {Biblio_PCmax_Rendu_CompborneInf_LPT_LDM_MULTIFIT.jpg}
-\caption{Écarts moyen de LPT, LDM, Multifit, par rapport à la borne
+\caption{Écarts moyen de LPT, LDM et Multifit par rapport à la borne
   inférieure de 10\,000 instances créées pour chaque nombre $n$
-  d'éléments et $m=10$ machines.}
+  d'éléments et $m=10$ machines~\cite{michiels2003performance}.}
 \label{comparaison:LPTLDMMFBorneInf}
 \end{figure}
 
@@ -2637,21 +2644,23 @@ $n=79$ éléments.
 Néanmoins, cette étude se base sur des éléments uniformément répartis,
 condition où LDM est très performant.
 
-Slack \ref{algo:SLACK}, qui n'est autre que LPT amélioré d'une
+Slack (algorithme~\ref{algo:SLACK}), qui n'est autre que LPT amélioré d'une
 heuristique, et accompagné d'une recherche locale devient globalement
 plus performant que LDM \cite{della2018longest}.
+\lcc{LPT-rev est un LPT amélioré, mais Slack est quand même un peu
+  différent, non?}
 
-Gupta \emph{et al.}
-prouvent que les performances de ListFit \ref{algo:LISTFIT} sont
-supérieures à LPT, Multifit et Combine.Ceux-ci sont comparés
-\cite{gupta2001listfit} \cite{lee1988multiprocessor} suivant des
-indices, en mettant de côté le nombre k nécessaires à l’Achèvement des
+Gupta \emph{et al.}\ prouvent que les performances de ListFit (algorithme~\ref{algo:LISTFIT}) sont
+supérieures à LPT, Multifit et Combine. Ceux-ci sont comparés
+\cite{gupta2001listfit,lee1988multiprocessor} suivant des
+indices, en mettant de côté le nombre $k$ nécessaires à l'achèvement des
 algorithmes.
-Behera et al \cite{behera2012comparison} comparent dans une étude le
-coût processeur de chaque heuristique, Qui indique que Listfit est
+Behera \emph{et al.}~\cite{behera2012comparison} comparent dans une étude le
+coût processeur de chaque heuristique, ce qui indique que Listfit est
 très gourmand.
 
 
+\begin{table}
 \begin{center}
 \begin{tabular}{p{0.19\linewidth}
 				p{0.19\linewidth}
@@ -2661,10 +2670,10 @@ très gourmand.
 % ----------------------------------------------------
 % TITRES
 % ----------------------------------------------------
-\hline
-n		&	m	&	Multifit	&	Combine	&	Listfit
-
-\\ \hline \\
+\toprule
+$n$		&	$m$	&	Multifit	&	Combine	&	Listfit
+\\
+\midrule
 % --------------------------
 % LIGNE des 100
 % --------------------------
@@ -2672,32 +2681,38 @@ n		&	m	&	Multifit	&	Combine	&	Listfit
 		&	3	&	24			&	32		&	1968	\\
 		&	6	&	20			&	44		&	3293	\\
 		&	8	&	20			&	56		&	3755
-\\ \hline \\
+\\
 200		&	2	&	44			&	66		&	7269 	\\
 		&	3	&	44			&	66		&	8153	\\
 		&	6	&	64			&	132		&	13695	\\
 		&	8	&	64			&	154		&	15422
-\\ \hline \\
+\\
 300		&	2	&	88			&	120		&	15663	\\
 		&	3	&	112			&	132		&	17671	\\
 		&	6	&	108			&	176		&	25673	\\
 		&	8	&	132			&	198		&	29558
 % FIN ----------------------------------------
-\\ \hline \\
+\\
+\bottomrule
 \end{tabular}
-Comparaison des temps moyens pour Multifit, Combine et Listfit
-\newline (en $10^{-6} secondes$)
 \end{center}
+\caption{\label{tab:XP} Comparaison des temps moyens pour Multifit,
+  Combine et Listfit (en $10^{-6}$ secondes).}
+\end{table}
+
+\lcc{d'où vient les données de ce tableau?
+  Rajouter la réf dans le caption et mettre une référence dans le
+  texte vers cette table.}
 
 
 \subsection{De la recherche d'informations}
 \label{ssec:syntheseRechercheInformation}
 
 Il a été très difficile, voire impossible de trouver plus
-d'informations sur les performances de PA \ref{algo:PA} (résolution du
+d'informations sur les performances de PA (algorithme~\ref{algo:PA}, résolution du
 problème \problemGrahamP par programmation linéaire), du PTAS
-dual-approximation \ref{algo:PTASDual1_5} \ref{algo:PTASDual1_6}.
-En effet, Il aurait été intéressant d'avoir un aperçut de la
+dual-approximation (algorithmes~\ref{algo:PTASDual1_5} et \ref{algo:PTASDual1_6}).
+En effet, il aurait été intéressant d'avoir un aperçut de la
 complexité en temps de PA (Programmation linéaire + Branch\&Bound) et
 l'algorithme générique (non optimisé pour $\epsilon = \frac{1}{5}$ et
 $\epsilon = \frac{1}{6}$) du PTAS dual-approximation en programmation
@@ -2722,7 +2737,7 @@ une comparaison d'un ensemble d'heuristiques.
 Et enfin, ces résultats pourrons être utilisés pour d'autres problèmes
 d'ordonnancements (contraintes, processeurs/machines hétérogènes).
 
-\section{remerciements} \label{sec:remerciements}
+\section{Remerciements} \label{sec:remerciements}
 Laurent Philippe
 Louis-Claude Canon
 Julien Bernard
