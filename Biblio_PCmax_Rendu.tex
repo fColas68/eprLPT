@@ -234,15 +234,15 @@ proche possible de la solution optimale, dans les meilleurs délais.
 
 Ce document tente d’énumérer et de présenter les algorithmes les plus
 courants ainsi que les différentes méthodes de résolution utilisées.
-Après une présentation du problème (\ref{sec:pesentationProbleme}), 
-nous étudierons, dans un premier temps, diverses heuristiques (\ref{sec:heuristiques}), 
-  plus précisément l'utilisation des "list scheduling", 
+Après une présentation du problème (\ref{sec:pesentationProbleme}),
+nous étudierons, dans un premier temps, diverses heuristiques (\ref{sec:heuristiques}),
+  plus précisément l'utilisation des "list scheduling",
   et des outils de résolution du problème Bin-packing.
 Ensuite, nous verrons comment la programmation linéaire
-  (\ref{sec:programmationLineaire}) peut résoudre le problème, 
-suivi par l'étude de la définition d'un schéma d'approximation 
+  (\ref{sec:programmationLineaire}) peut résoudre le problème,
+suivi par l'étude de la définition d'un schéma d'approximation
   en temps polynomial (PTAS) (\ref{sec:approximation}).
-Le problème de partitionnement de nombres, ainsi que sa 
+Le problème de partitionnement de nombres, ainsi que sa
   résolution approchée sera la dernière approche examinée
   (\ref{sec:autresApproches}).
 Ce document se termine par une synthèse (\ref{sec:synthese}).
@@ -269,9 +269,9 @@ communiquer et de coopérer.
 % -------------------------------------------------------
 % FLYNN 1972
 % -------------------------------------------------------
-En 1972, Flynn propose une première classification des 
+En 1972, Flynn propose une première classification des
 architectures parallèles \cite{5009071}.
-Cette taxonomie (table \ref{table:taxonomyDeFlyn}) 
+Cette taxonomie (table \ref{table:taxonomyDeFlyn})
 repose sur le nombre de flux de données (simple ou
 multiple) et le nombre de flux d'instructions (simple ou multiple).
 % -------------------------------------------------------
@@ -345,7 +345,7 @@ Multi processeurs à mémoire partagée (multi-c{\oe}urs)
 \label{table:taxonomyDeFlyn}
 \end{table}
 %\lp{Mettre le titre avec caption, environnement table}
-%\fco{ok fait, ajout d'un l'abel pour referencer} 
+%\fco{ok fait, ajout d'un l'abel pour referencer}
 \jb{les SISD ne sont pas obsolètes, les microcontrôlleurs qui sont dans les appareils ménagers sont des SISD}
 \fco{ok, fait. arduino? par exemple?}
 
@@ -365,11 +365,11 @@ avec 28 taxons
 % -------------------------------------------------------
 % Duncan 1990
 % -------------------------------------------------------
-En 1990, Duncan présente une taxonomie de haut niveau \cite{44900} 
-(figure \ref{fig:TaxonomieHautNiveau}), 
-reprenant les bases de la classification de Flynn, tout en incluant 
-les architectures modernes, et celles qui n'ont pas encore été 
-considérées comme architectures parallèles (e.g les processeurs 
+En 1990, Duncan présente une taxonomie de haut niveau \cite{44900}
+(figure \ref{fig:TaxonomieHautNiveau}),
+reprenant les bases de la classification de Flynn, tout en incluant
+les architectures modernes, et celles qui n'ont pas encore été
+considérées comme architectures parallèles (e.g les processeurs
 vectoriels à chaînes de traitement).
 
 \begin{figure}
@@ -410,7 +410,7 @@ vectoriels à chaînes de traitement).
   (Massive Parallel Processing) et les COW (Cluster Of Workstations).
   Et d'autre part les MIMD à mémoire partagées, telles que les
   machines muti-processeurs, ou les processeurs multi-c\oe{}urs. C'est justement dans ce contexte que cette étude se situe.
-  
+
   \lp{Dire que c'est le contexte de ton travail?}
   \fco{Ok, fait.}
 \item Les architectures mixtes, ou basées sur le paradigme MIMS.
@@ -574,9 +574,9 @@ Dans cette classification, le problème \problemGrahamP se définit alors ainsi:
   les machines sont parallèles et identiques: un job,
   une tâche prendra le même temps de traitement qu'il soit exécuté sur
   une machine ou une autre.
-  \item $\alpha_2$: 
-  Si $\alpha_2$ est un nombre positif, alors, le nombre de machines ($m$) 
-  et constant et est égal à $\alpha_2$ (e.g. $P_2$). 
+  \item $\alpha_2$:
+  Si $\alpha_2$ est un nombre positif, alors, le nombre de machines ($m$)
+  et constant et est égal à $\alpha_2$ (e.g. $P_2$).
   Si $\alpha_2 = \emptyset$ alors le nombre de machines ($m$) est variable.
 \end{itemize}
 % -------------------------------------------------------
@@ -612,16 +612,16 @@ i.e.\ le temps de traitement total.
 
   \problemGrahamP consiste à planifier un ensemble
   $J = \{j_1,j_2,\ldots,j_n)$ de $n$ jobs simultanés, pour être
-  traités par $m$ machines identiques.  
+  traités par $m$ machines identiques.
   \lp{Ce sont des machines identiques mais non parallèles. Le fait qu'il y en ait
-  plusieurs fait que c'est un problème de parallélisme} 
-  \fco{ok, fait} 
+  plusieurs fait que c'est un problème de parallélisme}
+  \fco{ok, fait}
   Chaque job, qui requiert une opération, peut être traité par une des $m$
-  machines.  
-  Le temps de traitement de chaque job $p_i$ (avec $i \in \mathbb{N}$) 
-  est connu à l'avance. 
-  Un job commencé est complété sans interruption.  
-  Les jobs, indépendants, sont exécutés par une seule machine, 
+  machines.
+  Le temps de traitement de chaque job $p_i$ (avec $i \in \mathbb{N}$)
+  est connu à l'avance.
+  Un job commencé est complété sans interruption.
+  Les jobs, indépendants, sont exécutés par une seule machine,
   et une machine ne peut traiter qu'un seul job à la fois.
   \lp{Dire jobs séquentiels et non parallèles?}
 
@@ -665,7 +665,7 @@ dont chaque job $j_j$ a un temps de traitement connu
 $P_j$.
 \lp{Je ne pense pas qu'il soit utile (nous ne le faisons pas en
   général) de définir un ensemble de temps d'exécution.}
-\fco{ok, fait}  
+\fco{ok, fait}
 \lp{Il serait mieux de garder les majuscules pour les ensembles et les
   minuscules pour les éléments. Mais peut-être le travail est trop
   conséquant pour valoir le coup?}
@@ -735,13 +735,13 @@ Donner la solution optimale à un problème d'ordonnancement (dans notre
 cas \problemGrahamP) n'est pas réaliste.la résolution de celui-ci
 demanderait un temps excessif et donc rédhibitoire.
 % Même pour un problème de taille modeste
-\lp{Tout dépend du niveau auquel tu places la modestie, 
-  donc peut-relativisé. Perso je n'ai aucune idée de la taille limite}, 
+\lp{Tout dépend du niveau auquel tu places la modestie,
+  donc peut-relativisé. Perso je n'ai aucune idée de la taille limite},
   la résolution de celui-ci
 \fco{ok, fait}
 
 Comme les machines sont identiques, et travaillent à la même vitesse,
-la difficulté repose uniquement sur le regroupement des jobs. 
+la difficulté repose uniquement sur le regroupement des jobs.
   \lp{Justement
   non, il n'y a plus de choix d'affectation à faire une fois les
   regroupements fait puisque toutes les machines sont les mêmes cela
@@ -751,18 +751,18 @@ la difficulté repose uniquement sur le regroupement des jobs.
   \fco{ok, fait. Effectivement mal dit}
 
 La résolution du problème d'ordonnancement va reposer sur des méthodes
-  d'approche, qui consistent à calculer en temps polynomial, 
+  d'approche, qui consistent à calculer en temps polynomial,
   une solution ``assez'' proche de la valeur optimale.
 % \todo{LP: approximation?}\todo{FCO: c'est bien le bon terme}
 
-Les jobs sont exécutés sans interruption ni coupure. Donc, 
-  le makespan ne  peut pas être inférieur à la taille du jobs 
-  le plus long i.e. $(\max_j\{p_j\})$. 
+Les jobs sont exécutés sans interruption ni coupure. Donc,
+  le makespan ne  peut pas être inférieur à la taille du jobs
+  le plus long i.e. $(\max_j\{p_j\})$.
   Dans le cas d'un nombre $n$ de jobs supérieur au nombre $m$ de machines,
-  le makespan ne peut pas être inférieur à la moyenne 
-  des tailles des jobs par machine 
+  le makespan ne peut pas être inférieur à la moyenne
+  des tailles des jobs par machine
   i.e. $\dfrac{1}{m} \sum_{j=1}^{n} p_j$.
-Donc Toutes les solutions ont une borne minimale 
+Donc Toutes les solutions ont une borne minimale
   \cite{mcnaughton1959scheduling}: \\
 
   \begin{center}
@@ -773,9 +773,9 @@ Donc Toutes les solutions ont une borne minimale
 \lp{Si on ne le démontre pas je pense que ça n'est pas la peine de
   mettre cette borne sous la forme d'un théorème. Par contre, cela
   pourrait avoir du sens d'expliquer informellement cette borne}
-\fco{ok, fait}  
+\fco{ok, fait}
 
-L'existence d'une solution qui résout le problème de manière optimale 
+L'existence d'une solution qui résout le problème de manière optimale
 n'est pas pensable, à moins que $P = NP$,
 Dans la littérature, l'étude d'ordonnancement est très riche et
 abondante. Le but étant d'améliorer le temps de calcul, et d'approcher le
@@ -783,8 +783,8 @@ résultat optimal. Les solutions proposée sont des Heuristiques, ou des
 approximations.
 \lp{... de manière optimale...}	
 \fco{ok, fait}
-\lp{les solutions proposées dans la littérature sont 
-  des heuristisques 
+\lp{les solutions proposées dans la littérature sont
+  des heuristisques
   ou des approximations}.
 \fco{ok, fait}
 
@@ -1015,7 +1015,7 @@ problème, et rédigent le théorème suivant:
 \bigskip
 LPT atteint la limite de Graham $\dfrac{4}{3} - \dfrac{1}{3m}$ pour
 $m \geq 2$ et uniquement dans le cas où $n=2m+1$, et la machine
-critique traite 3 jobs, tandis que les autres en traitent 2 
+critique traite 3 jobs, tandis que les autres en traitent 2
 (ce qui est précisément le cas de l'exemple \ref{ex:LPTExemplePireCas}).
 
 
@@ -1109,7 +1109,7 @@ Ratio d'approximation:	&	$\Gamma(LPT-REV)\leq \dfrac{4}{3} - \dfrac{1}{3(m-1)}$
 
 \subsubsection{D'autres algorithmes}
 
-Il existe d'autres propositions basée LS, telles que 
+Il existe d'autres propositions basée LS, telles que
 \begin{itemize}
 
 
@@ -1123,14 +1123,14 @@ Une fois la limite atteinte, les jobs restants sont attribués de la
 même façon à une deuxième partition.
 Et ainsi de suite.
 
-\item 3-phase de França \emph{et al.} \cite{francca1994composite}: 
-  Cet algorithme se déroule en 3 phases : 
-  (i) Construction: chaque job est affecté aux machines, de telle 
-  sorte d'obtenir un résultat assez équilibré. 
-  (ii) Redistribution: L'équilibre est réajusté, en déplaçant à 
-  plusieurs reprises un job de la machine la plus chargée, vers 
-  la machine la moins chargée. 
-  (iii) Amélioration: Echange de jobs entre les machines pour 
+\item 3-phase de França \emph{et al.} \cite{francca1994composite}:
+  Cet algorithme se déroule en 3 phases :
+  (i) Construction: chaque job est affecté aux machines, de telle
+  sorte d'obtenir un résultat assez équilibré.
+  (ii) Redistribution: L'équilibre est réajusté, en déplaçant à
+  plusieurs reprises un job de la machine la plus chargée, vers
+  la machine la moins chargée.
+  (iii) Amélioration: Echange de jobs entre les machines pour
   finaliser l'équilibre des charges de l'ensemble des machines.
 
 \end{itemize}
@@ -2065,28 +2065,28 @@ avec k le nombre d'itérations qu'il a été nécessaire pour terminer l'algorit
 \end{theoreme}
 
 
-\subsection{d'autres algorithmes} 
+\subsection{d'autres algorithmes}
 Il existe d'autres PTAS, ou utilisant des PTAS, tels que:
 \begin{itemize}
 \item HI-Pcmax de Alvim \emph{et al.} \cite{alvim2004hybrid}:
-  Cet algorithme se déroule en 3 phases : 
-  (i) Utilisation d'un PTAS MTSS pour affecter 
+  Cet algorithme se déroule en 3 phases :
+  (i) Utilisation d'un PTAS MTSS pour affecter
   les jobs aux 	machines et proposer une première solution $S$.
-  (ii) Utilisation du PTAS de 
-  Hauchbaum \emph{et al.} (algorithme 
-  \ref{algo:PTASDual1_5}, \ref{algo:PTASDual1_6}) 
-  pour proposer une deuxième solution $S^\prime$ . 
+  (ii) Utilisation du PTAS de
+  Hauchbaum \emph{et al.} (algorithme
+  \ref{algo:PTASDual1_5}, \ref{algo:PTASDual1_6})
+  pour proposer une deuxième solution $S^\prime$ .
   et comparaison des deux solutions $S$ et $S\prime$
-  (iii) Utilisation de LPT rule (algorithme \ref{algo:LPT} et 
+  (iii) Utilisation de LPT rule (algorithme \ref{algo:LPT} et
   comparaison de cette solution avec la meilleure des solutions
   précédente.
 
-\item PTAS GPU-DP de Ghalami \emph{et al.} \cite{li2018gpu}: 
+\item PTAS GPU-DP de Ghalami \emph{et al.} \cite{li2018gpu}:
   Un PTAS optimisé pour l'exécution en GPU.
-  
+
 \item PTAS DP de Ghalami \emph{et al.} \cite{ghalami2019scheduling}:
 Cet algorithme est basé sur la formulation de PTAS dual de Hochbaum emph{et al.} et utilise le solveur CPLEX, pour résoudre cette formulation.
-  
+
 \end{itemize}
 
 
@@ -2098,7 +2098,7 @@ Cet algorithme est basé sur la formulation de PTAS dual de Hochbaum emph{et al.
 
 \section{Autres approches} \label{sec:autresApproches}
 
-\subsection{partitionnement de nombres} 
+\subsection{partitionnement de nombres}
 \label{ssec:autresApprochesPartitionnement}
 
 Le problème \problemGrahamP peut être vu comme le problème de
