@@ -693,7 +693,7 @@ $P_j$.
 % -------------------------------------------------------
 \item $C_m^A(J)$ Le résultat (makespan) de l'ordonnancement
 	d'un ensemble $J$ de jobs,
-	sur m machines parallèles, identiques,
+	sur $m$ machines parallèles, identiques,
 	obtenu par l'algorithme $A$.
 %  \lp{à quoi sert $j$ ici?}
 %  \tdi{FCO  ok, fait: C'était une erreur de frappe ...
@@ -1056,7 +1056,7 @@ sur une machine m1.
 % ---------------------
 \begin{algorithm}[H]
 \DontPrintSemicolon
-\KwData{instance de \problemGrahamP, avec m machines, n jobs}
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs}
 %\Begin{ %inutile ici et rajoute un nuero de ligne
 
 Appliquer LPT ce qui donne un ordonnancement avec
@@ -1144,7 +1144,7 @@ Le problème Bin-packing, est semblable au problème \problemGrahamP.
 Il consiste à ranger des objets de taille différentes, dans des bacs
 identiques, tout en minimisant leur nombre.
 
-L'ensemble des n jobs $J = \{j_1, j_2, \ldots, j_n\}$, et de leurs temps de
+L'ensemble des $n$ jobs $J = \{j_1, j_2, \ldots, j_n\}$, et de leurs temps de
 traitement $p_j \in P = \{p_1, p_2, ..., p_n\}$, peuvent être vus
 respectivement comme:
 \begin{itemize}
@@ -1215,7 +1215,7 @@ si $FFD(T,C_d)\le m$ alors la nouvelle fourchette de recherche devient
 $C_u = C_d$ et $C_l$, sinon (si $FFD(T,C_d)> m$) alors la nouvelle
 fourchette devient $C_u$ et $C_l = C_d$.
 Un nombre d'itérations $k$ et donné à l'exécution de MULTIFIT, estimé
-en fonction de la taille du problème (n et m).
+en fonction de la taille du problème ($n$ et $m$).
 Mais même pour un problèmes de grande taille, le résultat ne change
 plus après $7$ itérations.
 Il est donc inutile d'utiliser $k>7$.
@@ -1338,7 +1338,7 @@ sur les principes suivants:
 % ---------------------
 \begin{algorithm}[H]
 \DontPrintSemicolon
-\KwData{instance de \problemGrahamP, avec m machines, n jobs, et un coefficient $\alpha (0,005)$ }
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs, et un coefficient $\alpha (0,005)$ }
 
 A = $\sum_{i=1}^{n}(\frac{P_i}{m})$ \;
 M $\leftarrow C_m^{lpt}(J)$ \;
@@ -2089,14 +2089,15 @@ Il existe d'autres PTAS, ou utilisant des PTAS, tels que:
 
 \section{Autres approches} \label{sec:autresApproches}
 
-\subsection{partitionnement de nombres}
+\subsection{Partitionnement de nombres}
 \label{ssec:autresApprochesPartitionnement}
 
 Le problème \problemGrahamP peut être vu comme le problème de
-partition ou partitionnement de nombres (Npp).
-En effet, ce problème consiste à partitionner un ensemble de n nombres
-dans m sous-ensembles, tout en minimisant la somme des nombres de
-chaque sous ensembles.
+partition ou partitionnement de nombres (Npp, \emph{Number Paritioning
+Problem}).
+En effet, ce problème consiste à partitionner un ensemble de $n$ nombres
+dans $m$ sous-ensembles, tout en minimisant la somme des nombres de
+chaque sous-ensembles.
 Ce problème est NP-difficile.
 
 \subsubsection{LDM}
@@ -2105,30 +2106,30 @@ Ce problème est NP-difficile.
 
 Karmarkar \emph{et al.}
 \cite{karmarkar1982differencing} posent le problème de partition
-d'ensemble suivant: soit un ensemble fini
-$P=\{P_1, P_2, \ldots, P_n\}$ de n nombres réels à partitionner dans m
-sous ensembles $m_1, m_2, \ldots, m_m$ de manière à minimiser
-$D(m_1, m_2, \ldots, m_m) = max_i \left\{ \sum_{P_j \in m_i}P_j
-\right\} - min_i \left\{ \sum_{P_j \in m_i}P_j \right\}$
+d'ensembles suivant: soit un ensemble fini
+$P=\{P_1, P_2, \ldots, P_n\}$ de $n$ nombres réels à partitionner dans $m$
+sous-ensembles $m_1, m_2, \ldots, m_m$ de manière à minimiser
+$D(m_1, m_2, \ldots, m_m) = \max_i \left\{ \sum_{P_j \in m_i}P_j
+\right\} - \min_i \left\{ \sum_{P_j \in m_i}P_j \right\}$
 
 Le principe de l'algorithme consiste à remplacer les deux plus grands
-nombres de l'ensemble de n éléments de départ (les plus importants, ou
-\textbf{Largest}), par leur différence (opération appelée
-Differentiation, ou \textbf{Differencing}), et ainsi donner un nouvel
+nombres de l'ensemble de $n$ éléments de départ (les plus importants, ou
+\textbf{Largest}) par leur différence (opération appelée
+Differentiation, ou \textbf{Differencing}), donnant ainsi un nouvel
 ensemble de $n-1$ éléments.
-D'où le nom LDM, ou Largest Differencing Methd.
+D'où le nom LDM, ou Largest Differencing Method.
 
 
-La réflexion est tout d'abord faite sur 2 sous-ensembles ( $m_1$ et
-$m_2$), pour être généralisée à m sous-ensembles.
+La réflexion est tout d'abord faite sur 2 sous-ensembles ($m_1$ et
+$m_2$), pour être généralisée à $m$ sous-ensembles.
 
 \begin{itemize}
 \item cas de $m=2$, deux sous-ensembles $m_1$ et $m_2$.
 
-  L'algorithme prend les deux nombres, et les remplace par leur
-  différence., Et ainsi de suite jusqu'à ce qu'il n'en reste plus
+  L'algorithme prend les deux plus grands nombres et les remplace par leur
+  différence. Et ainsi de suite jusqu'à ce qu'il n'en reste plus
   qu'un.
-  le dernier nombre correspond à la différence recherchée
+  Le dernier nombre correspond à la différence recherchée
   $D(m_1, m_2)$.
   Puis, par un retour sur trace (backtracking), les partitions $m_1$
   et $m_2$ sont créées.
@@ -2139,7 +2140,7 @@ $m_2$), pour être généralisée à m sous-ensembles.
 % ---------------------
 \begin{algorithm}
 \DontPrintSemicolon
-\KwData{un ensemble $P = \{P_1, P_2, \ldots, P_n\}$ de n nombres positifs réels (correspondant aux temps d'exécution de n job indépendants)}
+\KwData{un ensemble $P = \{P_1, P_2, \ldots, P_n\}$ de $n$ nombres positifs réels (correspondant aux temps d'exécution de $n$ jobs indépendants)}
 
 
 \BlankLine % Petit espace
@@ -2150,7 +2151,7 @@ $m_2$), pour être généralisée à m sous-ensembles.
 
 } \tcp{on arrête lorsqu'il ne reste plus qu'un seul élément dans P}
 
-\caption{LDM (m=2)\label{algo:LDM2}}
+\caption{LDM ($m=2$)\label{algo:LDM2}}
 \end{algorithm}
 
 
@@ -2179,7 +2180,7 @@ $m_2$), pour être généralisée à m sous-ensembles.
 \end{figure}
 
 \begin{example}
-Soit $P=\{3,6,13,20,30,40,73\}$, l'ensemble des $P_j$.
+Soit $P=\{3,6,13,20,30,40,73\}$ l'ensemble des $P_j$.
 
 40 et 73 sont les nombres les plus grands.
 On les remplace dans $P$ par $73 - 40 = 33$, pour donner
@@ -2194,7 +2195,7 @@ $m_1 = \{ 6,13,73 \}$ et $m_2 = \{ 3,20,30,40 \}$ (figure
 
 \bigskip
 
-\item cas de $m>2$, m sous-ensembles $m_1,m_2, \ldots, m_m $.
+\item cas de $m>2$, $m$ sous-ensembles $m_1,m_2, \ldots, m_m $.
 
 % PAS PERTINENT --------------------------------------------------
 %Quelques rappels:
@@ -2217,7 +2218,7 @@ $m_1 = \{ 6,13,73 \}$ et $m_2 = \{ 3,20,30,40 \}$ (figure
   l'instance du problème.
   Chaque élément de $P = \{ P_1, P_2, \ldots, P_n \}$ est converti en
   $m$-tuple.
-  Les $m-1$ premiers composants sont vides, et le dernier (position m)
+  Les $m-1$ premiers composants sont vides, et le dernier (position $m$)
   est égal au nombre lui-même.
   Ainsi chaque
   $\underline{P_i} = \{P_{i 1}=0,P_{i 2}=0, \ldots, P_{i m}=\{P_i\}
@@ -2225,11 +2226,11 @@ $m_1 = \{ 6,13,73 \}$ et $m_2 = \{ 3,20,30,40 \}$ (figure
 
 Puis, $n-1$ itérations des opérations suivantes sont effectuées:
 
-
-Soit $d(\underline{P_i})$ la différence entre la valeur maximale et la
+\begin{itemize}
+\item Soit $d(\underline{P_i})$ la différence entre la valeur maximale et la
 valeur minimale des composants du sous-ensemble $\underline{P_i}$.
 
-Extraction de $\underline{P_a}$ et $\underline{P_b}$ les deux m-tuples
+\item Extraction de $\underline{P_a}$ et $\underline{P_b}$, les deux $m$-tuples
 qui ont la plus grande différence $d(\underline{P_a})$ et
 $d(\underline{P_b})$.
 Ces deux solutions partielles, sont combinées pour former une nouvelle
@@ -2240,6 +2241,7 @@ le plus petit de $\underline{P_a}$ avec le deuxième élément le plus
 grand de $\underline{P_b}$ et ainsi de suite\ldots la nouvelle
 solution partielle $\underline{P_{ab}}$, remplace $\underline{P_a}$ et
 $\underline{P_b}$ dans l'instance.
+\end{itemize}
 
 Le résultat du partitionnement est donné après $n-1$ itérations.
 
@@ -2247,9 +2249,9 @@ Le résultat du partitionnement est donné après $n-1$ itérations.
 % ---------------------
 \begin{example}
 
-Soit $P=\{1,3,3,4,4,5,5,5\}$\\
-nombre de machines $m=3$\\
-\textbf{Création des m-tuples}:\\
+Soit $P=\{1,3,3,4,4,5,5,5\}$ avec un nombre de machines $m=3$.
+
+\textbf{Création des $m$-tuples}:
 \begin{multicols}{3}
 $\underline{P_{1}} = \{,,1\}$\\
 $\underline{P_{2}} = \{,,3\}$\\
@@ -2258,14 +2260,18 @@ $\underline{P_{4}} = \{,,4\}$\\
 $\underline{P_{5}} = \{,,4\}$\\
 $\underline{P_{6}} = \{,,5\}$\\
 $\underline{P_{7}} = \{,,5\}$\\
-$\underline{P_{8}} = \{,,5\}$\\
+$\underline{P_{8}} = \{,,5\}$
 \end{multicols}
 
 \textbf{Itération 1}:\\
-les tuples qui ont la différence la plus grande sont
+Les tuples qui ont la différence la plus grande sont
 $\underline{P_{8}}$  et $\underline{P_{7}}$.
-on combine $\underline{P_{8}}$  et $\underline{P_{7}}$ pour créer un $\underline{P_{78}}$. Le premier plus petit élément de $\underline{P_{8}}$ (élément vide) est joint par le premier plus grand élément de $\underline{P_{8}}$ (5) pour donner  $\underline{P_{78}} = \{,5,5\}$. $d(\underline{P_{78}}) = 5-0 = 5$.\\
-La nouvelle instance devient:\\
+On combine $\underline{P_{8}}$ et $\underline{P_{7}}$ pour créer un
+$\underline{P_{78}}$. Le premier plus petit élément de
+$\underline{P_{8}}$ (élément vide) est joint par le premier plus grand
+élément de $\underline{P_{8}}$ (5) pour donner $\underline{P_{78}} =
+\{,5,5\}$. $d(\underline{P_{78}}) = 5-0 = 5$.
+La nouvelle instance devient:
 \begin{multicols}{3}
 $\underline{P_{1}} = \{,,1\}$\\
 $\underline{P_{2}} = \{,,3\}$\\
@@ -2273,74 +2279,99 @@ $\underline{P_{3}} = \{,,3\}$\\
 $\underline{P_{4}} = \{,,4\}$\\
 $\underline{P_{5}} = \{,,4\}$\\
 $\underline{P_{6}} = \{,,5\}$\\
-$\underline{P_{78}} = \{,5,5\}=5$\\
+$\underline{P_{78}} = \{,5,5\}$\\
+$d(\underline{P_{78}})=5$
 \end{multicols}
 
 \textbf{Itération 2}:\\
-On conbine $\underline{P_{6}}$ avec $\underline{P_{78}}$ pour donner $\underline{P_{678}} = \{5,5,5\}$. $d(\underline{P_{678}}) = 5-5 = 0$.\\
-La nouvelle instance devient:\\
+On conbine $\underline{P_{6}}$ avec $\underline{P_{78}}$ pour donner
+$\underline{P_{678}} = \{5,5,5\}$. $d(\underline{P_{678}}) = 5-5 =
+0$.
+La nouvelle instance devient:
 \begin{multicols}{3}
 $\underline{P_{1}} = \{,,1\}$\\
 $\underline{P_{2}} = \{,,3\}$\\
 $\underline{P_{3}} = \{,,3\}$\\
 $\underline{P_{4}} = \{,,4\}$\\
 $\underline{P_{5}} = \{,,4\}$\\
-$\underline{P_{678}} = \{5,5,5\}=0$\\
+$\underline{P_{678}} = \{5,5,5\}$\\
+$d(\underline{P_{678}}) = 0$
 \end{multicols}
 
 \textbf{Itération 3}:\\
-les tuples qui ont la différence la plus grande sont
+Les tuples qui ont la différence la plus grande sont
 $\underline{P_{5}}$  et $\underline{P_{4}}$.
-on les combine pour créer un $\underline{P_{45}}$. Le premier plus petit élément de $\underline{P_{5}}$ (élément vide) est joint par le premier plus grand élément de $\underline{P_{4}}$ (4) pour donner  $\underline{P_{45}} = \{,4,4\}$. $d(\underline{P_{45}}) = 4-0 = 4$.\\
-La nouvelle instance devient:\\
+On les combine pour créer un $\underline{P_{45}}$. Le premier plus
+petit élément de $\underline{P_{5}}$ (élément vide) est joint par le
+premier plus grand élément de $\underline{P_{4}}$ (4) pour donner
+$\underline{P_{45}} = \{,4,4\}$. $d(\underline{P_{45}}) = 4-0 = 4$.
+La nouvelle instance devient:
 \begin{multicols}{3}
 $\underline{P_{1}} = \{,,1\}$\\
 $\underline{P_{2}} = \{,,3\}$\\
 $\underline{P_{3}} = \{,,3\}$\\
-$\underline{P_{45}} = \{,4,4\}=4$\\
-$\underline{P_{678}} = \{5,5,5\}=0$\\
+$\underline{P_{45}} = \{,4,4\}$\\
+$\underline{P_{678}} = \{5,5,5\}$\\
+$d(\underline{P_{45}}) = 4$
 \end{multicols}
 
 \textbf{Itération 4}:\\
-les tuples qui ont la différence la plus grande sont
+Les tuples qui ont la différence la plus grande sont
 $\underline{P_{45}}$  et $\underline{P_{3}}$.
-on les combine pour créer un $\underline{P_{345}}$. Le premier plus petit élément de $\underline{P_{45}}$ (élément vide) est joint par le premier plus grand élément de $\underline{P_{3}}$ (3) pour donner  $\underline{P_{345}} = \{3,4,4\}$. $d(\underline{P_{345}}) = 4-3 = 1$.\\
-La nouvelle instance devient:\\
+On les combine pour créer un $\underline{P_{345}}$. Le premier plus
+petit élément de $\underline{P_{45}}$ (élément vide) est joint par le
+premier plus grand élément de $\underline{P_{3}}$ (3) pour donner
+$\underline{P_{345}} = \{3,4,4\}$. $d(\underline{P_{345}}) = 4-3 =
+1$.
+La nouvelle instance devient:
 \begin{multicols}{3}
 $\underline{P_{1}} = \{,,1\}$\\
 $\underline{P_{2}} = \{,,3\}$\\
 $\underline{P_{345}} = \{3,4,4\}=1$\\
-$\underline{P_{678}} = \{5,5,5\}=0$\\
+$d(\underline{P_{345}}) = 1$
 \end{multicols}
 
 \textbf{Itération 5}:\\
-les tuples qui ont la différence la plus grande sont
+Les tuples qui ont la différence la plus grande sont
 $\underline{P_{345}}$  et $\underline{P_{2}}$.
-on les combine pour créer un $\underline{P_{2345}}$. Le premier plus petit élément de $\underline{P_{345}}$ (3) est joint par le premier plus grand élément de $\underline{P_{2}}$ (3) pour donner  $\underline{P_{2345}} = \{(3,3),4,4\}$. La première association, vient d'être créée. elle a pour valeur 6.
-$d(\underline{P_{2345}}) = (3+3)-4 = 6-4=2$.\\
-La nouvelle instance devient:\\
+On les combine pour créer un $\underline{P_{2345}}$. Le premier plus
+petit élément de $\underline{P_{345}}$ (3) est joint par le premier
+plus grand élément de $\underline{P_{2}}$ (3) pour donner
+$\underline{P_{2345}} = \{(3,3),4,4\}$. La première association, vient
+d'être créée. elle a pour valeur 6.
+$d(\underline{P_{2345}}) = (3+3)-4 = 6-4=2$. La nouvelle instance devient:
 \begin{multicols}{2}
 $\underline{P_{1}} = \{,,1\}$\\
-$\underline{P_{2345}} = \{(3,3),4,4\}=2$\\
-$\underline{P_{678}} = \{5,5,5\}=0$\\
+$\underline{P_{2345}} = \{(3,3),4,4\}$\\
+$\underline{P_{678}} = \{5,5,5\}$\\
+$d(\underline{P_{2345}}) = 2$
 \end{multicols}
 
 \textbf{Itération 6}:\\
-les tuples qui ont la différence la plus grande sont
+Les tuples qui ont la différence la plus grande sont
 $\underline{P_{2345}}$  et $\underline{P_{1}}$.
-on les combine pour créer un $\underline{P_{2345}}$. Le premier plus petit élément de $\underline{P_{2345}}$ (4) est joint par le premier plus grand élément de $\underline{P_{2}}$ (1) pour donner  $\underline{P_{12345}} = \{(3,3),(1,4),4\}$.
-$d(\underline{P_{12345}}) = (3+3)-4 = 6-4=2$.\\
-La nouvelle instance devient:\\
+On les combine pour créer un $\underline{P_{2345}}$. Le premier plus
+petit élément de $\underline{P_{2345}}$ (4) est joint par le premier
+plus grand élément de $\underline{P_{2}}$ (1) pour donner
+$\underline{P_{12345}} = \{(3,3),(1,4),4\}$. $d(\underline{P_{12345}})
+= (3+3)-4 = 6-4=2$.
+La nouvelle instance devient:
+\begin{multicols}{2}
 $\underline{P_{12345}} = \{(3,3),(1,4),4\}=2$\\
-$\underline{P_{678}} = \{5,5,5\}=0$\\
+$\underline{P_{678}} = \{5,5,5\}$\\
+$d(\underline{P_{12345}}) = 2$
+\end{multicols}
 
 \textbf{Itération 6}:\\
-Reste à combiner $\underline{P_{12345}}$ et $\underline{P_{678}} = \{5,5,5\}=0$\\
-Le premier plus petit élément de $\underline{P_{12345}}$ (4) est joint avec le premier plus grand de  $\underline{P_{678}}$ (5) et ainsi de suite... pour créer le résultat final \\
+Reste à combiner $\underline{P_{12345}}$ et $\underline{P_{678}}$.
+Le premier plus petit élément de $\underline{P_{12345}}$ (4) est joint
+avec le premier plus grand de $\underline{P_{678}}$ (5) et ainsi de
+suite\ldots pour créer le résultat final
 $\underline{P_{LDM}}= \{(3,3,5),(1,4,5),(4,5)\}$.\\
 
-Nous avons donc un makespan $C_m^{LDM}(P) = 11 $ \\
-Alors que $C_m^{\star}(P) = 10$ avec $\underline{P^{\star}}= \{(5,5),(1,4,5),(4,3,3)\}$.
+Nous avons donc un makespan $C_m^{LDM}(P) = 11$ alors que
+$C_m^{\star}(P) = 10$ avec $\underline{P^{\star}}=
+\{(5,5),(1,4,5),(4,3,3)\}$.
 \end{example}
 
 \end{itemize}
@@ -2364,10 +2395,10 @@ Complexité en temps \cite{michiels2003performance}:& $n^{- \Theta (log(n))}$
 % RATIO
 Ratio \cite{michiels2003performance} &\\
 % RATIO M= 2
-pour $m=2$						& $\Gamma(LDM) = \frac{7}{6}$\\
-pour $m\geq 3$					& $ \frac{4}{3}-\frac{1}{3 \cdot m} \leq
-   									\Gamma(LDM) 						\leq
-   									\frac{4}{3}-\frac{1}{3 \cdot (m-1}$
+pour $m=2$  & $\Gamma(LDM) = \frac{7}{6}$\\
+pour $m\geq 3$ & $ \frac{4}{3}-\frac{1}{3 \cdot (m-1)} \leq
+   					\Gamma(LDM) \leq
+   					\frac{4}{3}-\frac{1}{3 \cdot m}$
 \\
 % Ligne blanche
 & \\
@@ -2375,16 +2406,20 @@ pour $m\geq 3$					& $ \frac{4}{3}-\frac{1}{3 \cdot m} \leq
 \end{tabular}
 %pas de legende
 \end{flushleft}
+\lcc{revoir complexité en temps (il s'agit ici d'une analyse en
+  moyenne sur l'efficacité de la méthode)}
 
 \end{theoreme}
 
 
-\subsubsection{d'autres algorithmes}
+\subsubsection{Autres algorithmes}
+
 D'autres algorithmes basés sur le partitionnement de nombres:
 
-MPS, de Paletta et al \cite{paletta2007new}
-
-SPS, de Chiaselotti \emph{et al.} \cite{chiaselotti2010minimizing}
+\begin{itemize}
+\item MPS, de Paletta \emph{et al.} \cite{paletta2007new}
+\item SPS, de Chiaselotti \emph{et al.} \cite{chiaselotti2010minimizing}
+\end{itemize}
 
 
 \subsection{Autre}
@@ -2573,7 +2608,7 @@ les instances à nombre élevé de jobs.
 Michiels \emph{et al.}
 \citep{michiels2003performance} étudient les performances des trois
 algorithmes phares (LPT, LDM, et Multifits), pour un nombre m=10
-machines, et en fonction du nombre n d'éléments.
+machines, et en fonction du nombre $n$ d'éléments.
 Pour chaque n, 10 000 instances sont créées, à l'aide de nombres
 (temps des jobs) uniformément répartis (instances uniformes) dans
 l'intervalle [0,1].
