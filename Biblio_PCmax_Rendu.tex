@@ -196,9 +196,26 @@
 % -------------------------------------------------------
 \renewcommand{\thesection}{\arabic{section}}
 \renewcommand{\contentsname}{Sommaire}
-\setcounter{tocdepth}{4}	% avant 2pour la table des matières
+\setcounter{tocdepth}{3}	% avant 2 pour la table des matières
 \setcounter{secnumdepth}{3}	% pour les section sous et sous sous et paragraphes
 \tableofcontents
+
+\lcc{Suggestions, peut-être un peu tardive, sur l'organisation du
+  document.
+  Faire sauter un niveau en sous-section 3.3 (3.3.1 deviendrait une
+  sous-section).
+  Faire sauter un niveau en section 5 (5.1 deviendrait 5 et 5.2 serait
+  un paragraphe de perspectives qui conclurait la section 5).
+  Faire sauter un niveau en sous-section 6.1 (pareil, on conserve le
+  premier paragraphe introductif, on enlève la sous-sous-section
+  6.1.1, et on intègre 6.1.2 en tant que paragraphe d'ouverture).
+  Je mettrais aussi LDM dans la section heuristique.
+  Finalement, je mettrais aussi 6.2 en tant que 7.3 pour le recul
+  général.
+  Ça donnerait (à partir de 3.3): 3.3 Slack; 3.4 LDM; 4 Programmation
+  linéaire; 5 PTAS Dual; 6 Synthèse; 6.1 Comparaisons...; 6.2
+  Recherche...; 6.3 Limites de l'étude, ou quelque chose du genre.
+}
 
 \lp{Remarque générale: ajouter un peu de blabla pour rendre moins
   lapidaire?}
@@ -236,7 +253,7 @@ Ce document tente d’énumérer et de présenter les algorithmes les plus
 courants ainsi que les différentes méthodes de résolution utilisées.
 Après une présentation du problème (\ref{sec:pesentationProbleme}),
 nous étudierons, dans un premier temps, diverses heuristiques (\ref{sec:heuristiques}),
-  plus précisément l'utilisation des "list scheduling",
+  plus précisément l'utilisation des ``list scheduling'',
   et des outils de résolution du problème Bin-packing.
 Ensuite, nous verrons comment la programmation linéaire
   (\ref{sec:programmationLineaire}) peut résoudre le problème,
@@ -491,7 +508,7 @@ l'\emph{internet computing}, comme le projet SETI
 Ce projet consiste à rechercher des preuves possibles de transmissions
 radio provenant d'intelligences, autres que terrestres, à l'aide de
 données fournies par un radiotélescope.
-Le "serveur", distribue, une portion d'échantillons radio à traiter
+Le ``serveur'', distribue, une portion d'échantillons radio à traiter
 aux clients volontaires (logiciel client installé sur un PC), pour
 ensuite recouper les résultats.
 En tout, ce sont cinq millions de participants, qui ont accumulé deux
@@ -631,7 +648,7 @@ la notation:
   machines $m$ est fixe, et est connu à l'avance dans l'instance du
   problème, mais reste une variable.
   \lp{Pour moi $P_m$ signifie que la solution donnée ne l'est que pour
-    $m$ machines. Si la solution l'est quelquesoit le nombre de
+    $m$ machines. Si la solution l'est quelque soit le nombre de
     machines, le nombre de machines étant fixe mais une donnée du
     problème alors c'est \problemGrahamP}
 \item \problemGrahamPII fixe le nombre de machines parallèles.
@@ -1537,8 +1554,8 @@ trier la liste des jobs dans l'ordre décroissant des temps nécessaires de trai
 %ETAPE 2
 réindexer les jobs, de manière à obtenir $p_1 \geq p_2 \geq ... \geq p_n$ \;
 %ETAPE 3
-Découper l'ensemble obtenu en $\frac{n}{m}$ tuples de $m$ jobs (ajout
-de jobs "dummy" de taille nulle pour le dernier tuple, si $n$ n'est
+découper l'ensemble obtenu en $\frac{n}{m}$ tuples de $m$ jobs (ajout
+de jobs ``dummy'' de taille nulle pour le dernier tuple, si $n$ n'est
 pas un multiple de $m$) \;
 %ETAPE 4
 considérer chaque tuple avec la différence de temps (SLACK) entre le
@@ -1548,10 +1565,10 @@ premier job du tuple et le dernier.
    &p_1 - p_m     &p_{m+1}-p_{2 \cdot m}  &...
 \end{align*} \;
 %STEP 5
-trier les tuples par ordre décroissant de "Slack" et ainsi former un nouvel ensemble
+trier les tuples par ordre décroissant de ``Slack'' et ainsi former un nouvel ensemble
 \tcp{e.g: $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $p_{m+1} - p_{2 \cdot m} > p_1 - p_m$.}
 %STEP 6
-applique l'ordonnancement (Affectation à la machine la moins chargée à
+appliquer l'ordonnancement (affectation à la machine la moins chargée à
 ce moment là) à l'ensemble ainsi obtenu.
 \caption{SLACK\label{algo:SLACK}}
 \end{algorithm}
