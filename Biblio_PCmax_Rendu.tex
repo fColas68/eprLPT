@@ -1107,12 +1107,10 @@ Ratio d'approximation:	&	$\Gamma(LPT-REV)\leq \frac{4}{3} - \frac{1}{3(m-1)}$
 \end{flushleft}
 \end{theoreme}
 
-\subsubsection{D'autres algorithmes}
+\subsubsection{Autres algorithmes}
 
-Il existe d'autres propositions basée LS, telles que
+Il existe d'autres propositions basées sur LS, telles que
 \begin{itemize}
-
-
 \item AP de mokotoff\emph{et al.} \cite{mokotoff2004exact}:
 AP trie les jobs selon LPT rule (algorithme \ref{algo:LPT}),
 partitionne l'ensemble des machines en $r$ sous-ensembles, et définit
@@ -1124,15 +1122,16 @@ même façon à une deuxième partition.
 Et ainsi de suite.
 
 \item 3-phase de França \emph{et al.} \cite{francca1994composite}:
-  Cet algorithme se déroule en 3 phases :
-  (i) Construction: chaque job est affecté aux machines, de telle
-  sorte d'obtenir un résultat assez équilibré.
-  (ii) Redistribution: L'équilibre est réajusté, en déplaçant à
-  plusieurs reprises un job de la machine la plus chargée, vers
-  la machine la moins chargée.
-  (iii) Amélioration: Echange de jobs entre les machines pour
-  finaliser l'équilibre des charges de l'ensemble des machines.
-
+  Cet algorithme se déroule en 3 phases:
+  \begin{enumerate}
+  \item Construction: chaque job est affecté aux machines, de telle
+    sorte d'obtenir un résultat assez équilibré.
+  \item Redistribution: L'équilibre est réajusté, en déplaçant à
+    plusieurs reprises un job de la machine la plus chargée, vers la
+    machine la moins chargée.
+  \item Amélioration: Echange de jobs entre les machines pour
+    finaliser l'équilibre des charges de l'ensemble des machines.
+  \end{enumerate}
 \end{itemize}
 
 \lp{Dire en 2 mots ce qu'ils font?}
@@ -1761,7 +1760,7 @@ Le problème bin-packing est posé différemment:
 
 Soient:
 \begin{itemize}
-\item un ensemble d'objets $t_j \in T = \{t_1, t_2, ..., t_n\}$
+\item un ensemble d'objets $t_j \in T = \{t_1, t_2, ..., t_n\}$;
 \item leur taille $L(t_j)$ avec $1 \le j \le n$ et $0 \le L(t_j) \le 1$.
 \end{itemize}
 Une taille maximale $C$ des bacs (ou boites).
@@ -1777,8 +1776,8 @@ et ainsi donner une réponse au problème \problemGrahamP en temps polynomial.
 
 Le problème bin-packing et \problemGrahamP sont reliés de la façon suivante:
 $T^{\star}(\frac{J}{C}) \le m$ si et seulement si $C^{\star}_m(J) \le C$.
-Donc la taille minimale des bacs, $C^{\star}$ correspondant au délai
-idéal makespan, est telle que $T^{\star}(\frac{J}{C^{\star}}) \le m$.
+Donc la taille minimale des bacs, $C^{\star}$, correspondant au délai
+idéal makespan est telle que $T^{\star}(\frac{J}{C^{\star}}) \le m$.
 
 Nous sommes en présence de deux paramètres critiques:
 \begin{itemize}
@@ -1791,48 +1790,45 @@ et inversement, fixer l'autre pour optimiser le premier.
 Ce qui constitue un problème de reconnaissance (ou décision) à deux
 paramètres $R(p_1, p_2)$.
 
-\bigskip
+\paragraph{Problème primal et approximation $\epsilon-$primal}
 
-\textbf{Problème primal et approximation $\epsilon-$primal}
-
-soit le problème primal $(J,\bar{p_1})$
+Soit le problème primal $(J,\bar{p_1})$
 où $p_1$ est donné en paramètre et $p_2$ est optimisé.
 
 La valeur optimale est $OPT_P(J,\bar{p_1})$.
 
-soit l'algorithme d'approximation $\epsilon-$primal pour le problème
+Soit l'algorithme d'approximation $\epsilon-$primal pour le problème
 primal, qui donne comme résultats:
 
 \begin{itemize}
-\item pour le premier paramètre $p_1$ une valeur $\le \bar{p_1}$
-\item pour le deuxième paramètre $p_2$ une valeur $PRIMAL_{P,\epsilon} \le (1+\epsilon)\cdot OPT_P(J,\bar{p_1})$
+\item pour le premier paramètre $p_1$ une valeur inférieure ou égale à $\bar{p_1}$;
+\item pour le deuxième paramètre $p_2$ une valeur $PRIMAL_{P,\epsilon} \le (1+\epsilon)\cdot OPT_P(J,\bar{p_1})$.
 \end{itemize}
-\bigskip
 
-\textbf{Problème dual et approximation $\epsilon-$dual}
+\paragraph{Problème dual et approximation $\epsilon-$dual}
 
-soit le problème primal $(J,\bar{p_2})$
+Soit le problème primal $(J,\bar{p_2})$
 où $p_2$ est donné en paramètre et $p_1$ est optimisé.
 
 La valeur optimale est $OPT_D(J,\bar{p_2})$.
 
-soit l'algorithme d'approximation $\epsilon-$dual pour le problème
+Soit l'algorithme d'approximation $\epsilon-$dual pour le problème
 dual, qui donne comme résultats:
 
 \begin{itemize}
-\item pour le premier paramètre $p_1$ une valeur $DUAL_{D,\epsilon}(J, \bar{p_2})\le OPT_D(J,\bar{p_2})$.
-\item pour le deuxième paramètre $p_2$ une valeur $ \le (1+\epsilon)\cdot \bar{p_2}$
+\item pour le premier paramètre $p_1$ une valeur $DUAL_{D,\epsilon}(J, \bar{p_2})\le OPT_D(J,\bar{p_2})$;
+\item pour le deuxième paramètre $p_2$ une valeur $ \le (1+\epsilon)\cdot \bar{p_2}$.
 \end{itemize}
 
 \bigskip
 
-Trouver un algorithme $\epsilon-$primal pour le problème primal,
+Trouver un algorithme $\epsilon-$primal pour le problème primal
 peut être réduit à trouver un algorithme $\epsilon-$dual pour le problème dual.
 
-Trouver un algorithme d'approximation $\epsilon-$dual, peut être
+Trouver un algorithme d'approximation $\epsilon-$dual peut être
 réduit à trouver un algorithme
 d'approximation $\epsilon-$dual pour une instance du problème où la
-taille des pièces sont $> \epsilon$.
+taille des pièces sont strictement supérieures à $\epsilon$.
 
 \lp{C'est dommage que par la suite te te sois concentrer sur
   l'expression à partir des bins sans conserver le lien avec le
@@ -1843,12 +1839,12 @@ découpé en S = $\lceil \frac{1}{\epsilon^2}\rceil$ sous intervalles
 de tailles identiques
 $]\epsilon = l_1, l_2], ]l_2, l_3], \ldots , ]l_S, L_{S+1}=1]$.
 Chaque bac $P_i$, sera rempli au maximum avec
-$\lfloor \frac{1}{\epsilon} \lfloor$ pièces.
+$\lfloor \frac{1}{\epsilon} \rfloor$ pièces.
 
 Soit $x_k$ avec $1 \le k \le S$ le nombre de pièces d'un bac dont la
-taille $\in ]l_k, l_{k+1}]$.
+taille est comprises dans $]l_k, l_{k+1}]$.
 Chaque $x_k$ peut prendre une valeur dans l'intervalle
-$[0,\frac{1}{\epsilon•}[$
+$[0,\frac{1}{\epsilon}[$
 
 La configuration d'un bac $P_i$ peut être donnée par un s-tuple $(x_1, x_2, \ldots, x_S)$.
 Une configuration est dite faisable si $\sum_{k=1}^{S}x_k \cdot l_k
@@ -1856,30 +1852,28 @@ Une configuration est dite faisable si $\sum_{k=1}^{S}x_k \cdot l_k
 
 Nous avons donc
 
-$L(P_i) \le \sum_{k=1}^{S}x_k \cdot l_{k+1}$
+\begin{align*}
+L(P_i) & \le \sum_{k=1}^{S}x_k \cdot l_{k+1} \\
+& \le \sum_{k=1}^{S}x_k \cdot (l_k+\epsilon^2) \\
+& = \sum_{k=1}^{S}x_k \cdot l_k  +  \epsilon^2 \cdot \sum_{k=1}^{S}x_k \\
+& \le 1 + \epsilon^2 \cdot \frac{1}{\epsilon} \\
+& = 1 + \epsilon
+\end{align*}
 
-$\le$
-$\sum_{k=1}^{S}x_k \cdot (l_k+\epsilon^2)$
-
-$=$
-$\sum_{k=1}^{S}x_k \cdot l_k  +  \epsilon^2 \cdot \sum_{k=1}^{S}x_k$
-
-$\le$
-$1 + \epsilon^2 \cdot \frac{1}{\epsilon}$
-
-$=$
-$1 + \epsilon$
-
-\bigskip
 Soit $b_k$ avec $1 \le k \le S$ le nombre de pièces utilisées dans
-tous les bacs dont la taille $\in ]l_k, l_{k+1}]$.
+tous les bacs dont la taille appartient à $]l_k, l_{k+1}]$.
 
 Soit $Bins(b_1, b_2, \ldots, b_S)$ le nombre minimum de bacs
 nécessaires, lorsqu'il y a $b_k$ pièces de taille $l_k$, et
-considérons que le premier bac soit rempli, nous obtenons:
+considérons que le premier bac soit rempli. Nous obtenons:
 
-$Bins(b_1, b_2, \ldots, b_S) = 1 + \underset{configuraion faisable
-  (x_1, \ldots, x_S)}{\min} Bins(b_1-x_1, b_2-x_2, \ldots, b_S-x_S)$
+\[
+  Bins(b_1, b_2, \ldots, b_S) = 1 + \underset{configuraion faisable
+  (x_1, \ldots, x_S)}{\min} Bins(b_1-x_1, b_2-x_2, \ldots, b_S-x_S)
+\]
+
+\lcc{introduire/expliquer la notation $configuration faisable$ (et la
+  raccourcir, $cf$ par exemple)}
 
 Ce qui est résolu par programmation dynamique.
 Il existe 2 versions optimisées d'algorithmes pour
@@ -1888,13 +1882,13 @@ $\epsilon = \frac{1}{6}$.
 
 \bigskip
 
-$k-bin$ désigne un bac rempli avec k pièces.
+$k-bin$ désigne un bac rempli avec $k$ pièces.
 
 $L[u_1, \ldots, u_k]$ désigne l'ensemble des
-k pièces distinctes $\{i_1, \ldots, i_k\}$
+$k$ pièces distinctes $\{i_1, \ldots, i_k\}$
 où $i_l$ est la plus grande pièce, de taille au plus $u_l$,
 et où $u_1 \leq u_2 \leq \ldots \leq u_k$ et
-$p_{i_1} \leq p_{i_2} \leq \ldots \leq p_{i_k}$
+$p_{i_1} \leq p_{i_2} \leq \ldots \leq p_{i_k}$.
 
 
 % Algorithme 1/5
@@ -1902,12 +1896,12 @@ $p_{i_1} \leq p_{i_2} \leq \ldots \leq p_{i_k}$
 \begin{algorithm}[H]
 \DontPrintSemicolon
 
-Tant qu'il y a $1$ pièce $j$ avec $p_j \in [0,6, 1]$ emballer j avec
+Tant qu'il y a $1$ pièce $j$ avec $p_j \in [0,6, 1]$, emballer j avec
 $L[1 - p_j]$, si cette pièce existe.
 Emballer $j$ toute seule sinon.
 
 \BlankLine % Petit espace
-Tant qu'il y a $2$ pièces $i$, $j$ avec $p_i, p_j \in [0,5, 0.6[$
+Tant qu'il y a $2$ pièces $i$, $j$ avec $p_i, p_j \in [0,5, 0.6[$,
 emballer $i$ et $j$ ensembles.
 
 \BlankLine % Petit espace
@@ -1921,10 +1915,10 @@ les $2$ plus grandes ensembles.
 
 \BlankLine % Petit espace
 \tcp{Chaque pièce restante a une taille inférieure à 0.4}
-Prendre la plus petite pièce des pièces restantes, Si $p_j > 0.25$
+Prendre la plus petite pièce des pièces restantes. Si $p_j > 0.25$,
 alors pacquer le reste des pièces en 3-bin.
-Sinon, $p_j = 0.25 - \delta$ pour $\delta \geq 0$,
- si $3$ autres pièces existent, pacquer $j$
+Sinon, $p_j = 0.25 - \delta$ pour $\delta \geq 0$.
+Si $3$ autres pièces existent, pacquer $j$
  avec $L[0.25, \frac{+\delta}{3}, 0.25 + \delta, 0.25 + 3 \cdot \delta]$.
 Sinon, pacquer le reste dans 3-bin.
 
@@ -1941,7 +1935,7 @@ Sinon, pacquer le reste dans 3-bin.
 \DontPrintSemicolon
 
 Tant qu'il existe une pièce $j$, telle que $p_j \in (\frac{2}{3},1)$,
-emballer $p_j$ avec $L[1-p_j]$
+emballer $p_j$ avec $L[1-p_j]$.
 
 \BlankLine % Petit espace
 Estimer le nombre total de 1-bin ou 2-bin d'une solution optimale du
@@ -1957,24 +1951,24 @@ si de telles pièces existent, sinon, l'emballer avec $L[\frac{2}{3}]$.
 \tcp{Chaque pièce restante a une taille inférieure à $\frac{2}{3}$}
 Pour chaque pièce $j$ restante, avec une taille $\frac{1}{2}+\delta;
 \delta \geq 0$, emballer $j$ avec $L[\frac{1}{4}-\frac{\delta}{2},
-\frac{1}{3}-\delta]$
+\frac{1}{3}-\delta]$.
 
 \BlankLine % Petit espace
 \tcp{Chaque pièce restante a une taille inférieure à $\frac{1}{2}$}
 Estimer le nombre de 4-bin qui contient une pièce dont la taille est
 dans l'intervalle $[\frac{5}{12}, \frac{1}{2}[$ dans un packing
 optimal. Pacquer chaque bac avec $L[ \frac{7}{36}, \frac{5}{24},
-\frac{1}{4}, \frac{1}{2}]$
+\frac{1}{4}, \frac{1}{2}]$.
 
 Pour chaque pièce restante de taille
 $\frac{5}{12}+\delta, \delta \geq 0$, l'emballer dans un 3-bin avec
-$L[\frac{7}{24}-\frac{\delta}{2}, \frac{5}{12}-\delta]$
+$L[\frac{7}{24}-\frac{\delta}{2}, \frac{5}{12}-\delta]$.
 
 \BlankLine % Petit espace
 \tcp{Chaque pièce restante a une taille inférieure à $\frac{5}{12}$}
 Estimer le nombre de 3-bin d'une solution optimale pour le reste de
 l'instance. Pour chacun d'eux, le pacquer avec $L[\frac{1}{3},
-\frac{5}{12}, \frac{5}{12}]$
+\frac{5}{12}, \frac{5}{12}]$.
 
 \BlankLine % Petit espace
 \tcp{Pour le reste de la procédure, seuls les bacs qui ont }
@@ -1984,7 +1978,7 @@ Pour chaque pièce $j$ de taille $\frac{1}{3}+\delta, \delta \geq 0$,
 emballer $i$
 avec $L[\frac{2}{9}-\frac{\delta}{3},
         \frac{1}{4}-\frac{\delta}{2},
-        \frac{1}{3}-\delta]$
+        \frac{1}{3}-\delta]$.
 
 \BlankLine % Petit espace
 \tcp{Chaque pièce restante a une taille inférieure à $\frac{1}{3}$}
@@ -1996,14 +1990,14 @@ $L[\frac{17}{96},
    \frac{13}{72},
    \frac{9}{48},
    \frac{5}{24},
-   \frac{1}{3}]$
+   \frac{1}{3}]$.
 
 Tant qu'il existe des pièces dont la taille est supérieure à $\frac{7}{24}$
 Prendre la plus grande pièce de taille $p_j = \frac{7}{24}+\delta, \delta \geq 0$.
 Pacquer i avec
 $L[\frac{17}{72}-\frac{\delta}{3},
    \frac{13}{48}-\frac{\delta}{2},
-   \frac{7}{24}+\delta]$
+   \frac{7}{24}+\delta]$.
 
 Considérer la plus petite pièce $j$.
 Si $p_j>\frac{1}{5}$, emballer les pièces restantes à raison de $4$ pièces par bac.
@@ -2011,7 +2005,7 @@ Si $p_j=\frac{1}{5}-\delta, \delta \geq 0$, pacquer $j$ avec
 $L[\frac{1}{5}+\frac{\delta}{4},
    \frac{1}{5}+\frac{2 \cdot \delta}{3},
    \frac{1}{5}+\frac{3 \cdot \delta}{2},
-   \frac{7}{24}]$
+   \frac{7}{24}]$.
 
 \BlankLine % Petit espace
 
@@ -2061,39 +2055,36 @@ pour $ \epsilon = \frac{1}{5}$ &
 \end{tabular}
 %pas de legende
 \end{flushleft}
-avec k le nombre d'itérations qu'il a été nécessaire pour terminer l'algorithme.
+avec $k$ le nombre d'itérations qui a été nécessaire pour terminer l'algorithme.
 \end{theoreme}
 
 
-\subsection{d'autres algorithmes}
+\subsection{Autres algorithmes}
+
 Il existe d'autres PTAS, ou utilisant des PTAS, tels que:
 \begin{itemize}
-\item HI-Pcmax de Alvim \emph{et al.} \cite{alvim2004hybrid}:
-  Cet algorithme se déroule en 3 phases :
-  (i) Utilisation d'un PTAS MTSS pour affecter
-  les jobs aux 	machines et proposer une première solution $S$.
-  (ii) Utilisation du PTAS de
-  Hauchbaum \emph{et al.} (algorithme
-  \ref{algo:PTASDual1_5}, \ref{algo:PTASDual1_6})
-  pour proposer une deuxième solution $S^\prime$ .
-  et comparaison des deux solutions $S$ et $S\prime$
-  (iii) Utilisation de LPT rule (algorithme \ref{algo:LPT} et
-  comparaison de cette solution avec la meilleure des solutions
-  précédente.
+\item HI-Pcmax de Alvim \emph{et al.} \cite{alvim2004hybrid}.
+  Cet algorithme se déroule en 3 phases:
+  \begin{enumerate}
+  \item Utilisation d'un PTAS MTSS pour affecter les jobs aux machines
+    et proposer une première solution $S$.
+  \item Utilisation du PTAS de Hauchbaum \emph{et al.}
+    (algorithme \ref{algo:PTASDual1_5}, \ref{algo:PTASDual1_6}) pour
+    proposer une deuxième solution $S^\prime$
+    et comparaison des deux solutions $S$ et $S^\prime$.
+  \item Utilisation de LPT rule (algorithme \ref{algo:LPT}) et
+    comparaison de cette solution avec la meilleure des solutions
+    précédente.
+  \end{enumerate}
 
 \item PTAS GPU-DP de Ghalami \emph{et al.} \cite{li2018gpu}:
-  Un PTAS optimisé pour l'exécution en GPU.
+  un PTAS optimisé pour l'exécution en GPU.
 
-\item PTAS DP de Ghalami \emph{et al.} \cite{ghalami2019scheduling}:
-Cet algorithme est basé sur la formulation de PTAS dual de Hochbaum emph{et al.} et utilise le solveur CPLEX, pour résoudre cette formulation.
-
+\item PTAS DP de Ghalami \emph{et al.}
+  \cite{ghalami2019scheduling}: cet algorithme est basé sur la
+  formulation de PTAS dual de Hochbaum \emph{et al.}
+  et utilise le solveur CPLEX pour résoudre cette formulation.
 \end{itemize}
-
-
-
-
-
-
 
 
 \section{Autres approches} \label{sec:autresApproches}
