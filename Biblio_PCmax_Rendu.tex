@@ -19,26 +19,23 @@
 % Vu dans un forum : utiliser plutôt frenchb, french est obsolete
 \usepackage[T1]{fontenc}
 \usepackage[english,frenchb]{babel}
-% Pouvoir ecrire sur plusieurs colonnes
-\usepackage{multicol}
-% -------------------------------------------------------
-% Trouvé dans un forum a voir plus tard
-% utile ou pas
-% significations
-% -------------------------------------------------------
+
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
-\usepackage{booktabs}
-\usepackage{textcomp}
-\usepackage{color}
 \usepackage{array}
-\usepackage{supertabular}
+\usepackage{booktabs}
+\usepackage{diagbox} % barre oblique pour les cellule à 2 entrées
+\usepackage[pdftex]{graphicx}
 \usepackage{hhline}
 \usepackage{hyperref}
 \usepackage{lmodern}
+\usepackage{multicol}
+\usepackage{subcaption}
+\usepackage{supertabular}
+\usepackage{textcomp}
+\usepackage{xcolor}
 \usepackage{xspace}
-% \usepackage{unicode-math}	% pour prime dprime tprime
 
 % -------------------------------------------------------
 % Théorèmes
@@ -47,36 +44,8 @@
 \theoremstyle{plain}				% Choix du style
 \newtheorem{theoreme}{Théorème}	% Définition de l'environnement 1
 \newtheorem{example}{Exemple}
-
 \theoremstyle{definition}				% Choix du style
 \newtheorem{definition}{Définition} %[section]	% Définition de l'environnement définition
-% -------------------------------------------------------
-%pour utiliser
-% \textsubscript{}
-% {\textbar}
-% -------------------------------------------------------
-\usepackage{fixltx2e}
-
-% -------------------------------------------------------
-%BIBTEX
-% -------------------------------------------------------
-\usepackage{natbib}
-
-%____________________________________________________________________
-%
-% Tout ceci ne fonctionne pas ! ou n'ai pas réussi à faire fonctionner
-% \usepackage[backend=bibtex, style=numeric]{biblatex}	% Compilateur
-% \bibliography{Bibliographie}			% Utilise Bibliographie.bib
-% \addbibresource{Bibliographie.bib}
-% \bibliographystyle{plain}
-%____________________________________________________________________
-
-% -------------------------------------------------------
-% Pour les tableaux
-% -------------------------------------------------------
-%\usepackage{slashbox}
-\usepackage{diagbox} % barre oblique pour les cellule à 2 entrées
-
 
 % -------------------------------------------------------
 % Pour les ALGORITHMES
@@ -108,16 +77,12 @@
 
 \SetKwProg{Init}{init}{}{}
 % mettre les commentaire des algos en bleu
-\usepackage{xcolor}
-\newcommand\commentairesBleus[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
-\SetCommentSty{commentairesBleus}
 
 % -------------------------------------------------------
 % Information PDF généré
 % -------------------------------------------------------
 \hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=, pdfauthor=Florian Colas, pdfsubject=, pdfkeywords=}
-\usepackage[pdftex]{graphicx}
-\usepackage{subcaption}
+
 % -------------------------------------------------------
 % MACRO
 % -------------------------------------------------------
@@ -221,6 +186,7 @@
 
 \lp{Remarque générale: ajouter un peu de blabla pour rendre moins
   lapidaire?}
+
 % =======================================================
 % 1 INTRODUCTION
 % =======================================================
@@ -253,18 +219,18 @@ proche possible de la solution optimale, dans les meilleurs délais.
 
 Ce document tente d’énumérer et de présenter les algorithmes les plus
 courants ainsi que les différentes méthodes de résolution utilisées.
-Après une présentation du problème (\ref{sec:pesentationProbleme}),
-nous étudierons, dans un premier temps, diverses heuristiques (\ref{sec:heuristiques}),
+Après une présentation du problème (section~\ref{sec:pesentationProbleme}),
+nous étudierons, dans un premier temps, diverses heuristiques (section~\ref{sec:heuristiques}),
   plus précisément l'utilisation des ``list scheduling'',
   et des outils de résolution du problème Bin-packing.
 Ensuite, nous verrons comment la programmation linéaire
-  (\ref{sec:programmationLineaire}) peut résoudre le problème,
+  (section~\ref{sec:programmationLineaire}) peut résoudre le problème,
 suivi par l'étude de la définition d'un schéma d'approximation
-  en temps polynomial (PTAS) (\ref{sec:approximation}).
+  en temps polynomial (PTAS) (section~\ref{sec:approximation}).
 Le problème de partitionnement de nombres, ainsi que sa
   résolution approchée sera la dernière approche examinée
-  (\ref{sec:autresApproches}).
-Ce document se termine par une synthèse (\ref{sec:synthese}).
+  (section~\ref{sec:autresApproches}).
+Ce document se termine par une synthèse (section~\ref{sec:synthese}).
 
 \jb{Mettre des références vers les sections}
 \fco{ok, fait}
@@ -571,7 +537,7 @@ total de traitement de tous les jobs, i.e.\ minimiser le makespan noté $C_{\max
 
 Ces diverses possibilités définissent divers problèmes
 d'ordonnancements différents, recensés et classifiés
-par Graham \emph{et al.} \citep{graham1979optimization}, qui introduit
+par Graham \emph{et al.} \cite{graham1979optimization}, qui introduit
 la notation trois-champs $\alpha
 ${\textbar}$\beta ${\textbar}$\gamma $ .
 
@@ -742,9 +708,9 @@ $P_j$.
 
 Comme l'ont démontré Garey et Johnson,
 \problemGrahamPII est un
-problème NP-Difficile \citep{garey1978strong}, et
+problème NP-Difficile \cite{garey1978strong}, et
 \problemGrahamP avec $m \geq 3$ est un problème NP-Difficile
-au sens fort \citep{garey1982computers} \lp{Pour plus de 3 machines?} \fco{ok, fait}.
+au sens fort \cite{garey1982computers} \lp{Pour plus de 3 machines?} \fco{ok, fait}.
 Cependant, \problemGrahamP devient un problème NP-Difficile, du moment
 que le nombre de machines est fixé \cite{chen1999potts}, comme l'a
 montré Rothkopf \cite{rothkopf1966scheduling}, qui a présenté un
@@ -2630,7 +2596,7 @@ les ratios théoriques attendus \cite{della2018longest}, surtout dans
 les instances à nombre élevé de jobs.
 
 Michiels \emph{et al.}
-\citep{michiels2003performance} étudient les performances des trois
+\cite{michiels2003performance} étudient les performances des trois
 algorithmes phares (LPT, LDM, et Multifits), pour un nombre m=10
 machines, et en fonction du nombre $n$ d'éléments.
 Pour chaque n, 10 000 instances sont créées, à l'aide de nombres
