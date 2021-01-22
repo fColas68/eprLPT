@@ -710,7 +710,7 @@ $P_j$.
 % -------------------------------------------------------
 % RATIO OBTENU/OPTIMAL
 % -------------------------------------------------------
-\item $\Gamma(A)=\dfrac{C_m^A(J)}{C_m^\star(J)}$
+\item $\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$
 	Le ratio d'approximation atteint par l'algorithme $A$ au pire cas.
 
 \lp{Définir $C^*$}
@@ -761,12 +761,12 @@ Les jobs sont exécutés sans interruption ni coupure. Donc,
   Dans le cas d'un nombre $n$ de jobs supérieur au nombre $m$ de machines,
   le makespan ne peut pas être inférieur à la moyenne
   des tailles des jobs par machine
-  i.e. $\dfrac{1}{m} \sum_{j=1}^{n} p_j$.
+  i.e. $\frac{1}{m} \sum_{j=1}^{n} p_j$.
 Donc Toutes les solutions ont une borne minimale
   \cite{mcnaughton1959scheduling}: \\
 
   \begin{center}
-  $= \max \{ \max_j\{p_j\}, \dfrac{1}{m} \sum_{j=1}^{n} p_j \}$
+  $= \max \{ \max_j\{p_j\}, \frac{1}{m} \sum_{j=1}^{n} p_j \}$
   \label{borneMini}
   \end{center}
 
@@ -908,7 +908,7 @@ Nous obtenons $C_4^{LPT}(J)=14$ (figure \ref{ex:LPTExempleAlgo}).
 Le tri puis l'affectation coûtent en temps:& $O(n \log n + n \log m)$
 \\	% pas de ligne \hline
 % RATIO
-Le ratio d'approximation:	&	$\Gamma(LPT)\leq \dfrac{4}{3} - \dfrac{1}{3m}$
+Le ratio d'approximation:	&	$\Gamma(LPT)\leq \frac{4}{3} - \frac{1}{3m}$
 \\
 % Ligne blanche
 & \\
@@ -929,11 +929,11 @@ Le ratio d'approximation:	&	$\Gamma(LPT)\leq \dfrac{4}{3} - \dfrac{1}{3m}$
 % Présentaion
 % ---------------------
 Le ratio d'approximation obtenu par LPT (algorithme \ref{algo:LPT})
-$(\Gamma(LPT)\leq \dfrac{4}{3} - \dfrac{1}{3m})$ est une borne
+$(\Gamma(LPT)\leq \frac{4}{3} - \frac{1}{3m})$ est une borne
 supérieure que cet algorithme peut atteindre, mais qu'il ne dépassera
 jamais.
 Chaque utilisation de LPT produira un résultat dont le ratio $\Gamma$
-oscillera entre 1 et $\dfrac{4}{3} - \dfrac{1}{3m}$.
+oscillera entre 1 et $\frac{4}{3} - \frac{1}{3m}$.
 \bigskip
 
 % figures pour l'explication
@@ -972,12 +972,12 @@ LPT donne le résultat suivant: $C_m^A(J) = 15$
 
 Un ordonnancement optimal aurait été: $C_4^{\star}(J)=12$
 
-Soit une marge de $\dfrac{15}{12}$
+Soit une marge de $\frac{15}{12}$
 
 Le ratio d'approximation prévu pour $m=4$:
 
 \[
-  \dfrac{4}{3} - \dfrac{1}{3m}=\dfrac{16}{12} - \dfrac{1}{12}=\dfrac{15}{12}
+  \frac{4}{3} - \frac{1}{3m}=\frac{16}{12} - \frac{1}{12}=\frac{15}{12}
 \]
 
 Ce cas représente donc un pire cas pour LPT.
@@ -1009,11 +1009,11 @@ problème, et rédigent le théorème suivant:
 
 \begin{theoreme}
   LPT a un rapport d'approximation non supérieur à\\
-  $\dfrac{4}{3} - \dfrac{1}{3(m-1)}$ pour $m \geq 3$ et $n \neq 2m+1$.
+  $\frac{4}{3} - \frac{1}{3(m-1)}$ pour $m \geq 3$ et $n \neq 2m+1$.
 \end{theoreme}
 
 \bigskip
-LPT atteint la limite de Graham $\dfrac{4}{3} - \dfrac{1}{3m}$ pour
+LPT atteint la limite de Graham $\frac{4}{3} - \frac{1}{3m}$ pour
 $m \geq 2$ et uniquement dans le cas où $n=2m+1$, et la machine
 critique traite 3 jobs, tandis que les autres en traitent 2
 (ce qui est précisément le cas de l'exemple \ref{ex:LPTExemplePireCas}).
@@ -1024,8 +1024,8 @@ critique traite 3 jobs, tandis que les autres en traitent 2
 
 
 
-Le rapport $\dfrac{4}{3} - \dfrac{1}{3(m-1)}$ est inférieur au
-ratio $\dfrac{4}{3} - \dfrac{1}{3m}$ (quel que soit le nombre de
+Le rapport $\frac{4}{3} - \frac{1}{3(m-1)}$ est inférieur au
+ratio $\frac{4}{3} - \frac{1}{3m}$ (quel que soit le nombre de
 machines)
 
 \bigskip
@@ -1038,14 +1038,14 @@ machines)
 %	\item nombre de job $n=2m+1$.
 %	\item la machine critique exécute 3 jobs.
 %	\item les autres exécutent 2 jobs.
-%	\item un rapport d'approximation de $\dfrac{4}{3} - \dfrac{1}{3m}$
+%	\item un rapport d'approximation de $\frac{4}{3} - \frac{1}{3m}$
 % \end{itemize}
 
 \bigskip
 
 Une modification à l'algorithme LPT rule est apportée afin de placer
 le problème \problemGrahamP toujours dans une instance où le ratio
-d'approximation est $\leq \dfrac{4}{3} - \dfrac{1}{3(m-1)}$.
+d'approximation est $\leq \frac{4}{3} - \frac{1}{3(m-1)}$.
 Cette modification consiste à planifier en premier, le job critique
 sur une machine m1.
 
@@ -1097,7 +1097,7 @@ ce qui donne une solution avec un makespan $z_3$ \\
 Complexité en temps:	& $O(n \cdot log (n))$
 \\
 % RATIO
-Ratio d'approximation:	&	$\Gamma(LPT-REV)\leq \dfrac{4}{3} - \dfrac{1}{3(m-1)}$
+Ratio d'approximation:	&	$\Gamma(LPT-REV)\leq \frac{4}{3} - \frac{1}{3(m-1)}$
 \\
 % Ligne blanche
 & \\
@@ -1209,8 +1209,8 @@ d'itérations.
 
 La méthode utilisée est une recherche dichotomique.
 Après avoir défini les bornes supérieure
-$C_u = \max\{\dfrac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \}$ et
-inférieure $C_l = \max\{\dfrac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \}$
+$C_u = \max\{\frac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \}$ et
+inférieure $C_l = \max\{\frac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \}$
 de départ, FFD est exécuté avec le milieu $C_d = \frac{C_u + C_l}{2}$.
 si $FFD(T,C_d)\le m$ alors la nouvelle fourchette de recherche devient
 $C_u = C_d$ et $C_l$, sinon (si $FFD(T,C_d)> m$) alors la nouvelle
@@ -1239,9 +1239,9 @@ Il est donc inutile d'utiliser $k>7$.
 
 m, un nombre de processeurs
 
-borne supérieure: $Cu[T,m] = \max\left\{\dfrac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
+borne supérieure: $Cu[T,m] = \max\left\{\frac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
 
-borne inférieure: $Cl[T,m] = \max\left\{\dfrac{1}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
+borne inférieure: $Cl[T,m] = \max\left\{\frac{1}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
 
 k un nombre d'itérations
 }
@@ -1307,7 +1307,7 @@ algorithme nommé COMBINE.
 \bigskip
 soient
 \begin{align*}
-&\textnormal{la moyenne des poids des jobs par processeur} &A &= \sum_{i=1}^{n}(\dfrac{P_i}{m})\\
+&\textnormal{la moyenne des poids des jobs par processeur} &A &= \sum_{i=1}^{n}(\frac{P_i}{m})\\
 &et &M &= C_m^{lpt}(J) \\
 & &M^\star &= C_m^\star(J)
 \end{align*}
@@ -1341,7 +1341,7 @@ sur les principes suivants:
 \DontPrintSemicolon
 \KwData{instance de \problemGrahamP, avec m machines, n jobs, et un coefficient $\alpha (0,005)$ }
 
-A = $\sum_{i=1}^{n}(\dfrac{P_i}{m})$ \;
+A = $\sum_{i=1}^{n}(\frac{P_i}{m})$ \;
 M $\leftarrow C_m^{lpt}(J)$ \;
 \Si {$M \geq 1,5 \cdot A$}
  {
@@ -1485,7 +1485,7 @@ Complexité en temps:& $O(n^2 \log(n) + k \cdot n^2 \log(m))$
 % Ligne blanche
 & \\
 % RATIO
-Ratio \cite{gupta2001listfit} & $\Gamma(LISTFIT) \leq \dfrac{13}{12} + 2^{-k}$
+Ratio \cite{gupta2001listfit} & $\Gamma(LISTFIT) \leq \frac{13}{12} + 2^{-k}$
 \\
 % Ligne blanche
 & \\
@@ -1538,7 +1538,7 @@ trier la liste des jobs dans l'ordre décroissant des temps nécessaires de trai
 %ETAPE 2
 réindexer les jobs, de manière à obtenir $p_1 \geq p_2 \geq ... \geq p_n$ \;
 %ETAPE 3
-Découper l'ensemble obtenu en $\dfrac{n}{m}$ tuples de $m$ jobs (ajout
+Découper l'ensemble obtenu en $\frac{n}{m}$ tuples de $m$ jobs (ajout
 de jobs "dummy" de taille nulle pour le dernier tuple, si $n$ n'est
 pas un multiple de $m$) \;
 %ETAPE 4
@@ -1573,7 +1573,7 @@ Complexité en temps:& $O(n \cdot log (n))$
 %	% Ligne blanche
 %	& \\
 %	% RATIO
-%	Ratio \cite{gupta2001listfit} & $\Gamma(LISTFIT) \leq \dfrac{13}{12} + 2^{-k}$
+%	Ratio \cite{gupta2001listfit} & $\Gamma(LISTFIT) \leq \frac{13}{12} + 2^{-k}$
 \\
 % Ligne blanche
 & \\
@@ -1755,30 +1755,30 @@ l'optimal, en temps polynomial dépendant de $\epsilon$.
 Hochbaum \emph{et al.}\ \cite{hochbaum1987using} proposent le
 premier PTAS adapté au problème \problemGrahamP.
 Cette approche s'appuie aussi sur le problème semblable à
-\problemGrahamP, celui du bin packing et prend MULTIFIT
+\problemGrahamP, celui du bin-packing et prend MULTIFIT
 (algorithme \ref{algo:MULTIFIT}) comme réflexion de départ.
 Le problème bin-packing est posé différemment:
 
 Soient:
 \begin{itemize}
 \item un ensemble d'objets $t_j \in T = \{t_1, t_2, ..., t_n\}$
-\item leur taille $L(t_j)$ avec $1 \le j \le n$ et $0 \le L(t_j) \le 1$
+\item leur taille $L(t_j)$ avec $1 \le j \le n$ et $0 \le L(t_j) \le 1$.
 \end{itemize}
 Une taille maximale $C$ des bacs (ou boites).
 
 $T^{\star}(T)$, définit plus haut, correspond au bin-packing idéal, et donc,
 au nombre minimum de bacs nécessaires pour l'organisation des pièces
 de l'ensemble $T$.
-Le but de l'algorithme proposé, et de construire un arrangement
+Le but de l'algorithme proposé est de construire un arrangement
 bin-packing,
 qui utilise au plus $T^{\star}_m$ bacs, remplit
 avec des pièces totalisant une taille au plus de $1+ \epsilon$,
 et ainsi donner une réponse au problème \problemGrahamP en temps polynomial.
 
 Le problème bin-packing et \problemGrahamP sont reliés de la façon suivante:
-$T^{\star}(\dfrac{J}{C}) \le m$ si et seulement si $C^{\star}_m(J) \le C$.
+$T^{\star}(\frac{J}{C}) \le m$ si et seulement si $C^{\star}_m(J) \le C$.
 Donc la taille minimale des bacs, $C^{\star}$ correspondant au délai
-idéal makespan, est telle que $T^{\star}(\dfrac{J}{C^{\star}}) \le m$.
+idéal makespan, est telle que $T^{\star}(\frac{J}{C^{\star}}) \le m$.
 
 Nous sommes en présence de deux paramètres critiques:
 \begin{itemize}
@@ -1839,16 +1839,16 @@ taille des pièces sont $> \epsilon$.
   problème $P||C_{\max}$, en particulier pour les algos}
 
 L'intervalle de la taille des pièces (devenu $]\epsilon, 1]$) est
-découpé en S = $\lceil \dfrac{1}{\epsilon^2}\rceil$ sous intervalles
+découpé en S = $\lceil \frac{1}{\epsilon^2}\rceil$ sous intervalles
 de tailles identiques
 $]\epsilon = l_1, l_2], ]l_2, l_3], \ldots , ]l_S, L_{S+1}=1]$.
 Chaque bac $P_i$, sera rempli au maximum avec
-$\lfloor \dfrac{1}{\epsilon} \lfloor$ pièces.
+$\lfloor \frac{1}{\epsilon} \lfloor$ pièces.
 
 Soit $x_k$ avec $1 \le k \le S$ le nombre de pièces d'un bac dont la
 taille $\in ]l_k, l_{k+1}]$.
 Chaque $x_k$ peut prendre une valeur dans l'intervalle
-$[0,\dfrac{1}{\epsilon•}[$
+$[0,\frac{1}{\epsilon•}[$
 
 La configuration d'un bac $P_i$ peut être donnée par un s-tuple $(x_1, x_2, \ldots, x_S)$.
 Une configuration est dite faisable si $\sum_{k=1}^{S}x_k \cdot l_k
@@ -1865,7 +1865,7 @@ $=$
 $\sum_{k=1}^{S}x_k \cdot l_k  +  \epsilon^2 \cdot \sum_{k=1}^{S}x_k$
 
 $\le$
-$1 + \epsilon^2 \cdot \dfrac{1}{\epsilon}$
+$1 + \epsilon^2 \cdot \frac{1}{\epsilon}$
 
 $=$
 $1 + \epsilon$
@@ -2050,10 +2050,10 @@ général &
 	$\Gamma(dual PTAS) = 1 + \epsilon$\\
 
 pour $ \epsilon = \frac{1}{5}$ &
-	$\Gamma(\frac{1}{5}$dual PTAS$) = \dfrac{1}{5} + 2^{-k}$\\
+	$\Gamma(\frac{1}{5}$dual PTAS$) = \frac{1}{5} + 2^{-k}$\\
 
 pour $ \epsilon = \frac{1}{5}$ &
-	$\Gamma(\frac{1}{6}$dual PTAS$) = \dfrac{1}{6} + 2^{-k}$
+	$\Gamma(\frac{1}{6}$dual PTAS$) = \frac{1}{6} + 2^{-k}$
 \\
 % Ligne blanche
 & \\
@@ -2373,7 +2373,7 @@ Complexité en temps \cite{michiels2003performance}:& $n^{- \Theta (log(n))}$
 % RATIO
 Ratio \cite{michiels2003performance} &\\
 % RATIO M= 2
-pour $m=2$						& $\Gamma(LDM) = \dfrac{7}{6}$\\
+pour $m=2$						& $\Gamma(LDM) = \frac{7}{6}$\\
 pour $m\geq 3$					& $ \frac{4}{3}-\frac{1}{3 \cdot m} \leq
    									\Gamma(LDM) 						\leq
    									\frac{4}{3}-\frac{1}{3 \cdot (m-1}$
@@ -2539,7 +2539,7 @@ Complexité \newline (en temps) &
 % LIGNE Ration
 % --------------------------
 Ratio \newline (pire des cas)		&
-							$\dfrac{13}{12} + 2^{-k}$&		% LISTFIT
+							$\frac{13}{12} + 2^{-k}$&		% LISTFIT
 							/&								% PA (pas d'info)
 							$1 + \epsilon$	&				%PTAS
 							compris entre \newline						% LDM
