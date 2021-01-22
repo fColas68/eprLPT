@@ -306,7 +306,7 @@ premiers PC
 machine de Von Neumann
 
 
-microcontrôleurs.
+microcontrôleurs, \newline Arduino \ldots
 %---------------------------
 &
 \textbf{SIMD}
@@ -623,7 +623,8 @@ i.e.\ le temps de traitement total.
   Un job commencé est complété sans interruption.
   Les jobs, indépendants, sont exécutés par une seule machine,
   et une machine ne peut traiter qu'un seul job à la fois.
-  \lp{Dire jobs séquentiels et non parallèles?}
+\lp{Dire jobs séquentiels et non parallèles?}
+\fco{je n'arrive pas à trouver où j'ai pu mettre "jobs parallèles"}
 
 la notation:
 \begin{itemize}
@@ -804,20 +805,19 @@ plus proche voisin''.
 On choisit la ville la plus proche de la ville courante, jusqu'à avoir
 visité toutes les villes.
 Cette heuristique est simple, mais donne, pour ce problème un mauvais résultat
-\lp{Je relativiserais le très, cela dépend du problème}.
-\fco{ok, fait}
+% \lp{Je relativiserais le très, cela dépend du problème}.
+% \fco{ok, fait}
 
-%Les heuristiques présentent plusieurs avantages. Leur complexité est
-%réduite\lp{ça dépend de leur conception}, et obtiennent de bonne
-%performances\lp{ça dépend aussi, je suis capable de faire des
-%heuristiques non performantes}.
-Ces algorithmes donnent des résultats, dont la borne maximale, au pire
-des cas n'est pas maîtrisée: une étude du comportement est nécessaire
-pour définir cette borne maximale.
+Ces algorithmes donnent des solutions, dont la borne maximale, au pire
+des cas n'est pas maîtrisée: une étude du comportement est nécessaire 
+pour définir cette borne maximale. 
+Parfois, cette borne n'existe pas. Une simulation permet 
+d'obtenir des informations générales sur les tendances.
 
 \lp{Elle n'existe pas parfois.
   Dans ce cas, l'étude de comportement (ou simulation) permet d'avoir
   des indications générales sur le comportement}
+\fco{ok, fait}  
 % \lcc{revoir notation et phrase}
 % \fco{ok, fait.}
 % $C_m^A(J)_{maximal}$
@@ -835,12 +835,14 @@ d'ordonnancement.
 %   des tâches et sum(pi)/m}
 % \fco{FCO: ok, fait: Cette borne est une caractéristique du problème.}
 \subsection{LS (List Scheduling)} \label{ssec:heuristiquesLS}
-% '
+
 
 L'idée d'une LS est de stocker l'ensemble des jobs dans celle-ci,
-les trier dans un ordre \lp{on parle souvent de prioritté} particulier,
+les trier dans un ordre particulier (en leur assignant une priorité), 
 avant de les affecter à une machine selon des règles définies.
 Le premier job de la liste étant affecté à la première machine disponible.
+\lp{on parle souvent de prioritté}
+\fco{ok, fait}
 
 %	\lp{un algorithme de liste affecte aussi un job, le premier de la
 %	liste, à la première machine prête}
@@ -1507,26 +1509,34 @@ avec k le nombre d'itérations pour la recherche dichotomique.
 % ---------------------
 Croce \emph{et al.} \cite{della2018longest}, en effectuant la preuve
 d'une borne d'approximation pour le
-développement de LPT-Rev (algorithme \ref{algo:LPTRev}), ont mis en évidence
-l'importance des différences de temps entre les jobs,
+développement de LPT-Rev (algorithme \ref{algo:LPTRev}), ont mis en évidence l'importance des différences de temps entre les jobs, 
 ainsi que le regroupement de ceux-ci en sous-ensembles.
 
-\lp{est-ce qu'on sait dire pourquoi? faire une petite analyse}
+En effet, lorsque le nombre de jobs $n =2 \cdot m + 1$, que la différence entre $p_1 - p_m < p_{2 \cdot m + 1}$ et que 
+$p_{2 \cdot m + 1}$ est planifié en premier (sur $m_1$) 
+alors la machine critique exécute $p_{m+1}$, $p_m$ et $p_{2 \cdot m}$
+(donc $C_m^A(J) = p_{m+1}$+$p_m$+$p_{2 \cdot m} $), 
+et le ratio d'approximation tombe à 
+$\dfrac{6}{7}$ au lieu de 
+$\dfrac{4}{3} - \dfrac{1}{2 \cdot m -1)}$, 
+soit $1.1666 \ldots$ \\
+$\dfrac{6}{7} < \dfrac{4}{3} - \dfrac{1}{2 \cdot m -1)}$ avec $m \geq 4$.
 
-notamment pour l'instance suivante:
-% * pour ne pas numéroter. Juste besoin d'aligner
-\begin{align*}
-& \textnormal{Nombre de jobs} &n &=2 \cdot m + 1			\\
-& Avec &p_{2 \cdot m + 1} &\geq p_1 - p_m
-\end{align*}
+\lp{est-ce qu'on sait dire pourquoi? faire une petite analyse}
+\fco{ok, fait}
+
+Il faut donc se placer dans cette instance en adoptant la stratégie gloutonne suivante :
+
 Où ils ont planifié d'abord, le job $2 \cdot m + 1$, puis un
 sous-ensemble de jobs triés $\{1,...,m\}$ et pour finir un
 sous-ensemble de jobs triés $\{m+1,...,2 \cdot m \}$
 
-En résulte l'algorithme suivant: \lp{C'est l'algo le résultat?}
+En résulte l'heuristique suivante: 
+\lp{C'est l'algo le résultat?}
+\fco{ok, fait}
 
 \bigskip
-% Algorithme
+% Algorithme Slack
 % ---------------------
 \begin{algorithm}[H]
 \DontPrintSemicolon
@@ -2089,13 +2099,24 @@ Il existe d'autres PTAS, ou utilisant des PTAS, tels que:
 
 \section{Autres approches} \label{sec:autresApproches}
 
+D'autres pistes sont explorées dans la littérature, notamment à l'aide de réseaux de neurones, d'algorithmes branch\&bound, ou via l'utilisation de  méta-heuristiques\footnotemark[1], telles que les algorithmes génétiques. 
+Ces techniques complexes, et, pour l'instant très coûteuses en temps, 
+sortent en partie du cadre de cette bibliographie (pour exemple Min \emph{et al.} \cite{min1999genetic}). 
+
+
+En revenche, et à l'instar du problème bin-packing, le problème de 
+partitionnement de nombres est similaire à \problemGrahamP, 
+et fait l'objet d'investigations.
+
+\footnotetext[1]{les heuristiques sont spécifiques à un problème. il est nécessaire d'en déterminer une nouvelle à chaque nouveau problème. Les méta-heuristiques rassemblent des concepts permettant de définir des heuristiques et ainsi s'adapter à de nombreux problèmes.}
+
 \subsection{partitionnement de nombres}
 \label{ssec:autresApprochesPartitionnement}
 
 Le problème \problemGrahamP peut être vu comme le problème de
 partition ou partitionnement de nombres (Npp).
-En effet, ce problème consiste à partitionner un ensemble de n nombres
-dans m sous-ensembles, tout en minimisant la somme des nombres de
+En effet, ce problème consiste à partitionner un ensemble de $n$ nombres
+dans $m$ sous-ensembles, tout en minimisant la somme des nombres de
 chaque sous ensembles.
 Ce problème est NP-difficile.
 
@@ -2106,10 +2127,10 @@ Ce problème est NP-difficile.
 Karmarkar \emph{et al.}
 \cite{karmarkar1982differencing} posent le problème de partition
 d'ensemble suivant: soit un ensemble fini
-$P=\{P_1, P_2, \ldots, P_n\}$ de n nombres réels à partitionner dans m
+$P=\{p_1, p_2, \ldots, p_n\}$ de n nombres réels à partitionner dans m
 sous ensembles $m_1, m_2, \ldots, m_m$ de manière à minimiser
-$D(m_1, m_2, \ldots, m_m) = max_i \left\{ \sum_{P_j \in m_i}P_j
-\right\} - min_i \left\{ \sum_{P_j \in m_i}P_j \right\}$
+$D(m_1, m_2, \ldots, m_m) = max_i \left\{ \sum_{p_j \in m_i}p_j
+\right\} - min_i \left\{ \sum_{p_j \in m_i}p_j \right\}$
 
 Le principe de l'algorithme consiste à remplacer les deux plus grands
 nombres de l'ensemble de n éléments de départ (les plus importants, ou
@@ -2139,7 +2160,7 @@ $m_2$), pour être généralisée à m sous-ensembles.
 % ---------------------
 \begin{algorithm}
 \DontPrintSemicolon
-\KwData{un ensemble $P = \{P_1, P_2, \ldots, P_n\}$ de n nombres positifs réels (correspondant aux temps d'exécution de n job indépendants)}
+\KwData{un ensemble $P = \{p_1, p_2, \ldots, p_n\}$ de n nombres positifs réels (correspondant aux temps d'exécution de $n$ job indépendants)}
 
 
 \BlankLine % Petit espace
@@ -2179,7 +2200,7 @@ $m_2$), pour être généralisée à m sous-ensembles.
 \end{figure}
 
 \begin{example}
-Soit $P=\{3,6,13,20,30,40,73\}$, l'ensemble des $P_j$.
+Soit $P=\{3,6,13,20,30,40,73\}$, l'ensemble des $p_j$.
 
 40 et 73 sont les nombres les plus grands.
 On les remplace dans $P$ par $73 - 40 = 33$, pour donner
@@ -2215,31 +2236,31 @@ $m_1 = \{ 6,13,73 \}$ et $m_2 = \{ 3,20,30,40 \}$ (figure
 %------------------------------------------------------------------
   LDM effectue tout d'abord, une opération de préparation de
   l'instance du problème.
-  Chaque élément de $P = \{ P_1, P_2, \ldots, P_n \}$ est converti en
+  Chaque élément de $P = \{ p_1, p_2, \ldots, p_n \}$ est converti en
   $m$-tuple.
   Les $m-1$ premiers composants sont vides, et le dernier (position m)
   est égal au nombre lui-même.
   Ainsi chaque
-  $\underline{P_i} = \{P_{i 1}=0,P_{i 2}=0, \ldots, P_{i m}=\{P_i\}
+  $\underline{p_j} = \{p_{j 1}=0,p_{j 2}=0, \ldots, p_{j m}=\{p_j\}
   \}$
 
 Puis, $n-1$ itérations des opérations suivantes sont effectuées:
 
 
-Soit $d(\underline{P_i})$ la différence entre la valeur maximale et la
-valeur minimale des composants du sous-ensemble $\underline{P_i}$.
+Soit $d(\underline{p_j})$ la différence entre la valeur maximale et la
+valeur minimale des composants du sous-ensemble $\underline{p_j}$.
 
-Extraction de $\underline{P_a}$ et $\underline{P_b}$ les deux m-tuples
-qui ont la plus grande différence $d(\underline{P_a})$ et
-$d(\underline{P_b})$.
+Extraction de $\underline{p_a}$ et $\underline{p_b}$ les deux m-tuples
+qui ont la plus grande différence $d(\underline{p_a})$ et
+$d(\underline{p_b})$.
 Ces deux solutions partielles, sont combinées pour former une nouvelle
-solution partielle $\underline{P_{ab}}$, en joignant le premier plus
-petit élément (ou l'élément vide) de $\underline{P_a}$ avec le premier
-élément le plus grand de $\underline{P_b}$, puis le deuxième élément
-le plus petit de $\underline{P_a}$ avec le deuxième élément le plus
-grand de $\underline{P_b}$ et ainsi de suite\ldots la nouvelle
-solution partielle $\underline{P_{ab}}$, remplace $\underline{P_a}$ et
-$\underline{P_b}$ dans l'instance.
+solution partielle $\underline{p_{ab}}$, en joignant le premier plus
+petit élément (ou l'élément vide) de $\underline{p_a}$ avec le premier
+élément le plus grand de $\underline{p_b}$, puis le deuxième élément
+le plus petit de $\underline{p_a}$ avec le deuxième élément le plus
+grand de $\underline{p_b}$ et ainsi de suite\ldots la nouvelle
+solution partielle $\underline{p_{ab}}$, remplace $\underline{p_a}$ et
+$\underline{p_b}$ dans l'instance.
 
 Le résultat du partitionnement est donné après $n-1$ itérations.
 
@@ -2251,92 +2272,102 @@ Soit $P=\{1,3,3,4,4,5,5,5\}$\\
 nombre de machines $m=3$\\
 \textbf{Création des m-tuples}:\\
 \begin{multicols}{3}
-$\underline{P_{1}} = \{,,1\}$\\
-$\underline{P_{2}} = \{,,3\}$\\
-$\underline{P_{3}} = \{,,3\}$\\
-$\underline{P_{4}} = \{,,4\}$\\
-$\underline{P_{5}} = \{,,4\}$\\
-$\underline{P_{6}} = \{,,5\}$\\
-$\underline{P_{7}} = \{,,5\}$\\
-$\underline{P_{8}} = \{,,5\}$\\
+$\underline{p_{1}} = \{,,1\}$\\
+$\underline{p_{2}} = \{,,3\}$\\
+$\underline{p_{3}} = \{,,3\}$\\
+$\underline{p_{4}} = \{,,4\}$\\
+$\underline{p_{5}} = \{,,4\}$\\
+$\underline{p_{6}} = \{,,5\}$\\
+$\underline{p_{7}} = \{,,5\}$\\
+$\underline{p_{8}} = \{,,5\}$\\
 \end{multicols}
 
 \textbf{Itération 1}:\\
 les tuples qui ont la différence la plus grande sont
-$\underline{P_{8}}$  et $\underline{P_{7}}$.
-on combine $\underline{P_{8}}$  et $\underline{P_{7}}$ pour créer un $\underline{P_{78}}$. Le premier plus petit élément de $\underline{P_{8}}$ (élément vide) est joint par le premier plus grand élément de $\underline{P_{8}}$ (5) pour donner  $\underline{P_{78}} = \{,5,5\}$. $d(\underline{P_{78}}) = 5-0 = 5$.\\
+$\underline{p_{8}}$  et $\underline{p_{7}}$.
+on combine $\underline{p_{8}}$  et $\underline{p_{7}}$ pour créer un $\underline{p_{78}}$. Le premier plus petit élément de $\underline{p_{8}}$ (élément vide) est joint par le premier plus grand élément de $\underline{p_{8}}$ (5) pour donner  $\underline{p_{78}} = \{,5,5\}$. $d(\underline{p_{78}}) = 5-0 = 5$.\\
 La nouvelle instance devient:\\
 \begin{multicols}{3}
-$\underline{P_{1}} = \{,,1\}$\\
-$\underline{P_{2}} = \{,,3\}$\\
-$\underline{P_{3}} = \{,,3\}$\\
-$\underline{P_{4}} = \{,,4\}$\\
-$\underline{P_{5}} = \{,,4\}$\\
-$\underline{P_{6}} = \{,,5\}$\\
-$\underline{P_{78}} = \{,5,5\}=5$\\
+$\underline{p_{1}} = \{,,1\}$\\
+$\underline{p_{2}} = \{,,3\}$\\
+$\underline{p_{3}} = \{,,3\}$\\
+$\underline{p_{4}} = \{,,4\}$\\
+$\underline{p_{5}} = \{,,4\}$\\
+$\underline{p_{6}} = \{,,5\}$\\
+$\underline{p_{78}} = \{,5,5\}=5$\\
 \end{multicols}
 
 \textbf{Itération 2}:\\
-On conbine $\underline{P_{6}}$ avec $\underline{P_{78}}$ pour donner $\underline{P_{678}} = \{5,5,5\}$. $d(\underline{P_{678}}) = 5-5 = 0$.\\
+On conbine $\underline{p_{6}}$ avec $\underline{p_{78}}$ pour donner $\underline{p_{678}} = \{5,5,5\}$. $d(\underline{p_{678}}) = 5-5 = 0$.\\
 La nouvelle instance devient:\\
 \begin{multicols}{3}
-$\underline{P_{1}} = \{,,1\}$\\
-$\underline{P_{2}} = \{,,3\}$\\
-$\underline{P_{3}} = \{,,3\}$\\
-$\underline{P_{4}} = \{,,4\}$\\
-$\underline{P_{5}} = \{,,4\}$\\
-$\underline{P_{678}} = \{5,5,5\}=0$\\
+$\underline{p_{1}} = \{,,1\}$\\
+$\underline{p_{2}} = \{,,3\}$\\
+$\underline{p_{3}} = \{,,3\}$\\
+$\underline{p_{4}} = \{,,4\}$\\
+$\underline{p_{5}} = \{,,4\}$\\
+$\underline{p_{678}} = \{5,5,5\}=0$\\
 \end{multicols}
 
 \textbf{Itération 3}:\\
 les tuples qui ont la différence la plus grande sont
-$\underline{P_{5}}$  et $\underline{P_{4}}$.
-on les combine pour créer un $\underline{P_{45}}$. Le premier plus petit élément de $\underline{P_{5}}$ (élément vide) est joint par le premier plus grand élément de $\underline{P_{4}}$ (4) pour donner  $\underline{P_{45}} = \{,4,4\}$. $d(\underline{P_{45}}) = 4-0 = 4$.\\
+$\underline{p_{5}}$  et $\underline{p_{4}}$.
+on les combine pour créer un $\underline{p_{45}}$. Le premier plus petit élément de $\underline{p_{5}}$ (élément vide) est joint par le premier plus grand élément de $\underline{p_{4}}$ (4) pour donner  $\underline{p_{45}} = \{,4,4\}$. $d(\underline{p_{45}}) = 4-0 = 4$.\\
 La nouvelle instance devient:\\
 \begin{multicols}{3}
-$\underline{P_{1}} = \{,,1\}$\\
-$\underline{P_{2}} = \{,,3\}$\\
-$\underline{P_{3}} = \{,,3\}$\\
-$\underline{P_{45}} = \{,4,4\}=4$\\
-$\underline{P_{678}} = \{5,5,5\}=0$\\
+$\underline{p_{1}} = \{,,1\}$\\
+$\underline{p_{2}} = \{,,3\}$\\
+$\underline{p_{3}} = \{,,3\}$\\
+$\underline{p_{45}} = \{,4,4\}=4$\\
+$\underline{p_{678}} = \{5,5,5\}=0$\\
 \end{multicols}
 
 \textbf{Itération 4}:\\
 les tuples qui ont la différence la plus grande sont
-$\underline{P_{45}}$  et $\underline{P_{3}}$.
-on les combine pour créer un $\underline{P_{345}}$. Le premier plus petit élément de $\underline{P_{45}}$ (élément vide) est joint par le premier plus grand élément de $\underline{P_{3}}$ (3) pour donner  $\underline{P_{345}} = \{3,4,4\}$. $d(\underline{P_{345}}) = 4-3 = 1$.\\
+$\underline{p_{45}}$  et $\underline{p_{3}}$.
+on les combine pour créer un $\underline{p_{345}}$. Le premier plus petit élément de $\underline{p_{45}}$ (élément vide) est joint par le premier plus grand élément de $\underline{p_{3}}$ (3) pour donner  $\underline{p_{345}} = \{3,4,4\}$. $d(\underline{p_{345}}) = 4-3 = 1$.\\
 La nouvelle instance devient:\\
 \begin{multicols}{3}
-$\underline{P_{1}} = \{,,1\}$\\
-$\underline{P_{2}} = \{,,3\}$\\
-$\underline{P_{345}} = \{3,4,4\}=1$\\
-$\underline{P_{678}} = \{5,5,5\}=0$\\
+$\underline{p_{1}} = \{,,1\}$\\
+$\underline{p_{2}} = \{,,3\}$\\
+$\underline{p_{345}} = \{3,4,4\}=1$\\
+$\underline{p_{678}} = \{5,5,5\}=0$\\
 \end{multicols}
 
 \textbf{Itération 5}:\\
 les tuples qui ont la différence la plus grande sont
-$\underline{P_{345}}$  et $\underline{P_{2}}$.
-on les combine pour créer un $\underline{P_{2345}}$. Le premier plus petit élément de $\underline{P_{345}}$ (3) est joint par le premier plus grand élément de $\underline{P_{2}}$ (3) pour donner  $\underline{P_{2345}} = \{(3,3),4,4\}$. La première association, vient d'être créée. elle a pour valeur 6.
-$d(\underline{P_{2345}}) = (3+3)-4 = 6-4=2$.\\
+$\underline{p_{345}}$  et $\underline{p_{2}}$.
+on les combine pour créer un $\underline{p_{2345}}$. 
+Le premier plus petit élément de $\underline{p_{345}}$ (3) est joint par 
+le premier plus grand élément de $\underline{p_{2}}$ (3) 
+pour donner  $\underline{p_{2345}} = \{(3,3),4,4\}$. 
+La première association, vient d'être créée. elle a pour valeur 6.
+$d(\underline{p_{2345}}) = (3+3)-4 = 6-4=2$.\\
 La nouvelle instance devient:\\
 \begin{multicols}{2}
-$\underline{P_{1}} = \{,,1\}$\\
-$\underline{P_{2345}} = \{(3,3),4,4\}=2$\\
-$\underline{P_{678}} = \{5,5,5\}=0$\\
+$\underline{p_{1}} = \{,,1\}$\\
+$\underline{p_{2345}} = \{(3,3),4,4\}=2$\\
+$\underline{p_{678}} = \{5,5,5\}=0$\\
 \end{multicols}
 
 \textbf{Itération 6}:\\
 les tuples qui ont la différence la plus grande sont
-$\underline{P_{2345}}$  et $\underline{P_{1}}$.
-on les combine pour créer un $\underline{P_{2345}}$. Le premier plus petit élément de $\underline{P_{2345}}$ (4) est joint par le premier plus grand élément de $\underline{P_{2}}$ (1) pour donner  $\underline{P_{12345}} = \{(3,3),(1,4),4\}$.
-$d(\underline{P_{12345}}) = (3+3)-4 = 6-4=2$.\\
+$\underline{p_{2345}}$  et $\underline{p_{1}}$.
+on les combine pour créer un $\underline{p_{2345}}$. 
+Le premier plus petit élément de $\underline{p_{2345}}$ (4) 
+est joint par le premier plus grand élément de $\underline{p_{2}}$ (1) 
+pour donner  $\underline{p_{12345}} = \{(3,3),(1,4),4\}$.
+$d(\underline{p_{12345}}) = (3+3)-4 = 6-4=2$.\\
 La nouvelle instance devient:\\
-$\underline{P_{12345}} = \{(3,3),(1,4),4\}=2$\\
-$\underline{P_{678}} = \{5,5,5\}=0$\\
+$\underline{p_{12345}} = \{(3,3),(1,4),4\}=2$\\
+$\underline{p_{678}} = \{5,5,5\}=0$\\
 
 \textbf{Itération 6}:\\
-Reste à combiner $\underline{P_{12345}}$ et $\underline{P_{678}} = \{5,5,5\}=0$\\
-Le premier plus petit élément de $\underline{P_{12345}}$ (4) est joint avec le premier plus grand de  $\underline{P_{678}}$ (5) et ainsi de suite... pour créer le résultat final \\
+Reste à combiner $\underline{p_{12345}}$ et $\underline{p_{678}} = \{5,5,5\}=0$\\
+Le premier plus petit élément de $\underline{p_{12345}}$ (4) 
+est joint avec le premier plus grand de  $\underline{p_{678}}$ (5) et 
+ainsi de suite... 
+pour créer le résultat final \\
 $\underline{P_{LDM}}= \{(3,3,5),(1,4,5),(4,5)\}$.\\
 
 Nous avons donc un makespan $C_m^{LDM}(P) = 11 $ \\
@@ -2344,7 +2375,6 @@ Alors que $C_m^{\star}(P) = 10$ avec $\underline{P^{\star}}= \{(5,5),(1,4,5),(4,
 \end{example}
 
 \end{itemize}
-
 
 
 % Complexité
@@ -2387,12 +2417,14 @@ MPS, de Paletta et al \cite{paletta2007new}
 SPS, de Chiaselotti \emph{et al.} \cite{chiaselotti2010minimizing}
 
 
-\subsection{Autre}
+% \subsection{Autre}
 % \subsubsection{algorithmes génétiques}
 % \paragraph{algorithmes à réseaux de neurones}
 
 \lp{Attention les algorithmes génétiques sont cosiédrés comme des méta
-  heuristiques} \lp{Un algorithme génétique initialisé avec le
+  heuristiques} 
+\fco{ok, fait. En introduction de cette section}  
+\lp{Un algorithme génétique initialisé avec le
   résultat d'une heuristique performante donnera aussi un très bon
   résultat, tu ne peux donc pas dire qu'ils ne donnent pas de solution
   satisfaisantes. Par contre l'argument du temps tient bien. On a
@@ -2401,13 +2433,13 @@ SPS, de Chiaselotti \emph{et al.} \cite{chiaselotti2010minimizing}
   une couche de metaheuristique derrière une heuristique ou autre
   approx un pour voir s'il n'y aurait pas un meilleur résultat dans le
   voisinnage.}  D'autres pistes sont explorées pour répondre au
-problème \problemGrahamP, comme l'algorithmique génétique,
-l'utilisation de réseaux de neurones ou de méta-heuristiques. Mais il
-s'avère que ces techniques sont très coûteuses en temps, et ne donnent
-pas de solutions satisfaisantes. Ces techniques, complexes, sortent en
-partie du cadre de cette bibliographie.
+  problème \problemGrahamP, comme l'algorithmique génétique,
+  l'utilisation de réseaux de neurones ou de méta-heuristiques. Mais il
+  s'avère que ces techniques sont très coûteuses en temps, et ne donnent
+  pas de solutions satisfaisantes. Ces techniques, complexes, sortent en
+  partie du cadre de cette bibliographie.
+\fco{ok, fait. En introduction de cette section}  
 
-Min et al \cite{min1999genetic}
 
 \section{Synthèse} \label{sec:synthese}
 
