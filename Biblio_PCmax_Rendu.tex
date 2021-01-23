@@ -70,11 +70,10 @@
 \SetKwFor{Tq}{Tant que}{faire}{fin tantque}
 \SetKwFor{Pour}{Pour}{faire}{fin pour}
 \SetKw{WAfficher}{Afficher}
-
+\SetKwRepeat{Repeter}{répéter}{jusqu'à}%
+%
 \SetKw{Return}{\textcolor{red}{Renvoyer}}%
-%\SetKwIF{Si}{SinonSi}{Sinon}{si}{alors}{sinon si}{sinon}{fin si}%
-%\SetKwFor{Tq}{tant que}{faire}{fin tq}%
-
+%
 \SetKwProg{Init}{init}{}{}
 % mettre les commentaire des algos en bleu
 
@@ -113,6 +112,15 @@
 % \date{2020-05-01}
 \date{\today}
 
+% -------------------------------------------------------
+% POUR PAGE DE GARDE
+% -------------------------------------------------------
+%\setlength{\parindent}{0cm}
+%\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+%\newcommand{\hsp}{\hspace{20pt}}
+%\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+%\usepackage{titling}
+
 % ######################################################################
 %
 % 			SOUVENT UTILISES
@@ -147,7 +155,57 @@
 % Utilise Information générales
 % Ecrit le titre + auteur + date
 % =======================================================
-\maketitle
+%\maketitle
+\begin{titlepage}
+%-------------------------------------------
+% LOGOS / 
+%-------------------------------------------
+\begin{center}
+\includegraphics[width=3cm]{logo_CTU_2018.png}
+\hfill
+\parbox{.5\linewidth}{%
+	\centering
+	Universit\'e de Franche-Comté	\par
+	Master 2 I2A	année 2020 / 2021 \par
+	Florian Colas 
+	\vspace{.05\textheight}
+	
+}
+\hfill
+\includegraphics[width=3cm]{logo_UFC.png}
+
+%-------------------------------------------
+% MODULE
+%-------------------------------------------
+\vspace{.05\textheight}
+{\LARGE\scshape Module EPR\par}
+
+%-------------------------------------------
+% TITRE DE L'ETUDE
+%-------------------------------------------
+\vspace{.05\textheight}
+\vspace{.05\textheight}
+\vspace{.05\textheight}
+{\Huge\bfseries Historique des travaux autour du problème \problemGrahamP \par}
+
+%-------------------------------------------
+% SUPERVISEURS
+%-------------------------------------------
+\vspace{.05\textheight}
+\vspace{.05\textheight}
+\vspace{.05\textheight}
+Encadrants
+\vspace{.05\textheight}
+\begin{tabular}{llll}
+Laurent Philippe & Professeur &  &  	\\
+Louis-Claude Canon & Maître de conférence &  &  \\
+Julien Bernard & Maître de conférence &  &  	\\
+\end{tabular}
+  
+\end{center}
+\end{titlepage}
+
+
 
 % -------------------------------------------------------
 % Table des matières
@@ -699,7 +757,7 @@ $P_j$.
 \item $\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$
 	Le ratio d'approximation atteint par l'algorithme $A$ au pire cas.
 
-\lp{Définir $C^*$}
+% \lp{Définir $C^*$}
 %  \tdi{FCO: ok, fait}
 \end{itemize}
 
@@ -1500,25 +1558,18 @@ ainsi que le regroupement de ceux-ci en sous-ensembles.
 En effet, lorsque le nombre de jobs $n =2 \cdot m + 1$, que la différence entre $p_1 - p_m < p_{2 \cdot m + 1}$ et que 
 $p_{2 \cdot m + 1}$ est planifié en premier (sur $m_1$) 
 alors la machine critique exécute $p_{m+1}$, $p_m$ et $p_{2 \cdot m}$
-(donc $C_m^A(J) = p_{m+1}$+$p_m$+$p_{2 \cdot m} $), 
+(donc $C_m^{LPT \prime}(J) = p_{m+1}$+$p_m$+$p_{2 \cdot m} $), 
 et le ratio d'approximation tombe à 
-$\dfrac{6}{7}$ au lieu de 
-$\dfrac{4}{3} - \dfrac{1}{2 \cdot m -1)}$, 
+$\frac{6}{7}$ au lieu de 
+$\frac{4}{3} - \frac{1}{2 \cdot m -1)}$, 
 soit $1.1666 \ldots$ \\
-$\dfrac{6}{7} < \dfrac{4}{3} - \dfrac{1}{2 \cdot m -1)}$ avec $m \geq 4$.
+$\frac{6}{7} < \frac{4}{3} - \frac{1}{2 \cdot m -1)}$ avec $m \geq 4$.
+
+Il faut donc se placer dans cette instance en adoptant la stratégie gloutonne suivante :
 
 \lp{est-ce qu'on sait dire pourquoi? faire une petite analyse}
 \fco{ok, fait}
 
-Il faut donc se placer dans cette instance en adoptant la stratégie gloutonne suivante :
-
-Où ils ont planifié d'abord, le job $2 \cdot m + 1$, puis un
-sous-ensemble de jobs triés $\{1,...,m\}$ et pour finir un
-sous-ensemble de jobs triés $\{m+1,...,2 \cdot m \}$
-
-En résulte l'heuristique suivante: 
-\lp{C'est l'algo le résultat?}
-\fco{ok, fait}
 
 \bigskip
 % Algorithme Slack
@@ -1532,7 +1583,7 @@ trier la liste des jobs dans l'ordre décroissant des temps nécessaires de trai
 %ETAPE 2
 réindexer les jobs, de manière à obtenir $p_1 \geq p_2 \geq ... \geq p_n$ \;
 %ETAPE 3
-découper l'ensemble obtenu en $\frac{n}{m}$ tuples de $m$ jobs (ajout
+découper l'ensemble obtenu en $\lceil \frac{n}{m} \rceil$ tuples de $m$ jobs (ajout
 de jobs ``dummy'' de taille nulle pour le dernier tuple, si $n$ n'est
 pas un multiple de $m$) \;
 %ETAPE 4
@@ -1589,7 +1640,7 @@ rend la résolution du problème nettement plus difficile comparé à une
 programmation linéaire à variables continues.
 Ces algorithmes, donnent une solution faisable exacte.
 
-%\subsection{PA} %(Mokotoff)}
+\subsection{PA} %(Mokotoff)}
 
 Mokotoff \cite{mokoto1999scheduling} présente un algorithme basé sur
 la formulation de la programmation linéaire en utilisant des
@@ -1651,10 +1702,11 @@ x_{1m}& &x_{nm1}
 
 Le polytope $P$ relatif à $F$ est défini ainsi:
 \[
-  F=\{ (x,y) : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} : \sum_{i=1}^{m} x_{ij}=1 \forall j;
+  P=\{ (x,y) : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} : \sum_{i=1}^{m} x_{ij}=1 \forall j;
   y-\sum_{j=1}^{n} p_j \cdot x_{ij} \geq 0 \forall i	\}
 \]
 \lp{Tu n'avais pas dit P?}
+\fco{ok, fait}
 
 Il est possible de construire un ensemble fini d'\textbf{inégalités}
 \[
@@ -1691,7 +1743,7 @@ Plane Method).
 relaxation est exécutée, jusqu'à l'obtention d'une solution faisable.
 
 \bigskip
-% Algorithme
+% Algorithme PA
 % ---------------------
 \begin{algorithm}[H]
 \DontPrintSemicolon
@@ -1706,23 +1758,33 @@ Déterminer la borne supérieure $UB$ suivant l'heuristique LPT
   \Return la solution optimale est trouvée par l'heuristique LPT
 }
 
-À chaque itération un programme de relaxation linéaire est résolu dans
-lequel $C_{\max}$ doit être égal à la borne inférieure actuelle
-($LB$).
-Si la solution obtenue est entière (donc faisable), l'algorithme
-s'arrête et la solution actuelle est optimale.\;
+\Repeter{Génération des d'inégalités impossible}
+{
+	Résoudre le programme de relaxation linéaire avec $C_{max} = LB$
+	
+	\Si {la relaxation est possible}
+	{
+	
+		\Si {la solution obtenue est entière (donc faisable)}
+		{
+		\Return la solution obtenue qui est optimale
+		}
+		\Sinon
+		{
+		Générer des nouvelles inégalités 
+		(inégalités et/ou inégalités transitoires) et les ajouter à la 
+		nouvelle relaxation linéaire
+		}
+	}
+	\Sinon
+	{
+	incrémenter $LB$ d'une unité
+	}	
 
-Sinon, des nouvelles inégalité (inégalités et/ou inégalités
-transitoires) sont ajoutées à la nouvelle relaxation linéaire. Le
-nouveau programme linéaire est résolu et l'algorithme s'arrête si la
-solution est entière.\;
 
-Si la relaxation n'est pas possible, la limite inférieure ($LB$) est
-augmentée d'une unité et le processus itératif redémarre.\;
-
-Par contre, si les inégalités ne peuvent pas être générées, un
-algorithme \emph{Branch\&Bound} prend le relais pour résoudre le
-problème.\;
+}
+\Return Résoudre le problème avec un algorithme Branch\&Bound
+.\;
 \caption{PA\label{algo:PA}}
 \end{algorithm}
 
@@ -1732,6 +1794,7 @@ problème.\;
   Aussi, il faut préférer des verbes à l'indicatif pour commencer
   chaque action (comme une recette de cuisine: ``1.
   Mélanger les œufs et le sucre.'').}
+\fco{ok, fait}
 
 \section{Approximation} \label{sec:approximation}
 
@@ -1842,8 +1905,10 @@ Chaque $x_k$ peut prendre une valeur dans l'intervalle
 $[0,\frac{1}{\epsilon}[$
 
 La configuration d'un bac $P_i$ peut être donnée par un s-tuple $(x_1, x_2, \ldots, x_S)$.
-Une configuration est dite faisable si $\sum_{k=1}^{S}x_k \cdot l_k
-\le 1$ avec $l_k$ de $]l_k, l_{k+1}]$.
+Soit $cf(x_1, \ldots ,x_S)$ une configuration dite faisable si 
+$\sum_{k=1}^{S}x_k \cdot l_k \le 1$ 
+avec $l_k$ de $]l_k, l_{k+1}]$.
+
 
 Nous avons donc
 
@@ -1863,12 +1928,12 @@ nécessaires, lorsqu'il y a $b_k$ pièces de taille $l_k$, et
 considérons que le premier bac soit rempli. Nous obtenons:
 
 \[
-  Bins(b_1, b_2, \ldots, b_S) = 1 + \underset{configuraion faisable
-  (x_1, \ldots, x_S)}{\min} Bins(b_1-x_1, b_2-x_2, \ldots, b_S-x_S)
+  Bins(b_1, b_2, \ldots, b_S) = 1 + \underset{cf(x_1, \ldots ,x_S)}{\min} Bins(b_1-x_1, b_2-x_2, \ldots, b_S-x_S)
 \]
 
 \lcc{introduire/expliquer la notation $configuration faisable$ (et la
   raccourcir, $cf$ par exemple)}
+\fco{ok, fait}  
 
 Ce qui est résolu par programmation dynamique.
 Il existe 2 versions optimisées d'algorithmes pour
@@ -2398,7 +2463,7 @@ $C_m^{\star}(P) = 10$ avec $\underline{P^{\star}}=
 % Ligne blanche
 & \\
 % Ligne Complexité
-Complexité en temps \cite{michiels2003performance}:& $n^{- \Theta (log(n))}$
+Complexité en temps \cite{michiels2003performance}:& $O(n \cdot \log n) $
 \\	% pas de ligne \hline
 % Ligne blanche
 & \\
@@ -2418,6 +2483,7 @@ pour $m\geq 3$ & $ \frac{4}{3}-\frac{1}{3 \cdot (m-1)} \leq
 \end{flushleft}
 \lcc{revoir complexité en temps (il s'agit ici d'une analyse en
   moyenne sur l'efficacité de la méthode)}
+\fco{ok, fait}  
 
 \end{theoreme}
 
@@ -2430,31 +2496,19 @@ D'autres algorithmes basés sur le partitionnement de nombres:
 \item MPS, de Paletta \emph{et al.} \cite{paletta2007new}
 \item SPS, de Chiaselotti \emph{et al.} \cite{chiaselotti2010minimizing}
 \end{itemize}
-
-
-% \subsection{Autre}
-% \subsubsection{algorithmes génétiques}
-% \paragraph{algorithmes à réseaux de neurones}
-
-\lp{Attention les algorithmes génétiques sont cosiédrés comme des méta
-  heuristiques} 
-\fco{ok, fait. En introduction de cette section}  
-\lp{Un algorithme génétique initialisé avec le
-  résultat d'une heuristique performante donnera aussi un très bon
-  résultat, tu ne peux donc pas dire qu'ils ne donnent pas de solution
-  satisfaisantes. Par contre l'argument du temps tient bien. On a
-  aussi aucune garantie sur le résultat puisque la recherche est
-  aveugle. Mais il y a pas mal de travaux d'optimisation qui passent
-  une couche de metaheuristique derrière une heuristique ou autre
-  approx un pour voir s'il n'y aurait pas un meilleur résultat dans le
-  voisinnage.}  D'autres pistes sont explorées pour répondre au
-  problème \problemGrahamP, comme l'algorithmique génétique,
-  l'utilisation de réseaux de neurones ou de méta-heuristiques. Mais il
-  s'avère que ces techniques sont très coûteuses en temps, et ne donnent
-  pas de solutions satisfaisantes. Ces techniques, complexes, sortent en
-  partie du cadre de cette bibliographie.
-\fco{ok, fait. En introduction de cette section}  
-
+%\lp{Attention les algorithmes génétiques sont cosiédrés comme des méta
+%  heuristiques} 
+%\fco{ok, fait. En introduction de cette section}  
+%\lp{Un algorithme génétique initialisé avec le
+%  résultat d'une heuristique performante donnera aussi un très bon
+%  résultat, tu ne peux donc pas dire qu'ils ne donnent pas de solution
+%  satisfaisantes. Par contre l'argument du temps tient bien. On a
+%  aussi aucune garantie sur le résultat puisque la recherche est
+%  aveugle. Mais il y a pas mal de travaux d'optimisation qui passent
+%  une couche de metaheuristique derrière une heuristique ou autre
+%  approx un pour voir s'il n'y aurait pas un meilleur résultat dans le
+%  voisinnage.}  
+%\fco{ok, fait. En introduction de cette section}  
 
 \section{Synthèse} \label{sec:synthese}
 
@@ -2466,9 +2520,10 @@ d'améliorer le ratio d'approximation, ainsi que le coût en temps requis
 pour obtenir cette solution approchée,
 soit en reprenant une piste déjà explorée afin de l'optimiser,
 soit en expérimentant d'autres méthodes.
-Les résultats théoriques attendus, définies et déterminées par
-démonstrations, ne sont pas forcément cohérents avec les performances
-réelles.\lp{Je ne comprends pas ce que tu veux dire par là}
+Les résultats théoriques, définis et déterminés par démonstrations ne sont que des indications ``au pire cas''. Les performance réelles sont en moyennes meilleures. 
+
+\lp{Je ne comprends pas ce que tu veux dire par là}
+\fco{ok, fait. oui, mal dit}
 
 \subsubsection{Théoriques}
 
@@ -2517,8 +2572,8 @@ performance 						&
 % --------------------------
 Complexité \newline (en temps) 		&
 							$O(n \cdot \log n) $ (*) &		% LPT
-							$O(n \cdot \log n)$  (*) & 			% LPT-REV
-							$O(n \cdot \log n)$  (*) & 			% SLACK
+							$O(n \cdot \log n)$  (*) & 		% LPT-REV
+							$O(n \cdot \log n)$  (*) & 		% SLACK
 							$O(n \log n + kn \log m)$& 		% MULTIFIT
 							$O(n \log n + kn \log m)$		% COMBINE
 
@@ -2564,9 +2619,9 @@ performance 						&
 % --------------------------
 Complexité \newline (en temps) &
 							$O(n^2 \log(n) + k \cdot n^2 \log(m))$&	% LISTFIT
-							-& 		% PA (pas d'infos)
+							-& 						% PA (pas d'infos)
 							$ O(( \frac{n}{\epsilon})^\frac{1}{\epsilon ^ 2})$&
-					 		$n^{- \Theta (log(n))}$% LDM
+					 		$O(n \cdot \log n) $	% LDM
 
 \\
 % --------------------------
@@ -2637,11 +2692,12 @@ $n=79$ éléments.
 Néanmoins, cette étude se base sur des éléments uniformément répartis,
 condition où LDM est très performant.
 
-Slack (algorithme~\ref{algo:SLACK}), qui n'est autre que LPT amélioré d'une
-heuristique, et accompagné d'une recherche locale devient globalement
-plus performant que LDM \cite{della2018longest}.
+Slack (algorithme~\ref{algo:SLACK}), qui est une heuristique basée sur LPT 
+accompagné d'une recherche locale devient globalement plus performant 
+que LDM \cite{della2018longest}.
 \lcc{LPT-rev est un LPT amélioré, mais Slack est quand même un peu
   différent, non?}
+\fco{ok, fait}  
 
 Gupta \emph{et al.}\ prouvent que les performances de ListFit (algorithme~\ref{algo:LISTFIT}) sont
 supérieures à LPT, Multifit et Combine. Ceux-ci sont comparés
@@ -2649,8 +2705,9 @@ supérieures à LPT, Multifit et Combine. Ceux-ci sont comparés
 indices, en mettant de côté le nombre $k$ nécessaires à l'achèvement des
 algorithmes.
 Behera \emph{et al.}~\cite{behera2012comparison} comparent dans une étude le
-coût processeur de chaque heuristique, ce qui indique que Listfit est
-très gourmand.
+coût processeur 
+(table~\ref{table:comparaisonTempsMultifitCombineListfitBehera}) 
+de chaque heuristique, ce qui indique que Listfit est très gourmand.
 
 
 \begin{table}
@@ -2689,13 +2746,15 @@ $n$		&	$m$	&	Multifit	&	Combine	&	Listfit
 \bottomrule
 \end{tabular}
 \end{center}
-\caption{\label{tab:XP} Comparaison des temps moyens pour Multifit,
+\caption{\label{tab:XP} Comparaison \cite{behera2012comparison} des temps moyens pour Multifit,
   Combine et Listfit (en $10^{-6}$ secondes).}
+\label{table:comparaisonTempsMultifitCombineListfitBehera}  
 \end{table}
 
 \lcc{d'où vient les données de ce tableau?
   Rajouter la réf dans le caption et mettre une référence dans le
   texte vers cette table.}
+\fco{ok, fait}  
 
 
 \subsection{De la recherche d'informations}
