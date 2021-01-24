@@ -167,9 +167,9 @@
 	\centering
 	Universit\'e de Franche-Comté	\par
 	Master 2 I2A	année 2020 / 2021 \par
-	Florian Colas 
+	Florian Colas / 21512327
 	\vspace{.05\textheight}
-	
+	\vspace{.05\textheight}
 }
 \hfill
 \includegraphics[width=3cm]{logo_UFC.png}
@@ -225,25 +225,26 @@ Julien Bernard & Maître de conférence &  &  	\\
 \setcounter{secnumdepth}{3}	% pour les section sous et sous sous et paragraphes
 \tableofcontents
 
-\lcc{Suggestions, peut-être un peu tardive, sur l'organisation du
-  document.
-  Faire sauter un niveau en sous-section 3.3 (3.3.1 deviendrait une
-  sous-section).
-  Faire sauter un niveau en section 5 (5.1 deviendrait 5 et 5.2 serait
-  un paragraphe de perspectives qui conclurait la section 5).
-  Faire sauter un niveau en sous-section 6.1 (pareil, on conserve le
-  premier paragraphe introductif, on enlève la sous-sous-section
-  6.1.1, et on intègre 6.1.2 en tant que paragraphe d'ouverture).
-  Je mettrais aussi LDM dans la section heuristique.
-  Finalement, je mettrais aussi 6.2 en tant que 7.3 pour le recul
-  général.
-  Ça donnerait (à partir de 3.3): 3.3 Slack; 3.4 LDM; 4 Programmation
-  linéaire; 5 PTAS Dual; 6 Synthèse; 6.1 Comparaisons...; 6.2
-  Recherche...; 6.3 Limites de l'étude, ou quelque chose du genre.
-}
+%\lcc{Suggestions, peut-être un peu tardive, sur l'organisation du
+%  document.
+%  Faire sauter un niveau en sous-section 3.3 (3.3.1 deviendrait une
+%  sous-section).
+%  Faire sauter un niveau en section 5 (5.1 deviendrait 5 et 5.2 serait
+%  un paragraphe de perspectives qui conclurait la section 5).
+%  Faire sauter un niveau en sous-section 6.1 (pareil, on conserve le
+%  premier paragraphe introductif, on enlève la sous-sous-section
+%  6.1.1, et on intègre 6.1.2 en tant que paragraphe d'ouverture).
+%  Je mettrais aussi LDM dans la section heuristique.
+%  Finalement, je mettrais aussi 6.2 en tant que 7.3 pour le recul
+%  général.
+%  Ça donnerait (à partir de 3.3): 3.3 Slack; 3.4 LDM; 4 Programmation
+%  linéaire; 5 PTAS Dual; 6 Synthèse; 6.1 Comparaisons...; 6.2
+%  Recherche...; 6.3 Limites de l'étude, ou quelque chose du genre.
+%}
+% \fco{Mis d'accord avec Louis --> le faire plus tard car pas le temps}
 
-\lp{Remarque générale: ajouter un peu de blabla pour rendre moins
-  lapidaire?}
+%\lp{Remarque générale: ajouter un peu de blabla pour rendre moins
+%  lapidaire?}
 
 % =======================================================
 % 1 INTRODUCTION
@@ -290,8 +291,6 @@ Le problème de partitionnement de nombres, ainsi que sa
   (section~\ref{sec:autresApproches}).
 Ce document se termine par une synthèse (section~\ref{sec:synthese}).
 
-\jb{Mettre des références vers les sections}
-\fco{ok, fait}
 
 \section{Présentation du problème} \label{sec:pesentationProbleme}
 
@@ -387,10 +386,7 @@ Multi processeurs à mémoire partagée (multi-c{\oe}urs)
 \caption{Taxonomie de Flynn}
 \label{table:taxonomyDeFlyn}
 \end{table}
-%\lp{Mettre le titre avec caption, environnement table}
-%\fco{ok fait, ajout d'un l'abel pour referencer}
-\jb{les SISD ne sont pas obsolètes, les microcontrôlleurs qui sont dans les appareils ménagers sont des SISD}
-\fco{ok, fait. arduino? par exemple?}
+
 
 % -------------------------------------------------------
 % Skilicorn 1988
@@ -420,8 +416,6 @@ vectoriels à chaînes de traitement).
 \caption{Taxonomie de haut niveau de l'architecture de l'informatique parallèle.}
 \label{fig:TaxonomieHautNiveau}
 \end{figure}
-% \lp{Mettre le titre avec caption, environnement figure}
-% \fco{ok, fait}
 
 \begin{itemize}
 \item Les architecture synchrones.
@@ -454,8 +448,7 @@ vectoriels à chaînes de traitement).
   Et d'autre part les MIMD à mémoire partagées, telles que les
   machines muti-processeurs, ou les processeurs multi-c\oe{}urs. C'est justement dans ce contexte que cette étude se situe.
 
-  \lp{Dire que c'est le contexte de ton travail?}
-  \fco{Ok, fait.}
+
 \item Les architectures mixtes, ou basées sur le paradigme MIMS.
   \begin{itemize}
   \item Les hybrides MIMS/SIMS sont des architectures MIMD pilotées de
@@ -469,13 +462,6 @@ vectoriels à chaînes de traitement).
   \end{itemize}
 
 \end{itemize}
-
-\jb{Mettre des listes dans des listes pour que ce soit plus lisible}
-\fco{Merci Julien pour cette correction (et les figures) }
-
-%\lp{la classification de Flynn date un peu... Peut-être faut-il
-% trouver qlqchose de plus récent}
-%\tdi{FCO: ok, fait}
 
 
 Les premières machines parallèles étaient des réseaux
@@ -492,9 +478,6 @@ des ordinateurs de RIKEN au Japon (figure \ref{fig:Fugaku}),
 vient de détrôner depuis juin 2020 le Summit (IBM)
 de l’Oak Ridge National Laboratory aux États-Unis.
 
-%	\lp{Ce n'est pas si simple. On continue de faire, et d'utiliser
-%  	  des machines vectorielles, les GPU sont aussi du SIMD...}
-%	\tdi{FCO: ok, fait}
 \bigskip
 
 \begin{figure}
@@ -506,12 +489,6 @@ de l’Oak Ridge National Laboratory aux États-Unis.
 \label{fig:Fugaku}
 \end{figure}
 
-% \lp{pense à compléter cette partie avec des infos sur des
-%  machines actuelles. voir top500.org dont il serait peut-être plus
-%  judicieux de citer les infos: puissance des plus gros ordinateurs,
-%  nombre de proc, cores, etc. Parler peut-être aussi des clouds? Des
-%  applications? Pour intro}
-% \tdi{FCO: ok, fait}
 On peut définir une machine parallèle comme un ensemble de processeurs
 capables de coopérer et de communiquer dans le but de résoudre un
 problème plus rapidement.
@@ -586,12 +563,7 @@ critère. Par exemple, minimiser la somme des dates de fin, la somme
 des retards, le nombre de tâches en retard, ou simplement, le retard
 total. Mais le plus habituel, est de chercher à minimiser le temps
 total de traitement de tous les jobs, i.e.\ minimiser le makespan noté $C_{\max}$.
-\lp{Ajouter: ``noté $C_{\max}$'' sinon ce n'est pas défini.}
-\fco{ok, fait}
 
-% \lp{définir la notation de Graham à la fin de cette partie
-%   puisque tout y est déjà dit.}
-% \tdi{FCO: ok, fait}
 
 Ces diverses possibilités définissent divers problèmes
 d'ordonnancements différents, recensés et classifiés
@@ -602,8 +574,7 @@ ${\textbar}$\beta ${\textbar}$\gamma $ .
 \bigskip
 
 Dans cette classification, le problème \problemGrahamP se définit alors ainsi:
-\lp{Ajouter: ``Dans cette classification, ...''}
-\fco{ok, fait}
+
 \begin{itemize}
 
 % -------------------------------------------------------
@@ -612,8 +583,6 @@ Dans cette classification, le problème \problemGrahamP se définit alors ainsi:
 \item $\alpha = \alpha_1 \alpha_2$, détermine l'environnement machines.
   \begin{itemize}
   \item $\alpha_1 = P$:
-  \lp{Je ne comprends pas pourquoi $\alpha$? $\alpha=P$?}
-  \fco{ok, fait}
   les machines sont parallèles et identiques: un job,
   une tâche prendra le même temps de traitement qu'il soit exécuté sur
   une machine ou une autre.
@@ -637,16 +606,12 @@ Dans cette classification, le problème \problemGrahamP se définit alors ainsi:
 % -------------------------------------------------------
 \item $\gamma $ détermine le critère à optimiser.
   $\gamma = C_{\max}$:
-\lp{Idem $\gamma = C_{\max}$?}
-\fco{ok, fait}
   on cherche à optimiser le makespan,
 i.e.\ le temps de traitement total.
 
 \end{itemize}
 \bigskip
 
-\jb{Ici, soit il faut détailler $\alpha_x$ et $\beta_y$, soit il ne faut pas en parler du tout et en rester à $\alpha$ et $\beta$}
-\fco{ok, fait. J'ai laissé le $\beta$ car le fait qu'il soit vide a son importance}
 \subsection{Énoncé du problème \problemGrahamP}
 \label{ssec:pesentationProblemeEnonceDuProbleme}
 
@@ -656,9 +621,6 @@ i.e.\ le temps de traitement total.
   \problemGrahamP consiste à planifier un ensemble
   $J = \{j_1,j_2,\ldots,j_n)$ de $n$ jobs simultanés, pour être
   traités par $m$ machines identiques.
-  \lp{Ce sont des machines identiques mais non parallèles. Le fait qu'il y en ait
-  plusieurs fait que c'est un problème de parallélisme}
-  \fco{ok, fait}
   Chaque job, qui requiert une opération, peut être traité par une des $m$
   machines.
   Le temps de traitement de chaque job $p_j$ (avec $j \in \mathbb{N}$)
@@ -666,35 +628,36 @@ i.e.\ le temps de traitement total.
   Un job commencé est complété sans interruption.
   Les jobs, indépendants, sont exécutés par une seule machine,
   et une machine ne peut traiter qu'un seul job à la fois.
-\lp{Dire jobs séquentiels et non parallèles?}
-\fco{je n'arrive pas à trouver où j'ai pu mettre "jobs parallèles"}
+	% \lp{Dire jobs séquentiels et non parallèles?}
+	% \fco{je n'arrive pas à trouver où j'ai pu mettre "jobs parallèles"}
 
 la notation:
 \begin{itemize}
 \item \problemGrahamP ou \problemGrahamPm précise que le nombre de
-  machines $m$ est fixe, et est connu à l'avance dans l'instance du
-  problème, mais reste une variable.
-  \lp{Pour moi $P_m$ signifie que la solution donnée ne l'est que pour
-    $m$ machines. Si la solution l'est quelque soit le nombre de
-    machines, le nombre de machines étant fixe mais une donnée du
-    problème alors c'est \problemGrahamP}
+  machines $m$ est variable. Avec \problemGrahamPm, la solution est donnée pour $m$ machines, et pour \problemGrahamP quelque soit le nombre.
+%  \lp{Pour moi $P_m$ signifie que la solution donnée ne l'est que pour
+%    $m$ machines. Si la solution l'est quelque soit le nombre de
+%    machines, le nombre de machines étant fixe mais une donnée du
+%    problème alors c'est \problemGrahamP}
 \item \problemGrahamPII fixe le nombre de machines parallèles.
   ici, deux.
 \end{itemize}
 
 \end{definition}
 
+Le problème est toujours d'actualité. les postes personnels sont 
+multi-c\oe{}urs, les centres de calculs ont des parc assez homogènes, et les clouds, offres des instances VM, ce qui permet de fournir des environnements d’Exécution homogènes.
 
-\lp{on peut recontextualiser l'intérêt du problème. A l'heure
-  actuelle, bon nombre de centres de calcul ont un parc
-  assez homogène. De même les clouds offrent des instances de VM, ce
-  qui permet d'avoir un environnement d'exec homogène }
-\lp{faire un dessin illustratif?}
+%\lp{on peut recontextualiser l'intérêt du problème. A l'heure
+%  actuelle, bon nombre de centres de calcul ont un parc
+%  assez homogène. De même les clouds offrent des instances de VM, ce
+%  qui permet d'avoir un environnement d'exec homogène }
+% \fco{ok, fait}
+%\lp{faire un dessin illustratif?}
+% \fco{je pensais mettre une photo d'un parc informatique google.... 
+% mais pas trouvé. ...}
 
 
-% \lp{dire que la difficulté repose uniquement sur le regourpement
-%   des jobs sur une machine puisque les machines sont identiques}
-% \todo{FCO: Rechercher exemples}
 \subsection{Notations} \label{ssec:pesentationProblemeNotations}
 Chaque document utilise sa propre notation, mais les notions sont les mêmes.
 Soient les données du problème:
@@ -707,30 +670,12 @@ Soient les données du problème:
 	$J = \{j_1, j_2, ..., j_n\}$
 dont chaque job $j_j$ a un temps de traitement connu
 $P_j$.
-\lp{Je ne pense pas qu'il soit utile (nous ne le faisons pas en
-  général) de définir un ensemble de temps d'exécution.}
-\fco{ok, fait}
-\lp{Il serait mieux de garder les majuscules pour les ensembles et les
-  minuscules pour les éléments. Mais peut-être le travail est trop
-  conséquant pour valoir le coup?}
-\fco{ok, fait: je dois tout relire pour vérifier si ok, et si rien oublié. Attention les éléments de partitions sont de majuscules}
 
 % -------------------------------------------------------
 % ENSEMBLE DES MACHINES M (itérateur i)
 % -------------------------------------------------------
 \item M, un ensemble de $m$ machines identiques
 	$M = \{m_1, m_2, \ldots, m_m\}$
-
-%  \lp{au besoin définir $M = \{ m_1, m_2, \ldots, m_m \}$ mais du
-%  coup il faut choiir à quoi sert le $m$}
-
-%	\tdi{FCO: M (majuscule) est l'ensemble des m machines parallèles
-%  	identiques.
-%   $m_i$ est une machine de M, avec $1<= i<= m$, il y a double emploi
-%  	entre m la machine et m le nombre de machines, mais m en tant que
-% 	nombre est utilisé (aussi) dans \problemGrahamPm.
-%	Donc j'ai tout mis en majuscule lorsqu'il s'agit d'une entité,
-%   (machine, job, temps) et en minuscule, pour les nombres}
 
 % -------------------------------------------------------
 % RESULTAT DE L'ALGORITHME A
@@ -739,9 +684,6 @@ $P_j$.
 	d'un ensemble $J$ de jobs,
 	sur $m$ machines parallèles, identiques,
 	obtenu par l'algorithme $A$.
-%  \lp{à quoi sert $j$ ici?}
-%  \tdi{FCO  ok, fait: C'était une erreur de frappe ...
-%	le copier/coller qui va avec}
 
 % -------------------------------------------------------
 % RESULTAT OPTIMAL
@@ -749,18 +691,14 @@ $P_j$.
 \item $C_m^\star(J)$ Le makespan optimal, idéal, de l'ordonnancement
 	d'un ensemble $J$ de jobs,
 	sur $m$ machines parallèles identiques.
-%  \lp{idem}
-%	\tdi{FCO: ok, fait}
+
 % -------------------------------------------------------
 % RATIO OBTENU/OPTIMAL
 % -------------------------------------------------------
 \item $\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$
 	Le ratio d'approximation atteint par l'algorithme $A$ au pire cas.
 
-% \lp{Définir $C^*$}
-%  \tdi{FCO: ok, fait}
 \end{itemize}
-
 
 
 \subsection{Problématique} \label{ssec:pesentationProblemeProblematique}
@@ -769,7 +707,7 @@ Comme l'ont démontré Garey et Johnson,
 \problemGrahamPII est un
 problème NP-Difficile \cite{garey1978strong}, et
 \problemGrahamP avec $m \geq 3$ est un problème NP-Difficile
-au sens fort \cite{garey1982computers} \lp{Pour plus de 3 machines?} \fco{ok, fait}.
+au sens fort \cite{garey1982computers} 
 Cependant, \problemGrahamP devient un problème NP-Difficile, du moment
 que le nombre de machines est fixé \cite{chen1999potts}, comme l'a
 montré Rothkopf \cite{rothkopf1966scheduling}, qui a présenté un
@@ -778,26 +716,13 @@ algorithme de programmation dynamique.
 Donner la solution optimale à un problème d'ordonnancement (dans notre
 cas \problemGrahamP) n'est pas réaliste.la résolution de celui-ci
 demanderait un temps excessif et donc rédhibitoire.
-% Même pour un problème de taille modeste
-\lp{Tout dépend du niveau auquel tu places la modestie,
-  donc peut-relativisé. Perso je n'ai aucune idée de la taille limite},
-  la résolution de celui-ci
-\fco{ok, fait}
 
 Comme les machines sont identiques, et travaillent à la même vitesse,
 la difficulté repose uniquement sur le regroupement des jobs.
-  \lp{Justement
-  non, il n'y a plus de choix d'affectation à faire une fois les
-  regroupements fait puisque toutes les machines sont les mêmes cela
-  ne change rien qu'on en prenne l'une ou l'autre. Par contre on peut
-  aussi dire qu'on affecte les tâches à des machines, pour définir
-  implicitement les regroupements}
-  \fco{ok, fait. Effectivement mal dit}
 
 La résolution du problème d'ordonnancement va reposer sur des méthodes
   d'approche, qui consistent à calculer en temps polynomial,
   une solution ``assez'' proche de la valeur optimale.
-% \todo{LP: approximation?}\todo{FCO: c'est bien le bon terme}
 
 Les jobs sont exécutés sans interruption ni coupure. Donc,
   le makespan ne  peut pas être inférieur à la taille du jobs
@@ -814,10 +739,6 @@ Donc Toutes les solutions ont une borne minimale
   \label{borneMini}
   \end{center}
 
-\lp{Si on ne le démontre pas je pense que ça n'est pas la peine de
-  mettre cette borne sous la forme d'un théorème. Par contre, cela
-  pourrait avoir du sens d'expliquer informellement cette borne}
-\fco{ok, fait}
 
 L'existence d'une solution qui résout le problème de manière optimale
 n'est pas pensable, à moins que $P = NP$,
@@ -825,17 +746,10 @@ Dans la littérature, l'étude d'ordonnancement est très riche et
 abondante. Le but étant d'améliorer le temps de calcul, et d'approcher le
 résultat optimal. Les solutions proposée sont des Heuristiques, ou des
 approximations.
-\lp{... de manière optimale...}	
-\fco{ok, fait}
-\lp{les solutions proposées dans la littérature sont
-  des heuristisques
-  ou des approximations}.
-\fco{ok, fait}
+
 
 \section{Heuristiques} \label{sec:heuristiques}
 
-%	\lp{définir heuristic?}
-%	\tdi{FCO: ok, fait}
 
 Le but d'une heuristique (du grec \emph{heuriskein}: trouver) est
 de trouver une solution respectant les contraintes du problème et de
@@ -848,35 +762,16 @@ plus proche voisin''.
 On choisit la ville la plus proche de la ville courante, jusqu'à avoir
 visité toutes les villes.
 Cette heuristique est simple, mais donne, pour ce problème un mauvais résultat
-% \lp{Je relativiserais le très, cela dépend du problème}.
-% \fco{ok, fait}
 
-Ces algorithmes donnent des solutions, dont la borne maximale, au pire
+Ces algorithmes calculent des solutions, dont la borne maximale, au pire
 des cas n'est pas maîtrisée: une étude du comportement est nécessaire 
 pour définir cette borne maximale. 
 Parfois, cette borne n'existe pas. Une simulation permet 
 d'obtenir des informations générales sur les tendances.
 
-\lp{Elle n'existe pas parfois.
-  Dans ce cas, l'étude de comportement (ou simulation) permet d'avoir
-  des indications générales sur le comportement}
-\fco{ok, fait}  
-% \lcc{revoir notation et phrase}
-% \fco{ok, fait.}
-% $C_m^A(J)_{maximal}$
-
 Les heuristiques représentent la plus grande partie des recherches concernant le problème
 d'ordonnancement.
 
-% même si leurs performances, au pire cas, ne sont
-% pas\todo{LP:??}\todo{FCO: pour
-% dire %que, contrairement aux PTAS, le ratio n\ap est pas maîtrisé} garanties.
-% Sont abordées ici les heuristiques les plus présentes dans la
-% littérature.
-
-% \lp{on a aussi une borne min qui est le max entre la plus grande
-%   des tâches et sum(pi)/m}
-% \fco{FCO: ok, fait: Cette borne est une caractéristique du problème.}
 \subsection{LS (List Scheduling)} \label{ssec:heuristiquesLS}
 
 
@@ -884,13 +779,7 @@ L'idée d'une LS est de stocker l'ensemble des jobs dans celle-ci,
 les trier dans un ordre particulier (en leur assignant une priorité), 
 avant de les affecter à une machine selon des règles définies.
 Le premier job de la liste étant affecté à la première machine disponible.
-\lp{on parle souvent de prioritté}
-\fco{ok, fait}
 
-%	\lp{un algorithme de liste affecte aussi un job, le premier de la
-%	liste, à la première machine prête}
-%	\tdi{FCO: ok, fait}
-%\bigskip
 % -------------------------------------------------------
 % LPT Rule
 % -------------------------------------------------------
@@ -906,7 +795,6 @@ Graham propose \emph{Longest Processing Time (LPT) rule} \cite{graham1969bounds}
 \begin{algorithm}[H]
 \DontPrintSemicolon
 \KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
-%\Begin{ %inutile ici et rajoute un nuero de ligne
 
 \BlankLine % Petit espace
 Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
@@ -963,8 +851,6 @@ Le ratio d'approximation:	&	$\Gamma(LPT)\leq \frac{4}{3} - \frac{1}{3m}$
 \end{flushleft}
 \end{theoreme}
 
-% \lcc{précision complexité en temps}
-% \tdi{FCO: ok, fait}
 
 % -------------------------------------------------------
 % LPT-REV
@@ -1064,27 +950,9 @@ critique traite 3 jobs, tandis que les autres en traitent 2
 (ce qui est précisément le cas de l'exemple \ref{ex:LPTExemplePireCas}).
 
 
-% \lcc{Les définitions à l'extérieur des théorèmes.}
-% \fco{ok, fait}
-
-
-
 Le rapport $\frac{4}{3} - \frac{1}{3(m-1)}$ est inférieur au
 ratio $\frac{4}{3} - \frac{1}{3m}$ (quel que soit le nombre de
 machines)
-
-\bigskip
-
-% \textbf{NB}
-\lp{Tout ceci est déjà dit}
-\fco{ok, fait}
-% L'exemple précédant (pire cas) a les caractéristiques suivantes:
-% \begin{itemize}
-%	\item nombre de job $n=2m+1$.
-%	\item la machine critique exécute 3 jobs.
-%	\item les autres exécutent 2 jobs.
-%	\item un rapport d'approximation de $\frac{4}{3} - \frac{1}{3m}$
-% \end{itemize}
 
 \bigskip
 
@@ -1095,7 +963,6 @@ Cette modification consiste à planifier en premier, le job critique
 sur une machine m1.
 
 \bigskip
-% \todo{FCO: Algos tous en anglais ou tous en français}
 
 % Algorithme
 % ---------------------
@@ -1179,9 +1046,6 @@ Et ainsi de suite.
   \end{enumerate}
 \end{itemize}
 
-\lp{Dire en 2 mots ce qu'ils font?}
-\fco{ok, fait}
-
 
 \subsection{Bin-Packing} \label{ssec:heuristiquesBinPacking}
 
@@ -1211,8 +1075,6 @@ le problème Bin-packing est NP-Complet \cite{Johnson1974WorstCasePB}.
 L'idée est d'utiliser le problème Bin-Packing à l'envers, pour
 approcher une solution au problème d'ordonnancement.
 
-% \lp{petite remarque sur la complexité du problème?}
-% \tdi{FCO: ok, fait}
 
 % -------------------------------------------------------
 % MULTIFIT
@@ -1248,8 +1110,6 @@ jobs sur $m$ machines identiques parallèles.
 La difficulté, est de proposer une première valeur de $C$ pas trop
 éloignée de la valeur recherchée, afin de réduire au maximum le nombre
 d'itérations.
-% \lp{deux mots pour dire comment est implémentée la recherche}
-% \tdi{FCO: ok, fait}
 
 La méthode utilisée est une recherche dichotomique.
 Après avoir défini les bornes supérieure
@@ -1300,8 +1160,6 @@ pour laquelle $FFD[T,C] \leq m$}
 
 \caption{MULTIFIT\label{algo:MULTIFIT}}
 \end{algorithm}
-% \lp{$k$ fixé? ou seuil entre deux iter?}
-% \tdi{FCO: ok, fait}
 
 \bigskip
 
@@ -1346,8 +1204,6 @@ d'utiliser LPT (algorithme \ref{algo:LPT}) pour réduire les bornes de départ
 et ainsi optimiser MULTIFIT (algorithme \ref{algo:MULTIFIT}) dans un
 algorithme nommé COMBINE.
 
-% \lp{développer/préciser un peu}
-% \tdi{FCO: ok, fait}
 \bigskip
 soient
 \begin{align*}
@@ -1368,8 +1224,6 @@ sur les principes suivants:
 \item Si le résultat $M$ obtenu par LPT est tel que
   $M \geq 1,5\cdot A$ alors $M=M^\star$.
   Il n'est donc pas nécessaire de poursuivre la recherche.
-  \lp{Je ne comprends pas pourquoi}
-  \fco{Si c'est bien cela. La preuve est dans la publi, en annexe p239}
 \item Au lieu de prédéterminer un nombre d'itérations, COMBINE utilise
   une condition d'arrêt de la recherche dichotomique, en fonction de
   l'écart entre les deux bornes.
@@ -1456,11 +1310,10 @@ dans un ordre LPT (Longest Time Processing), soit dans un ordre SPT
 (Shortest Time Processing).
 Puis LISTFIT combine ces 2 sous-listes en appliquant MULTIFIT à chaque
 itération.
-\lp{Expliquer l'intérêt, donner une idée intuitive}
+% \lp{Expliquer l'intérêt, donner une idée intuitive}
 
 \bigskip
-% \todo{FCO: enlever les goto}
-% \tdi{FCO: ok, fait}
+
 % Algorithme
 % ---------------------
 \begin{algorithm}[H]
@@ -1479,8 +1332,6 @@ Soient $r=0$, $q=0$, $C_{\max}=C_{\max}(LPT)$: le makespan obtenu par LPT
 	{
 		$ r = r + 1$ \;
 		Soient $\Phi_q = \varnothing$, A = $\{1,...,n\}$, $B = \varnothing$ \;
-                \lp{$\Phi = \Phi_q $?}
-                \fco{ok, fait. Oui, une erreur dans la publi}
 		Soit  $\omega_r$ la séquence des jobs de la liste des jobs $A$
 		triés selon l'ordre $r$. \;
 		\tcp{Si $r = 1$ alors tri en SPT,}
@@ -1567,11 +1418,9 @@ $\frac{6}{7} < \frac{4}{3} - \frac{1}{2 \cdot m -1)}$ avec $m \geq 4$.
 
 Il faut donc se placer dans cette instance en adoptant la stratégie gloutonne suivante :
 
-\lp{est-ce qu'on sait dire pourquoi? faire une petite analyse}
-\fco{ok, fait}
-
 
 \bigskip
+
 % Algorithme Slack
 % ---------------------
 \begin{algorithm}[H]
@@ -1648,8 +1497,6 @@ variables booléennes d'affectation des jobs à une machine, i.e.\
 $x_{ij}$ est égal à 1 si le job $j_j$ est affecté à la machine $m_i$, ou
 0 dans le cas contraire.
 
-% \lp{définir $x_{ij}$}
-% \tdi{FCO: ok, fait}
 % Présentation
 % ---------------------
 \bigskip
@@ -1705,8 +1552,6 @@ Le polytope $P$ relatif à $F$ est défini ainsi:
   P=\{ (x,y) : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} : \sum_{i=1}^{m} x_{ij}=1 \forall j;
   y-\sum_{j=1}^{n} p_j \cdot x_{ij} \geq 0 \forall i	\}
 \]
-\lp{Tu n'avais pas dit P?}
-\fco{ok, fait}
 
 Il est possible de construire un ensemble fini d'\textbf{inégalités}
 \[
@@ -1788,13 +1633,6 @@ Déterminer la borne supérieure $UB$ suivant l'heuristique LPT
 \caption{PA\label{algo:PA}}
 \end{algorithm}
 
-\lcc{Transformer l'algorithme en pseudo-code avec une boucle, des
-  conditions et des ordos retournés.
-  J'ai commencé pour la première condition.
-  Aussi, il faut préférer des verbes à l'indicatif pour commencer
-  chaque action (comme une recette de cuisine: ``1.
-  Mélanger les œufs et le sucre.'').}
-\fco{ok, fait}
 
 \section{Approximation} \label{sec:approximation}
 
@@ -1888,9 +1726,9 @@ réduit à trouver un algorithme
 d'approximation $\epsilon-$dual pour une instance du problème où la
 taille des pièces sont strictement supérieures à $\epsilon$.
 
-\lp{C'est dommage que par la suite te te sois concentrer sur
-  l'expression à partir des bins sans conserver le lien avec le
-  problème $P||C_{\max}$, en particulier pour les algos}
+ %\lp{C'est dommage que par la suite te te sois concentrer sur
+ %  l'expression à partir des bins sans conserver le lien avec le
+ %  problème $P||C_{\max}$, en particulier pour les algos}
 
 L'intervalle de la taille des pièces (devenu $]\epsilon, 1]$) est
 découpé en S = $\lceil \frac{1}{\epsilon^2}\rceil$ sous intervalles
@@ -1931,9 +1769,6 @@ considérons que le premier bac soit rempli. Nous obtenons:
   Bins(b_1, b_2, \ldots, b_S) = 1 + \underset{cf(x_1, \ldots ,x_S)}{\min} Bins(b_1-x_1, b_2-x_2, \ldots, b_S-x_S)
 \]
 
-\lcc{introduire/expliquer la notation $configuration faisable$ (et la
-  raccourcir, $cf$ par exemple)}
-\fco{ok, fait}  
 
 Ce qui est résolu par programmation dynamique.
 Il existe 2 versions optimisées d'algorithmes pour
@@ -2274,24 +2109,7 @@ $m_1 = \{ 6,13,73 \}$ et $m_2 = \{ 3,20,30,40 \}$ (figure
 
 \item cas de $m>2$, $m$ sous-ensembles $m_1,m_2, \ldots, m_m $.
 
-% PAS PERTINENT --------------------------------------------------
-%Quelques rappels:
-%
-%Fonction densité:
-%S'applique aux variables aléatoires continues (réelles),
-% pour lesquelles la probabilité ($\mathbb{P}$) d'appartenir à un domaine
-%($[a, b]$)
-%se calcule à l'aide d'une intégrale sur le domaine.
-%La fonction à intégrer ( $f(x)$ ) est la fonction de densité.
-%$\mathbb{P}(a \le X \le b) =  \int_{a}^b f(x)dx$.
-%
-%Condition de Lipschitz:
-%Va déterminer la "douceur" d'une fonction.
-%Si une fonction répond à la condition de Lipschitz,
-%alors la pente maximale (en valeur absolue) du graphe représentant cette fonction
-%est inférieure à un nombre appelé Constante de Lipschitz.
-%------------------------------------------------------------------
-  LDM effectue tout d'abord, une opération de préparation de
+LDM effectue tout d'abord, une opération de préparation de
   l'instance du problème.
   Chaque élément de $P = \{ p_1, p_2, \ldots, p_n \}$ est converti en
   $m$-tuple.
@@ -2481,10 +2299,6 @@ pour $m\geq 3$ & $ \frac{4}{3}-\frac{1}{3 \cdot (m-1)} \leq
 \end{tabular}
 %pas de legende
 \end{flushleft}
-\lcc{revoir complexité en temps (il s'agit ici d'une analyse en
-  moyenne sur l'efficacité de la méthode)}
-\fco{ok, fait}  
-
 \end{theoreme}
 
 
@@ -2496,19 +2310,6 @@ D'autres algorithmes basés sur le partitionnement de nombres:
 \item MPS, de Paletta \emph{et al.} \cite{paletta2007new}
 \item SPS, de Chiaselotti \emph{et al.} \cite{chiaselotti2010minimizing}
 \end{itemize}
-%\lp{Attention les algorithmes génétiques sont cosiédrés comme des méta
-%  heuristiques} 
-%\fco{ok, fait. En introduction de cette section}  
-%\lp{Un algorithme génétique initialisé avec le
-%  résultat d'une heuristique performante donnera aussi un très bon
-%  résultat, tu ne peux donc pas dire qu'ils ne donnent pas de solution
-%  satisfaisantes. Par contre l'argument du temps tient bien. On a
-%  aussi aucune garantie sur le résultat puisque la recherche est
-%  aveugle. Mais il y a pas mal de travaux d'optimisation qui passent
-%  une couche de metaheuristique derrière une heuristique ou autre
-%  approx un pour voir s'il n'y aurait pas un meilleur résultat dans le
-%  voisinnage.}  
-%\fco{ok, fait. En introduction de cette section}  
 
 \section{Synthèse} \label{sec:synthese}
 
@@ -2520,10 +2321,8 @@ d'améliorer le ratio d'approximation, ainsi que le coût en temps requis
 pour obtenir cette solution approchée,
 soit en reprenant une piste déjà explorée afin de l'optimiser,
 soit en expérimentant d'autres méthodes.
-Les résultats théoriques, définis et déterminés par démonstrations ne sont que des indications ``au pire cas''. Les performance réelles sont en moyennes meilleures. 
+Les résultats théoriques, définis et déterminés par démonstrations ne sont que des indications ``au pire cas''. Les performances réelles sont en moyennes meilleures. 
 
-\lp{Je ne comprends pas ce que tu veux dire par là}
-\fco{ok, fait. oui, mal dit}
 
 \subsubsection{Théoriques}
 
@@ -2536,7 +2335,6 @@ Les résultats théoriques, définis et déterminés par démonstrations ne sont
 % \backslashbox{Instructions}{Donnée} & Simple & Multiple NE FONCTIONNE PAS
 % on cadre à gauche le tableau pour avoir plus de place
 % -------------------------------------------------------
-
 Le tableau~\ref{table:synth} est un comparatif des performances
 calculées et déterminées de chaque algorithme présenté.
 
@@ -2695,9 +2493,6 @@ condition où LDM est très performant.
 Slack (algorithme~\ref{algo:SLACK}), qui est une heuristique basée sur LPT 
 accompagné d'une recherche locale devient globalement plus performant 
 que LDM \cite{della2018longest}.
-\lcc{LPT-rev est un LPT amélioré, mais Slack est quand même un peu
-  différent, non?}
-\fco{ok, fait}  
 
 Gupta \emph{et al.}\ prouvent que les performances de ListFit (algorithme~\ref{algo:LISTFIT}) sont
 supérieures à LPT, Multifit et Combine. Ceux-ci sont comparés
@@ -2751,11 +2546,6 @@ $n$		&	$m$	&	Multifit	&	Combine	&	Listfit
 \label{table:comparaisonTempsMultifitCombineListfitBehera}  
 \end{table}
 
-\lcc{d'où vient les données de ce tableau?
-  Rajouter la réf dans le caption et mettre une référence dans le
-  texte vers cette table.}
-\fco{ok, fait}  
-
 
 \subsection{De la recherche d'informations}
 \label{ssec:syntheseRechercheInformation}
@@ -2790,10 +2580,19 @@ Et enfin, ces résultats pourrons être utilisés pour d'autres problèmes
 d'ordonnancements (contraintes, processeurs/machines hétérogènes).
 
 \section{Remerciements} \label{sec:remerciements}
-Laurent Philippe
-Louis-Claude Canon
-Julien Bernard
-Professeurs et personnel du CTU
+
+J'adresse mes remerciements aux personnes qui m'ont aidé dans la réalisation de ce document. 
+Laurent Philippe, professeur à l'université de Franche-Comté, 
+Louis-Claude Canon, maître de conférence, et 
+Julien Bernard, maître de conférence. 
+Il m'ont tous guidé dans mon travail, en trouvant des solutions pour avancer, 
+et en me fournissant d'importantes informations concernant 
+le problème \problemGrahamP et les travaux qui s'y rapportent. 
+Je les remercie, également, pour leur disponibilité, 
+et le temps qu'ils m'ont consacré, pour répondre à mes questions, 
+et leur retours critiques. 
+
+Et merci aussi, à Anne-Sophie, pour son aide à la relecture et à la correction de ce document.
 
 
 \medskip
