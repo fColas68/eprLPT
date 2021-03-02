@@ -79,21 +79,28 @@ def main():
             m.completeM1(machineNumber)
         matricies.append(m)    
 
-    print("Generated ================================================================")
-    
-    print(matricies)
-
-    print("===========================================================")
-    print(matricies[0].matrixOrigin)
-    print("===========================================================")
-    print(matricies[0].matrix)
-    
     print("===========================================================")
     print("LPT ")    
     print("===========================================================")
     for i in range(len(matricies)):
-        print(matricies[i].matrix[0])
-        cmm.lpt(matricies[i].matrix[0], matricies[i].m)
+        reslpt = cmm.lpt(matricies[i].matrix[0], matricies[i].m)
+        print("Expected :",matricies[i].lowBoundcompletedM1,", Obtained :",reslpt[0], ", Time:", reslpt[1])
+
+        #
+        # print("Schedule obtained")
+        # for i in range(len(reslpt[2])):
+        #    print(reslpt[2][i].jobsLoaded,"#" ,reslpt[2][i].jobsSet)
+        
+        
+        resslack = cmm.slack(matricies[i].matrix[0], matricies[i].m)
+        print("Expected :",matricies[i].lowBoundcompletedM1,", Obtained :",resslack[0], ", Time:", resslack[1])
+
+        print("")
+        # resSlack = cmm.slack(matricies[i].matrix[0], matricies[i].m)
+        # print(resSlack[0], matricies[i].lowBoundcompletedM1, resSlack[1])
+
+
+
 
 if __name__ == "__main__":
     main()

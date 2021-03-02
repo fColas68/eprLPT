@@ -6,11 +6,11 @@ def main():
     # set of testing matricies
     matricies = []
     print("Job Set size ============================================================")
-    nN                  = 10
+    nN                  = 5
     #
     matUniformNumber    = 2
-    matNonUniformNumber = 2
-    matGammaNumber      = 2
+    matNonUniformNumber = 0
+    matGammaNumber      = 0
     matBetaNumber       = 0
     matExponentialNumber= 0
     matRealNumber       = 0
@@ -21,8 +21,8 @@ def main():
     nBeta = 1.0
     nLambda = 1.0
     #
-    lCompleteM1 = True
-    machineNumber = 9
+    lCompleteM1 = True  # issue : deffect when False
+    machineNumber = 4
 
     print("Generation (please wait =================================================")
     # UNIFORM P    
@@ -74,15 +74,20 @@ def main():
     for i in range(len(matricies)):
         reslpt = cmm.lpt(matricies[i].matrix[0], matricies[i].m)
         print("Expected :",matricies[i].lowBoundcompletedM1,", Obtained :",reslpt[0], ", Time:", reslpt[1])
+
         #
-        print("Schedule obtained")
-        for i in range(len(reslpt[2])):
-            print(reslpt[2][i].jobsLoaded,"#" ,reslpt[2][i].jobsSet)
-        print("")
+        # print("Schedule obtained")
+        # for i in range(len(reslpt[2])):
+        #    print(reslpt[2][i].jobsLoaded,"#" ,reslpt[2][i].jobsSet)
         
-            
+        
+        resslack = cmm.slack(matricies[i].matrix[0], matricies[i].m)
+        print("Expected :",matricies[i].lowBoundcompletedM1,", Obtained :",resslack[0], ", Time:", resslack[1])
+
+        print("")
         # resSlack = cmm.slack(matricies[i].matrix[0], matricies[i].m)
         # print(resSlack[0], matricies[i].lowBoundcompletedM1, resSlack[1])
+        
     
 if __name__ == "__main__":
     main()
