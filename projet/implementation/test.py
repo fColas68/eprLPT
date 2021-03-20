@@ -1,14 +1,46 @@
+import campaign as cp
 import matrix as cm
 import algorithms as cmm
 import ScheduleManagment as sm
 import pwa
 
+
 def main():
     # set of testing matricies
     matricies = []
+
+    print("SEED ============================================================")
+    campaignName         = input("Name of campaign : ")
+    campaignUser         = input("Your Name : ")
+    seedForce = None
+    sSeedForce            = input("Force seed ? (None default): ")
+    if sSeedForce:
+        seedForce = int(sSeedForce)
+    # END IF    
+    
+
     print("Job Set size ============================================================")
-    nN                  = int(input("Jobs number     : "))
-    nMmachineNumber     = int(input("Machines number : "))
+    nN                  = int(input("Jobs number  (begin) : "))
+    sNe                 = input("Jobs number (end) ("+str(nN)+" default) : ")
+
+    N_NumberBegin = nN
+    N_NumberEnd = nN
+    if sNe:
+        if int(sNe) >  nN:
+            N_NumberEnd = int(sNe)
+        # END IF
+    # END IF
+    
+    nMmachineNumber     = int(input("Machines number (begin) : "))
+    sMmachineNumbere    = input("Machines number (end) ("+str(nMmachineNumber)+"default) : ")
+    M_NumberBegin = nMmachineNumber
+    M_NumberEnd = nMmachineNumber
+    
+    if sMmachineNumbere:
+        if int(sMmachineNumbere) >  nMmachineNumber:
+            M_NumberEnd   = int(sMmachineNumbere)
+        # END IF
+    # END IF
 
     print("Job set generation ======================================================")    
     matUniformNumber    = int(input("How many uniform matricies to generate : "))
@@ -45,6 +77,14 @@ def main():
     useLDM     = int(input("Use LDM      ? : (1 yes, 0 no) : "))
     useCOMBINE = int(input("Use COMBINE  ? : (1 yes, 0 no) : "))
 
+
+    c = cp.Campaign(campaignName, campaignUser, N_NumberBegin, N_NumberEnd, M_NumberBegin, M_NumberEnd, matUniformNumber, matNonUniformNumber, matGammaNumber, matBetaNumber, matExponentialNumber, matRealFiles, nAb, nBb, nAlpah, nBeta, nLambda, seedForce)
+    c.exportCSV()
+    
+    input("<>")
+
+    
+
     print("Generation (please wait =================================================")
     # UNIFORM P    
     for i in range(matUniformNumber):
@@ -73,20 +113,24 @@ def main():
         matricies.append(m)    
 
     print("===========================================================")
-    print("OLGORITHMS ")    
+    print("ALGORITHMS ")    
     print("===========================================================")
     for i in range(len(matricies)):
+
+        print("List seed : ",matricies[i].getSeed())
+        
         if useLPT == 1:
             print("-------------------------------------------------------")
+            
             # work Times list
             r = cmm.lpt(matricies[i].Times, matricies[i].m)
             matricies[i].addSched(r)
-            print("Expected lp :",matricies[i].BestResult_Makespan,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
+            print("best result      :",matricies[i].BestResult_Makespan,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
             
             # work m1Times list
             r = cmm.lpt(matricies[i].m1Times, matricies[i].m)
             matricies[i].addM1Sched(r)
-            print("Expected op :",matricies[i].m1Optimal,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
+            print("Expected optimal :",matricies[i].m1Optimal,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
         # END IF
 
         if useSLACK == 1:
@@ -94,13 +138,13 @@ def main():
             # work Times list
             r = cmm.slack(matricies[i].Times, matricies[i].m)
             matricies[i].addSched(r)
-            print("Expected lb :",matricies[i].BestResult_Makespan,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
+            print("best result      :",matricies[i].BestResult_Makespan,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
             # !!!!! issue lowBound false value
 
             # work m1Times list
             r = cmm.slack(matricies[i].m1Times, matricies[i].m)
             matricies[i].addM1Sched(r)
-            print("Expected op :",matricies[i].m1Optimal,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
+            print("Expected optimal :",matricies[i].m1Optimal,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
         # END IF
         
         if useLDM == 1:

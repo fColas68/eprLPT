@@ -4,7 +4,7 @@ from operator import attrgetter
 #
 import matrix as cm
 import ScheduleManagment as sm # Processor object
-import tools
+
 
 # #######################################################################
 #                                                                       #
@@ -38,7 +38,7 @@ def lpt(costMatrix, m):
     # work with a copy of costMatrix
     # this matrix will be sorted or modified
     #------------------------------------------    
-    matrixW = tools.matrix1dCopy(costMatrix)
+    matrixW = costMatrix[:] # tools.matrix1dCopy(costMatrix)
 
     #------------------------------------------    
     # sched is a list of Processor objects.
@@ -134,8 +134,8 @@ def slack(costMatrix, m):
     #------------------------------------------    
     # work with a copy of costMatrix
     # this matrix will be sorted or modified
-    #------------------------------------------    
-    matrixW = tools.matrix1dCopy(costMatrix)
+    #------------------------------------------
+    matrixW = costMatrix[:] # tools.matrix1dCopy(costMatrix)
     
     #------------------------------------------    
     # sched is a list of Processor objects.
@@ -263,8 +263,8 @@ def ldm(costMatrix, m):
     #------------------------------------------    
     # work with a copy of costMatrix
     # this matrix will be sorted or modified
-    #------------------------------------------    
-    matrixW = tools.matrix1dCopy(costMatrix)
+    #------------------------------------------
+    matrixW = costMatrix[:] # matrixW = tools.matrix1dCopy(costMatrix)
     
     #------------------------------------------    
     # sched is a list of Processor objects.
@@ -306,8 +306,8 @@ def combine(costMatrix, m, alpha = 0.005):
     #------------------------------------------    
     # work with a copy of costMatrix
     # this matrix will be sorted or modified
-    #------------------------------------------    
-    matrixW = tools.matrix1dCopy(costMatrix)
+    #------------------------------------------
+    matrixW = costMatrix[:] # matrixW = tools.matrix1dCopy(costMatrix)
     matrixW.sort(reverse=True)
     
     #------------------------------------------    
@@ -379,8 +379,8 @@ def ffd(sizesList, binSize, sortList = False):
     #------------------------------------------    
     # work with a copy of costMatrix
     # this matrix will be sorted or modified
-    #------------------------------------------    
-    sizesListW = tools.matrix1dCopy(sizesList)
+    #------------------------------------------
+    sizesListW = sizesList[:] # sizesListW = tools.matrix1dCopy(sizesList)
     if sortList==True:
         # the list is already sorted (if sortList=false)
         sizesListW.sort(reverse = True)

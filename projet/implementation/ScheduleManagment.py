@@ -123,13 +123,7 @@ class ldmPartition():
 #        print(haha.part[i].tupl[j])
 #        print(haha.part[i].tupl[j].jobsSet)
     
-
-        
-
-
-
-
-
+     
 
 # ########################################################################
 #

@@ -1,16 +1,12 @@
-# to use distributions
-import numpy
+# to use distributions and seed
 import random
-# import statistics
 
-# tools library
-import tools
+# tools libraries
 import pwa
-
 # ############################################################################
-#
+# ############################################################################
 #                               PTimes class
-#
+# ############################################################################
 # ############################################################################
 class PTimes:
     """
@@ -30,6 +26,9 @@ class PTimes:
     :param alpha          : alpha value for beta and gamma generation
     :param beta           : beta value for gamma generation (beta value for beta is equal 1)
     :param lamlbd         : lambda value for exponential generation
+    :param fileName       : String  (complete filename) for PWA (Parallel Workload Archive) import
+    :param seed           : Integer if none : seed is randomly (random library) générated, and used to générate times list
+                                        if set  : seed is used to retrieve and regenerate a previously generated time list.
 
     # List and Computed results with original times List
     :param Times                         : List   : of Pj : set of times   : [e1, e2, ... en]
@@ -65,6 +64,7 @@ class PTimes:
     alpha                          = 1.0
     beta                           = 1.0
     lambd                          = 1.0 # not lambda (with a) because reserved word
+    seed                           = 0
     fileName                       = ""
     
     # origin problem instance (not completed)
@@ -89,9 +89,9 @@ class PTimes:
     m1BestResult_TimeAlgorithm     = ""
 
     # ############################################################################
-    # CONSTRUCTOR
+    #                               CONSTRUCTOR
     # ############################################################################
-    def __init__(self, generateMethode, n, m, a=1.0, b=100.0, alpha=1.0, beta=1.0, lambd=1.0, fileName=""):
+    def __init__(self, generateMethode, n, m, a=1.0, b=100.0, alpha=1.0, beta=1.0, lambd=1.0, fileName="", seed = None):
         """
         create Lists instances with
         # Input
@@ -104,6 +104,8 @@ class PTimes:
         :param beta           : Float   beta value for gamma generation (beta value for beta is equal 1)
         :param lamlbd         : Float   lambda value for exponential generation
         :param fileName       : String  (complete filename) for PWA (Parallel Workload Archive) import
+        :param seed           : Integer if none : seed is randomly (random library) générated, and used to générate times list
+                                        if set  : seed is used to retrieve and regenerate a previously generated time list.
 
         # Computed
         Times                 
@@ -122,34 +124,56 @@ class PTimes:
         # generation properties
         # =======================================================================
         self.generateMethode    = generateMethode
-        self.m                  = m
+        self.m                  = m 
         self.a                  = a
         self.b                  = b
         self.alpha              = alpha
         self.beta               = beta
         self.lambd              = lambd
         self.fileName           = fileName
-
+        #-------------------------------------------------------
+        # SEED
+        #-------------------------------------------------------
+        if seed:
+            self.seed = seed
+        else:
+            self.seed = random.randint(1,10000)
+        # END IF
+        
         # =======================================================================
         # self.Times generation
         # =======================================================================
         self.Time               = []
         self.n                  = n
-        # UNIFORM P: 
+
+        #-------------------------------------------------------
+        # use of pseudo-random number generator
+        #-------------------------------------------------------
         if (self.generateMethode == "UNIFORM"):
-            self.Times = uniform_p(n,a,b)
-        # NON_UNIFORM P:
+            # UNIFORM P: 
+            self.Times = uniform_p(n,self.seed, a,b)
+            
+        
         elif (self.generateMethode == "NON_UNIFORM"):
-            self.Times  = non_uniform_p(n,a, b)
-        # GAMMA P: problem not considered at this time.
+            # NON_UNIFORM P:
+            self.Times  = non_uniform_p(n,self.seed,a, b)
+            
         elif (self.generateMethode == "GAMMA"):
-            self.Times  = gamma_p(n,alpha, beta)
-        # BETA P:
+            # GAMMA P: problem not considered at this time.
+            self.Times  = gamma_p(n,self.seed,alpha, beta)
+        
         elif (self.generateMethode == "BETA"):
-            self.Times  = beta_p(n,alpha)
-        # EXPONENTIAL P: 
+            # BETA P:
+            self.Times  = beta_p(n,self.seed,alpha)
+        
         elif (self.generateMethode == "EXPONENTIAL"):
-            self.Times  = exponential_p(n,lambd)
+            # EXPONENTIAL P: 
+            self.Times  = exponential_p(n,self.seed,lambd)
+
+        #-------------------------------------------------------
+        # Use of a reel case
+        #-------------------------------------------------------
+
         # REAL : Real, According the "parallel work load archive"
         #elif (self.generateMethode == "REEL"):
         else:
@@ -157,35 +181,57 @@ class PTimes:
             
         # ENDIF
 
-        self.lowBound = max(max(self.Times), sum(self.Times)/self.n)
+        #-------------------------------------------------------
+        # 
+        #-------------------------------------------------------
+        self.lowBound = getLowBound(self.Times, self.n) # max(max(self.Times), sum(self.Times)/self.n)
         
         # =======================================================================
         # self.m1Times generation
         # =======================================================================
-        self.completeM1()
+        self.completeM1(m)
 
     # ############################################################################
-    # Matrix transformations methods
+    #                               getResult
     # ############################################################################
-    def completeM1(self):
+    def getResult(self):
+        
+        return (self.generateMethode, self.n, self.m,self.a, self.b, self.alpha, self.beta, self.lambd, self.fileName, self.seed)
+        
+
+
+    # ############################################################################
+    #                               METHODS
+    # ############################################################################
+
+    # ============================================================================
+    # completeM1 
+    # ============================================================================
+    def completeM1(self, m):
         """
+        set self.m number of machines 
         Complete list Times with m-1 job times in list m1Times
         # input
-        no input
+        m number of machines
         # Compute
         m1Times
         m1Optimal,
         m1_n,
         """
         #------------------------------------------------------------------------
+        # SET
+        #------------------------------------------------------------------------
+        self.m = m 
+
+        #------------------------------------------------------------------------
         #   INIT
         #------------------------------------------------------------------------
-        proc = []               # work with processors list len(proc) <= m
+        proc   = []               # work with processors list len(proc) <= m
         
         #------------------------------------------------------------------------
         #   matrixOrigin --> matrix
         #------------------------------------------------------------------------
-        self.m1Times = tools.matrix1dCopy(self.Times)
+        self.m1Times = self.Times[:]  # self.m1Times = tools.matrix1dCopy(self.Times)
         new_n = self.n
         
         #------------------------------------------------------------------------
@@ -217,15 +263,21 @@ class PTimes:
         # END FOR
 
         #------------------------------------------------------------------------
-        #   Update self concerneds values
+        #   Update self concerned values
         #------------------------------------------------------------------------
         self.m1_n       = new_n
-        self.m1lowBound = max(max(self.m1Times), sum(self.m1Times)/self.m1_n)
+        self.m1lowBound = getLowBound(self.m1Times, self.m1_n) # max(max(self.m1Times), sum(self.m1Times)/self.m1_n)
         self.m1Optimal  = Cmax
 
-    # ############################################################################
-    # ADD RESULTS
-    # ############################################################################
+    # ============================================================================
+    # GET SEED
+    # ============================================================================
+    def getSeed(self):
+        return self.seed
+    
+    # ============================================================================
+    # ADD RESULTS addSched
+    # ============================================================================
     def addSched(self, sched):
         self.Results.append(sched)
         if (sched.getTime() < self.BestResult_Time) or (self.BestResult_Time == 0.0):
@@ -237,6 +289,9 @@ class PTimes:
             self.BestResult_TimeAlgorithm = sched.getAlgoName()
         # END IF
 
+    # ============================================================================
+    # ADD RESULTS addM1Sched
+    # ============================================================================
     def addM1Sched(self, sched):
         self.m1Results.append(sched)
         if (sched.getTime() < self.m1BestResult_Time)  or (self.m1BestResult_Time == 0.0):
@@ -249,20 +304,23 @@ class PTimes:
         # END IF
 
 # ############################################################################
-#
-#                               Time lists generation
-#
 # ############################################################################
-def uniform_p(n,a,b):
+#                               Time lists generation with seeds
+# ############################################################################
+# ############################################################################
+def uniform_p(n,seed, a,b):
     matrix = []
+
+    random.seed(seed)
     for i in range(n):
         rand = random.uniform(a,b)
         matrix.append(rand)
     # END FOR    
     return matrix
 
-def non_uniform_p(n,a,b):
+def non_uniform_p(n,seed, a,b):
     matrix = []
+    random.seed(seed)
     #
     n98 = int((98*n) / 100)
     a1 = 0.9*(b-a)
@@ -279,27 +337,30 @@ def non_uniform_p(n,a,b):
     # END FOR    
     return matrix
 
-def gamma_p(n,alpha,beta):
+def gamma_p(n,seed, alpha,beta):
     matrix = []
+    random.seed(seed)
     for i in range(n):
         rand = random.gammavariate(alpha,beta)
         matrix.append(rand)
     # END FOR        
     return matrix
 
-def beta_p(n,alpha):
+def beta_p(n,seed, alpha):
     """
     beta allways 1 for this set
     """
     matrix = []
+    random.seed(seed)
     for i in range(n):
         rand = random.betavariate(alpha,1)
         matrix.append(rand)
     # END FOR        
     return matrix
 
-def exponential_p(n,lambd):
+def exponential_p(n,seed, lambd):
     matrix = []
+    random.seed(seed)
     for i in range(n):
         rand = random.expovariate(lambd)
         matrix.append(rand)
@@ -309,6 +370,13 @@ def exponential_p(n,lambd):
 def real_p(fileName):
     matrix = pwa.pwaFileRead(fileName)
     return matrix
+
+
+# ============================================================================
+# 
+# ============================================================================
+def getLowBound(list, m):
+    return max(max(list), sum(list)/m)
 
 
 
