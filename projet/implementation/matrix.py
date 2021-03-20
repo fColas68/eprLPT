@@ -70,7 +70,7 @@ class PTimes:
     # origin problem instance (not completed)
     Times                          = []
     n                              = 0
-    lowBound                       = 0.0 
+    LowBound                       = 0.0 
     Results                        = []
     BestResult_Makespan            = 0.0
     BestResult_MakespanAlgorithm   = ""
@@ -80,7 +80,7 @@ class PTimes:
     # completed problem instance (with m-1 tasks completion)
     m1Times                        = []
     m1_n                           = 0
-    m1lowBound                     = 0.0 
+    m1LowBound                     = 0.0 
     m1Optimal                      = []
     m1Results                      = []
     m1BestResult_Makespan          = 0.0
@@ -89,7 +89,9 @@ class PTimes:
     m1BestResult_TimeAlgorithm     = ""
 
     # ############################################################################
+    #
     #                               CONSTRUCTOR
+    #
     # ############################################################################
     def __init__(self, generateMethode, n, m, a=1.0, b=100.0, alpha=1.0, beta=1.0, lambd=1.0, fileName="", seed = None):
         """
@@ -184,7 +186,7 @@ class PTimes:
         #-------------------------------------------------------
         # 
         #-------------------------------------------------------
-        self.lowBound = getLowBound(self.Times, self.n) # max(max(self.Times), sum(self.Times)/self.n)
+        self.LowBound = getLowBound(self.Times, self.m) 
         
         # =======================================================================
         # self.m1Times generation
@@ -192,16 +194,9 @@ class PTimes:
         self.completeM1(m)
 
     # ############################################################################
-    #                               getResult
-    # ############################################################################
-    def getResult(self):
-        
-        return (self.generateMethode, self.n, self.m,self.a, self.b, self.alpha, self.beta, self.lambd, self.fileName, self.seed)
-        
-
-
-    # ############################################################################
+    #
     #                               METHODS
+    #
     # ############################################################################
 
     # ============================================================================
@@ -266,7 +261,7 @@ class PTimes:
         #   Update self concerned values
         #------------------------------------------------------------------------
         self.m1_n       = new_n
-        self.m1lowBound = getLowBound(self.m1Times, self.m1_n) # max(max(self.m1Times), sum(self.m1Times)/self.m1_n)
+        self.m1LowBound = getLowBound(self.m1Times, self.m)
         self.m1Optimal  = Cmax
 
     # ============================================================================
@@ -281,12 +276,12 @@ class PTimes:
     def addSched(self, sched):
         self.Results.append(sched)
         if (sched.getTime() < self.BestResult_Time) or (self.BestResult_Time == 0.0):
-            self.BestResult_Time          = sched.getTime()
-            self.BestResult_TimeAlgorithm = sched.getAlgoName()
+            self.BestResult_Time              = sched.getTime()
+            self.BestResult_TimeAlgorithm     = sched.getAlgoName()
         # END IF
         if (sched.getMakespan() < self.BestResult_Makespan) or (self.BestResult_Makespan == 0.0):
-            self.BestResult_Makespan      = sched.getMakespan()
-            self.BestResult_TimeAlgorithm = sched.getAlgoName()
+            self.BestResult_Makespan          = sched.getMakespan()
+            self.BestResult_MakespanAlgorithm = sched.getAlgoName()
         # END IF
 
     # ============================================================================
@@ -295,17 +290,47 @@ class PTimes:
     def addM1Sched(self, sched):
         self.m1Results.append(sched)
         if (sched.getTime() < self.m1BestResult_Time)  or (self.m1BestResult_Time == 0.0):
-            self.m1BestResult_Time          = sched.getTime()
-            self.m1BestResult_TimeAlgorithm = sched.getAlgoName()
+            self.m1BestResult_Time              = sched.getTime()
+            self.m1BestResult_TimeAlgorithm     = sched.getAlgoName()
         # END IF
-        if (sched.getMakespan() < self.m1BestResult_Makespan) or (self.BestResult_Makespan == 0.0):
-            self.m1BestResult_Makespan      = sched.getMakespan()
-            self.m1BestResult_TimeAlgorithm = sched.getAlgoName()
+        if (sched.getMakespan() < self.m1BestResult_Makespan) or (self.m1BestResult_Makespan == 0.0):
+            self.m1BestResult_Makespan          = sched.getMakespan()
+            self.m1BestResult_MakespanAlgorithm = sched.getAlgoName()
         # END IF
+    # ============================================================================
+    #  getResult
+    #  for pandas dataframe
+    # ============================================================================
+    def getResult(self):
+        res = [self.generateMethode,
+               self.m, self.a, self.b, self.alpha, self.beta, self.lambd, self.fileName, self.seed,
+               self.n,    self.LowBound,   self.BestResult_MakespanAlgorithm,   self.BestResult_Makespan,    self.BestResult_TimeAlgorithm,   self.BestResult_Time,   
+               self.m1_n, self.m1LowBound, self.m1BestResult_MakespanAlgorithm, self.m1BestResult_Makespan,  self.m1BestResult_TimeAlgorithm, self.m1BestResult_Time, self.m1Optimal]
+        #----------------------------------------
+        # Results and m1Results lists structures
+        #
+        # [(ALGORITHM1, computed makespan, computation time, resultMatrix []),...,(ALGORITHMp, computed makespan, computation time, resultMatrix[])]
+        #----------------------------------------
+        res.append("Results")
+        for k in range(len(self.Results)):
+            res.append(self.Results[k])
+        # END FOR
+        
+        res.append("m1Results")
+        for k in range(len(self.m1Results)):
+            res.append(self.m1Results[k])
+        # END FOR
+        
+        #res = (self.generateMethode, self.n, self.m,self.a, self.b, self.alpha, self.beta, self.lambd, self.fileName, self.seed)
+        return res
+         
+
 
 # ############################################################################
 # ############################################################################
-#                               Time lists generation with seeds
+#
+#                    Time lists generation with seeds management
+#
 # ############################################################################
 # ############################################################################
 def uniform_p(n,seed, a,b):

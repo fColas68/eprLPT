@@ -2,10 +2,11 @@ import time
 import pandas as pd
 import os
 
-import matrix as cm
-import algorithms as cmm
+import matrix            as cm
+import algorithms        as cmm
 import ScheduleManagment as sm
-import pwa
+import pwa               as pwa
+import setup             as s
 
 
 class Campaign():
@@ -26,7 +27,6 @@ class Campaign():
     matGammaNumber      = 0
     matBetaNumber       = 0
     matExponentialNumber= 0
-    #print("_____ From Parallel WorkLoad Archive _____")
     matRealFiles        = [] # pwa.pwaFileChoice()
     #---------------------------------------------------------------
     a                   = 1.0
@@ -38,13 +38,15 @@ class Campaign():
     seed = None #essential 
 
     # #######################################################################
-    # CONSTRUCTOR
+    #
+    #                       CONSTRUCTOR
+    #
     # #######################################################################
     def __init__(self, campaignName, campaignUser, N_NumberBegin, N_NumberEnd, M_NumberBegin, M_NumberEnd, matUniformNumber, matNonUniformNumber, matGammaNumber, matBetaNumber, matExponentialNumber, matRealFiles, a, b, alpha, beta, lambd, seedForce = None):
         self.matricies           = []
         #
         self.campaignName        = campaignName
-        self.campaignDate        = time.strftime("%d%m%Y")
+        self.campaignDate        = time.strftime("%d%m%Y")  
         self.campaignUser        = campaignUser
         #
         self.N_NumberBegin        = N_NumberBegin
@@ -57,7 +59,7 @@ class Campaign():
         self.matGammaNumber      = matGammaNumber
         self.matBetaNumber       = matBetaNumber
         self.matExponentialNumber= matExponentialNumber
-        #print("_____ From Parallel WorkLoad Archive _____")
+        #
         self.matRealFiles        = matRealFiles[:]
         #
         self.a                   = a
@@ -68,19 +70,22 @@ class Campaign():
         #
         if seedForce:
             self.seed            = seedForce
+        # END IF    
             
-        # CREATE INSTANCIES IN self.matricies
+        # CREATE "SET OF TIMES INSTANCIES" IN self.matricies
         self.createMatricies()
 
     # #######################################################################
-    # MATRICIES CONSTRUCTION
+    #
+    #                       MATRICIES CONSTRUCTION
+    #
     # #######################################################################
     def createMatricies(self):
-
+        #=====================================================
+        # according statistics distributions
         # j is the jobs iterator
         # i is the machines itérator
-        print(self.N_NumberBegin, self.N_NumberEnd+1)
-        
+        #=====================================================
         for j in range(self.N_NumberBegin, self.N_NumberEnd+1):
             for i in range(self.M_NumberBegin, self.M_NumberEnd+1):
                 # UNIFORM 
@@ -89,48 +94,96 @@ class Campaign():
                     self.matricies.append(m)
                 # END FOR    
 
-                # NON_UNIFORM
+                # NON UNIFORM P    
+                for k in range(self.matNonUniformNumber):
+                    m = cm.PTimes("NON_UNIFORM", j, i, self.a, self.b, self.alpha, self.beta, self.lambd, "", self.seed)
+                    self.matricies.append(m)
+                # END FOR
+                
+                # GAMMA P    
+                for k in range(self.matGammaNumber):
+                    m = cm.PTimes("GAMMA", j, i, self.a, self.b, self.alpha, self.beta, self.lambd, "", self.seed)
+                    self.matricies.append(m)
+                # END FOR
+                
+                # BETA P    
+                for k in range(self.matBetaNumber):
+                    m = cm.PTimes("BETA", j, i, self.a, self.b, self.alpha, self.beta, self.lambd, "", self.seed)
+                    self.matricies.append(m)
+                # END FOR
 
+                # EXPENENTIAL P    
+                for k in range(self.matExponentialNumber):
+                    m = cm.PTimes("EXPONENTIAL", j, i, self.a, self.b, self.alpha, self.beta, self.lambd, "", self.seed)
+                    self.matricies.append(m)
+                # END FOR
             # END for i in range(self.M_NumberBegin, self.M_NumberEnd)):
         # END FOR for i in range(self.N_NumberBegin, self.N_NumberEnd):
-        
-        
+
+        #=====================================================
+        # Real life jobs log
+        # i is the machines itérator
+        #=====================================================
+        for i in range(self.M_NumberBegin, self.M_NumberEnd+1):
+            # REAL P    
+            for k in range(len(self.matRealFiles)):
+                m = cm.PTimes("REAL", j, i, self.a, self.b, self.alpha, self.beta, self.lambd, self.matRealFiles[k])
+                self.matricies.append(m)
+            # END FOR    
+        # END for i in range(self.M_NumberBegin, self.M_NumberEnd)):
+
+    # #######################################################################
+    #
+    #                              RUN ALGORITHMS
+    #
+    # #######################################################################
+    def runAlgorithm(self, algo):
+        """
+        algo is a function from algorithm.py
+        lpt
+        slack
+        combine
+        ldm
+        ...
+        """
+        # each matricies[k] is a PTimes object
+        for k in range(len(self.matricies)):
+            # work with PTimes.Times list cmm.lpt
+            r = algo(self.matricies[k].Times, self.matricies[k].m)
+            self.matricies[k].addSched(r)
+            print("best result      :",self.matricies[k].BestResult_Makespan,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
+            
+            # work with PTimes.m1Times list
+            r = algo(self.matricies[k].m1Times, self.matricies[k].m)
+            self.matricies[k].addM1Sched(r)
+            print("Expected optimal :",self.matricies[k].m1Optimal,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
+        # END FOR    
+
         
     # #######################################################################
-    # CSV EXPORT
+    #
+    #                              CSV EXPORT
+    #
     # #######################################################################
     def exportCSV(self):
-        resDir = resFolder()
-        filename = resDir + "/" + self.campaignName+".csv"
-        print("Exporting campaign to %s . please wait..." % (filename))
 
-        collumns = ""
+        # target file
+        resDir = s.folder(s.FOLDER_RESULTS)
+        filename = resDir + s.sepDir()+ self.campaignName+".csv"
+        print("Exporting campaign to %s . please wait..." % (filename))
+        #
+        # collumns = ""
         dataResult       = []
-        print(len(self.matricies))
-        
-        for n in range(len(self.matricies)):
-            item = self.matricies[n].getResult() # used by __str__ method in matrix class
-            print(">", item, "<")
+        #print(len(self.matricies))
+
+        # 
+        for k in range(len(self.matricies)):
+            item = self.matricies[k].getResult() 
             dataResult.append(item)
-        # END FOR    
+        # END FOR
+
+        # EXPORT
         expResultHead = pd.DataFrame(dataResult) #, collumns)
         expResultHead.to_csv(filename, index=False, header=False)
         
 
-# ###########################################################################
-# ===========================================================================
-#   APPENDIX TOOLS
-# ===========================================================================
-# ###########################################################################
-def resFolder():
-    """
-    Verify if resFolder exists.
-    if not create it
-    return the folder
-    """
-    resFolder = "./results"
-    if not os.path.exists(resFolder):
-        os.makedirs(resFolder)
-    # END IF    
-    return resFolder
-        
