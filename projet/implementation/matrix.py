@@ -313,12 +313,14 @@ class PTimes:
         #----------------------------------------
         res.append("Results")
         for k in range(len(self.Results)):
-            res.append(self.Results[k])
+            sc = self.Results[k].getResult()    # sched object
+            res.append(sc)  
         # END FOR
-        
+
         res.append("m1Results")
         for k in range(len(self.m1Results)):
-            res.append(self.m1Results[k])
+            sc = self.m1Results[k].getResult()  # sched object
+            res.append(sc) 
         # END FOR
         
         #res = (self.generateMethode, self.n, self.m,self.a, self.b, self.alpha, self.beta, self.lambd, self.fileName, self.seed)

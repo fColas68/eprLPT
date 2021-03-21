@@ -20,6 +20,10 @@ FOLDER_RESULTS   = "results"
 FOLDER_ZIPPEDLOG = "gz"
 FOLDER_PWA       = "logpwa"
 
+#=========================================
+# PWA file catalog
+#=========================================
+URL_CATALOG_PWA = "https://www.cs.huji.ac.il/labs/parallel/workload/logs-list"
 
 ####################################################################
 #

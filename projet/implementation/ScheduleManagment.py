@@ -163,9 +163,8 @@ class PSched:
     def getSched(self):
         return self.sched
     
-        
-
-    
+    def getResult(self):
+        return (self.algoName, self.timeExpected, self.makespan, self.time)
 
 # rec = lambda x: sum(map(rec, x)) if isinstance(x, list) else x
         
