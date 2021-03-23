@@ -1,3 +1,4 @@
+import time
 from operator import attrgetter
 
 # ########################################################################
@@ -10,16 +11,19 @@ class Processor:
     jobsTotal  = 0.0     # Stores the total time of the jobs loaded in the list.
     jobsGap    = 0.0     # stores the time span between the first and last job loaded in the list.
     jobsSet    = []      # Stores jobs
-    
+
     def __init__(self):
         self.jobsTotal  = 0.0
         self.jobsGap    = 0.0
         self.jobsSet    = []
     
     def addJob(self, jobTime):
-        self.jobsSet.append(jobTime)       # add item in the list
-        self.jobsTotal = self.getTotal()   # total <=> self.jobsLoaded+=jobTime
-        self.jobsGap = self.getGap()       # gap for slack <=> self.jobsSet[0]-jobTime
+        m = self.jobsSet[:]                 # add item in the list
+        m.append(jobTime)                   # self.jobsSet.append(jobTime)        
+        self.jobsSet = m[:]                 # ---------------------
+        #
+        self.jobsTotal = self.getTotal()    # total <=> self.jobsLoaded+=jobTime
+        self.jobsGap = self.getGap()        # gap for slack <=> self.jobsSet[0]-jobTime
 
     def getGap(self):
         return max(self.jobsSet)-min(self.jobsSet)
@@ -51,14 +55,10 @@ class ldmTuple:
         self.m          = m
         self.tuplTotal  = 0.0
         self.tuplGap    = 0.0
-        tupl           = []
-        # List of m empty Processors creation
-        print(self)
+        self.tupl       = [] # list of m Processor
         for i in range(m):
             p = Processor()
-            print("============>",p)
             self.tupl.append(p)
-        # END FOR
 
     # =============================================
     # initialization of ldm tuple
@@ -67,9 +67,9 @@ class ldmTuple:
         """
         like LDM rule, affect the value to the last item of the ldmTuple
         """
-        self.tupl[self.m-1].addJob(value)
+        self.tupl[self.m - 1].addJob(value)
         self.tuplTotal = self.getTotal()
-        self.tuplGap   = self.getTotal()
+        self.tuplGap   = self.getGap()
         
     def getTotal(self):
         total = 0.0
@@ -99,31 +99,34 @@ class ldmPartition():
 
     def __init__(self, times, m):
         self.m = m
-        for i in range(len(times)):
+        self.part = []
+        n = len(times)
+        
+        # create part (list) of n ldmTuple (lists) of m Processor
+        for i in range(n):
             t = ldmTuple(m)
             t.initialize(times[i])
-            print(t.tupl[0].jobsSet)
-            print(t.tupl[1].jobsSet)
-            print(t.tupl[2].jobsSet)
             self.part.append(t)
-        # END FOR
+        # DEBUG
+        self.printPart()
+        
+    def printPart(self):
+        print("partition",len(self.part))
+        
+        for i in range(len(self.part)):
+            print("")
+            for j in range(len(self.part[i].tupl)):
+                print(self.part[i].tupl[j].jobsSet, end = " ")
 
     def fusion(self, tupl1Indice, tupl2Indice):
         
         tuple1 = self.part[tuple1Indice] #, key=attrgetter("tuplTotal")))
         tuple2 = self.part[tuple2Indice] #, key=attrgetter("tuplTotal"), reverse = True)
-                       
-        # for i in range(self.m);
-        
-#haha = ldmPartition([1,2,5,8,7,4], 3)
-#for i in range(len(haha.part)):
-#    print("-------------------")
-    
-#    for j in range(haha.m):
-#        print(haha.part[i].tupl[j])
-#        print(haha.part[i].tupl[j].jobsSet)
-    
      
+# DEBUG            
+#h = ldmPartition([1,2,3,4,5,6,7,8],5)
+
+
 
 # ########################################################################
 #

@@ -284,14 +284,22 @@ def ldm(costMatrix, m):
     #------------------------------------------    
     # m-tuples (lists) creation
     #------------------------------------------
-    partition = []
-    for i in range(len(matrixW)):
-        partItem = []
-        for j in range(m-1):
-            partItem.append(0)
-        #END FOR
-        partItem.append(matrixW[i])
-    # END FOR
+    partition = sm.ldmPartition(matrixW, m)
+                   
+    
+##    for i in range(len(matrixW)):
+##        partItem = sm.Processor()
+##        for j in range(m-1):
+##            # partItem.append(0)
+##            partItem.addJob(0)
+##        #END FOR
+##        # partItem.append(matrixW[i])
+##        partItem.addJob(matrixW[i])
+##        print(partItem.jobsSet)
+##        partition.append(partItem)
+##    # END FOR
+##    print(partition)
+#ldm([1,2,5,8,7,9,10], 4)
 
 
 # #######################################################################
