@@ -154,9 +154,9 @@ class Campaign():
             print("best result      :",self.matricies[k].BestResult_Makespan,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
             
             # work with PTimes.m1Times list
-            r = algo(self.matricies[k].m1Times, self.matricies[k].m)
-            self.matricies[k].addM1Sched(r)
-            print("Expected optimal :",self.matricies[k].m1Optimal,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
+            rm1 = algo(self.matricies[k].m1Times, self.matricies[k].m)
+            self.matricies[k].addM1Sched(rm1)
+            print("Expected optimal :",self.matricies[k].m1Optimal,", Obtained :",rm1.getMakespan(), ", Time:", rm1.getTime())
         # END FOR    
 
         

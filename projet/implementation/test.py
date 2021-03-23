@@ -87,86 +87,15 @@ def main():
     # END IF        
     
     if useLDM==1:
-        print("Not yet implemented.")
+        c.runAlgorithm(cmm.ldm)
     # END IF
     
     if useCOMBINE==1:
         print("Not yet implemented.")
     # END IF
+
     c.exportCSV()        
     
 
 if __name__ == "__main__":
     main()
-
-##    print("Generation (please wait =================================================")
-##    # UNIFORM P    
-##    for i in range(matUniformNumber):
-##        m = cm.PTimes("UNIFORM", nN, nMmachineNumber, nAb, nBb, nAlpah, nBeta, nLambda, filename)
-##        matricies.append(m)
-##
-##    # NON UNIFORM P    
-##    for i in range(matNonUniformNumber):
-##        m = cm.PTimes("NON_UNIFORM", nN, nMmachineNumber, nAb, nBb, nAlpah, nBeta, nLambda, filename)
-##        matricies.append(m)
-##    # GAMMA P    
-##    for i in range(matNonUniformNumber):
-##        m = cm.PTimes("GAMMA", nN, nMmachineNumber, nAb, nBb, nAlpah, nBeta, nLambda, filename)
-##        matricies.append(m)    
-##    # BETA P    
-##    for i in range(matNonUniformNumber):
-##        m = cm.PTimes("BETA", nN,  nMmachineNumber, nAb, nBb, nAlpah, nBeta, nLambda, filename)
-##        matricies.append(m)    
-##    # EXPENENTIAL P    
-##    for i in range(matNonUniformNumber):
-##        m = cm.PTimes("EXPONENTIAL", nN,  nMmachineNumber, nAb, nBb, nAlpah, nBeta, nLambda, filename)
-##        matricies.append(m)    
-##    # REAL P    
-##    for i in range(len(matRealFiles)):
-##        m = cm.PTimes("REAL", nN,  nMmachineNumber, nAb, nBb, nAlpah, nBeta, nLambda, matRealFiles[i])
-##        matricies.append(m)    
-##
-##    print("===========================================================")
-##    print("ALGORITHMS ")    
-##    print("===========================================================")
-##    for i in range(len(matricies)):
-##
-##        print("List seed : ",matricies[i].getSeed())
-##        
-##        if useLPT == 1:
-##            print("-------------------------------------------------------")
-##            
-##            # work Times list
-##            r = cmm.lpt(matricies[i].Times, matricies[i].m)
-##            matricies[i].addSched(r)
-##            print("best result      :",matricies[i].BestResult_Makespan,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
-##            
-##            # work m1Times list
-##            r = cmm.lpt(matricies[i].m1Times, matricies[i].m)
-##            matricies[i].addM1Sched(r)
-##            print("Expected optimal :",matricies[i].m1Optimal,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
-##        # END IF
-##
-##        if useSLACK == 1:
-##            print("-------------------------------------------------------")
-##            # work Times list
-##            r = cmm.slack(matricies[i].Times, matricies[i].m)
-##            matricies[i].addSched(r)
-##            print("best result      :",matricies[i].BestResult_Makespan,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
-##            # !!!!! issue lowBound false value
-##
-##            # work m1Times list
-##            r = cmm.slack(matricies[i].m1Times, matricies[i].m)
-##            matricies[i].addM1Sched(r)
-##            print("Expected optimal :",matricies[i].m1Optimal,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
-##        # END IF
-##        
-##        if useLDM == 1:
-##            print("-------------------------------------------------------")
-##            print("Not yet implemented.")
-##        # END IF    
-##
-##        if useCOMBINE == 1:
-##            print("-------------------------------------------------------")
-##            print("Not yet implemented.")
-##        # END IF    
