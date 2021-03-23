@@ -30,7 +30,7 @@ Algorithm || implementation
 :----- | ----- | :-----
 LPT | : | functional
 SLACK | : | functional
-LDM | : | **in progress**
+LDM | : | functional
 COMBINE | : | **in progress**
 ||
 ||
