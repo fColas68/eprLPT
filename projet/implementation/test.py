@@ -1,14 +1,46 @@
+import campaign as cp
 import matrix as cm
 import algorithms as cmm
 import ScheduleManagment as sm
 import pwa
 
+
 def main():
     # set of testing matricies
     matricies = []
+
+    print("SEED ============================================================")
+    campaignName         = input("Name of campaign : ")
+    campaignUser         = input("Your Name : ")
+    seedForce = None
+    sSeedForce            = input("Force seed ? (None default): ")
+    if sSeedForce:
+        seedForce = int(sSeedForce)
+    # END IF    
+    
+
     print("Job Set size ============================================================")
-    nN                  = int(input("Jobs number     : "))
-    nMmachineNumber     = int(input("Machines number : "))
+    nN                  = int(input("Jobs number  (begin) : "))
+    sNe                 = input("Jobs number (end) ("+str(nN)+" default) : ")
+
+    N_NumberBegin = nN
+    N_NumberEnd = nN
+    if sNe:
+        if int(sNe) >  nN:
+            N_NumberEnd = int(sNe)
+        # END IF
+    # END IF
+    
+    nMmachineNumber     = int(input("Machines number (begin) : "))
+    sMmachineNumbere    = input("Machines number (end) ("+str(nMmachineNumber)+"default) : ")
+    M_NumberBegin = nMmachineNumber
+    M_NumberEnd = nMmachineNumber
+    
+    if sMmachineNumbere:
+        if int(sMmachineNumbere) >  nMmachineNumber:
+            M_NumberEnd   = int(sMmachineNumbere)
+        # END IF
+    # END IF
 
     print("Job set generation ======================================================")    
     matUniformNumber    = int(input("How many uniform matricies to generate : "))
@@ -18,8 +50,6 @@ def main():
     matExponentialNumber= int(input("How many Exponential matricies to generate : "))
     print("_____ From Parallel WorkLoad Archive _____")
     matRealFiles        = pwa.pwaFileChoice()
-    
-           
 
     print("Properties of generation ================================================")
     nAb = 1.0
@@ -45,76 +75,27 @@ def main():
     useLDM     = int(input("Use LDM      ? : (1 yes, 0 no) : "))
     useCOMBINE = int(input("Use COMBINE  ? : (1 yes, 0 no) : "))
 
-    print("Generation (please wait =================================================")
-    # UNIFORM P    
-    for i in range(matUniformNumber):
-        m = cm.PTimes("UNIFORM", nN, nMmachineNumber, nAb, nBb, nAlpah, nBeta, nLambda, filename)
-        matricies.append(m)
-        
-    # NON UNIFORM P    
-    for i in range(matNonUniformNumber):
-        m = cm.PTimes("NON_UNIFORM", nN, nMmachineNumber, nAb, nBb, nAlpah, nBeta, nLambda, filename)
-        matricies.append(m)
-    # GAMMA P    
-    for i in range(matNonUniformNumber):
-        m = cm.PTimes("GAMMA", nN, nMmachineNumber, nAb, nBb, nAlpah, nBeta, nLambda, filename)
-        matricies.append(m)    
-    # BETA P    
-    for i in range(matNonUniformNumber):
-        m = cm.PTimes("BETA", nN,  nMmachineNumber, nAb, nBb, nAlpah, nBeta, nLambda, filename)
-        matricies.append(m)    
-    # EXPENENTIAL P    
-    for i in range(matNonUniformNumber):
-        m = cm.PTimes("EXPONENTIAL", nN,  nMmachineNumber, nAb, nBb, nAlpah, nBeta, nLambda, filename)
-        matricies.append(m)    
-    # REAL P    
-    for i in range(len(matRealFiles)):
-        m = cm.PTimes("REAL", nN,  nMmachineNumber, nAb, nBb, nAlpah, nBeta, nLambda, matRealFiles[i])
-        matricies.append(m)    
+    print("Results computation ================================================")    
+    c = cp.Campaign(campaignName, campaignUser, N_NumberBegin, N_NumberEnd, M_NumberBegin, M_NumberEnd, matUniformNumber, matNonUniformNumber, matGammaNumber, matBetaNumber, matExponentialNumber, matRealFiles, nAb, nBb, nAlpah, nBeta, nLambda, seedForce)
+    #
+    if useLPT==1:
+        c.runAlgorithm(cmm.lpt)
+    # END IF    
+    
+    if useSLACK==1:
+        c.runAlgorithm(cmm.slack)
+    # END IF        
+    
+    if useLDM==1:
+        c.runAlgorithm(cmm.ldm)
+    # END IF
+    
+    if useCOMBINE==1:
+        print("Not yet implemented.")
+    # END IF
 
-    print("===========================================================")
-    print("OLGORITHMS ")    
-    print("===========================================================")
-    for i in range(len(matricies)):
-        if useLPT == 1:
-            print("-------------------------------------------------------")
-            # work Times list
-            r = cmm.lpt(matricies[i].Times, matricies[i].m)
-            matricies[i].addSched(r)
-            print("Expected lp :",matricies[i].BestResult_Makespan,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
-            
-            # work m1Times list
-            r = cmm.lpt(matricies[i].m1Times, matricies[i].m)
-            matricies[i].addM1Sched(r)
-            print("Expected op :",matricies[i].m1Optimal,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
-        # END IF
-
-        if useSLACK == 1:
-            print("-------------------------------------------------------")
-            # work Times list
-            r = cmm.slack(matricies[i].Times, matricies[i].m)
-            matricies[i].addSched(r)
-            print("Expected lb :",matricies[i].BestResult_Makespan,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
-            # !!!!! issue lowBound false value
-
-            # work m1Times list
-            r = cmm.slack(matricies[i].m1Times, matricies[i].m)
-            matricies[i].addM1Sched(r)
-            print("Expected op :",matricies[i].m1Optimal,", Obtained :",r.getMakespan(), ", Time:", r.getTime())
-        # END IF
-        
-        if useLDM == 1:
-            print("-------------------------------------------------------")
-            print("Not yet implemented.")
-        # END IF    
-
-        if useCOMBINE == 1:
-            print("-------------------------------------------------------")
-            print("Not yet implemented.")
-        # END IF    
+    c.exportCSV()        
+    
 
 if __name__ == "__main__":
     main()
-
-    
-    

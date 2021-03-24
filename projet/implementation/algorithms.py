@@ -4,7 +4,7 @@ from operator import attrgetter
 #
 import matrix as cm
 import ScheduleManagment as sm # Processor object
-import tools
+
 
 # #######################################################################
 #                                                                       #
@@ -38,7 +38,7 @@ def lpt(costMatrix, m):
     # work with a copy of costMatrix
     # this matrix will be sorted or modified
     #------------------------------------------    
-    matrixW = tools.matrix1dCopy(costMatrix)
+    matrixW = costMatrix[:] # tools.matrix1dCopy(costMatrix)
 
     #------------------------------------------    
     # sched is a list of Processor objects.
@@ -90,7 +90,7 @@ def lpt(costMatrix, m):
     #------------------------------------------            
     # Retrieve Makespan (most loaded machine)
     #------------------------------------------    
-    makespan = 0
+    makespan = 0.0
     for i in range(len(sched)):
         makespan = max(makespan, sched[i].jobsTotal)
 
@@ -134,8 +134,8 @@ def slack(costMatrix, m):
     #------------------------------------------    
     # work with a copy of costMatrix
     # this matrix will be sorted or modified
-    #------------------------------------------    
-    matrixW = tools.matrix1dCopy(costMatrix)
+    #------------------------------------------
+    matrixW = costMatrix[:] # tools.matrix1dCopy(costMatrix)
     
     #------------------------------------------    
     # sched is a list of Processor objects.
@@ -223,7 +223,9 @@ def slack(costMatrix, m):
             #------------------------------------------    
             sched.sort(key=attrgetter("jobsTotal"))
             sched[0].addJob(matrixWSlack[i])
-
+        # END IF
+    # END FOR
+    
     #------------------------------------------    
     # current time at the end
     #------------------------------------------    
@@ -232,7 +234,7 @@ def slack(costMatrix, m):
     #------------------------------------------            
     # Retrieve Makespan (most loaded machine)
     #------------------------------------------    
-    makespan = 0
+    makespan = 0.0
     for i in range(len(sched)):
         makespan = max(makespan, sched[i].jobsTotal)
 
@@ -252,6 +254,19 @@ def slack(costMatrix, m):
 # !!!!!!!! Dont work : issue of lists addresses                         #
 # #######################################################################
 def ldm(costMatrix, m):
+    """
+    Compute a schedule with LDM algorithm.
+    Input
+      costMatrix : matrix (1 dimension) conaining a set of n jobs cost time
+      m          : number of machines
+    Output
+      tuple of 5 items:
+        algoName     : name of algorithm
+        timeExpected : the time expected computed with algorithm complexity
+        makespan     : makesapn comuted
+        time         : the time it took to calculate the makespan
+        sched        : in the form of a Processor object list. Each "Processor" object represents the load of a machine, with the total time and a list of each job cost allocated to that processor.
+    """
     print("Begin LDM Number of machines :",m)
     
     #------------------------------------------
@@ -263,8 +278,8 @@ def ldm(costMatrix, m):
     #------------------------------------------    
     # work with a copy of costMatrix
     # this matrix will be sorted or modified
-    #------------------------------------------    
-    matrixW = tools.matrix1dCopy(costMatrix)
+    #------------------------------------------
+    matrixW = costMatrix[:] # matrixW = tools.matrix1dCopy(costMatrix)
     
     #------------------------------------------    
     # sched is a list of Processor objects.
@@ -282,17 +297,44 @@ def ldm(costMatrix, m):
     #==========================================
     
     #------------------------------------------    
-    # m-tuples (lists) creation
+    # list (partition.part) of m-tuples creation
     #------------------------------------------
-    partition = []
-    for i in range(len(matrixW)):
-        partItem = []
-        for j in range(m-1):
-            partItem.append(0)
-        #END FOR
-        partItem.append(matrixW[i])
-    # END FOR
+    partition = sm.ldmPartition(matrixW, m)
 
+    while partition.getPartSize() > 1:
+        #------------------------------------------    
+        # SORT list partition.part  by non increasing tuplGap value
+        #------------------------------------------
+        partition.partSortBytuplGapDec()
+
+        #------------------------------------------
+        # the first two partition.part[0] and partition.part[1]
+        # are the m-tuples with the largest difference.
+        # we merge these two
+        #------------------------------------------
+        partition.partMerge(0,1)
+    # END WHILE
+
+    #------------------------------------------    
+    # current time at the end
+    #------------------------------------------    
+    after  = time.time()
+
+    #------------------------------------------            
+    # Retrieve Makespan (most loaded machine)
+    #------------------------------------------    
+    makespan = 0.0
+    sched = partition.getSched()
+    for i in range(len(sched)):
+        makespan = max(makespan, sched[i].jobsTotal)
+    #------------------------------------------
+    # RETURN Makespan obtained /
+    #        Processing algorithm time /
+    #        Schedul 
+    #------------------------------------------
+    timeAlgo = after-before
+    res = sm.PSched(algoName, timeExpected, makespan, timeAlgo, sched)
+    return res
 
 # #######################################################################
 #                                                                       #
@@ -306,8 +348,8 @@ def combine(costMatrix, m, alpha = 0.005):
     #------------------------------------------    
     # work with a copy of costMatrix
     # this matrix will be sorted or modified
-    #------------------------------------------    
-    matrixW = tools.matrix1dCopy(costMatrix)
+    #------------------------------------------
+    matrixW = costMatrix[:] # matrixW = tools.matrix1dCopy(costMatrix)
     matrixW.sort(reverse=True)
     
     #------------------------------------------    
@@ -338,13 +380,6 @@ def combine(costMatrix, m, alpha = 0.005):
             n,sched = ffd(matrixW, M)
         
     # END IF
-    
-    
-    
-
-
-    
-    
 
     #------------------------------------------
     # RETURN Makespan obtained /
@@ -354,9 +389,6 @@ def combine(costMatrix, m, alpha = 0.005):
     timeAlgo = after-before
     res = sm.PSched(algoName, timeExpected, makespan, timeAlgo, sched)
     return res
-
-
-
 
 
 # #######################################################################
@@ -379,8 +411,8 @@ def ffd(sizesList, binSize, sortList = False):
     #------------------------------------------    
     # work with a copy of costMatrix
     # this matrix will be sorted or modified
-    #------------------------------------------    
-    sizesListW = tools.matrix1dCopy(sizesList)
+    #------------------------------------------
+    sizesListW = sizesList[:] # sizesListW = tools.matrix1dCopy(sizesList)
     if sortList==True:
         # the list is already sorted (if sortList=false)
         sizesListW.sort(reverse = True)

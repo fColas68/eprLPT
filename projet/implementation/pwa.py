@@ -3,34 +3,41 @@ import os
 import pathlib
 import gzip
 
-def zipFolder():
-    return "./gz"  # curDir+"/gz"
+import setup as s
 
-def logFolder():
-    return "./log" # curDir+"/log"
-
+# ##################################################################
+# pwaFileImport
+# ##################################################################
 def pwaFileImport(webRetrieve=False, unzipfiles=True, maxFiles = 5):
+    """
+    Import files froms website https://www.cs.huji.ac.il
+    Logs (of real life) of set of job times.
+    Retrieve file catalog : address setted in constant s.URL_CATALOG_PWA
+    reads this file which contains the url addresses of the time files
+    and each file is retreived in the folder FOLDER_ZIPPEDLOG,
+    to be unzipped in the folder FOLDER_PWA
+    input
+        :param webRetrieve: True : retreive files from website.
+        :param unzipfiles : True : unzip files from zippedLog folder to PWA folder
+        :param maxFiles   : number of files to retreive from website.
+                            use 0 to retreive all files
+    """
     tabFiles = []
-    
+
     #-------------------------------
-    # script's directory
-    # Create requested directories
-    #curDir = os.path.abspath(os.curdir) 
+    # log directory
+    # s.folder creates requested directories if not exists
+    # curDir = os.path.abspath(os.curdir)
     #-------------------------------
-    zipDir = zipFolder()
-    logDir = logFolder()
-    
-    if not os.path.exists(zipDir):
-        os.makedirs(zipDir)
-    if not os.path.exists(logDir):
-        os.makedirs(logDir)
+    zipDir = s.folder(s.FOLDER_ZIPPEDLOG)
+    logDir = s.folder(s.FOLDER_PWA)
     
     #-------------------------------
     # Web resource web --> zipDir
     #-------------------------------
     if webRetrieve:
         # read distant file
-        fichierNom = "https://www.cs.huji.ac.il/labs/parallel/workload/logs-list"
+        fichierNom = s.URL_CATALOG_PWA # url of files log catalog 
         req = urllib.request.Request(url=fichierNom) 
         fichierId = urllib.request.urlopen(req)
 
@@ -57,24 +64,37 @@ def pwaFileImport(webRetrieve=False, unzipfiles=True, maxFiles = 5):
 
             if unzipfiles == True:
                 unzipGZ(fileInfo.name, zipDir, logDir)
-                    
+# ##################################################################
+# unzipGZ
+# ##################################################################
 def unzipGZ(fileNameGZ, fromDir, destDir):
+    """
+    Unzip the file named fromDir+fileNameGZ
+    in the folder destDir. 
+    """
     #
-    fromFile = fromDir+"/"+fileNameGZ
-    destFile = destDir+"/"+fileNameGZ.rstrip(".gz")
+    fromFile = fromDir+s.sepDir()+fileNameGZ
+    destFile = destDir+s.sepDir()+fileNameGZ.rstrip(".gz")
     #
     print("Unzipping file %s in %s" % (fromFile, destDir))
     #
     src = gzip.GzipFile(fromFile, 'rb')
-    s = src.read()
+    sRead = src.read()
     src.close()
     d = open(destFile, 'wb')
-    d.write(s)
+    d.write(sRead)
     d.close()
     print("Unzipped.")
 
-
+# ##################################################################
+# pwaFileRead
+# ##################################################################
 def pwaFileRead(fileName):
+    """
+    Reads the log file according to the predefined format,
+    to create an instance (set of times)
+    called from matrix.py
+    """
     with open(fileName, 'r') as f:
         text = f.read()
     # END WITH    
@@ -91,23 +111,31 @@ def pwaFileRead(fileName):
         # END IF
     # END FOR
     return times
-
+# ##################################################################
+# pwaFileChoice():
+# ##################################################################
 def pwaFileChoice():
+    """
+    finds the files contained in the "FOLDER_PWA" directory,
+    and proposes to choose them, or not (for test instance creation).
+    Returns the list of selected files as a list files[]
+    """
     files = []
-    logDir = logFolder()
+    logDir = s.folder(s.FOLDER_PWA)
     content = os.listdir(logDir)
     for item in content:
         r = int(input("Use this file %s ? (1 yes 0 no) : " % (item)))
         if r == 1:
-            files.append(logDir+"/"+item)
+            files.append(logDir+s.sepDir()+item)
         # END IF
     # END FOR
     print(files)
     return files
 
-#pwaFileImport(True, True)
-# haha = pwaFileRead(logFolder()+"/NASA-iPSC-1993-3.1-cln.swf")
-# print(haha)
-# pwaFileChoice()
+##FOR TEST THIS SCRIPT
+##pwaFileImport(True, True)
+##logTimes = pwaFileRead(logFolder()+"/NASA-iPSC-1993-3.1-cln.swf")
+##print(logTimes)
+##pwaFileChoice()
 
 
