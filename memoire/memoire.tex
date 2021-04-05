@@ -1,0 +1,546 @@
+% ######################################################################
+%
+% 			PREAMBULE
+%
+% ######################################################################
+
+% -------------------------------------------------------
+% Ce document est un raport. dizaine de pages / plusieurs sections
+% -------------------------------------------------------
+\documentclass[a4paper,12pt]{report}
+
+% -------------------------------------------------------
+% Utiliser latin1 pour les accents
+% ne pas utiliser utf8 et Latex n'aime pas utf8 ET latin1
+%\usepackage[utf8]{inputenc}
+% -------------------------------------------------------
+\usepackage[utf8]{inputenc}
+
+% Vu dans un forum : utiliser plutôt frenchb, french est obsolete
+\usepackage[T1]{fontenc}
+\usepackage[english,frenchb]{babel}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{diagbox} % barre oblique pour les cellule à 2 entrées
+\usepackage[pdftex]{graphicx}
+\usepackage{hhline}
+\usepackage{hyperref}
+\usepackage{lmodern}
+\usepackage{multicol}
+\usepackage{subcaption}
+\usepackage{supertabular}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{xspace}
+
+% -------------------------------------------------------
+% Théorèmes
+% -------------------------------------------------------
+\usepackage{amsthm}
+\theoremstyle{plain}				% Choix du style
+\newtheorem{theoreme}{Théorème}	% Définition de l'environnement 1
+\newtheorem{example}{Exemple}
+\theoremstyle{definition}				% Choix du style
+\newtheorem{definition}{Définition} %[section]	% Définition de l'environnement définition
+
+% -------------------------------------------------------
+% Pour les ALGORITHMES
+% linesnumbered	: les lignes sont numérotées
+% ruled			: Le caption est en haut et bordé de lignes horizontale
+% vlined		: Regroupement des bloc d'instructions par ligne verticales
+% -------------------------------------------------------
+\usepackage[linesnumbered, ruled, vlined, french]{algorithm2e}
+
+% Commandes en français:
+\SetKwInput{KwRes}{R\'esultat}%
+\SetKw{WEntree}{\textcolor{red}{Entrée}}
+\SetKw{WEntrees}{\textcolor{red}{Entrées}}
+\SetKw{WSaisir}{Saisir}
+\SetKw{WInitialisation}{\textcolor{red}{Initialisation}}
+\SetKw{WTraitement}{\textcolor{red}{Traitement}}
+\SetKw{WAssigne}{\textcolor{blue}{prend la valeur}}
+\SetKw{WSortie}{\textcolor{red}{Sortie}}
+\SetKw{WSorties}{\textcolor{red}{Sorties}}
+%
+\SetKwIF{Si}{SinonSi}{Sinon}{Si}{alors}{sinon si}{sinon}{fin si}
+\SetKwFor{Tq}{Tant que}{faire}{fin tantque}
+\SetKwFor{Pour}{Pour}{faire}{fin pour}
+\SetKw{WAfficher}{Afficher}
+\SetKwRepeat{Repeter}{répéter}{jusqu'à}%
+%
+\SetKw{Return}{\textcolor{red}{Renvoyer}}%
+%
+\SetKwProg{Init}{init}{}{}
+% mettre les commentaire des algos en bleu
+
+% -------------------------------------------------------
+% Pour les ALGORITHMES façon PYTHON
+% -------------------------------------------------------
+\usepackage{listings}
+\lstset{literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1{ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1{€}{{\EUR}}1 {£}{{\pounds}}1}
+
+\lstdefinestyle{stylepython}{
+	language=Python,
+	basicstyle=\ttfamily,
+	commentstyle=\color{green},
+	keywordstyle=\color{blue},
+	stringstyle=\color{olive},
+	numberstyle=\tiny,numbers=left,
+	stepnumber=1,numbersep=5pt}
+
+
+% -------------------------------------------------------
+% Information PDF généré
+% -------------------------------------------------------
+\hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, pdftitle=, pdfauthor=Florian Colas, pdfsubject=, pdfkeywords=}
+
+% -------------------------------------------------------
+% MACRO
+% -------------------------------------------------------
+% Pm||Cmax
+\newcommand\problemGrahamPm{$P_m||C_{\max}$\xspace}
+% P2||Cmax
+\newcommand\problemGrahamPII{$P_2||C_{\max}$\xspace}	%apparemment ne supporte pas les chiffres.
+% P||Cmax
+\newcommand\problemGrahamP{$P||C_{\max}$\xspace}
+% Cmax
+\newcommand\cmax{$C_{\max}$\xspace}
+
+
+
+
+
+% -------------------------------------------------------
+% Ajout L. Philippe
+% Utilisation des Todo inline en macro --> tdi
+% -------------------------------------------------------
+\usepackage{todonotes}
+\newcommand{\tdi}[1]{\todo[inline]{{#1}}{}}
+\newcommand{\lp}[1]{\todo[author=LP,color=yellow,inline]{#1}}
+\newcommand{\lcc}[1]{\todo[author=LCC,color=green,inline]{#1}}
+\newcommand{\fco}[1]{\todo[author=FCO,color=blue,inline]{#1}}
+\newcommand{\jb}[1]{\todo[author=JB,color=orange,inline]{#1}}
+
+% -------------------------------------------------------
+% Information générales
+% Utilisé par \maketitle
+% -------------------------------------------------------
+\title{Évaluation d'algorithmes d'ordonnancement}
+\author{Florian Colas}
+% \date{2020-05-01}
+\date{\today}
+
+% -------------------------------------------------------
+% POUR PAGE DE GARDE
+% -------------------------------------------------------
+%\setlength{\parindent}{0cm}
+%\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+%\newcommand{\hsp}{\hspace{20pt}}
+%\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+%\usepackage{titling}
+
+% ######################################################################
+%
+% 			SOUVENT UTILISES
+%
+% ######################################################################
+% Pm||Cmax 				: \problemGrahamP
+% P2||Cmax 				: P\textsubscript{2}{\textbar}{\textbar}C\textsubscript{max}
+% P||Cmax 				: P{\textbar}{\textbar}C\textsubscript{max}
+%
+% Appostrophes 			: '
+%
+% en italique car latin : \textit{et al.}
+%
+% entourer un résultat
+%	\begin{center}
+%	\fbox{\begin{minipage}{\linewidth}
+%	bla blabla
+%	\end{minipage}}
+%	\end{center}
+
+
+% ######################################################################
+%
+% 				DOCUMENT
+%
+% ######################################################################
+\begin{document}
+
+% =======================================================
+% Page de garde
+% Utilise Information générales
+% Ecrit le titre + auteur + date
+% =======================================================
+\maketitle
+
+
+% -------------------------------------------------------
+% Table des matières
+%
+% On renomme en Sommaire (document français)
+%
+% On définit la profondeur de la table des matières
+% -1 partie,    0 Chapitre,
+% 1 Section,    2 sous sections,  3 sous sous section
+% 4 Paragraphe, 5 Sous paragraphe
+%
+% Les sections sont numérotées 1 2 3
+% -------------------------------------------------------
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\contentsname}{Sommaire}
+\setcounter{tocdepth}{3}	% avant 2 pour la table des matières
+\setcounter{secnumdepth}{3}	% pour les section sous et sous sous et paragraphes
+\tableofcontents
+
+% =======================================================
+% Abstract
+% =======================================================
+\bigskip
+\abstractname{}
+\bigskip
+
+% =======================================================
+% 1 INTRODUCTION
+% =======================================================
+\section{Introduction} \label{sec:introduction}
+
+BROUILLON 
+
+Considérons le problème \problemGrahamP. 
+État de l'art du problème d’ordonnancement.
+Problème \problemGrahamP. 
+puis avec Q et P
+
+Point d'entrée de l'étude : Document de dela Croce
+
+Différentes pistes Heuristiques, BinPacking, Partitionnement de nombre
+
+Objectif de ce mémoire 
+Apporter un complément expérimental au document de DelaCroce (ce qui manque le plus)
+
+/BROUILLON 
+
+
+\section{Paramètres d"expérience} \label{sec:Paramètres d"expérience}
+L’expérience consiste à explorer et comparer le comportement de plusieurs heuristiques (LPT rule, SLACK, LDM et COMBINE). C'est un programme qui génère des listes de n temps de tâches, exécute ces heuristiques puis récupère, pour chacune d'elle, la simulation de l’ordonnancement calculé dans une liste de m processeurs, le makespan correspondant, ainsi que le temps qu'il a nécessité pour obtenir ce résultat.
+
+Après une vue d'ensemble nous allons voir la génération des listes de tâches, l'implémentation des heuristiques, et comment ces listes et heuristiques sont utilisées et exécutées (campagne) afin d'obtenir un résultat global.
+
+\subsection{Synoptique}\label{subsec:Synoptique}
+
+
+
+\subsubsection{Objectifs}\label{subsubsec:Objectifs}
+Generer des instances
+Caratériser ces instances
+Comparer les cmax et temps d'exec des algos
+Faire un lien entre comportement et variables
+ N
+ M
+ Distribution
+ Hétérogénéité
+ ....
+ 
+
+\subsubsection{Technologies utilisées}\label{subsubsec:Technologies  utilisées}
+Raison du choix des technos
+ Facilité
+ Universalité (langage largement utilisé et connu contrairement à ...
+ Interprété (pas compilé), donc + portable + évolutif (sources à disposition)
+ Abondance de tutoriels et documentations
+Inconvénients
+ Interprété (trop haut niveau pour les temps d'exec)
+ ... 
+
+\begin{itemize}
+
+\item Python
+\item Pandas
+\item R
+\item RStudio
+\item ggPlots
+\item Github
+
+
+\end{itemize}
+
+\subsection{Instances} \label{subsec:génération des instances}
+2 façons différentes de créer un environnement de tests Soit générer les instances, soit les récupérer.
+
+\subsubsection{génération des instances}\label{subsubsec:génération des instances}
+Distribution statistiques différentes
+ Unifore
+ Lambda
+ Beta
+ Exponentielle
+ 
+Utilisée par della Croce
+ Non uniforme
+
+\subsubsection{récupération des instances}\label{subsubsec:récupération des instances}
+
+Parallel Workload Archive
+
+\subsubsection{maîtrise de la solution optimale}\label{subsubsec:maîtrise de la solution optimale}
+
+completion à m-1 machines --> moyenne par machine --> optimal
+
+
+\subsubsection{indicateurs statistiques et caratéristiques}\label{subsubsec:indicateurs statistiques et caratéristiques}
+
+
+\subsection{Algorithmes}\label{subsec:Algorithmes}
+
+
+\subsubsection{LPT rule}\label{subsubsec:LPT rule}
+
+\bigskip
+% Algorithme
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+
+\BlankLine % Petit espace
+Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
+d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
+$p_1 \geq p_2 \geq \ldots \geq p_n$
+
+\BlankLine % Petit espace
+Parcourir la liste et affecter chaque job à la machine la moins
+chargée à ce moment là.
+% }
+\caption{LPT Rule}
+\label{algo:LPT}
+\end{algorithm}
+
+\bigskip
+
+
+\begin{lstlisting}[style=stylepython]
+def lpt(costMatrix, m):
+    algoName = "LPT"
+    timeExpected = 0.0
+    matrixW = costMatrix[:]	# on travaille avec une copie de costMatrix
+    sched= [] 			# simulation du résultat dans une liste de processeurs
+    before = time.time()	# date courante début du traitement
+    matrixW.sort(reverse=True)	# tri des temps des tâches par ordre décroissant
+    for i in range(len(matrixW)):
+        if (len(sched) < m):
+            p = sm.Processor()
+            p.addJob(matrixW[i])
+            sched.append(p)
+        else:
+            sched.sort(key=attrgetter("jobsTotal"))
+            sched[0].addJob(matrixW[i])
+    after = time.time()
+    makespan = 0.0
+    for i in range(len(sched)):
+        makespan = max(makespan, sched[i].jobsTotal)
+    timeAlgo = after-before
+    res = sm.PSched(algoName, timeExpected, makespan, timeAlgo, sched)
+    return res
+
+\end{lstlisting}
+
+
+
+
+
+
+\subsubsection{SLACK}\label{subsubsec:SLACK}
+
+
+\bigskip
+
+% Algorithme Slack
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+
+%Etape 1
+trier la liste des jobs dans l'ordre décroissant des temps nécessaires de traitements \;
+%ETAPE 2
+réindexer les jobs, de manière à obtenir $p_1 \geq p_2 \geq ... \geq p_n$ \;
+%ETAPE 3
+découper l'ensemble obtenu en $\lceil \frac{n}{m} \rceil$ tuples de $m$ jobs (ajout
+de jobs ``dummy'' de taille nulle pour le dernier tuple, si $n$ n'est
+pas un multiple de $m$) \;
+%ETAPE 4
+considérer chaque tuple avec la différence de temps (SLACK) entre le
+premier job du tuple et le dernier.
+\begin{align*}
+\{ &\{1, ..., m\} &\{m+1,..., 2 \cdot m\} &... \} \\
+   &p_1 - p_m     &p_{m+1}-p_{2 \cdot m}  &...
+\end{align*} \;
+%STEP 5
+trier les tuples par ordre décroissant de ``Slack'' et ainsi former un nouvel ensemble
+\tcp{e.g: $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $p_{m+1} - p_{2 \cdot m} > p_1 - p_m$.}
+%STEP 6
+appliquer l'ordonnancement (affectation à la machine la moins chargée à
+ce moment là) à l'ensemble ainsi obtenu.
+\caption{SLACK\label{algo:SLACK}}
+\end{algorithm}
+
+\bigskip
+
+
+
+
+
+\subsubsection{LDM}\label{subsubsec:LDM}
+
+reverse ingénierie (pas d'algo dans la litérature)
+
+
+\subsubsection{COMBINE}\label{subsubsec:COMBINE}
+
+les problèmes de COMBINE 
+l'algo approximatif (Do while et do until a son importance
+Cu - Cl >= alpha A pas forcément ...
+Condition d'arrêt n'integre pas le nombre de bin utilisées
+
+Corrections apportées
+
+
+algorithme FFD
+
+\subsubsection{Ajout d'un algorithme}\label{subsubsec:Ajout d'un algorithme}
+Les sources sont disponibles, et l'appli est faite pour accueillir de nouveaux algo, si les règles suivantes sont respectées.
+
+exemple avec MULTIFIT
+
+
+\subsection{Campagnes}\label{subsec:Campagnes}
+
+\subsubsection{Génération d'une campagne}\label{subsubsec:Génération d'une campagne}
+Par choix de paramères
+Par exécution pré remplie
+Par lecture d'une campagnes
+
+\subsubsection{Gestion des "seeds"}\label{subsubsec:Gestion des "seeds"}
+si doit reproduire les mêmes instances
+
+
+\subsubsection{Structure du fichier résultat}\label{subsubsec:Structure du fichier résultat}
+
+passage en revue des colonnes de de leur provenance
+
+
+\subsubsection{Graphes}\label{subsubsec:Graphes}
+Différents graphe à disposition
+Modifier l'un d'eux
+
+\subsection{Comparaison des résultats} \label{subsubsec:Comparaison des résultats}
+
+\subsubsection{\cmax} \label{subsec:Cmax}
+inconvénients 
+ 
+ Comparer des algo quand on ne connaît pas l'optimal
+ 
+ Mackespan sous forme brute, voire normalisé avec Cmax-optiml donne une courbe  accidentée.
+
+ trouver la bonne normalisation qui ne biaise pas trop la comparaison.
+
+
+
+\subsubsection{Temps d'exécution} \label{subsubsec:Temps d'exécution}
+
+ Le temps attendu est théorique et non absolu. i.e n log n ne donne pas un temps en minutes secondes.Le temps mesuré lui est donné en minutes secondes --> faire le lien entre estimation théorique et lesuré
+ 
+ D'un algo a l'autre , Python est un langatge de haut niveau, donc pas évident. ce qui peut être comparé, c'est pour un même algo et faire varier N et/ou m. on compare les mêmes instructions....
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Méthode} \label{sec:methode}
+
+\subsection{Une variable}\label{subsec:Une variable}
+
+\subsubsection{n}\label{subsubsec:n}
+
+\subsubsection{m}\label{subsubsec:m}
+
+\subsubsection{distributions et hétérogénéité}\label{subsubsec:distributions et hétérogénéité}
+
+
+\subsection{Deux variables}\label{subsec:Deux variables}
+
+\subsubsection{n et m}\label{subsubsec:n et m}
+
+
+
+
+\cite{5009071}
+
+
+\section{Résultats} \label{sec:resultats}
+
+des tableaux des tableaux 
+
+
+
+\section{P vers Q et R} \label{sec:P vers Q et R}
+
+je ne sais pas encore
+
+
+\section{Discussion} \label{sec:discussion}
+
+
+\section{Conclusion} \label{sec:conclusion}
+
+\section{remerciements}
+
+
+super super
+
+
+
+\bibliographystyle{plain}				% NE PAS ENLEVER !!!!!!!!!!
+\bibliography{Bibliographie}			% Utilise Bibliographie.bib
+
+
+
+
+
+
+
+
+\end{document}
