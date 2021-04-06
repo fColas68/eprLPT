@@ -86,9 +86,9 @@
 \lstdefinestyle{stylepython}{
 	language=Python,
 	basicstyle=\ttfamily,
-	commentstyle=\color{green},
+	commentstyle=\color{red},
 	keywordstyle=\color{blue},
-	stringstyle=\color{olive},
+	stringstyle=\color{green}, %olive
 	numberstyle=\tiny,numbers=left,
 	stepnumber=1,numbersep=5pt}
 
@@ -226,10 +226,86 @@ Apporter un complément expérimental au document de DelaCroce (ce qui manque le
 /BROUILLON 
 
 
+% -------------------------------------------------------
+% LPT (théorique)
+% -------------------------------------------------------
+
+\bigskip
+% Algorithme
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+
+\BlankLine % Petit espace
+Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
+d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
+$p_1 \geq p_2 \geq \ldots \geq p_n$
+
+\BlankLine % Petit espace
+Parcourir la liste et affecter chaque job à la machine la moins
+chargée à ce moment là.
+% }
+\caption{LPT Rule}
+\label{algo:LPT}
+\end{algorithm}
+
+% -------------------------------------------------------
+% SLACK (théorique)
+% -------------------------------------------------------
+\bigskip
+
+% Algorithme Slack
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+
+%Etape 1
+trier la liste des jobs dans l'ordre décroissant des temps nécessaires de traitements \;
+%ETAPE 2
+réindexer les jobs, de manière à obtenir $p_1 \geq p_2 \geq ... \geq p_n$ \;
+%ETAPE 3
+découper l'ensemble obtenu en $\lceil \frac{n}{m} \rceil$ tuples de $m$ jobs (ajout
+de jobs ``dummy'' de taille nulle pour le dernier tuple, si $n$ n'est
+pas un multiple de $m$) \;
+%ETAPE 4
+considérer chaque tuple avec la différence de temps (SLACK) entre le
+premier job du tuple et le dernier.
+\begin{align*}
+\{ &\{1, ..., m\} &\{m+1,..., 2 \cdot m\} &... \} \\
+   &p_1 - p_m     &p_{m+1}-p_{2 \cdot m}  &...
+\end{align*} \;
+%STEP 5
+trier les tuples par ordre décroissant de ``Slack'' et ainsi former un nouvel ensemble
+\tcp{e.g: $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $p_{m+1} - p_{2 \cdot m} > p_1 - p_m$.}
+%STEP 6
+appliquer l'ordonnancement (affectation à la machine la moins chargée à
+ce moment là) à l'ensemble ainsi obtenu.
+\caption{SLACK\label{algo:SLACK}}
+\end{algorithm}
+
+% -------------------------------------------------------
+% LDM (théorique)
+% -------------------------------------------------------
+\bigskip
+
+
+% -------------------------------------------------------
+% COMBINE (théorique)
+% -------------------------------------------------------
+
+
+
+
+
+
+
+
 \section{Paramètres d"expérience} \label{sec:Paramètres d"expérience}
 L’expérience consiste à explorer et comparer le comportement de plusieurs heuristiques (LPT rule, SLACK, LDM et COMBINE). C'est un programme qui génère des listes de n temps de tâches, exécute ces heuristiques puis récupère, pour chacune d'elle, la simulation de l’ordonnancement calculé dans une liste de m processeurs, le makespan correspondant, ainsi que le temps qu'il a nécessité pour obtenir ce résultat.
 
-Après une vue d'ensemble nous allons voir la génération des listes de tâches, l'implémentation des heuristiques, et comment ces listes et heuristiques sont utilisées et exécutées (campagne) afin d'obtenir un résultat global.
+Après une vue d'ensemble nous allons voir la génération des listes de tâches (instances), l'implémentation des heuristiques (algorithmes), et comment ces listes et heuristiques sont utilisées et exécutées (campagne) afin d'obtenir un résultat global.
 
 \subsection{Synoptique}\label{subsec:Synoptique}
 
@@ -295,41 +371,55 @@ completion à m-1 machines --> moyenne par machine --> optimal
 
 
 \subsection{Algorithmes}\label{subsec:Algorithmes}
+Tous les algorithmes (étudiés) sont implémentés dans algorithms.py. Les procédures, objets et méthodes directement liés à ceux-ci sont placés dans ScheduleManagment.py i.e ceux qui n'ont pas le même prototype (FFD().). 
+Ces algorithmes sont structurés sur le même principe :
+\begin{itemize}
+
+\item Les paramètres en entrée :
+	\begin{description}
+
+	\item Une liste de coûts : soit l'ensemble des $p_i$. 
+	sous la forme $[p_1, p_2, ... , p_n]$. 
+	Cette liste n'est pas forcément triée car cela fait partie 
+	de l'heuristique, et ce tri peut changer d'une stratégie à l'autre.
+	
+	\item un nombre de machines m.
+	\end{description}
+
+\item Mesure du temps d'exécution. L'heure de début, et l'heure de fin 
+sont consignées dans des variables "before" et "after". 
+le temps d'exécution est donc mesuré en minutes-secondes.
+
+\item Calcul du temps théorique, en fonction de la complexité théorique 
+en temps de l’algorithme, ainsi que de la taille de la liste des temps, 
+et du nombre de machines.
+
+\item Déroulement de l'heuristique.
+
+\item Retour d'un object "PSched" contenant les informations suivantes :
+	\begin{description}
+	\item Le nom de l'algorithme.
+	\item Le temps attendu.
+	\item le Makespan calculé
+	\item Le temps qui a été nécessaire
+	\item L'ordonnancement, sous forme de liste.
+	\end{description}
+\end{itemize}
 
 
 \subsubsection{LPT rule}\label{subsubsec:LPT rule}
 
-\bigskip
-% Algorithme
-% ---------------------
-\begin{algorithm}[H]
-\DontPrintSemicolon
-\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
 
-\BlankLine % Petit espace
-Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
-d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
-$p_1 \geq p_2 \geq \ldots \geq p_n$
-
-\BlankLine % Petit espace
-Parcourir la liste et affecter chaque job à la machine la moins
-chargée à ce moment là.
-% }
-\caption{LPT Rule}
-\label{algo:LPT}
-\end{algorithm}
-
-\bigskip
-
+Implémentation Python :
 
 \begin{lstlisting}[style=stylepython]
 def lpt(costMatrix, m):
     algoName = "LPT"
     timeExpected = 0.0
-    matrixW = costMatrix[:]	# on travaille avec une copie de costMatrix
-    sched= [] 			# simulation du résultat dans une liste de processeurs
-    before = time.time()	# date courante début du traitement
-    matrixW.sort(reverse=True)	# tri des temps des tâches par ordre décroissant
+    matrixW = costMatrix[:]	
+    sched= [] 			
+    before = time.time()	
+    matrixW.sort(reverse=True)	
     for i in range(len(matrixW)):
         if (len(sched) < m):
             p = sm.Processor()
@@ -356,39 +446,6 @@ def lpt(costMatrix, m):
 \subsubsection{SLACK}\label{subsubsec:SLACK}
 
 
-\bigskip
-
-% Algorithme Slack
-% ---------------------
-\begin{algorithm}[H]
-\DontPrintSemicolon
-\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
-
-%Etape 1
-trier la liste des jobs dans l'ordre décroissant des temps nécessaires de traitements \;
-%ETAPE 2
-réindexer les jobs, de manière à obtenir $p_1 \geq p_2 \geq ... \geq p_n$ \;
-%ETAPE 3
-découper l'ensemble obtenu en $\lceil \frac{n}{m} \rceil$ tuples de $m$ jobs (ajout
-de jobs ``dummy'' de taille nulle pour le dernier tuple, si $n$ n'est
-pas un multiple de $m$) \;
-%ETAPE 4
-considérer chaque tuple avec la différence de temps (SLACK) entre le
-premier job du tuple et le dernier.
-\begin{align*}
-\{ &\{1, ..., m\} &\{m+1,..., 2 \cdot m\} &... \} \\
-   &p_1 - p_m     &p_{m+1}-p_{2 \cdot m}  &...
-\end{align*} \;
-%STEP 5
-trier les tuples par ordre décroissant de ``Slack'' et ainsi former un nouvel ensemble
-\tcp{e.g: $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $p_{m+1} - p_{2 \cdot m} > p_1 - p_m$.}
-%STEP 6
-appliquer l'ordonnancement (affectation à la machine la moins chargée à
-ce moment là) à l'ensemble ainsi obtenu.
-\caption{SLACK\label{algo:SLACK}}
-\end{algorithm}
-
-\bigskip
 
 
 
