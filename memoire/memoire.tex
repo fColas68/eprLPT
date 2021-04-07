@@ -5,7 +5,7 @@
 % ######################################################################
 
 % -------------------------------------------------------
-% Ce document est un raport. dizaine de pages / plusieurs sections
+% Ce document est un raport. cinquantaine de pages / plusieurs sections
 % -------------------------------------------------------
 \documentclass[a4paper,12pt]{report}
 
@@ -110,9 +110,10 @@
 % Cmax
 \newcommand\cmax{$C_{\max}$\xspace}
 
-
-
-
+% -------------------------------------------------------
+% Dossier des figures
+% -------------------------------------------------------
+\graphicspath{{./fig/}}
 
 % -------------------------------------------------------
 % Ajout L. Philippe
@@ -126,43 +127,12 @@
 \newcommand{\jb}[1]{\todo[author=JB,color=orange,inline]{#1}}
 
 % -------------------------------------------------------
-% Information générales
+% Information générales (en attendant la page de garde)
 % Utilisé par \maketitle
 % -------------------------------------------------------
 \title{Évaluation d'algorithmes d'ordonnancement}
 \author{Florian Colas}
-% \date{2020-05-01}
 \date{\today}
-
-% -------------------------------------------------------
-% POUR PAGE DE GARDE
-% -------------------------------------------------------
-%\setlength{\parindent}{0cm}
-%\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
-%\newcommand{\hsp}{\hspace{20pt}}
-%\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
-%\usepackage{titling}
-
-% ######################################################################
-%
-% 			SOUVENT UTILISES
-%
-% ######################################################################
-% Pm||Cmax 				: \problemGrahamP
-% P2||Cmax 				: P\textsubscript{2}{\textbar}{\textbar}C\textsubscript{max}
-% P||Cmax 				: P{\textbar}{\textbar}C\textsubscript{max}
-%
-% Appostrophes 			: '
-%
-% en italique car latin : \textit{et al.}
-%
-% entourer un résultat
-%	\begin{center}
-%	\fbox{\begin{minipage}{\linewidth}
-%	bla blabla
-%	\end{minipage}}
-%	\end{center}
-
 
 % ######################################################################
 %
@@ -177,7 +147,6 @@
 % Ecrit le titre + auteur + date
 % =======================================================
 \maketitle
-
 
 % -------------------------------------------------------
 % Table des matières
@@ -209,21 +178,70 @@
 % =======================================================
 \section{Introduction} \label{sec:introduction}
 
-BROUILLON 
+\fco{BROUILLON. Trouver une articulation fluide et agréable à lire}
 
 Considérons le problème \problemGrahamP. 
 État de l'art du problème d’ordonnancement.
 Problème \problemGrahamP. 
+n tâches chacune de taille $p_i (avec 1 \leq i \leq n)$, m machines parallèles identiques $( avec 1 \leq j \leq m)$.
+
 puis avec Q et P
 
 Point d'entrée de l'étude : Document de dela Croce
 
-Différentes pistes Heuristiques, BinPacking, Partitionnement de nombre
+Différentes pistes Heuristiques, BinPacking, Partitionnement de nombre (table \ref{table:Heuritiques})
 
-Objectif de ce mémoire 
-Apporter un complément expérimental au document de DelaCroce (ce qui manque le plus)
 
-/BROUILLON 
+% -------------------------------------------------------
+% TABLEAU des heuristiques étudiées dans le rapport
+% -------------------------------------------------------
+\begin{table}[h] % !! pour éviter qu'il traine au milieu du sommaire !!
+\centering
+\begin{tabular}{p{3cm} p{3cm} p{1cm} p{4cm} p{4cm}}
+% --------------------------
+% TITRES
+% --------------------------
+\hline
+algorithme 	& Domaine 
+			& [ref] 
+			& complexité en temps 
+			& ratio d'approximation\\
+\hline
+
+% LPT
+LPT Rule 	&  
+			& \cite{graham1966bounds} 
+			& $n \cdot log(n) + n \cdot log(m)$ 
+			& $\dfrac{4}{3}$ \\
+
+% SLACK
+SLACK   	& 
+			& \cite{della2020longest} 
+			&$n \cdot log(n) + n \cdot log(m)$ 
+			& $\dfrac{4}{3}$ \\
+
+% LDM
+LDM   		&  partitionnement 
+			& \cite{karmarkar1982differencing} 
+			& $n \cdot log(n) + n \cdot log(m)$ 
+			& $\dfrac{4}{3}$ \\
+
+% COMBINE
+COMBINE 	& bin-packing 
+			& \cite{lee1988multiprocessor} 
+			& $n \cdot log(n) + n \cdot log(m)$ 
+			& ratio \\
+%---------------------------
+\hline
+\end{tabular}
+\caption{Heuristiques étudiées}
+\label{table:Heuritiques}
+\end{table}
+
+\fco{Enoncer le "problème" auquel on tente de répondre}
+Objectif du projet et de ce mémoire :
+Apporter un complément expérimental et empirique au document de Della Croce (ce qui manque le plus) et comparer les résultats obtenus
+puis dans un deuxième temps, étendre l'expérience aux d'autres problèmes tels que Q et R
 
 
 % -------------------------------------------------------
@@ -297,12 +315,13 @@ ce moment là) à l'ensemble ainsi obtenu.
 
 
 
-
+/BROUILLON 
 
 
 
 
 \section{Paramètres d"expérience} \label{sec:Paramètres d"expérience}
+\fco{mal dit, revoir la phrase}
 L’expérience consiste à explorer et comparer le comportement de plusieurs heuristiques (LPT rule, SLACK, LDM et COMBINE). C'est un programme qui génère des listes de n temps de tâches, exécute ces heuristiques puis récupère, pour chacune d'elle, la simulation de l’ordonnancement calculé dans une liste de m processeurs, le makespan correspondant, ainsi que le temps qu'il a nécessité pour obtenir ce résultat.
 
 Après une vue d'ensemble nous allons voir la génération des listes de tâches (instances), l'implémentation des heuristiques (algorithmes), et comment ces listes et heuristiques sont utilisées et exécutées (campagne) afin d'obtenir un résultat global.
@@ -349,28 +368,36 @@ Inconvénients
 2 façons différentes de créer un environnement de tests Soit générer les instances, soit les récupérer.
 
 \subsubsection{génération des instances}\label{subsubsec:génération des instances}
+petite explication de chaque distribution, et graphe (e.g Lambda). 
+\fco {trouver les références sur les distributions}
+
 Distribution statistiques différentes
- Unifore
+ Uniforme
  Lambda
  Beta
  Exponentielle
  
 Utilisée par della Croce
- Non uniforme
-
+ Non uniforme 
+ 
+ 
 \subsubsection{récupération des instances}\label{subsubsec:récupération des instances}
 
+\fco {Lire chap 2 et 9. + référence}
 Parallel Workload Archive
 
+
 \subsubsection{maîtrise de la solution optimale}\label{subsubsec:maîtrise de la solution optimale}
+complétion à m-1 machines --> lissage de la moyenne par machine --> donc optimal
+Dans ce cas, comparer les algorithmes avec le même nombre de machines !
 
-completion à m-1 machines --> moyenne par machine --> optimal
-
+\fco {faire la preuve ou trouver les références ?}
 
 \subsubsection{indicateurs statistiques et caratéristiques}\label{subsubsec:indicateurs statistiques et caratéristiques}
 
 
-\subsection{Algorithmes}\label{subsec:Algorithmes}
+\subsection{Implémentation des algorithmes}
+\label{subsec:Implémentation des algorithmes}
 Tous les algorithmes (étudiés) sont implémentés dans algorithms.py. Les procédures, objets et méthodes directement liés à ceux-ci sont placés dans ScheduleManagment.py i.e ceux qui n'ont pas le même prototype (FFD().). 
 Ces algorithmes sont structurés sur le même principe :
 \begin{itemize}
@@ -463,21 +490,34 @@ l'algo approximatif (Do while et do until a son importance
 Cu - Cl >= alpha A pas forcément ...
 Condition d'arrêt n'integre pas le nombre de bin utilisées
 
+\fco {Discuter avec Laurent/Louis-Claude/Julien de ce bug-si connu ou viens de moi}
+!!! La borne supérieure  est donnée par LPT rule !!!
+puis FFD est exécuté avec, c= borne supérieure + borne inférieure)/2. Or, si FFD est moins performant que LPT, le nombre de bin ne sera jamais égal au nombre de machines considéré. e.g si LPT( [p1,p2,...,pn]) sur m machines donne U, et FFD(U) donne V (avec V > U) FFD entre U et L (L<U) donnera au mieux V.....
+
+COMBINE avec borne sup = 1.1Cmax(LPT), c'est ok
+
 Corrections apportées
-
-
+algorithme COMBINE
 algorithme FFD
 
+\subsubsection{fonctions annexes}\label{subsubsec:fonctions annexes}
+
+Quelques mots sur les fonctions appelées par les algorithmes principaux et qui ont leurs importance.
+
+\begin{itemize}
+\item FFD \cite{rieck2010basic} (implémentation)
+\item Partitions LDM
+\end{itemize}
+
 \subsubsection{Ajout d'un algorithme}\label{subsubsec:Ajout d'un algorithme}
-Les sources sont disponibles, et l'appli est faite pour accueillir de nouveaux algo, si les règles suivantes sont respectées.
+Les sources sont disponibles, et l'application est prévue pour accueillir de nouveaux algorithme, si les règles suivantes sont respectées.
 
 exemple avec MULTIFIT
-
 
 \subsection{Campagnes}\label{subsec:Campagnes}
 
 \subsubsection{Génération d'une campagne}\label{subsubsec:Génération d'une campagne}
-Par choix de paramères
+Par choix de paramètres
 Par exécution pré remplie
 Par lecture d'une campagnes
 
@@ -490,92 +530,66 @@ si doit reproduire les mêmes instances
 passage en revue des colonnes de de leur provenance
 
 
-\subsubsection{Graphes}\label{subsubsec:Graphes}
-Différents graphe à disposition
-Modifier l'un d'eux
-
 \subsection{Comparaison des résultats} \label{subsubsec:Comparaison des résultats}
 
-\subsubsection{\cmax} \label{subsec:Cmax}
-inconvénients 
- 
- Comparer des algo quand on ne connaît pas l'optimal
- 
- Mackespan sous forme brute, voire normalisé avec Cmax-optiml donne une courbe  accidentée.
+Comparer des algo quand on ne connaît pas l'optimal
+par rapport au meilleurs résultat
 
- trouver la bonne normalisation qui ne biaise pas trop la comparaison.
+\subsubsection{Normalisation du MakeSpan}
+\label{subsubsec:Normalisation du MakeSpan}
 
+trouver la bonne normalisation qui ne biaise pas trop la comparaison.
+Mackespan sous forme brute, voire normalisé avec Cmax-optiml donne une courbe  accidentée et pas très lisible
 
+\fco {Discuter avec Laurent/Louis-Claude/Julien si comparaison par graphes, ou voir moindres carrés ou autre méthode}
+
+\begin{itemize}
+\item MakeSpan brut
+\item MakeSpan - optimal ou meilleur résultat
+\item MakeSpan / optimal ou meilleur résultat
+\item MakeSpan / Moyenne de tâche par machine
+\end{itemize}
 
 \subsubsection{Temps d'exécution} \label{subsubsec:Temps d'exécution}
 
- Le temps attendu est théorique et non absolu. i.e n log n ne donne pas un temps en minutes secondes.Le temps mesuré lui est donné en minutes secondes --> faire le lien entre estimation théorique et lesuré
+ Le temps attendu est théorique et non absolu. i.e n log n ne donne pas un temps en minutes secondes.Le temps mesuré lui est donné en minutes secondes --> faire le lien entre estimation théorique et mesuré.
  
- D'un algo a l'autre , Python est un langatge de haut niveau, donc pas évident. ce qui peut être comparé, c'est pour un même algo et faire varier N et/ou m. on compare les mêmes instructions....
+D'un algo a l'autre , Python est un langatge de haut niveau, donc pas évident. ce qui peut être comparé, c'est pour un même algo et faire varier N et/ou m. on compare les mêmes instructions....
+
+faire un lien entre le théorique de une valeur pour comparer par la suite les résultats suivants
  
- 
- 
+\subsubsection{Graphes}\label{subsubsec:Graphes}
+\fco {Discuter avec Laurent/Louis-Claude/Julien Libre et proposition de graphes, ou conduit}
+
+Différents graphe à disposition
+utilisation de ggplot
+Modifier l'un d'eux
+Abscisse 	= soit n
+			= soit m
+Couleurs = algorithme
+pictogramme = méthode de génération instance (lambda, beta uniforme ...) 
+taille = hétérogénéité ?? écart type ?? de l'instance
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\section{Méthode} \label{sec:methode}
-
-\subsection{Une variable}\label{subsec:Une variable}
-
-\subsubsection{n}\label{subsubsec:n}
-
-\subsubsection{m}\label{subsubsec:m}
-
-\subsubsection{distributions et hétérogénéité}\label{subsubsec:distributions et hétérogénéité}
-
-
-\subsection{Deux variables}\label{subsec:Deux variables}
-
-\subsubsection{n et m}\label{subsubsec:n et m}
-
-
-
-
-\cite{5009071}
 
 
 \section{Résultats} \label{sec:resultats}
 
-des tableaux des tableaux 
+\subsection{en fonction de n}\label{subsec:en fonction de n}
+
+\subsection{en fonction de m}\label{subsec:en fonction de m}
+
+\subsection{en fonction de n et m}\label{subsec:en fonction de n et m}
+
+\subsection{en foonction des distributions et hétérogénéité}
+\label{subsec:en foonction des distributions et hétérogénéité}
 
 
 
 \section{P vers Q et R} \label{sec:P vers Q et R}
 
 je ne sais pas encore
+
 
 
 \section{Discussion} \label{sec:discussion}
@@ -586,18 +600,8 @@ je ne sais pas encore
 \section{remerciements}
 
 
-super super
-
-
-
 \bibliographystyle{plain}				% NE PAS ENLEVER !!!!!!!!!!
 \bibliography{Bibliographie}			% Utilise Bibliographie.bib
-
-
-
-
-
-
 
 
 \end{document}
