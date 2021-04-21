@@ -92,7 +92,6 @@
 	numberstyle=\tiny,numbers=left,
 	stepnumber=1,numbersep=5pt}
 
-
 % -------------------------------------------------------
 % Information PDF généré
 % -------------------------------------------------------
@@ -123,7 +122,7 @@
 \newcommand{\tdi}[1]{\todo[inline]{{#1}}{}}
 \newcommand{\lp}[1]{\todo[author=LP,color=yellow,inline]{#1}}
 \newcommand{\lcc}[1]{\todo[author=LCC,color=green,inline]{#1}}
-\newcommand{\fco}[1]{\todo[author=FCO,color=blue,inline]{#1}}
+\newcommand{\fco}[1]{\todo[author=FCO,color=teal,inline]{#1}}
 \newcommand{\jb}[1]{\todo[author=JB,color=orange,inline]{#1}}
 
 % -------------------------------------------------------
@@ -141,12 +140,23 @@
 % ######################################################################
 \begin{document}
 
+% #######################################################
+% Numérotation des pages
+% #######################################################
+\pagenumbering{roman}
+
 % =======================================================
 % Page de garde
 % Utilise Information générales
 % Ecrit le titre + auteur + date
 % =======================================================
 \maketitle
+
+\section*{Dédicaces} \label{sec:dedicace}
+je dédie....
+
+\section*{Remerciements} \label{sec:remerciements}
+je remercie....
 
 % -------------------------------------------------------
 % Table des matières
@@ -167,18 +177,57 @@
 \tableofcontents
 
 % =======================================================
-% Abstract
+% ABSTRACT/RESUME
 % =======================================================
 \bigskip
-\abstractname{}
+
+%\abstractname{}
+
+\fco{Voir comment regrouper Abstract et Résumé sur une même page, sans utiliser de figure ...}
+
+\selectlanguage{english}
+\begin{abstract}
+.... when the brief is completed ...
+\end{abstract}
+
+\selectlanguage{frenchb}
+\begin{abstract}
+....une fois le mémoire terminé ...
+\end{abstract}
+
 \bigskip
 
-% =======================================================
-% 1 INTRODUCTION
-% =======================================================
-\section{Introduction} \label{sec:introduction}
+% #######################################################
+% Numérotation des pages
+% #######################################################
+\pagenumbering{arabic}
 
-\fco{BROUILLON. Trouver une articulation fluide et agréable à lire}
+% =======================================================
+% 1 INTRODUCTION GENERALE
+% =======================================================
+\section{Introduction générale} \label{sec:introductionGenerale}
+Avec l'augmentation des besoins applicatifs (calculs scientifiques, traitements d'images, bases de données) en ressources, 
+s'adaptent en parallèle les architectures des systèmes de traitement de l'information. 
+
+Evolution des technologies informatiques, parallélisme.
+Evolution des besions : Augmentation du nombre des traitements
+Ordonnancement sur machines parallèles
+Problème du P||Cmax
+
+Equilibre et compromis entre resultat  et rapidité d'obtenir ce résultat
+Utilisation d’heuristiques
+Problème des Heuristiques
+Résultat pas connu. 
+Etudier le comportement par l'expérience, comparer preuve et la vraie vie.
+
+
+
+
+
+
+
+
+
 
 Considérons le problème \problemGrahamP. 
 État de l'art du problème d’ordonnancement.
