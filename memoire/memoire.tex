@@ -206,60 +206,166 @@ je remercie....
 % 1 INTRODUCTION GENERALE
 % =======================================================
 \section{Introduction générale} \label{sec:introductionGenerale}
-présentation
-Evolution des besions : Augmentation du nombre des traitements
-Avec l'augmentation des besoins applicatifs (calculs scientifiques, traitements d'images, bases de données) en ressources, 
-s'adaptent en parallèle les architectures des systèmes de traitement de l'information. 
-Evolution des technologies informatiques, parallélisme.
-rappel du parallélisme
-Ordonnancement sur machines parallèles
-rappel de l'ordonnancement
-Problème du P||Cmax
 
-Problème
-Equilibre et compromis entre resultat  et rapidité d'obtenir ce résultat
-Utilisation d’heuristiques
-rappel d'une heuristique
-Problème des Heuristiques
+%ésentation et contexte
+Considérons le problème \problemGrahamP. tel que définit 
+  dans la classification à trois champs de 
+  Graham \emph{et al.} \cite{graham1979optimization}. 
+Ce problème d'ordonnancement consiste à planifier 
+  un ensemble $J=\{j_1, j_2, \ldots, j_n\}$ de $n$ jobs, (ou tâches) indépendants, 
+  sur $m$ machines identiques (noté $P$) 
+  dans le but d'optimiser le temps total de traitement appelé makespan 
+  (noté $C_{max}$).
+Le temps nécessaire de réalisation de chaque job $p_i~(avec~1 \leq i \leq n)$ 
+  est connu à l'avance. 
+Un job commencé est complété sans interruption (non préemptif), 
+  et est exécuté par une seule machine. 
+Une machine ne traite qu'un seul job à la fois. 
 
-\fco{Enoncer le "problème" auquel on tente de répondre}
-Objectif du projet et de ce mémoire :
-Apporter un complément expérimental et empirique au document de Della Croce (ce qui manque le plus) et comparer les résultats obtenus
-puis dans un deuxième temps, étendre l'expérience aux d'autres problèmes tels que Q et R
+Cette question d’ordonnancement est omniprésente, dans la vie 
+  pratique, l'industrie, le transport, les institutions, $\ldots$ , 
+  mais aussi dans l'allocation des tâches à réaliser par des 
+  machines à structure parallèle. 
+Le parallélisme est un type d'architecture informatique, dans lequel 
+  plusieurs processeurs exécutent, ou traitent
+  une application, un calcul simultanément. 
+Il aide à effectuer de grands calculs en divisant la charge de travail 
+  entre plusieurs processeurs, capables de communiquer et de coopérer. 
+Pour ce dernier cas, il est primordial que le calcul de l'attribution 
+  de chaque tâche d'un ensemble de jobs aux ressources disponibles, 
+  soit effectué le plus rapidement possible, 
+  et permette un temps total de traitement de cet ensemble 
+  le plus court possible.
 
-Le problème de ce mémoire
-Résultat pas connu. 
-Etudier le comportement par l'expérience, comparer preuve et la vraie vie.
-départ du document de della Croce
+\bigskip
+% problématique générale
+Mais, comme l'ont démontré Garey et Johnson, 
+  \problemGrahamPII est un problème NP-Difficile \cite{garey1978strong}, et 
+  \problemGrahamP avec $m \geq 3$ est un problème NP-Difficile 
+  au sens fort \cite{garey1982computers}. 
+Cependant, \problemGrahamP devient un problème NP-Difficile, 
+  du moment que le nombre de machines est fixé \cite{chen1999potts}, 
+  comme l'a montré Rothkopf \cite{rothkopf1966scheduling}, 
+  qui a présenté un algorithme de programmation dynamique.
 
-Plan 
-2 Etat de l'art
-3 Mise en place de l'expérience
-4 protocole de della Croce et comparaison des résultats
-5 Comparaison avec d'autres distributions
-6 Resulats 
+Donner la solution optimale à un problème d'ordonnancement 
+  (dans notre cas \problemGrahamP) n'est pas réaliste. 
+  la résolution de celui-ci demanderait un temps excessif et donc rédhibitoire.
+Comme les machines sont identiques, et travaillent à la même vitesse,
+la difficulté repose uniquement sur le regroupement des jobs.
+La résolution du problème d'ordonnancement va reposer sur des méthodes
+  d'approche, qui consistent à calculer en temps polynomial,
+  une solution ``assez'' proche de la valeur optimale.
 
+Les jobs sont exécutés sans interruption ni coupure. Donc,
+  le makespan ne  peut pas être inférieur à la taille du jobs
+  le plus long i.e. $(\max_i\{p_i\})$.
+  Dans le cas d'un nombre $n$ de jobs supérieur au nombre $m$ de machines,
+  le makespan ne peut pas être inférieur à la moyenne
+  des tailles des jobs par machine
+  i.e. $\frac{1}{m} \sum_{i=1}^{n} p_i$.
+Donc Toutes les solutions ont une borne minimale
+  \cite{mcnaughton1959scheduling}: \\
+
+  \begin{center}
+  $borne_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \}$
+  \label{borneMini}
+  \end{center}
+
+L'existence d'une solution qui résout le problème de manière optimale
+  n'est pas pensable, à moins que $P = NP$.
+Dans la littérature, l'étude d'ordonnancement est très riche et abondante. 
+Le but étant d'améliorer le temps de calcul, et d'approcher le résultat optimal. 
+Les solutions proposée sont des Heuristiques, ou des approximations.
+
+Le but d'une heuristique (du grec \emph{heuriskein}: trouver) est 
+  de trouver une solution respectant les contraintes du problème et 
+  de bonne qualité selon le critère d'optimisation considéré. 
+  La solution ne sera pas forcément optimale, 
+  mais une heuristique efficace tente de trouver une solution de bonne qualité, 
+  suivant le temps de résolution imparti.
+Ces algorithmes calculent des solutions, dont la borne maximale, 
+  au pire des cas n'est pas maîtrisée: une étude du comportement est nécessaire 
+  pour définir cette borne maximale.  
+  Pour chaque étude de comportement, les notions suivantes sont utilisées :
+
+\begin{itemize}
+% -------------------------------------------------------
+% RESULTAT DE L'ALGORITHME A
+% -------------------------------------------------------
+\item $C_m^A(J)$ Le résultat (makespan) de l'ordonnancement
+	d'un ensemble $J$ de jobs,
+	sur $m$ machines parallèles, identiques,
+	obtenu par l'heuristique $A$.
+% -------------------------------------------------------
+% RESULTAT OPTIMAL
+% -------------------------------------------------------
+\item $C_m^\star(J)$ Le makespan optimal, idéal, de l'ordonnancement
+	d'un ensemble $J$ de jobs,
+	sur $m$ machines parallèles identiques.
+% -------------------------------------------------------
+% RATIO OBTENU/OPTIMAL
+% -------------------------------------------------------
+\item $\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$
+	Le ratio d'approximation atteint par l'algorithme $A$ au pire cas.
+\end{itemize}
+   
+  Parfois, cette borne n'existe pas. Une simulation permet d'obtenir des 
+  informations générales sur les tendances.
+
+  
+
+\bigskip
+% génese du rapport
+Parmi les heuristiques les plus étudiées, nous pouvons citer 
+  LPT (Longest Time Processing) \cite{graham1966bounds}, 
+  LDM (Largest Differencing Method) \cite{karmarkar1982differencing}, 
+  COMBINE \cite{lee1988multiprocessor}, et 
+  SLACK \cite{della2020longest}.
+Ce dernier revisite l'heuristique LPT en appliquant aux données d'entrée du problème, 
+  une stratégie gloutonne. 
+SLACK devient très compétitif par rapport au autres heuristiques, 
+  tant en complexité en temps 
+  qu'en ratio d'approximation. 
+Cette conclusion est le résultat d'un protocole expérimental 
+  basé sur la génération d'instances selon des 
+  distributions uniformes et non uniformes.  
+
+Le but de ce mémoire est multiple :
+\begin{itemize}
+\item reproduire le protocole expérimental de Della Croce \emph{et al.} 
+  en implémentant les heuristiques considérées, 
+  à l'aide des distribution uniformes et non-uniformes.
+\item Élargir ce protocole expérimental à 
+  d'autres types de générations aléatoires 
+  de listes de jobs (distributions gamma, beta, exponentielles), voire 
+  à de vraies log de workloads, 
+  afin de soumettre ces heuristiques à un spectre plus large en 
+  hétérogénéité et ainsi étudier leur comportement.    
+\item tenter d'expliquer pourquoi SLACK est 
+  compétitif sur une distribution non-uniforme. 
+\item Q et R ?????????
+\end{itemize} 
+
+\bigskip
+%PLAN
+\fco{Plan}
+Etat de l'art
+Mise en place de l'expérience
+protocole de della Croce et comparaison des résultats
+Comparaison avec d'autres distributions
+Resulats
+Distribution non-unifomre
+Conclusion 
 Annexes (implémentation de l'expérience)
-
-
-
-Considérons le problème \problemGrahamP. 
-État de l'art du problème d’ordonnancement.
-Problème \problemGrahamP. 
-n tâches chacune de taille $p_i (avec 1 \leq i \leq n)$, m machines parallèles identiques $( avec 1 \leq j \leq m)$.
-
-puis avec Q et P
-
-Point d'entrée de l'étude : Document de dela Croce
-
-Différentes pistes Heuristiques, BinPacking, Partitionnement de nombre (table \ref{table:Heuritiques})
-
 
 % =======================================================
 % 2 Etat de l'art
 % =======================================================
 \section{Etat de l'art} \label{sec:etatDeLArt}
 
+
+Différentes pistes Heuristiques, BinPacking, Partitionnement de nombre (table \ref{table:Heuritiques})
 
 
 
@@ -650,8 +756,8 @@ taille = hétérogénéité ?? écart type ?? de l'instance
 
 \subsection{en fonction de n et m}\label{subsec:en fonction de n et m}
 
-\subsection{en foonction des distributions et hétérogénéité}
-\label{subsec:en foonction des distributions et hétérogénéité}
+\subsection{en fonction des distributions et hétérogénéité}
+\label{subsec:en fonction des distributions et hétérogénéité}
 
 
 
