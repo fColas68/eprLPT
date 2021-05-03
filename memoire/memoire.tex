@@ -207,7 +207,9 @@ je remercie....
 % =======================================================
 \section{Introduction générale} \label{sec:introductionGenerale}
 
-%ésentation et contexte
+% -------------------------------------------------------
+%ésentation et contexte 
+% -------------------------------------------------------
 Considérons le problème \problemGrahamP. tel que définit 
   dans la classification à trois champs de 
   Graham \emph{et al.} \cite{graham1979optimization}. 
@@ -238,7 +240,9 @@ Pour ce dernier cas, il est primordial que le calcul de l'attribution
   le plus court possible.
 
 \bigskip
-% problématique générale
+% -------------------------------------------------------
+% problématique générale 
+% -------------------------------------------------------
 Mais, comme l'ont démontré Garey et Johnson, 
   \problemGrahamPII est un problème NP-Difficile \cite{garey1978strong}, et 
   \problemGrahamP avec $m \geq 3$ est un problème NP-Difficile 
@@ -290,22 +294,16 @@ Ces algorithmes calculent des solutions, dont la borne maximale,
   Pour chaque étude de comportement, les notions suivantes sont utilisées :
 
 \begin{itemize}
-% -------------------------------------------------------
 % RESULTAT DE L'ALGORITHME A
-% -------------------------------------------------------
 \item $C_m^A(J)$ Le résultat (makespan) de l'ordonnancement
 	d'un ensemble $J$ de jobs,
 	sur $m$ machines parallèles, identiques,
 	obtenu par l'heuristique $A$.
-% -------------------------------------------------------
 % RESULTAT OPTIMAL
-% -------------------------------------------------------
 \item $C_m^\star(J)$ Le makespan optimal, idéal, de l'ordonnancement
 	d'un ensemble $J$ de jobs,
 	sur $m$ machines parallèles identiques.
-% -------------------------------------------------------
 % RATIO OBTENU/OPTIMAL
-% -------------------------------------------------------
 \item $\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$
 	Le ratio d'approximation atteint par l'algorithme $A$ au pire cas.
 \end{itemize}
@@ -313,10 +311,10 @@ Ces algorithmes calculent des solutions, dont la borne maximale,
   Parfois, cette borne n'existe pas. Une simulation permet d'obtenir des 
   informations générales sur les tendances.
 
-  
-
 \bigskip
+% -------------------------------------------------------
 % génese du rapport
+% -------------------------------------------------------
 Parmi les heuristiques les plus étudiées, nous pouvons citer 
   LPT (Longest Time Processing) \cite{graham1966bounds}, 
   LDM (Largest Differencing Method) \cite{karmarkar1982differencing}, 
@@ -348,14 +346,16 @@ Le but de ce mémoire est multiple :
 \end{itemize} 
 
 \bigskip
+% -------------------------------------------------------
 %PLAN
-\fco{Plan}
-Etat de l'art
+% -------------------------------------------------------
+\fco{...Plan une fois terminé...}
+État de l'art
 Mise en place de l'expérience
 protocole de della Croce et comparaison des résultats
 Comparaison avec d'autres distributions
-Resulats
-Distribution non-unifomre
+Résultats
+Distribution non-uniforme
 Conclusion 
 Annexes (implémentation de l'expérience)
 
@@ -364,12 +364,102 @@ Annexes (implémentation de l'expérience)
 % =======================================================
 \section{Etat de l'art} \label{sec:etatDeLArt}
 
+% -------------------------------------------------------
+%introduction état de l'art 
+% -------------------------------------------------------
+Le problème d'ordonnancement se pose depuis l'apparition des premières machines parallèles, et 
+  est d'autant plus d'actualité que les postes personnels sont équipés depuis quelques années, 
+  de processeurs (CPU) et de cartes graphiques (GPU) multi-c{\oe}urs.
+Les centres de calculs sont dotés de parcs assez similaires, et maintenant, 
+  les clouds, offrent des instances VM qui permettent des environnements 
+  d'exécution homogènes.     
+Il fait partie de la catégorie des problèmes d'optimisation combinatoire. 
+C'est un champ de la recherche opératoire, actif depuis plus d'un siècle, 
+  et abondant dans la littérature. 
 
-Différentes pistes Heuristiques, BinPacking, Partitionnement de nombre (table \ref{table:Heuritiques})
+De nombreuses pistes sont explorées. Il est pratiquement impossible de les énumérer toutes, 
+  aussi sont présentées ici les plus étudiées, 
+  et/ou utilisées pour être comparées ou servir de référent.
+  
+Nous abordons dans l'ordre, certaines Heuristiques. un type d'algorithme d'approximation, et une résolution du problème basée sur la programmation linéaire.
+
+\subsection{Heuristiques}\label{subSec:Heuristiques}
+
+% -------------------------------------------------------
+% LPT (théorique)
+% -------------------------------------------------------
+
+\bigskip
+% Algorithme
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+
+\BlankLine % Petit espace
+Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
+d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
+$p_1 \geq p_2 \geq \ldots \geq p_n$
+
+\BlankLine % Petit espace
+Parcourir la liste et affecter chaque job à la machine la moins
+chargée à ce moment là.
+% }
+\caption{LPT Rule}
+\label{algo:LPT}
+\end{algorithm}
+
+
+% -------------------------------------------------------
+% COMBINE (théorique)
+% -------------------------------------------------------
 
 
 
+% -------------------------------------------------------
+% SLACK (théorique)
+% -------------------------------------------------------
+\bigskip
 
+% Algorithme Slack
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+
+%Etape 1
+trier la liste des jobs dans l'ordre décroissant des temps nécessaires de traitements \;
+%ETAPE 2
+réindexer les jobs, de manière à obtenir $p_1 \geq p_2 \geq ... \geq p_n$ \;
+%ETAPE 3
+découper l'ensemble obtenu en $\lceil \frac{n}{m} \rceil$ tuples de $m$ jobs (ajout
+de jobs ``dummy'' de taille nulle pour le dernier tuple, si $n$ n'est
+pas un multiple de $m$) \;
+%ETAPE 4
+considérer chaque tuple avec la différence de temps (SLACK) entre le
+premier job du tuple et le dernier.
+\begin{align*}
+\{ &\{1, ..., m\} &\{m+1,..., 2 \cdot m\} &... \} \\
+   &p_1 - p_m     &p_{m+1}-p_{2 \cdot m}  &...
+\end{align*} \;
+%STEP 5
+trier les tuples par ordre décroissant de ``Slack'' et ainsi former un nouvel ensemble
+\tcp{e.g: $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $p_{m+1} - p_{2 \cdot m} > p_1 - p_m$.}
+%STEP 6
+appliquer l'ordonnancement (affectation à la machine la moins chargée à
+ce moment là) à l'ensemble ainsi obtenu.
+\caption{SLACK\label{algo:SLACK}}
+\end{algorithm}
+
+% -------------------------------------------------------
+% LDM (théorique)
+% -------------------------------------------------------
+\subsection{Approximation}\label{subSec:Approximation}
+
+
+\subsection{Programmation linéaire}\label{subSec:programmationLineaire}
+
+\subsection{conclusion}\label{subSec:etatDeLArtConclusion}
 
 % -------------------------------------------------------
 % TABLEAU des heuristiques étudiées dans le rapport
@@ -418,80 +508,7 @@ COMBINE 	& bin-packing
 \end{table}
 
 
-
-% -------------------------------------------------------
-% LPT (théorique)
-% -------------------------------------------------------
-
 \bigskip
-% Algorithme
-% ---------------------
-\begin{algorithm}[H]
-\DontPrintSemicolon
-\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
-
-\BlankLine % Petit espace
-Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
-d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
-$p_1 \geq p_2 \geq \ldots \geq p_n$
-
-\BlankLine % Petit espace
-Parcourir la liste et affecter chaque job à la machine la moins
-chargée à ce moment là.
-% }
-\caption{LPT Rule}
-\label{algo:LPT}
-\end{algorithm}
-
-% -------------------------------------------------------
-% SLACK (théorique)
-% -------------------------------------------------------
-\bigskip
-
-% Algorithme Slack
-% ---------------------
-\begin{algorithm}[H]
-\DontPrintSemicolon
-\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
-
-%Etape 1
-trier la liste des jobs dans l'ordre décroissant des temps nécessaires de traitements \;
-%ETAPE 2
-réindexer les jobs, de manière à obtenir $p_1 \geq p_2 \geq ... \geq p_n$ \;
-%ETAPE 3
-découper l'ensemble obtenu en $\lceil \frac{n}{m} \rceil$ tuples de $m$ jobs (ajout
-de jobs ``dummy'' de taille nulle pour le dernier tuple, si $n$ n'est
-pas un multiple de $m$) \;
-%ETAPE 4
-considérer chaque tuple avec la différence de temps (SLACK) entre le
-premier job du tuple et le dernier.
-\begin{align*}
-\{ &\{1, ..., m\} &\{m+1,..., 2 \cdot m\} &... \} \\
-   &p_1 - p_m     &p_{m+1}-p_{2 \cdot m}  &...
-\end{align*} \;
-%STEP 5
-trier les tuples par ordre décroissant de ``Slack'' et ainsi former un nouvel ensemble
-\tcp{e.g: $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $p_{m+1} - p_{2 \cdot m} > p_1 - p_m$.}
-%STEP 6
-appliquer l'ordonnancement (affectation à la machine la moins chargée à
-ce moment là) à l'ensemble ainsi obtenu.
-\caption{SLACK\label{algo:SLACK}}
-\end{algorithm}
-
-% -------------------------------------------------------
-% LDM (théorique)
-% -------------------------------------------------------
-\bigskip
-
-
-% -------------------------------------------------------
-% COMBINE (théorique)
-% -------------------------------------------------------
-
-
-
-/BROUILLON 
-
 
 
 
