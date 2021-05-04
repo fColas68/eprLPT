@@ -16,7 +16,7 @@
 % -------------------------------------------------------
 \usepackage[utf8]{inputenc}
 
-% Vu dans un forum : utiliser plutôt frenchb, french est obsolete
+% utiliser plutôt french, frenchb est obsolete
 \usepackage[T1]{fontenc}
 \usepackage[english,french]{babel}
 
@@ -364,9 +364,8 @@ Annexes (implémentation de l'expérience)
 % =======================================================
 \section{Etat de l'art} \label{sec:etatDeLArt}
 
-% -------------------------------------------------------
-%introduction état de l'art 
-% -------------------------------------------------------
+\subsection{Introduction} \label{subsec:etatDeLArtIntroduction}
+
 Le problème d'ordonnancement se pose depuis l'apparition des premières machines parallèles, et 
   est d'autant plus d'actualité que les postes personnels sont équipés depuis quelques années, 
   de processeurs (CPU) et de cartes graphiques (GPU) multi-c{\oe}urs.
@@ -385,13 +384,22 @@ Nous abordons dans l'ordre, certaines Heuristiques. un type d'algorithme d'appro
 
 \subsection{Heuristiques}\label{subSec:Heuristiques}
 
-% -------------------------------------------------------
-% LPT (théorique)
-% -------------------------------------------------------
+Les heuristiques représentent la plus grande partie des recherches concernant l'ordonnancement. 
+Elles sont basées 
+  sur le principe des LS (Liste Scheduling), 
+  sur le le problème bin-packing, 
+  sur le problème de partitionnement de nombres, ou 
+  reposent sur une stratégie gloutonne.
 
-\bigskip
-% Algorithme
-% ---------------------
+\bigskip   
+\paragraph{LS (List Scheduling)}
+l'idée d'une LS est de stocker l'ensemble des jobs dans celle-ci, les trier dans une ordre particulier et/ou les regrouper selon une règle définie, dans le but de leur assigner une priorité. Ces job sont ensuite affectés un à un à une machine suivant un principe déterminé.
+
+LPT Rule (Longest Time Processing) proposé par Graham \emph{et al.} \cite{graham1966bounds} est 
+  un (algorithme \ref{algo:LPT} des algorithmes le plus repris dans la littérature. 
+% -------------------------------------------------------
+% LPT 
+% -------------------------------------------------------
 \begin{algorithm}[H]
 \DontPrintSemicolon
 \KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
