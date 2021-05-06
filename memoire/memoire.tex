@@ -16,9 +16,9 @@
 % -------------------------------------------------------
 \usepackage[utf8]{inputenc}
 
-% Vu dans un forum : utiliser plutôt frenchb, french est obsolete
+% utiliser plutôt french, frenchb est obsolete
 \usepackage[T1]{fontenc}
-\usepackage[english,frenchb]{babel}
+\usepackage[english,french]{babel}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -190,7 +190,7 @@ je remercie....
 .... when the brief is completed ...
 \end{abstract}
 
-\selectlanguage{frenchb}
+\selectlanguage{french}
 \begin{abstract}
 ....une fois le mémoire terminé ...
 \end{abstract}
@@ -206,64 +206,403 @@ je remercie....
 % 1 INTRODUCTION GENERALE
 % =======================================================
 \section{Introduction générale} \label{sec:introductionGenerale}
-présentation
-Evolution des besions : Augmentation du nombre des traitements
-Avec l'augmentation des besoins applicatifs (calculs scientifiques, traitements d'images, bases de données) en ressources, 
-s'adaptent en parallèle les architectures des systèmes de traitement de l'information. 
-Evolution des technologies informatiques, parallélisme.
-rappel du parallélisme
-Ordonnancement sur machines parallèles
-rappel de l'ordonnancement
-Problème du P||Cmax
 
-Problème
-Equilibre et compromis entre resultat  et rapidité d'obtenir ce résultat
-Utilisation d’heuristiques
-rappel d'une heuristique
-Problème des Heuristiques
+% -------------------------------------------------------
+%ésentation et contexte 
+% -------------------------------------------------------
+Considérons le problème \problemGrahamP. tel que définit 
+  dans la classification à trois champs de 
+  Graham \emph{et al.} \cite{graham1979optimization}. 
+Ce problème d'ordonnancement consiste à planifier 
+  un ensemble $J=\{j_1, j_2, \ldots, j_n\}$ de $n$ jobs, (ou tâches) indépendants, 
+  sur $m$ machines identiques (noté $P$) 
+  dans le but d'optimiser le temps total de traitement appelé makespan 
+  (noté $C_{max}$).
+Le temps nécessaire de réalisation de chaque job $p_i~(avec~1 \leq i \leq n)$ 
+  est connu à l'avance. 
+Un job commencé est complété sans interruption (non préemptif), 
+  et est exécuté par une seule machine. 
+Une machine ne traite qu'un seul job à la fois. 
 
-\fco{Enoncer le "problème" auquel on tente de répondre}
-Objectif du projet et de ce mémoire :
-Apporter un complément expérimental et empirique au document de Della Croce (ce qui manque le plus) et comparer les résultats obtenus
-puis dans un deuxième temps, étendre l'expérience aux d'autres problèmes tels que Q et R
+Cette question d’ordonnancement est omniprésente, dans la vie 
+  pratique, l'industrie, le transport, les institutions, $\ldots$ , 
+  mais aussi dans l'allocation des tâches à réaliser par des 
+  machines à structure parallèle. 
+Le parallélisme est un type d'architecture informatique, dans lequel 
+  plusieurs processeurs exécutent, ou traitent
+  une application, un calcul simultanément. 
+Il aide à effectuer de grands calculs en divisant la charge de travail 
+  entre plusieurs processeurs, capables de communiquer et de coopérer. 
+Pour ce dernier cas, il est primordial que le calcul de l'attribution 
+  de chaque tâche d'un ensemble de jobs aux ressources disponibles, 
+  soit effectué le plus rapidement possible, 
+  et permette un temps total de traitement de cet ensemble 
+  le plus court possible.
 
-Le problème de ce mémoire
-Résultat pas connu. 
-Etudier le comportement par l'expérience, comparer preuve et la vraie vie.
-départ du document de della Croce
+\bigskip
+% -------------------------------------------------------
+% problématique générale 
+% -------------------------------------------------------
+Mais, comme l'ont démontré Garey et Johnson, 
+  \problemGrahamPII est un problème NP-Difficile \cite{garey1978strong}, et 
+  \problemGrahamP avec $m \geq 3$ est un problème NP-Difficile 
+  au sens fort \cite{garey1982computers}. 
+Cependant, \problemGrahamP devient un problème NP-Difficile, 
+  du moment que le nombre de machines est fixé \cite{chen1999potts}, 
+  comme l'a montré Rothkopf \cite{rothkopf1966scheduling}, 
+  qui a présenté un algorithme de programmation dynamique.
 
-Plan 
-2 Etat de l'art
-3 Mise en place de l'expérience
-4 protocole de della Croce et comparaison des résultats
-5 Comparaison avec d'autres distributions
-6 Resulats 
+Donner la solution optimale à un problème d'ordonnancement 
+  (dans notre cas \problemGrahamP) n'est pas réaliste. 
+  la résolution de celui-ci demanderait un temps excessif et donc rédhibitoire.
+Comme les machines sont identiques, et travaillent à la même vitesse,
+la difficulté repose uniquement sur le regroupement des jobs.
+La résolution du problème d'ordonnancement va reposer sur des méthodes
+  d'approche, qui consistent à calculer en temps polynomial,
+  une solution ``assez'' proche de la valeur optimale.
 
+Les jobs sont exécutés sans interruption ni coupure. Donc,
+  le makespan ne  peut pas être inférieur à la taille du jobs
+  le plus long i.e. $(\max_i\{p_i\})$.
+  Dans le cas d'un nombre $n$ de jobs supérieur au nombre $m$ de machines,
+  le makespan ne peut pas être inférieur à la moyenne
+  des tailles des jobs par machine
+  i.e. $\frac{1}{m} \sum_{i=1}^{n} p_i$.
+Donc Toutes les solutions ont une borne minimale
+  \cite{mcnaughton1959scheduling}: \\
+
+  \begin{center}
+  $borne_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \}$
+  \label{borneMini}
+  \end{center}
+
+L'existence d'une solution qui résout le problème de manière optimale
+  n'est pas pensable, à moins que $P = NP$.
+Dans la littérature, l'étude d'ordonnancement est très riche et abondante. 
+Le but étant d'améliorer le temps de calcul, et d'approcher le résultat optimal. 
+Les solutions proposée sont des Heuristiques, ou des approximations.
+
+Le but d'une heuristique (du grec \emph{heuriskein}: trouver) est 
+  de trouver une solution respectant les contraintes du problème et 
+  de bonne qualité selon le critère d'optimisation considéré. 
+  La solution ne sera pas forcément optimale, 
+  mais une heuristique efficace tente de trouver une solution de bonne qualité, 
+  suivant le temps de résolution imparti.
+Ces algorithmes calculent des solutions, dont la borne maximale, 
+  au pire des cas n'est pas maîtrisée: une étude du comportement est nécessaire 
+  pour définir cette borne maximale.  
+  Pour chaque étude de comportement, les notions suivantes sont utilisées :
+
+\begin{itemize}
+% RESULTAT DE L'ALGORITHME A
+\item $C_m^A(J)$ Le résultat (makespan) de l'ordonnancement
+	d'un ensemble $J$ de jobs,
+	sur $m$ machines parallèles, identiques,
+	obtenu par l'heuristique $A$.
+% RESULTAT OPTIMAL
+\item $C_m^\star(J)$ Le makespan optimal, idéal, de l'ordonnancement
+	d'un ensemble $J$ de jobs,
+	sur $m$ machines parallèles identiques.
+% RATIO OBTENU/OPTIMAL
+\item $\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$
+	Le ratio d'approximation atteint par l'algorithme $A$ au pire cas.
+\end{itemize}
+   
+  Parfois, cette borne n'existe pas. Une simulation permet d'obtenir des 
+  informations générales sur les tendances.
+
+\bigskip
+% -------------------------------------------------------
+% génese du rapport
+% -------------------------------------------------------
+Parmi les heuristiques les plus étudiées, nous pouvons citer 
+  LPT (Longest Time Processing) \cite{graham1966bounds}, 
+  LDM (Largest Differencing Method) \cite{karmarkar1982differencing}, 
+  COMBINE \cite{lee1988multiprocessor}, et 
+  SLACK \cite{della2020longest}.
+Ce dernier revisite l'heuristique LPT en appliquant aux données d'entrée du problème, 
+  une stratégie gloutonne. 
+SLACK devient très compétitif par rapport au autres heuristiques, 
+  tant en complexité en temps 
+  qu'en ratio d'approximation. 
+Cette conclusion est le résultat d'un protocole expérimental 
+  basé sur la génération d'instances selon des 
+  distributions uniformes et non uniformes.  
+
+Le but de ce mémoire est multiple :
+\begin{itemize}
+\item reproduire le protocole expérimental de Della Croce \emph{et al.} 
+  en implémentant les heuristiques considérées, 
+  à l'aide des distribution uniformes et non-uniformes.
+\item Élargir ce protocole expérimental à 
+  d'autres types de générations aléatoires 
+  de listes de jobs (distributions gamma, beta, exponentielles), voire 
+  à de vraies log de workloads, 
+  afin de soumettre ces heuristiques à un spectre plus large en 
+  hétérogénéité et ainsi étudier leur comportement.    
+\item tenter d'expliquer pourquoi SLACK est 
+  compétitif sur une distribution non-uniforme. 
+\item Q et R ?????????
+\end{itemize} 
+
+\bigskip
+% -------------------------------------------------------
+%PLAN
+% -------------------------------------------------------
+\fco{...Plan une fois terminé...}
+État de l'art\\
+Mise en place de l'expérience\\
+protocole de della Croce et comparaison des résultats\\
+Comparaison avec d'autres distributions\\
+Résultats\\
+Distribution non-uniforme\\
+Conclusion \\
 Annexes (implémentation de l'expérience)
-
-
-
-Considérons le problème \problemGrahamP. 
-État de l'art du problème d’ordonnancement.
-Problème \problemGrahamP. 
-n tâches chacune de taille $p_i (avec 1 \leq i \leq n)$, m machines parallèles identiques $( avec 1 \leq j \leq m)$.
-
-puis avec Q et P
-
-Point d'entrée de l'étude : Document de dela Croce
-
-Différentes pistes Heuristiques, BinPacking, Partitionnement de nombre (table \ref{table:Heuritiques})
-
 
 % =======================================================
 % 2 Etat de l'art
 % =======================================================
 \section{Etat de l'art} \label{sec:etatDeLArt}
 
+\subsection{Introduction} \label{ssec:etatDeLArtIntroduction}
+
+Le problème d'ordonnancement se pose depuis l'apparition des premières machines parallèles, et 
+  est d'autant plus d'actualité que les postes personnels sont équipés depuis quelques années, 
+  de processeurs (CPU) et de cartes graphiques (GPU) multi-c{\oe}urs.
+Les centres de calculs sont dotés de parcs assez uniformes, et maintenant, 
+  les clouds, offrent des instances VM qui permettent des environnements 
+  d'exécution homogènes.     
+Il fait partie de la catégorie des problèmes d'optimisation combinatoire. 
+C'est un champ de la recherche opérationnelle, actif depuis plus d'un siècle, 
+  et abondant dans la littérature. 
+
+De nombreuses pistes sont explorées. Il est pratiquement impossible de les énumérer toutes, 
+  aussi sont présentées ici les plus étudiées, 
+  et/ou utilisées pour être comparées ou servir de référent.
+  
+Nous abordons dans l'ordre, certaines Heuristiques. un type d'algorithme d'approximation, et une résolution du problème basée sur la programmation linéaire.
+
+\subsection{Heuristiques}\label{ssec:Heuristiques}
+
+Les heuristiques représentent la plus grande partie des recherches concernant l'ordonnancement. 
+Celles présentées sont basées 
+  sur le principe des LS (Liste Scheduling), 
+  sur une stratégie gloutonne,   
+  sur le le problème bin-packing et  
+  sur le problème de partitionnement de nombres. 
+
+\bigskip   
+\paragraph{LS (List Scheduling)}
+l'idée d'une LS est de stocker l'ensemble des jobs dans celle-ci, les trier dans une ordre particulier et/ou les regrouper selon une règle définie, dans le but de leur assigner une priorité. Ces job sont ensuite affectés un à un à une machine suivant un principe déterminé.
+
+LPT Rule (Longest Time Processing) % (algorithme \ref{algo:LPT})
+  proposé par Graham \emph{et al.} \cite{graham1966bounds} 
+  est un des algorithmes le plus repris dans la littérature.
+(algorithme \ref{algo:LPT})
+
+% -------------------------------------------------------
+% LPT 
+% -------------------------------------------------------
+\begin{algorithm}%[H]
+\DontPrintSemicolon
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+
+\BlankLine % Petit espace
+Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
+d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
+$p_1 \geq p_2 \geq \ldots \geq p_n$
+
+\BlankLine % Petit espace
+Parcourir la liste et affecter chaque job à la machine la moins
+chargée à ce moment là.
+% }
+\caption{LPT Rule}
+\label{algo:LPT}
+\end{algorithm}
+% -------------------------------------------------------
+% /LPT 
+% -------------------------------------------------------
 
 
+\bigskip   
+\paragraph{Stratégie gloutonne}
+Della Croce \emph{et al.} \cite{della2020longest} revisitent LPT rule dans le but de l'optimiser. 
+L'étude est articulée autour du lien qui existe entre le nombre de machines $m$, le nombre de jobs $n$, 
+  la relation qu'il peut y avoir entre les deux, 
+  et la probabilité que LPT donne un résultat au pire cas. 
+S'ensuit la stratégie gloutonne qui consiste à préparer la LS, avant d’appliquer LPT, comme suit :
+\begin{itemize}
+\item Trier les jobs par ordre décroissant de leur taille;
+\item Découper l'ensemble trié en tuples de m jobs;
+\item Soit ``slack'', La différence entre la taille du premier job et la taille du dernier job de chaque tuple;
+\item Trier l'ensemble des tuples dans l'ordre décroissant de leur ``slack''.  
+\end{itemize} 
+
+\bigskip
+(algorithme \ref{algo:SLACK})
+
+% -------------------------------------------------------
+% SLACK
+% -------------------------------------------------------
+\bigskip
+
+% Algorithme Slack
+% ---------------------
+\begin{algorithm}
+\DontPrintSemicolon
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+
+%Etape 1
+trier la liste des jobs dans l'ordre décroissant des temps nécessaires de traitements \;
+%ETAPE 2
+réindexer les jobs, de manière à obtenir $p_1 \geq p_2 \geq ... \geq p_n$ \;
+%ETAPE 3
+découper l'ensemble obtenu en $\lceil \frac{n}{m} \rceil$ tuples de $m$ jobs (ajout
+de jobs ``dummy'' de taille nulle pour le dernier tuple, si $n$ n'est
+pas un multiple de $m$) \;
+%ETAPE 4
+considérer chaque tuple avec la différence de temps (SLACK) entre le
+premier job du tuple et le dernier.
+\begin{align*}
+\{ &\{1, ..., m\} &\{m+1,..., 2 \cdot m\} &... \} \\
+   &p_1 - p_m     &p_{m+1}-p_{2 \cdot m}  &...
+\end{align*} \;
+%STEP 5
+trier les tuples par ordre décroissant de ``Slack'' et ainsi former un nouvel ensemble
+\tcp{e.g: $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $p_{m+1} - p_{2 \cdot m} > p_1 - p_m$.}
+%STEP 6
+appliquer l'ordonnancement (affectation à la machine la moins chargée à
+ce moment là) à l'ensemble ainsi obtenu.
+\caption{SLACK\label{algo:SLACK}}
+\end{algorithm}
+% -------------------------------------------------------
+% /SLACK
+% -------------------------------------------------------
+
+\paragraph{Bin-Packing}
+Un des problèmes semblable à \problemGrahamP, est celui de Bin-Packing. Il consiste à 
+  ranger des objets, de taille différentes, 
+  dans des bacs identiques, tout en minimisant leur nombre.
+Ainsi l'ensemble $J=\{j_1, j_2, \ldots, j_n\}$ de $n$ jobs et 
+  l'ensemble de leur temps $p_i~(avec~1 \leq i \leq n)$ 
+  peuvent être vus respectivement comme
+  l'ensemble des objets à ranger et l'ensemble des tailles de ces objets . 
+  
+% -------------------------------------------------------
+% FFD 
+% -------------------------------------------------------
+\begin{algorithm}%[H]
+\DontPrintSemicolon
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+
+\BlankLine % Petit espace
+Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
+d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
+$p_1 \geq p_2 \geq \ldots \geq p_n$
+
+\BlankLine % Petit espace
+Parcourir la liste et affecter chaque job à la machine la moins
+chargée à ce moment là.
+% }
+\caption{FFD}
+\label{algo:FFD}
+\end{algorithm}
+% -------------------------------------------------------
+% /FFD 
+% -------------------------------------------------------
+  
+  
+  
+% -------------------------------------------------------
+% MULTIFIT 
+% -------------------------------------------------------
+\begin{algorithm}%[H]
+\DontPrintSemicolon
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+
+\BlankLine % Petit espace
+Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
+d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
+$p_1 \geq p_2 \geq \ldots \geq p_n$
+
+\BlankLine % Petit espace
+Parcourir la liste et affecter chaque job à la machine la moins
+chargée à ce moment là.
+% }
+\caption{MULTIFIT}
+\label{algo:MULTIFIT}
+\end{algorithm}
+% -------------------------------------------------------
+% /MULTIFIT  
+% -------------------------------------------------------
+  
+% -------------------------------------------------------
+% COMBINE
+% -------------------------------------------------------
+\begin{algorithm}%[H]
+\DontPrintSemicolon
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+
+\BlankLine % Petit espace
+Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
+d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
+$p_1 \geq p_2 \geq \ldots \geq p_n$
+
+\BlankLine % Petit espace
+Parcourir la liste et affecter chaque job à la machine la moins
+chargée à ce moment là.
+% }
+\caption{MULTIFIT}
+\label{algo:MULTIFIT}
+\end{algorithm}
+% -------------------------------------------------------
+% /COMBINE  
+% -------------------------------------------------------
+  
+  
+  
+% -------------------------------------------------------
+% LDM 
+% -------------------------------------------------------
+\begin{algorithm}%[H]
+\DontPrintSemicolon
+\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+
+\BlankLine % Petit espace
+Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
+d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
+$p_1 \geq p_2 \geq \ldots \geq p_n$
+
+\BlankLine % Petit espace
+Parcourir la liste et affecter chaque job à la machine la moins
+chargée à ce moment là.
+% }
+\caption{LDM}
+\label{algo:LDM}
+\end{algorithm}
+% -------------------------------------------------------
+% /LDM 
+% -------------------------------------------------------
 
 
+\subsection{Approximation}\label{ssec:Approximation}
+
+Un algorithme d'approximation est un algorithme .....
+
+\paragraph{PTAS (Polynomial Time Approximation Scheme)}
+ptas dual 
+
+........
+
+\subsection{Programmation linéaire}\label{ssec:programmationLineaire}
+
+Le problème \problemGrahamP s'inscrit parfaitement dans l'énoncé d'un problème de programmation linéaire.
+
+...
+
+\subsection{conclusion}\label{ssec:etatDeLArtConclusion}
+
+comparaison des algos....
 
 % -------------------------------------------------------
 % TABLEAU des heuristiques étudiées dans le rapport
@@ -312,94 +651,17 @@ COMBINE 	& bin-packing
 \end{table}
 
 
+\section{Synoptique et mise en place expérimentale}\label{sec:Synoptique}
 
-% -------------------------------------------------------
-% LPT (théorique)
-% -------------------------------------------------------
-
-\bigskip
-% Algorithme
-% ---------------------
-\begin{algorithm}[H]
-\DontPrintSemicolon
-\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
-
-\BlankLine % Petit espace
-Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
-d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
-$p_1 \geq p_2 \geq \ldots \geq p_n$
-
-\BlankLine % Petit espace
-Parcourir la liste et affecter chaque job à la machine la moins
-chargée à ce moment là.
-% }
-\caption{LPT Rule}
-\label{algo:LPT}
-\end{algorithm}
-
-% -------------------------------------------------------
-% SLACK (théorique)
-% -------------------------------------------------------
-\bigskip
-
-% Algorithme Slack
-% ---------------------
-\begin{algorithm}[H]
-\DontPrintSemicolon
-\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
-
-%Etape 1
-trier la liste des jobs dans l'ordre décroissant des temps nécessaires de traitements \;
-%ETAPE 2
-réindexer les jobs, de manière à obtenir $p_1 \geq p_2 \geq ... \geq p_n$ \;
-%ETAPE 3
-découper l'ensemble obtenu en $\lceil \frac{n}{m} \rceil$ tuples de $m$ jobs (ajout
-de jobs ``dummy'' de taille nulle pour le dernier tuple, si $n$ n'est
-pas un multiple de $m$) \;
-%ETAPE 4
-considérer chaque tuple avec la différence de temps (SLACK) entre le
-premier job du tuple et le dernier.
-\begin{align*}
-\{ &\{1, ..., m\} &\{m+1,..., 2 \cdot m\} &... \} \\
-   &p_1 - p_m     &p_{m+1}-p_{2 \cdot m}  &...
-\end{align*} \;
-%STEP 5
-trier les tuples par ordre décroissant de ``Slack'' et ainsi former un nouvel ensemble
-\tcp{e.g: $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $p_{m+1} - p_{2 \cdot m} > p_1 - p_m$.}
-%STEP 6
-appliquer l'ordonnancement (affectation à la machine la moins chargée à
-ce moment là) à l'ensemble ainsi obtenu.
-\caption{SLACK\label{algo:SLACK}}
-\end{algorithm}
-
-% -------------------------------------------------------
-% LDM (théorique)
-% -------------------------------------------------------
-\bigskip
-
-
-% -------------------------------------------------------
-% COMBINE (théorique)
-% -------------------------------------------------------
-
-
-
-/BROUILLON 
-
-
-
-
-\section{Paramètres d"expérience} \label{sec:Paramètres d"expérience}
-\fco{mal dit, revoir la phrase}
-L’expérience consiste à explorer et comparer le comportement de plusieurs heuristiques (LPT rule, SLACK, LDM et COMBINE). C'est un programme qui génère des listes de n temps de tâches, exécute ces heuristiques puis récupère, pour chacune d'elle, la simulation de l’ordonnancement calculé dans une liste de m processeurs, le makespan correspondant, ainsi que le temps qu'il a nécessité pour obtenir ce résultat.
+L’expérience consiste à explorer et comparer le comportement de plusieurs heuristiques. 
+C'est un programme qui génère des listes de temps de tâches, 
+  exécute ces heuristiques puis récupère, pour chacune d'elle, 
+  la simulation de l’ordonnancement calculé dans une liste de m processeurs, 
+  le makespan correspondant, ainsi que le temps qu'il a nécessité pour obtenir ce résultat.
 
 Après une vue d'ensemble nous allons voir la génération des listes de tâches (instances), l'implémentation des heuristiques (algorithmes), et comment ces listes et heuristiques sont utilisées et exécutées (campagne) afin d'obtenir un résultat global.
 
-\subsection{Synoptique}\label{subsec:Synoptique}
-
-
-
-\subsubsection{Objectifs}\label{subsubsec:Objectifs}
+\subsection{Objectifs}\label{ssec:Objectifs}
 Generer des instances
 Caratériser ces instances
 Comparer les cmax et temps d'exec des algos
@@ -411,7 +673,7 @@ Faire un lien entre comportement et variables
  ....
  
 
-\subsubsection{Technologies utilisées}\label{subsubsec:Technologies  utilisées}
+\subsection{Technologies utilisées}\label{ssec:TechnologiesUtilisées}
 Raison du choix des technos
  Facilité
  Universalité (langage largement utilisé et connu contrairement à ...
@@ -433,10 +695,13 @@ Inconvénients
 
 \end{itemize}
 
-\subsection{Instances} \label{subsec:génération des instances}
+\subsection{Choix des heuristiques}\label{ssec:choixHeuristiques}
+
+
+\section{Instances} \label{sec:instances}
 2 façons différentes de créer un environnement de tests Soit générer les instances, soit les récupérer.
 
-\subsubsection{génération des instances}\label{subsubsec:génération des instances}
+\subsection{génération des instances}\label{ssec:génération des instances}
 petite explication de chaque distribution, et graphe (e.g Lambda). 
 \fco {trouver les références sur les distributions}
 
@@ -450,23 +715,23 @@ Utilisée par della Croce
  Non uniforme 
  
  
-\subsubsection{récupération des instances}\label{subsubsec:récupération des instances}
+\subsection{récupération des instances}\label{ssec:récupérationInstances}
 
 \fco {Lire chap 2 et 9. + référence}
 Parallel Workload Archive
 
 
-\subsubsection{maîtrise de la solution optimale}\label{subsubsec:maîtrise de la solution optimale}
+\subsection{maîtrise de la solution optimale}\label{ssec:maîtriseSolutionOptimale}
 complétion à m-1 machines --> lissage de la moyenne par machine --> donc optimal
 Dans ce cas, comparer les algorithmes avec le même nombre de machines !
 
 \fco {faire la preuve ou trouver les références ?}
 
-\subsubsection{indicateurs statistiques et caratéristiques}\label{subsubsec:indicateurs statistiques et caratéristiques}
+\subsection{indicateurs statistiques et caratéristiques}\label{ssec:indicateursStatistiquesCaratéristiques}
 
 
-\subsection{Implémentation des algorithmes}
-\label{subsec:Implémentation des algorithmes}
+\section{Implémentation des algorithmes}
+\label{sec:ImplémentationAlgorithmes}
 Tous les algorithmes (étudiés) sont implémentés dans algorithms.py. Les procédures, objets et méthodes directement liés à ceux-ci sont placés dans ScheduleManagment.py i.e ceux qui n'ont pas le même prototype (FFD().). 
 Ces algorithmes sont structurés sur le même principe :
 \begin{itemize}
@@ -503,56 +768,8 @@ et du nombre de machines.
 \end{itemize}
 
 
-\subsubsection{LPT rule}\label{subsubsec:LPT rule}
 
-
-Implémentation Python :
-
-\begin{lstlisting}[style=stylepython]
-def lpt(costMatrix, m):
-    algoName = "LPT"
-    timeExpected = 0.0
-    matrixW = costMatrix[:]	
-    sched= [] 			
-    before = time.time()	
-    matrixW.sort(reverse=True)	
-    for i in range(len(matrixW)):
-        if (len(sched) < m):
-            p = sm.Processor()
-            p.addJob(matrixW[i])
-            sched.append(p)
-        else:
-            sched.sort(key=attrgetter("jobsTotal"))
-            sched[0].addJob(matrixW[i])
-    after = time.time()
-    makespan = 0.0
-    for i in range(len(sched)):
-        makespan = max(makespan, sched[i].jobsTotal)
-    timeAlgo = after-before
-    res = sm.PSched(algoName, timeExpected, makespan, timeAlgo, sched)
-    return res
-
-\end{lstlisting}
-
-
-
-
-
-
-\subsubsection{SLACK}\label{subsubsec:SLACK}
-
-
-
-
-
-
-
-\subsubsection{LDM}\label{subsubsec:LDM}
-
-reverse ingénierie (pas d'algo dans la litérature)
-
-
-\subsubsection{COMBINE}\label{subsubsec:COMBINE}
+\subsection{COMBINE}\label{ssec:COMBINE}
 
 les problèmes de COMBINE 
 l'algo approximatif (Do while et do until a son importance
@@ -569,7 +786,7 @@ Corrections apportées
 algorithme COMBINE
 algorithme FFD
 
-\subsubsection{fonctions annexes}\label{subsubsec:fonctions annexes}
+\subsection{fonctions annexes}\label{ssec:fonctionsAnnexes}
 
 Quelques mots sur les fonctions appelées par les algorithmes principaux et qui ont leurs importance.
 
@@ -578,34 +795,34 @@ Quelques mots sur les fonctions appelées par les algorithmes principaux et qui 
 \item Partitions LDM
 \end{itemize}
 
-\subsubsection{Ajout d'un algorithme}\label{subsubsec:Ajout d'un algorithme}
+\subsection{Ajout d'un algorithme}\label{ssec:AjoutAlgorithme}
 Les sources sont disponibles, et l'application est prévue pour accueillir de nouveaux algorithme, si les règles suivantes sont respectées.
 
 exemple avec MULTIFIT
 
-\subsection{Campagnes}\label{subsec:Campagnes}
+\section{Campagnes}\label{sec:Campagnes}
 
-\subsubsection{Génération d'une campagne}\label{subsubsec:Génération d'une campagne}
+\subsection{Génération d'une campagne}\label{ssec:generationCampagne}
 Par choix de paramètres
 Par exécution pré remplie
 Par lecture d'une campagnes
 
-\subsubsection{Gestion des "seeds"}\label{subsubsec:Gestion des "seeds"}
+\subsection{Gestion des "seeds"}\label{ssec:gestionSeeds}
 si doit reproduire les mêmes instances
 
 
-\subsubsection{Structure du fichier résultat}\label{subsubsec:Structure du fichier résultat}
+\subsection{Structure du fichier résultat}\label{ssec:StructureFichierResultat}
 
 passage en revue des colonnes de de leur provenance
 
 
-\subsection{Comparaison des résultats} \label{subsubsec:Comparaison des résultats}
+\section{Comparaison des résultats} \label{sec:comparaisonResultats}
 
 Comparer des algo quand on ne connaît pas l'optimal
 par rapport au meilleurs résultat
 
-\subsubsection{Normalisation du MakeSpan}
-\label{subsubsec:Normalisation du MakeSpan}
+\subsection{Normalisation du MakeSpan}
+\label{ssec:normalisationMakeSpan}
 
 trouver la bonne normalisation qui ne biaise pas trop la comparaison.
 Mackespan sous forme brute, voire normalisé avec Cmax-optiml donne une courbe  accidentée et pas très lisible
@@ -619,7 +836,7 @@ Mackespan sous forme brute, voire normalisé avec Cmax-optiml donne une courbe  
 \item MakeSpan / Moyenne de tâche par machine
 \end{itemize}
 
-\subsubsection{Temps d'exécution} \label{subsubsec:Temps d'exécution}
+\subsection{Temps d'exécution} \label{ssec:tempsExécution}
 
  Le temps attendu est théorique et non absolu. i.e n log n ne donne pas un temps en minutes secondes.Le temps mesuré lui est donné en minutes secondes --> faire le lien entre estimation théorique et mesuré.
  
@@ -627,7 +844,7 @@ D'un algo a l'autre , Python est un langatge de haut niveau, donc pas évident. 
 
 faire un lien entre le théorique de une valeur pour comparer par la suite les résultats suivants
  
-\subsubsection{Graphes}\label{subsubsec:Graphes}
+\subsection{Graphes}\label{ssec:graphes}
 \fco {Discuter avec Laurent/Louis-Claude/Julien Libre et proposition de graphes, ou conduit}
 
 Différents graphe à disposition
@@ -644,14 +861,14 @@ taille = hétérogénéité ?? écart type ?? de l'instance
 
 \section{Résultats} \label{sec:resultats}
 
-\subsection{en fonction de n}\label{subsec:en fonction de n}
+\subsection{en fonction de n}\label{ssec:en fonction de n}
 
-\subsection{en fonction de m}\label{subsec:en fonction de m}
+\subsection{en fonction de m}\label{ssec:en fonction de m}
 
-\subsection{en fonction de n et m}\label{subsec:en fonction de n et m}
+\subsection{en fonction de n et m}\label{ssec:en fonction de n et m}
 
-\subsection{en foonction des distributions et hétérogénéité}
-\label{subsec:en foonction des distributions et hétérogénéité}
+\subsection{en fonction des distributions et hétérogénéité}
+\label{ssec:en fonction des distributions et hétérogénéité}
 
 
 
