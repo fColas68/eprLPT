@@ -186,14 +186,15 @@ je remercie....
 \fco{Voir comment regrouper Abstract et Résumé sur une même page, sans utiliser de figure ...}
 
 \selectlanguage{english}
-\begin{abstract}
+\section*{Abstract} \label{sec:abstract}
+%\paragraph{Abstract}
 .... when the brief is completed ...
-\end{abstract}
 
+\bigskip
 \selectlanguage{french}
-\begin{abstract}
+\section*{Résumé} \label{sec:resume}
+%\paragraph{Résumé}
 ....une fois le mémoire terminé ...
-\end{abstract}
 
 \bigskip
 
@@ -630,7 +631,7 @@ LPT Rule 	&
 SLACK   	& 
 			& \cite{della2020longest} 
 			&$n \cdot log(n) + n \cdot log(m)$ 
-			& $\dfrac{4}{3}$ \\
+			& $\ldots$ \\
 
 % LDM
 LDM   		&  partitionnement 
@@ -652,7 +653,6 @@ COMBINE 	& bin-packing
 
 
 \section{Synoptique et mise en place expérimentale}\label{sec:Synoptique}
-
 L’expérience consiste à explorer et comparer le comportement de plusieurs heuristiques. 
 C'est un programme qui génère des listes de temps de tâches, 
   exécute ces heuristiques puis récupère, pour chacune d'elle, 
@@ -715,7 +715,7 @@ Utilisée par della Croce
  Non uniforme 
  
  
-\subsection{récupération des instances}\label{ssec:récupérationInstances}
+\subsection{récupération d'instances réelles}\label{ssec:récupérationInstances}
 
 \fco {Lire chap 2 et 9. + référence}
 Parallel Workload Archive
@@ -875,8 +875,6 @@ taille = hétérogénéité ?? écart type ?? de l'instance
 \section{P vers Q et R} \label{sec:P vers Q et R}
 
 je ne sais pas encore
-
-
 
 \section{Discussion} \label{sec:discussion}
 
