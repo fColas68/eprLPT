@@ -219,7 +219,7 @@ Ce problème d'ordonnancement consiste à planifier
   sur $m$ machines identiques (noté $P$) 
   dans le but d'optimiser le temps total de traitement appelé makespan 
   (noté $C_{max}$).
-Le temps nécessaire de réalisation de chaque job $p_i~(avec~1 \leq i \leq n)$ 
+Le temps nécessaire de réalisation de chaque job $p_i$ (avec $1 \leq i \leq n)$ 
   est connu à l'avance. 
 Un job commencé est complété sans interruption (non préemptif), 
   et est exécuté par une seule machine. 
@@ -449,7 +449,7 @@ S'ensuit la stratégie gloutonne qui consiste à préparer la LS, avant d’appl
 
 % Algorithme Slack
 % ---------------------
-\begin{algorithm}
+\begin{algorithm}[H]
 \DontPrintSemicolon
 \KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
 
@@ -481,13 +481,45 @@ ce moment là) à l'ensemble ainsi obtenu.
 % -------------------------------------------------------
 
 \paragraph{Bin-Packing}
-Un des problèmes semblable à \problemGrahamP, est celui de Bin-Packing. Il consiste à 
-  ranger des objets, de taille différentes, 
-  dans des bacs identiques, tout en minimisant leur nombre.
-Ainsi l'ensemble $J=\{j_1, j_2, \ldots, j_n\}$ de $n$ jobs et 
+Un des problèmes semblable à \problemGrahamP, est celui de Bin-Packing. 
+
+Soient
+\begin{itemize}
+  \item un ensemble d'objets à ranger $t_i \in T=\{t_1, t_2, \ldots, t_o\}$, 
+  \item les tailles de ces objets $L(t_i)$ (avec $1\leq i \leq o$). 
+  \item une taille de bac C.
+\end{itemize} 
+Un packing est une partition $B < B_1, B_2, ... B_k > $ 
+  telle que $L(B_j) \leq C$ (avec $1\leq j \leq k$), 
+  autrement dit, cela consiste à placer des objets $t_i$ dans des bacs $B_i$ de taille maximum $C$. 
+Le problème Bin-packing, qui est NP-Complet, tente de 
+  minimiser le nombre de bacs $k$. 
+  
+Dans la mesure où 
+\begin{itemize}
+\item l'ensemble des objets à ranger et leur tailles peuvent être vues comme
+  un ensemble $J=\{j_1, j_2, \ldots, j_n\}$ de $n$ jobs et les temps de traitement de chacun,
+\item la partition $B < B_1, B_2, ... B_m > $ peut s'apparenter à 
+  l’ordonnancement recherché sur $m$ machines.
+\end{itemize}  
+nous 
+  
+\bigskip
+Coffman \emph{et al.} \cite{coffman1978application} utilisent le problème Bin-packing 
+  pour essayer de résoudre \problemGrahamP, en utilisant FFD (First Fit Decreasing, algorithme \ref{algo:FFD}), qui est un outil de résolution du problème de packing. 
+
+
+
+
+
+
+
+L'ensemble $J=\{j_1, j_2, \ldots, j_n\}$ de $n$ jobs et 
   l'ensemble de leur temps $p_i~(avec~1 \leq i \leq n)$ 
   peuvent être vus respectivement comme
-  l'ensemble des objets à ranger et l'ensemble des tailles de ces objets . 
+
+
+
   
 % -------------------------------------------------------
 % FFD 
@@ -880,8 +912,6 @@ je ne sais pas encore
 
 
 \section{Conclusion} \label{sec:conclusion}
-
-\section{remerciements}
 
 
 \bibliographystyle{plain}				% NE PAS ENLEVER !!!!!!!!!!
