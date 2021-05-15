@@ -216,10 +216,10 @@ Considérons le problème \problemGrahamP. tel que définit
   Graham \emph{et al.} \cite{graham1979optimization}. 
 Ce problème d'ordonnancement consiste à planifier 
   un ensemble $J=\{j_1, j_2, \ldots, j_n\}$ de $n$ jobs, (ou tâches) indépendants, 
-  sur $m$ machines identiques (noté $P$) 
+  sur $m$ machines identiques. 
   dans le but d'optimiser le temps total de traitement appelé makespan 
   (noté $C_{max}$).
-Le temps nécessaire de réalisation de chaque job $p_i$ (avec $1 \leq i \leq n)$ 
+Le temps nécessaire de réalisation de chaque job $p_i$ $\in P=\{p_1, p_2, \ldots, p_n\}$  (avec $1 \leq i \leq n)$ 
   est connu à l'avance. 
 Un job commencé est complété sans interruption (non préemptif), 
   et est exécuté par une seule machine. 
@@ -494,33 +494,36 @@ Un packing est une partition $B < B_1, B_2, ... B_k > $
   autrement dit, cela consiste à placer des objets $t_i$ dans des bacs $B_i$ de taille maximum $C$. 
 Le problème Bin-packing, qui est NP-Complet, tente de 
   minimiser le nombre de bacs $k$. 
-  
-Dans la mesure où 
-\begin{itemize}
-\item l'ensemble des objets à ranger et leur tailles peuvent être vues comme
-  un ensemble $J=\{j_1, j_2, \ldots, j_n\}$ de $n$ jobs et les temps de traitement de chacun,
-\item la partition $B < B_1, B_2, ... B_m > $ peut s'apparenter à 
-  l’ordonnancement recherché sur $m$ machines.
-\end{itemize}  
-nous 
-  
+
+Bin-packing peut être considéré comme le double de \problemGrahamP, 
+  car l'ensemble des objets à ranger associés à leur taille, et la partition $B$ 
+  peuvent être vus respectivement comme 
+  un ensemble $J$ de $n$ jobs, leurs taille propre, 
+  et l'ordonnancement recherché sur $m$ machines.
+la taille $C$ des bacs correspondant au makespan recherché, 
+  ainsi que le nombre de bacs obtenus, au  nombre $m$ de machines.
 \bigskip
-Coffman \emph{et al.} \cite{coffman1978application} utilisent le problème Bin-packing 
-  pour essayer de résoudre \problemGrahamP, en utilisant FFD (First Fit Decreasing, algorithme \ref{algo:FFD}), qui est un outil de résolution du problème de packing. 
 
+Coffman \emph{et al.} \cite{coffman1978application} utilisent Bin-packing 
+  pour tenter de résoudre \problemGrahamP et proposent 
+  l'heuristique MULTIFITS (algorithme \ref{algo:MULTIFIT}). 
+Cet algorithme est basé sur FFD (algorithme \ref{algo:FFD}), un outil (heuristique) 
+  de résolution de Bin-packing. 
+Il accepte en entrée un ensemble de tailles d'objets, et une taille maximale $C$ de bacs 
+  et propose en retour un packing , donc un nombre de bacs $k$.
+L'idée de MULTIFIT est de proposer des valeurs de$C$ à FFD, jusqu'à avoir un nombre de bacs $k=m$.
+Ceci est réalisée à l'aide d'une recherche dichotomique dont les bornes de départ qui vont confiner $C$ sont : 
+\begin{align*}
+&\textnormal{borne inférieure} 	&C_l 	&= \max \{ \max_i \{ L(t_i) \}, \frac{1}{m} \cdot L(T) \} \\
+& 								& 		& \textnormal{ou rammené au problème \problemGrahamP} \\	 
+& 								& C_l 	&= borne_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \} \\
+&\textnormal{borne inférieure} 	&C_u 	&= 2 \cdot C_l 
+\end{align*}
 
-
-
-
-
-
-L'ensemble $J=\{j_1, j_2, \ldots, j_n\}$ de $n$ jobs et 
-  l'ensemble de leur temps $p_i~(avec~1 \leq i \leq n)$ 
-  peuvent être vus respectivement comme
-
-
-
-  
+MULTIFIT accepte en entrée un ensemble de temps de jobs $P$, 
+  un nombre de machines $m$ et 
+  un nombre d'itérations $k$ pour la recherche dichotomique.
+    
 % -------------------------------------------------------
 % FFD 
 % -------------------------------------------------------
