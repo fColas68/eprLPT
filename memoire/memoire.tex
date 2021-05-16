@@ -404,9 +404,15 @@ LPT Rule (Longest Time Processing) % (algorithme \ref{algo:LPT})
 % -------------------------------------------------------
 % LPT 
 % -------------------------------------------------------
-\begin{algorithm}%[H]
+\begin{algorithm}
 \DontPrintSemicolon
-\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+\KwData{
+
+instance de \problemGrahamP, avec 
+
+$m$ machines, 
+
+$n$ jobs et leur temps d'exécution}
 
 \BlankLine % Petit espace
 Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
@@ -449,9 +455,15 @@ S'ensuit la stratégie gloutonne qui consiste à préparer la LS, avant d’appl
 
 % Algorithme Slack
 % ---------------------
-\begin{algorithm}[H]
+\begin{algorithm}
 \DontPrintSemicolon
-\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+\KwData{
+
+instance de \problemGrahamP, avec 
+
+$m$ machines, 
+
+$n$ jobs et leur temps d'exécution}
 
 %Etape 1
 trier la liste des jobs dans l'ordre décroissant des temps nécessaires de traitements \;
@@ -493,7 +505,7 @@ Un packing est une partition $B < B_1, B_2, ... B_k > $
   telle que $L(B_j) \leq C$ (avec $1\leq j \leq k$), 
   autrement dit, cela consiste à placer des objets $t_i$ dans des bacs $B_i$ de taille maximum $C$. 
 Le problème Bin-packing, qui est NP-Complet, tente de 
-  minimiser le nombre de bacs $k$. 
+  minimiser le nombre de bacs $NB_b$. 
 
 Bin-packing peut être considéré comme le double de \problemGrahamP, 
   car l'ensemble des objets à ranger associés à leur taille, et la partition $B$ 
@@ -502,16 +514,17 @@ Bin-packing peut être considéré comme le double de \problemGrahamP,
   et l'ordonnancement recherché sur $m$ machines.
 la taille $C$ des bacs correspondant au makespan recherché, 
   ainsi que le nombre de bacs obtenus, au  nombre $m$ de machines.
+  
 \bigskip
-
 Coffman \emph{et al.} \cite{coffman1978application} utilisent Bin-packing 
   pour tenter de résoudre \problemGrahamP et proposent 
-  l'heuristique MULTIFITS (algorithme \ref{algo:MULTIFIT}). 
-Cet algorithme est basé sur FFD (algorithme \ref{algo:FFD}), un outil (heuristique) 
-  de résolution de Bin-packing. 
+  l'heuristique MULTIFIT (algorithme \ref{algo:MULTIFIT}). 
+Cet algorithme est basé sur FFD 
+  (First-Fit-Decreasing, algorithme \ref{algo:FFD}, \cite{rieck2021basic}), 
+  un outil (heuristique) de résolution de Bin-packing. 
 Il accepte en entrée un ensemble de tailles d'objets, et une taille maximale $C$ de bacs 
-  et propose en retour un packing , donc un nombre de bacs $k$.
-L'idée de MULTIFIT est de proposer des valeurs de$C$ à FFD, jusqu'à avoir un nombre de bacs $k=m$.
+  et propose en retour un packing , donc un nombre de bacs $NB_b$.
+L'idée de MULTIFIT est de proposer des valeurs de$C$ à FFD, jusqu'à avoir un nombre de bacs $NB_b=m$.
 Ceci est réalisée à l'aide d'une recherche dichotomique dont les bornes de départ qui vont confiner $C$ sont : 
 \begin{align*}
 &\textnormal{borne inférieure} 	&C_l 	&= \max \{ \max_i \{ L(t_i) \}, \frac{1}{m} \cdot L(T) \} \\
@@ -523,22 +536,52 @@ Ceci est réalisée à l'aide d'une recherche dichotomique dont les bornes de d�
 MULTIFIT accepte en entrée un ensemble de temps de jobs $P$, 
   un nombre de machines $m$ et 
   un nombre d'itérations $k$ pour la recherche dichotomique.
-    
+Selon la taille de l'instance du problème, $k$ doit avoir une valeur suffisante pour que 
+  MULTIFIT donne une réponse convenable. 
+Il est estimé, que cette valeur est atteinte pour toute taille d'instance, quand $k=7$ \cite{coffman1978application}.
+\bigskip
+
 % -------------------------------------------------------
 % FFD 
 % -------------------------------------------------------
-\begin{algorithm}%[H]
+\begin{algorithm}
 \DontPrintSemicolon
-\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+\KwData{
+
+instance de Bin-packing, avec 
+
+$C$ taille maximale des bacs,
+ 
+un ensemble $T = \{ t_1, t_2, \ldots, t_n\}$ de $n$ objets à ranger (pacquer)
+  dont $L(t_i)$ est la taille de chaque objet $t_i$ (avec $1 \leq i \leq n$)  }
 
 \BlankLine % Petit espace
-Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
-d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
-$p_1 \geq p_2 \geq \ldots \geq p_n$
+
+Trier l'ensemble T par ordre décroissant des $L(t_i)$ et  
+ré-indexer l'ensemble de telle manière à obtenir:
+$t_1 \geq t_2 \geq \ldots \geq t_n$
+
+$NB_b = 0$ \tcp{nombre de bacs}
+
+\Pour {tout objet $t_i$ avec $i = 1,2, \ldots, n$ } {
+	\Pour {tout bac existant $B_j$ (avec $j \leq NB_b$)} {
+		\Si { $L(t_i) + L(B_j) \leq C$} {
+			pacquer $t_i$ dans le bac $B_j$
+			
+			sortir de la boucle
+		}
+	}
+	\Si { $t_i$ n'a pas été pacqué}{
+		incrémenter $NB_b$
+		
+		Créer un nouveau bac $B_{NB_b}$
+		
+		pacquer $t_i$ dans $B_{NB_b}$
+		 
+	}
+}
 
 \BlankLine % Petit espace
-Parcourir la liste et affecter chaque job à la machine la moins
-chargée à ce moment là.
 % }
 \caption{FFD}
 \label{algo:FFD}
@@ -552,26 +595,82 @@ chargée à ce moment là.
 % -------------------------------------------------------
 % MULTIFIT 
 % -------------------------------------------------------
-\begin{algorithm}%[H]
+\begin{algorithm}
 \DontPrintSemicolon
-\KwData{instance de \problemGrahamP, avec $m$ machines, $n$ jobs et leur temps d'exécution}
+\KwData{
+
+$T$ un ensemble de jobs
+
+$m$ un nombre de processeurs
+
+$k$ un nombre d'itérations
+}
 
 \BlankLine % Petit espace
-Trier les jobs de l'ensemble $J$ dans l'ordre décroissant de leur temps
-d'exécution et ré-indexer l'ensemble de telle manière à obtenir:
-$p_1 \geq p_2 \geq \ldots \geq p_n$
+borne supérieure: 
+$Cu[T,m] = \max\left\{\frac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
+
+borne inférieure: 
+$Cl[T,m] = \max\left\{\frac{1}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
 
 \BlankLine % Petit espace
-Parcourir la liste et affecter chaque job à la machine la moins
-chargée à ce moment là.
-% }
+$i=1$
+
+\Tq {$i \leq k$} {
+	$C = \frac{C_u + C_l}{2}$
+	
+	$NB_b = FFD(C, T)$ \tcp{FFD renvie le nombre de bacs créés}
+	
+	\Si {$NB_b \leq m$} {
+		$C_u = C$
+	}
+	\Sinon
+	{
+	 	$C_l = C$
+	}
+	incrémenter i
+}
+\BlankLine % Petit espace
+\tcp{
+Après $k$ itérations, MULTIFIT renvoie $C_u$ 
+  qui correspond à la plus petite valeur de $C$
+  pour laquelle $FFD[T,C] \leq m$}
+
+\Return {$Cu$} 
+
 \caption{MULTIFIT}
 \label{algo:MULTIFIT}
 \end{algorithm}
 % -------------------------------------------------------
 % /MULTIFIT  
 % -------------------------------------------------------
+
+\bigskip
+Lee \emph{et al.} \cite{lee1988multiprocessor} améliorent MULTIFIT 
+  en utilisant LPT pour 
+  calculer la borne supérieure de départ 
+  pour la recherche dichotomique 
+  et proposent l'Heuristique COMBINE (algorithme \ref{algo:COMBINE}). 
+Contrairement à la recherche dichotomique de MULTIFIT 
+  qui effectue $k$ itérations, 
+  celle de COMBINE s'arrête lorsque 
+  la différence des deux bornes est inférieure à $\alpha \cdot A$.
   
+$C_u - C_l \leq \alpha \cdot A$
+
+avec  
+\begin{align*}
+&A = \sum_{i=1}^{n}(\frac{P_i}{m})	
+&\textnormal{(moyenne des poids des jobs par processeur)} \\
+&\alpha = 0.005 						
+&\textnormal{(constante arbitraire)}
+\end{align*}
+
+Le nombre d’itérations $k$ de recherche dichotomique est variable, 
+  mais n’excède pas 6. 
+  Or, LPT a déjà tourné une fois, donc $k \leq 7$.
+  
+   
 % -------------------------------------------------------
 % COMBINE
 % -------------------------------------------------------
@@ -588,14 +687,16 @@ $p_1 \geq p_2 \geq \ldots \geq p_n$
 Parcourir la liste et affecter chaque job à la machine la moins
 chargée à ce moment là.
 % }
-\caption{MULTIFIT}
-\label{algo:MULTIFIT}
+\caption{COMBINE}
+\label{algo:COMBINE}
 \end{algorithm}
 % -------------------------------------------------------
 % /COMBINE  
 % -------------------------------------------------------
-  
-  
+
+\bigskip
+\paragraph{Partitionnement de nombres}
+
   
 % -------------------------------------------------------
 % LDM 
