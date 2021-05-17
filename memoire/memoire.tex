@@ -590,8 +590,12 @@ $NB_b = 0$ \tcp{nombre de bacs}
 % /FFD 
 % -------------------------------------------------------
   
-  
-  
+
+\fco{verifier la borne sup si ce ne serait pas plutot 
+$\max\left\{\frac{2}{m} \cdot L(T), \max_i\{2 \cdot L(T_i)\} \right\}$ 
+auquel cas serait donc $2 \cdot Cl$.
+Si ce n'est pas le cas, corriger plus haut}
+
 % -------------------------------------------------------
 % MULTIFIT 
 % -------------------------------------------------------
@@ -696,7 +700,23 @@ chargée à ce moment là.
 
 \bigskip
 \paragraph{Partitionnement de nombres}
+Un autre problème similaire à l'ordonnancement est le problème de partitionnement de nombres.
 
+Soit un ensemble $E = \{e_1, e_2, \ldots, e_n\}$ de $n$ entiers. 
+
+le problème de partitionnement de nombres consiste à 
+  diviser l'ensemble de départ en $NB_e$ sous-ensembles 
+  mutuellement exclusifs et collectivement exhaustifs 
+  de sorte que la somme des nombres dans chaque sous-ensemble 
+  soient aussi égales que possible \cite{korf2009multi}.
+Ce problème est NP-complet, et peut être assimilé au problème 
+  d'ordonnancement \problemGrahamP, avec un ensemble 
+  $E = P=\{p_1, p_2, \ldots, p_n\}$ de taille de tâches 
+  à partitionner en  $NB_e=m$ sous-ensembles (machines ou processeurs).
+
+\bigskip
+Karmarkar \emph{et al.} proposent LDM (Largest Differencing Method) pour deux partitions, puis, pour $m$ \cite{karmarkar1982differencing}.
+ 
   
 % -------------------------------------------------------
 % LDM 
@@ -723,8 +743,14 @@ chargée à ce moment là.
 
 
 \subsection{Approximation}\label{ssec:Approximation}
-
-Un algorithme d'approximation est un algorithme .....
+Contrairement à une heuristique, qui doit être étudiée pour connaître sa borne d'approximation, 
+  celle-ci est maîtrisée par un algorithme d'approximation qui fournit une garantie d'approche.
+Une famille d'algorithmes d'approximation, les PTAS (Polynomial-Time Approximation Scheme) 
+  regroupe des algorithmes qui calcule, pour tout $\epsilon > 0$ donné, 
+  une solution proche de l'optimal
+  d'un facteur $(1 + \epsilon)$ pour un problème de minimisation 
+  ou $(1 - \epsilon)$ pour un problème de maximisation, 
+  en temps polynomial, dépendant de $\epsilon$. 
 
 \paragraph{PTAS (Polynomial Time Approximation Scheme)}
 ptas dual 
