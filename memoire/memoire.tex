@@ -37,6 +37,10 @@
 \usepackage{xcolor}
 \usepackage{xspace}
 
+% Ajout LP
+\usepackage{todonotes}
+
+
 % -------------------------------------------------------
 % Théorèmes
 % -------------------------------------------------------
@@ -255,7 +259,7 @@ Cependant, \problemGrahamP devient un problème NP-Difficile,
 
 Donner la solution optimale à un problème d'ordonnancement 
   (dans notre cas \problemGrahamP) n'est pas réaliste. 
-  la résolution de celui-ci demanderait un temps excessif et donc rédhibitoire.
+  La résolution de celui-ci demanderait un temps excessif et donc rédhibitoire.
 Comme les machines sont identiques, et travaillent à la même vitesse,
 la difficulté repose uniquement sur le regroupement des jobs.
 La résolution du problème d'ordonnancement va reposer sur des méthodes
@@ -269,7 +273,7 @@ Les jobs sont exécutés sans interruption ni coupure. Donc,
   le makespan ne peut pas être inférieur à la moyenne
   des tailles des jobs par machine
   i.e. $\frac{1}{m} \sum_{i=1}^{n} p_i$.
-Donc Toutes les solutions ont une borne minimale
+Donc toutes les solutions ont une borne minimale
   \cite{mcnaughton1959scheduling}: \\
 
   \begin{center}
@@ -281,7 +285,7 @@ L'existence d'une solution qui résout le problème de manière optimale
   n'est pas pensable, à moins que $P = NP$.
 Dans la littérature, l'étude d'ordonnancement est très riche et abondante. 
 Le but étant d'améliorer le temps de calcul, et d'approcher le résultat optimal. 
-Les solutions proposée sont des Heuristiques, ou des approximations.
+Les solutions proposées sont des Heuristiques, ou des approximations.
 
 Le but d'une heuristique (du grec \emph{heuriskein}: trouver) est 
   de trouver une solution respectant les contraintes du problème et 
@@ -323,7 +327,7 @@ Parmi les heuristiques les plus étudiées, nous pouvons citer
   SLACK \cite{della2020longest}.
 Ce dernier revisite l'heuristique LPT en appliquant aux données d'entrée du problème, 
   une stratégie gloutonne. 
-SLACK devient très compétitif par rapport au autres heuristiques, 
+SLACK devient très compétitif par rapport aus autres heuristiques, 
   tant en complexité en temps 
   qu'en ratio d'approximation. 
 Cette conclusion est le résultat d'un protocole expérimental 
