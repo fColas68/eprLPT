@@ -327,7 +327,7 @@ Parmi les heuristiques les plus étudiées, nous pouvons citer
   SLACK \cite{della2020longest}.
 Ce dernier revisite l'heuristique LPT en appliquant aux données d'entrée du problème, 
   une stratégie gloutonne. 
-SLACK devient très compétitif par rapport aus autres heuristiques, 
+SLACK devient très compétitif par rapport aux autres heuristiques, 
   tant en complexité en temps 
   qu'en ratio d'approximation. 
 Cette conclusion est le résultat d'un protocole expérimental 
@@ -819,79 +819,204 @@ COMBINE 	& bin-packing
 
 
 \section{Synoptique et mise en place expérimentale}\label{sec:Synoptique}
-L’expérience consiste à explorer et comparer le comportement de plusieurs heuristiques. 
-C'est un programme qui génère des listes de temps de tâches, 
-  exécute ces heuristiques puis récupère, pour chacune d'elle, 
-  la simulation de l’ordonnancement calculé dans une liste de m processeurs, 
-  le makespan correspondant, ainsi que le temps qu'il a nécessité pour obtenir ce résultat.
 
-Après une vue d'ensemble nous allons voir la génération des listes de tâches (instances), l'implémentation des heuristiques (algorithmes), et comment ces listes et heuristiques sont utilisées et exécutées (campagne) afin d'obtenir un résultat global.
+\subsection{Introduction}\label{ssec:synoptiqueIntroduction}
 
-\subsection{Objectifs}\label{ssec:Objectifs}
-Generer des instances
-Caratériser ces instances
-Comparer les cmax et temps d'exec des algos
-Faire un lien entre comportement et variables
- N
- M
- Distribution
- Hétérogénéité
- ....
+Pour disposer d'un champ expérimental, une application est créée.  
+Elle est disponible au téléchargement sur le lien suivant :
+
+https://github.com/fcolasCTU/appCmax
+
+\bigskip
+A propos de cette plate-forme expérimentale, nous nous intéresserons tout d'abord à ses objectifs, puis aux technologies utilisées, pour continuer sur le choix des heuristiques. Nous finirons par une vue d'ensemble du fonctionnement.
+
+\subsection{Objectifs}\label{ssec:synoptiqueObjectifs}
+
+L'application doit permettre de reproduire un environnement expérimental d'exécution d'algorithmes liés au problème \problemGrahamP, et de les comparer entre eux au niveau de l'efficacité (borne d'approximation), et du coût en temps.
+pour cela, il faut pouvoir :
+\begin{itemize}
+\item Générer des listes de temps de jobs selon différentes distributions et lois de probabilités, 
+  afin de créer des instances (listes de temps de jobs~$+$~nombre de machines $m$) synthétiques. 
+\item Récupérer des listes de temps existantes de chantiers réels disponibles au téléchargement, 
+  permettant de créer des instances naturelles.
+\item Caractériser ces listes de coûts de jobs, et ainsi estimer un niveau d’hétérogénéité 
+  pour la mettre en relation avec le comportement des heuristiques.
+\item Exécuter des heuristiques, récupérer leurs résultats (ordonnancement, Makespan) 
+  et leur temps d’exécution 
+  en fonction d'une liste de temps, et d'un nombre de machines $m$.
+\item Exporter le résultats de plusieurs heuristiques soumises à 
+  un environnement choisi 
+  (instance, type  d'instance, variation du nombre de temps de jobs $n$, 
+  variation du nombre de machines identiques $m$, algorithme utilisé) 
+  dans le but de le soumettre à des scripts de statistiques et de comparaison (tableaux, graphes).
+\item Archiver les différents résultats sous forme de données brutes, pour une utilisation future. 
+\end{itemize} 
+Pour finir, l'application se veut évolutive, et facilite, l'ajout d'heuristiques et de méthodes de générations de listes de temps.
+
+\subsection{Technologies utilisées}\label{ssec:synoptiqueTechnologiesUtilisées}
+
+la partie applicative (génération d'instance, caractérisation des listes de temps, 
+  exécution des algorithmes) est développée en PYTHON, et 
+  la partie statistiques en langage R. 
+Entre ces deux parties, les données brutes transitent via un fichier résultat au format CSV, 
+ généré par le module PANDAS de PYTHON.
  
+PYTHON et R ont été choisis pour les raisons suivantes :
+\begin{itemize}
+\item Temps de développement : ces langages, de haut niveau, permettent de développer 
+  des solutions rapidement, avec une taille de code réduite.
+\item Temps d'apprentissage : 
+\item Se sont des langages interprètes : le fait que ces langages ne sont pas compilés 
+  comprend plusieurs avantages. 
+  D'une part, cela les rend (presque) indépendants des plate-formes d'exécution
+  (la seule difficulté rencontrée, est l'adaptation à prévoir demeure dans la gestion des 
+  chemins d'accès différente d'un OS à l'autre).
+  D'autre part, les sources étant disponibles, cela permet une évolutivité de l’application. 
+\item Les deux langages proposent des outils très efficaces permettant de travailler les listes.  
+\item Abondances de bibliothèque : Il existe une multitude de bibliothèques permettant de 
+  développer plus rapidement, 
+  des fonctionnalités dans des domaines particuliers (mathématiques, statistiques, graphes, 
+  structuration des données).
 
-\subsection{Technologies utilisées}\label{ssec:TechnologiesUtilisées}
-Raison du choix des technos
- Facilité
- Universalité (langage largement utilisé et connu contrairement à ...
- Interprété (pas compilé), donc + portable + évolutif (sources à disposition)
- Abondance de tutoriels et documentations
-Inconvénients
- Interprété (trop haut niveau pour les temps d'exec)
- ... 
+  e.g : 
+  
+  Pour PYTHON l'application utilise les bibliothèques 
+  PANDAS (pour l'export des données data frame au format CSV) et 
+  URLLIB (pour accéder au site de téléchargement et télécharger des listes de jobs existantes).
+
+  Pour R, les scripts utilisent  
+  READR (pour lire des fichiers CSV),  
+  GGPLOT et PLOT3D (pour générer des graphes et les exporter au format PDF et JPG).
+\item Ces plate-formes de développement sont gratuites. Ces langages sont donc largement utilisés 
+  et la communauté est très active et productive,
+  tant dans les tutoriels, 
+  que dans les forums de discutions.         
+\end{itemize}
+
+\subsection{Choix des heuristiques}\label{ssec:synoptiqueChoixHeuristiques}
+
+Il s'agit ici de comparer les algorithmes utilisés dans \cite{della2020longest}. De plus, quatre orientations différentes peuvent être testées (LS, Bin-packinq, stratégie gloutonne, partitionnement de nombres) pour la résolution du problème.
+Notre choix se porte donc sur :
+\begin{itemize}
+	\item LPT rule
+	\item SLACK
+	\item LDM
+	\item COMBINE
+\end{itemize}
+
+COBINE repose sur deux autres heuristiques qui sont aussi implémentées : 
+\begin{itemize}
+	\item FFD
+	\item MULTIFIT
+\end{itemize}
+
+\subsection{Schéma général}\label{ssec:synoptiqueSchemaGeneral}
+
+
+\subsection{Conclusion}\label{ssec:synoptiqueConclusion}
+
+
+% =======================================================
+% 3 INSTANCES
+% =======================================================
+\section{Instances} \label{sec:instances}
+
+\subsection{Introduction}\label{ssec:instancesIntroduction}
+
+Pour tester ces heuristiques, il est nécessaire de disposer d'instances au problème \problemGrahamP, i.e une liste de temps (ou coûts) de jobs et un nombre de machines identiques (ou processeurs).
+Pour les listes de coûts, il existe deux façons d'en obtenir : 
+  Soit, les créer à partir d'un nombre $n$ de jobs désirés, 
+  soit en récupérer.
+  
+\bigskip
+Après une présentation des différentes façons d'obtenir des listes de temps de job, nous aborderons une méthode permettant de transformer une liste de coûts, en une instance dont l'optimal est connu, pour finir sur a caractérisation des listes.  
+
+\subsection{génération des instances synthétiques}\label{ssec:instancesGenerationInstancesSynthetiques}
+
+Pour créer des listes de coûts, nous utilisons la bibliothèque par défaut de génération de 
+  nombres pseudo-aléatoires de PYTHON, selon différentes règles statistiques. 
+Ceci permet de créer des listes, pourvues de diverses propriétés, notamment l’hétérogénéité. 
+
+\bigskip
+Les deux types de générations suivants, implémentés dans l'application, 
+  génèrent des nombres entiers \footnote{\samepage La commande random.uniform(a,b) de PYTHON renvoie un réel. L'application le transforme en entier, à l'aide de la commande round(n).}, mais ne permettent pas la maîtrise de la variance. 
+Ce sont les deux seuls types de génération utilisés dans le protocole expérimental de comparaisons des heuristiques dans \cite{della2020longest}.
+   
+\begin{itemize}
+\item Uniforme : les nombres pseudo-aléatoires générés, sont uniformément répartis 
+  entre deux entiers $a$ et $b$.
+   
+  \begin{lstlisting}[language=Python]
+	for i in range(n):
+		rand = random.uniform(a,b)
+  \end{lstlisting}
+
+\item Non-uniforme. définie en tant que "NON-UNIF" dans \cite{frangioni2000multi}. Cette méthode produit 
+  une liste de temps de traitements dont 
+  $98\%$ des éléments sont uniformément répartis dans l’intervalle  $[0.9 (b-a), b]$, et 
+  le reste ($2\%$) est uniformément réparti dans l'intervalle  $[a, 0.2 (b-a)]$.
+
+
+  \begin{lstlisting}[language=Python]
+	n98 = int((98*n) / 100)
+	    a1 = 0.9*(b-a)
+    	b1 = b
+    	a2 = a
+    	b2 = 0.2*(b-a)
+		...
+    	for i in range(n98):
+       		rand = random.uniform(a1,b1)
+
+    	...
+    
+    	for i in range(n-n98):
+    		rand = random.uniform(a2,b2)
+  \end{lstlisting}
+  
+\end{itemize}
+
+\bigskip
+L'application implémente d'autres type de générations, basés sur des lois statistiques (distribution). 
+Celles-ci génèrent des nombres réels, et acceptent des paramètres qui ont un effet sur 
+  "l'écrasement" des courbes représentant les distributions, 
+  et entrent dans le calculs de la variance.
 
 \begin{itemize}
+\item Loi gamma : La loi gamma représente généralement des manifestions qui se déroulent dans le temps. Elle accepte deux paramètres $k$ ("alpha" dans l'implémentation) qui affecte la forme, et $\Theta$ ("beta" dans l’implémentation) qui affecte l'échelle.  
+  \begin{lstlisting}[language=Python]
+	for i in range(n):
+    		rand = random.gammavariate(alpha,beta)
+  \end{lstlisting}
+\item Loi exponentielle : Cas particulier de la loi gamma. Elle représente la durée de vie d'un événement. Elle accepte un paramètre $\lambda$ (lambda dans l'implémentation) qui affecte l'échelle.  
+  \begin{lstlisting}[language=Python]
+	for i in range(n):
+    		rand = random.expovariate(lambd)
+  \end{lstlisting}
 
-\item Python
-\item Pandas
-\item R
-\item RStudio
-\item ggPlots
-\item Github
-
+\item Loi beta. Accepte deux paramètres de forme (un pour l'implémentation), $\alpha$ (alpha dans l’implémentation) qui affecte la forme, et $\beta$ (toujours à 1 dans l'implémentation) qui affecte aussi la forme.
+  \begin{lstlisting}[language=Python]
+	for i in range(n):
+    		rand = random.betavariate(alpha,1)
+  \end{lstlisting}
 
 \end{itemize}
 
-\subsection{Choix des heuristiques}\label{ssec:choixHeuristiques}
-
-
-\section{Instances} \label{sec:instances}
-2 façons différentes de créer un environnement de tests Soit générer les instances, soit les récupérer.
-
-\subsection{génération des instances}\label{ssec:génération des instances}
-petite explication de chaque distribution, et graphe (e.g Lambda). 
-\fco {trouver les références sur les distributions}
-
-Distribution statistiques différentes
- Uniforme
- Lambda
- Beta
- Exponentielle
- 
-Utilisée par della Croce
- Non uniforme 
+\bigskip
+\paragraph{Seed} Chaque génération d'instance est accompagnée de la récupération d'une graine (seed). 
+Chaque instance a sa propre graine, et est stockée aussi dans le fichier de résultats. 
+Ainsi il est aisé de reproduire à l'identique une liste de coûts, en utilisant la même graine 
+  lors de sa ré-génération. 
  
  
-\subsection{récupération d'instances réelles}\label{ssec:récupérationInstances}
-
-\fco {Lire chap 2 et 9. + référence}
-Parallel Workload Archive
+\subsection{récupération d'instances réelles}\label{ssec:instancesGenerationInstancesReelles}
 
 
-\subsection{maîtrise de la solution optimale}\label{ssec:maîtriseSolutionOptimale}
-complétion à m-1 machines --> lissage de la moyenne par machine --> donc optimal
-Dans ce cas, comparer les algorithmes avec le même nombre de machines !
 
-\fco {faire la preuve ou trouver les références ?}
+
+
+\subsection{maîtrise de la solution optimale}\label{ssec:instancesMaitriseSolutionOptimale}
+
+
 
 \subsection{indicateurs statistiques et caratéristiques}\label{ssec:indicateursStatistiquesCaratéristiques}
 
