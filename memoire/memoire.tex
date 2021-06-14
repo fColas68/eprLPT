@@ -38,6 +38,12 @@
 \usepackage{xspace}
 
 % -------------------------------------------------------
+% Pour utiliser certains symboles mathématiques (statistiques)
+% -------------------------------------------------------
+\DeclareMathOperator{\E}{\mathbb{E}} % Espérence / Expectation
+\DeclareMathOperator{\V}{\mathbb{V}} % Variance  / Variance
+
+% -------------------------------------------------------
 % Annexes
 % -------------------------------------------------------
 \usepackage[toc,page]{appendix} 
@@ -902,6 +908,23 @@ COMBINE 	& bin-packing
 			& \cite{lee1988multiprocessor} 
 			& $ n~log(n) + kn~log(m)$ 
 			& $\frac{13}{12} + 2^{-k}$ \\
+\hline
+MULTIFIT 	&	bin-packing
+ 
+				composante de COMBINE
+			& \cite{lee1988multiprocessor} 
+			& $ n~log(n) + kn~log(m)$ 
+			& $\frac{13}{12} + 2^{-k}$ \\
+FFD 		& 	bin-packing
+		
+				composante de MULTIFIT 
+			& \cite{lee1988multiprocessor} 
+			& $ n~log(n) + kn~log(m)$ 
+			& $\frac{13}{12} + 2^{-k}$ \\
+
+
+
+
 %---------------------------
 \hline
 \end{tabular}
@@ -982,39 +1005,219 @@ Pour la récupération, des sites mettent à disposition de listes de temps, soi
 \bigskip
 Après une présentation des différentes façons d'obtenir des listes de temps de jobs synthétiques et réelles, nous aborderons une méthode permettant de transformer une liste de temps, en une instance dont l'optimal est connu, pour finir sur la caractérisation des listes.  
 
-\subsection{génération des instances synthétiques}\label{ssec:instancesGenerationInstancesSynthetiques}
+\subsection{génération des listes de temps synthétiques}\label{ssec:instancesGenerationListesTempsSynthetiques}
 
-Pour la génération de listes de temps,il existe plusieurs familles de 
-  distributions statistiques paramétrables. 
+Selon la taxonomie des distributions statistiques \cite{nielsen2009statistical}, il existe plusieurs familles. 
+Pour la génération de listes de temps, nous utilisons 
+  des variables statistiques indépendantes et identiquement distribuées 
+  (I.I.D.) qui suivent, pour chaque production la même loi de probabilité.
+Le choix se porte donc sur les distributions utilisées 
+  par Della Croce et Scatamacchia, Uniforme et non-uniforme, 
+  et sur 3 autres distributions qui font parties de la familles 
+  des distributions exponentielles, les distributions Gamma, Beta, et Exponentielle 
+  (figure \ref{fig:taxonomieLoisStatistiques}).
 
+%--------------------------------------------------------
+% Figure de taxonomie des lois statistiques (flotante)
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{taxonomieLoisStatistiques.png}
+\caption{Taxonomie des lois statistiques utilisées.}
+\label{fig:taxonomieLoisStatistiques}
+\par}
+\end{figure}
+
+\paragraph{Loi Exponentielle} 
+ou loi de durée de vie, sans vieillissement (figure \ref{fig:LoiStatistiquesExponentielle}).
+Soit $X$ une variable aléatoire définie dans $[0, \infty[$. $X$ suit une loi exponentielle de paramètre $\lambda$ si elle a pour densité :
+
+
+  \begin{center}
+  $[X=t] = \left\{
+    \begin{array}{ll}
+        \lambda e^{-\lambda t}  & \mbox{si } t \geq 0  \\
+        0 & \mbox{sinon}
+    \end{array}
+	\right.$
+  \label{definitionLoiExponentielleDensite}
+  \end{center}
+
+L’espérance et la variance sont fonctions de $\lambda$ et sont égales a :
+
+\begin{align*}
+	\E(X) &= \frac{1}{\lambda} \\
+	\V(X) &= \frac{1}{\lambda ^2}
+\end{align*} 
+
+
+%--------------------------------------------------------
+% Figure loi de statistique Exponentielle (flotante)
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{loiStatExponentielle.png}
+\caption{Loi statistique exponentielle.}
+\label{fig:LoiStatistiquesExponentielle}
+\par}
+\end{figure}
 
 \paragraph{Gamma}
+ou modélisation de phénomènes qui se déroulent u cours du temps (figure \ref{fig:LoiStatistiquesGamma}). 
+La loi de statistique Gamma est une loi de la famille des lois Exponentielles à 2 paramètres 
+  et se définit sur $[0, \infty]$.
+Si $Y_1, Y_2, \ldots, Y_n$ sont des variables I.I.D. 
+  de loi exponentielle de paramètre $\lambda$ alors $X=\sum_{ i= 1}^{\alpha} X_i$  
+  suit une loi Gamma $\Gamma(\alpha, \beta)$ avec 
+    $alpha$ le paramètre de forme et 
+    $\beta$ ($=\lambda$) le paramètre d'échelle. 
+  
+si X suit une loi $\Gamma(\alpha, \beta)$ alors la densité est de la forme :
+
+  \begin{center}
+  $[X=t] = \left\{
+    \begin{array}{ll}
+    	\frac{\beta^{\alpha} t^{\alpha-1} e^{-\beta t}}{\Gamma(\alpha)}  & 
+    	\mbox{si } t \geq 0  \\
+        0 & 
+        \mbox{sinon}
+    \end{array}
+	\right.$
+  \label{definitionLoiGammaDensite}
+  \end{center}
+   
+Les paramètres $\alpha$ et $\beta$ peuvent être définis aussi ainsi :
+
+   
+\begin{align*}
+   k 		& \textnormal{ tel que } \alpha = k  \textnormal{ et} \\
+   \theta 	& \textnormal{ tel que } \beta  = \frac{1}{\theta}
+\end{align*}
+
+L’espérance et la variance sont fonctions de $k$ $\theta$ et sont égales a :
+
+\begin{align*}
+	\E(X) &= k \theta \\
+	\V(X) &= k \theta ^2
+\end{align*}
+
+%--------------------------------------------------------
+% Figure loi de statistique Gamma (flotante)
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{loiStatGamma.png}
+\caption{Loi statistique Gamma.}
+\label{fig:LoiStatistiquesGamma}
+\par}
+\end{figure}
+
+\paragraph{Beta} (figure \ref{fig:LoiStatistiquesBeta})
+Si la variable aléatoire X suit une loi Beta de paramètres $\alpha$ et $\beta$ alors la loi de densité est de la forme :
+  \begin{center}
+  $[X=t] = \left\{
+    \begin{array}{ll}
+    \frac{\Gamma(\alpha + \beta) t^{\alpha-1} (1-t)^{\beta-1}}{\Gamma(\alpha) \Gamma(\beta)}
+    & 
+   	\mbox{si } t \in [0,1]  \\
+        0 & 
+        \mbox{sinon}
+    \end{array}
+	\right.$
+  \label{definitionLoiBetaDensite}
+  \end{center}
+ 
+L’espérance et la variance sont fonctions de $\alpha$ $\beta$ et sont égales a :
+
+\begin{align*}
+	\E(X) &= \frac{\alpha}{\alpha + \beta} \\
+	\V(X) &= \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)} 
+\end{align*}
+
+%--------------------------------------------------------
+% Figure loi de statistique Beta(flotante)
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{loiStatBeta.png}
+\caption{Loi statistique Beta.}
+\label{fig:LoiStatistiquesBeta}
+\par}
+\end{figure}
 
 
-\paragraph{Beta}
+
+\paragraph{Uniforme} Est une loi statistique non exponentielle. Une loi uniforme sur $[a, b]$ 
+  est une loi de probabilité $P$ dont la fonction de densité et constante sur $[a, b]$. 
+  
+Les nombres générés sont uniformément répartis dans l'intervalle $[a, b]$
+
+\begin{center}
+$[X] = \frac{1}{b-a}$
+\end{center}
 
 
-\paragraph{Exponentiel}
 
+\paragraph{Non-uniforme} Ce type de génération de liste de temps est utilisé dans le protocole expérimental de \cite{frangioni2004multi} et est repris par Della Croce et Scatamacchia \cite{della2020longest} pour éprouver SLACK.
+Une liste de nombres aléatoires générée via une règle non-uniforme de paramètres $a$ et $b$ , est l'union de 2 listes générées via une loi uniforme comme suit :
 
-\paragraph{Uniforme}
+\begin{align*}
+	98 \%  &= \textnormal{loi uniforme } [0.9(b-a) b] \\
+	2\%    &= \textnormal{loi uniforme } [a, 0.2(b-a)] 
+\end{align*}
 
+\begin{example}
+Pour la génération d'une liste suivant la règle non-uniforme [1, 100], 
 
-\paragraph{Non-uniforme}
+\begin{align*}
+	98 \%  &\textnormal{ est uniformément répartis sur } [89.1~~ 100] \\
+	2\%    &\textnormal{ est uniformément répartis sur } [1   ~~ 19.8] 
+\end{align*}
 
+\end{example}
 
  
-\subsection{récupération d'instances réelles}\label{ssec:instancesGenerationInstancesReelles}
+\subsection{récupération de listes de temps réelles}\label{ssec:instancesGenerationListesTempsReelles}
 
-\paragraph{PWA}
+\paragraph{PWA} Parallel Workload Archive. L'idée est de collecter des données de 
+  vrais systèmes et de supposer que les futurs workload 
+  seront similaires \cite{feitelson2014experience}.
 
+   
+PWA est un dépôt de fichiers journaux de temps disponible à 
+  l'URL :
+  
+\url{https://www.cs.huji.ac.il/labs/parallel/workload/}
 
-\subsection{maîtrise de la solution optimale}\label{ssec:instancesMaitriseSolutionOptimale}
+Ces archives proviennent de l'enregistrement direct des événements qui se produisent sur les systèmes informatiques et ont l'avantage de représenter un panel de besoins réels. 
+Mais elles peuvent comporter certains inconvénients : 
+\begin{itemize}
+	\item Le nombre de jobs $n$ n'est pas maîtrisé, et ne représente qu'une 
+	vingtaine de fichiers, donc un nombre limité de tests et comparaisons 
+	empiriques à effectuer.
+	\item Ces archives ne sont pas forcément complètes et certaines information 
+	importantes peuvent manquer.
+	\item incohérence de données. Certaines informations ne passent pas le 
+	contrôle de contraintes d'intégrités.
+	\item Données erronées. Des données peuvent être fausses. 
+	e.g dues au dépassement d'adressage de nombres.
+	\item modification d'environnement.Le problème inhérent aux machines 
+	est leur hétérogénéité qui change avec le temps.
+	\item Comportement non représentatif. L'aspect humain entre aussi en ligne de compte.
+	\item Effet "END". Les jobs sont consignés une fois terminés. 
+	Entre une tâche extrêmement courte et une tâche longue le temps 
+	d'enregistrement est le même. Cela peut provoquer un décalage 
+	entre la fin du journal et le temps calculé.
+	\item Les temps d'arrêts ne sont pas consignés.   
+\end{itemize}
+
+\subsection{Instance et maîtrise de la solution optimale}
+\label{ssec:instancesMaitriseSolutionOptimale}
 
 Pour comparer les résultats obtenus, il est nécessaire d'avoir un référent par rapport au Makespan. 
-Il n'est pas possible d'obtenir le ratio d'approximation de l'algorithme A ($\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$) car l'optimal n'est pas connu et est précisément ce que l'on cherche. 
+Il n'est pas possible d'obtenir le ratio d'approximation de l'algorithme A ($\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$) car l'optimal n'est pas connu et c'est précisément ce que l'on cherche. 
 La seule donnée connue est la borne minimale de la liste de tailles de jobs.
-Or cette borne ($borne_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \}$) n'est pas forcément l'optimal.\cite{benoit2021update}
+Or cette borne ($borne_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \}$) n'est pas forcément l'optimal.
 
 \bigskip
 % Exemple
@@ -1035,7 +1238,7 @@ L'optimal $C_4^\star(J) = 12$ (figure \ref{ex:borneMinVSOptimalListeDepart}).
 \end{example}
 
 Cette borne minimale est égale à l'optimal uniquement si toutes les charges des machines sont identiques.
-A partir d'une liste de coûts (synthétique ou naturelle) il est donc possible d'obtenir une instance dont l'optimal est connu. Cette opération nécessite la transformation de la liste de coût de départ pour un 
+A partir d'une liste de coûts (synthétique ou naturelle) il est donc possible d'obtenir une instance dont l'optimal est connu \cite{benoit2021update}. Cette opération nécessite la transformation de la liste de coût de départ pour un 
   nombre de machines défini (figure \ref{ex:maitriseOptimal}).
 \begin{itemize}
 	\item Soit une liste de $n$ jobs et l'ensemble des $p_i$ à appliquer sur $m$ machines parallèles identiques.
@@ -1049,11 +1252,14 @@ A partir d'une liste de coûts (synthétique ou naturelle) il est donc possible 
 \end{itemize}
 
 \bigskip 
-Il convient de distinguer la liste de coût obtenue soit par génération, soit par récupération, 
-  Native, dont seule la borne minimale est connue, 
+Il convient de distinguer la liste de coût Native obtenue 
+  soit par génération, 
+  soit par récupération, 
+  dont seule la borne minimale est connue, 
   et sa transformée, complétée avec $m-1$ temps de jobs, nommée M1 (qui est une instance), 
   dont l'optimal est connu.
-Tous les tests sont effectués sur les instances M1, et sur le nombre réel de tâches ($n + (m-1)$).
+Tous les tests sont effectués sur les instances M1, 
+  et sur le nombre réel de tâches ($n + (m-1)$).
 
 \begin{figure}
 {\centering
@@ -1066,27 +1272,23 @@ Tous les tests sont effectués sur les instances M1, et sur le nombre réel de t
 \subsection{indicateurs statistiques et caratéristiques}\label{ssec:instancesIndicateursStatistiquesCaratéristiques}
 
 Afin de caractériser une liste de coût, plusieurs indicateurs statistiques sont calculés à la génération, ou à la récupération de celle-ci.
-les calculs sont effectués via les bibliothèques ``scipy.stats'' (pour les moyennes géométrique 
-  et harmoniques) et ``statistics'' de PYTHON.
 
-Sont calculées et récupérées dans un champs tuple (évolutif) :
 \begin{itemize}
 	\item La moyenne de la charge par machine;
-	\item La moyenne des éléments de $P$ (statistics.mean);
-	\item La moyenne géométrique des éléments de $P$ ( scipy.stats.gmean );
-	\item La moyenne harmonique des éléments de $P$ ( scipy.stats.hmean );
-	\item La médiane de l'ensemble $P$ (stat.median);
+	\item La moyenne des éléments de $P$;
+	\item La moyenne géométrique des éléments de $P$;
+	\item La médiane de l'ensemble $P$;
 	\item Le plus petit élément de $P$;
 	\item Le plus grand élément de $P$;
-	\item L'écart type des valeurs de $P$ (statistics.pstdev(l,statistics.mean(l)));
-	\item La variance des valeurs de $P$  (statistics.pvariance(l, statistics.mean(l))).
+	\item L'écart type des valeurs de $P$;
+	\item La variance des valeurs de $P$.
 \end{itemize}
 
 Ces divers indicateurs peuvent donner une appréciation quant à 
-  l'hétérogénéité d'une liste de coût.
+  l'hétérogénéité d'une liste de temps, ou d'une instance.
 
-\subsection{Conclusion}\label{ssec:instancesConclusion}
 
+\bigskip
 Nous venons de voir comment les listes de coûts sont générées et utilisées. 
 Elles peuvent être créées via la production de nombres pseudo-aléatoires selon un nombre 
   défini de jobs et une distribution statistique choisie, 
@@ -1098,139 +1300,41 @@ Et enfin, plusieurs indicateurs statistiques caractérisant chaque instance les 
 
 Nous abordons maintenant la notion de ``campagnes'' de tests où les instances sont soumises à des heuristiques.  
    
+\section{Campagnes} \label{sec:Campagnes}
+tous les tests sont découpés en campagnes. Chaque campagne peut faire varier $n$ 
+  de 1 en 1 avec un nombre de départ, et un nombre d'arrivée, 
+  ou suivant une liste. 
+Il en est de même pour le nombre de machines $m$. 
+Les deux valeurs peuvent aussi évoluer conjointement.
+Peuvent être choisies aussi le nombre d'instances générées 
+  par type de distribution statistiques ou 
+  les fichiers PWA a prendre en compte.
+  
 
-\section{Campagnes}\label{sec:Campagnes}
+\subsection{environnement de tests} \label{ssec:campagnesEnvironnementDeTests}
 
+L'environnement de tests est développé en PYTHON, pour la partie applicative, et en R pour la partie analyse et graphes. Des informations sur la plate-forme sont disponibles en annexe.
 
+Toutes les campagnes ont été effectuées sur un portable 
+  doté de 4 Go de ram et 
+  équipé d'un processeur Intel core I3 4330u cadencé à 1900 MHz.
 
-\subsection{Implémentation des algorithmes}
-\label{ssec:ImplémentationAlgorithmes}
-Tous les algorithmes (étudiés) sont implémentés dans algorithms.py. Les procédures, objets et méthodes directement liés à ceux-ci sont placés dans ScheduleManagment.py i.e ceux qui n'ont pas le même prototype (FFD().). 
-Ces algorithmes sont structurés sur le même principe :
-\begin{itemize}
-
-\item Les paramètres en entrée :
-	\begin{description}
-
-	\item Une liste de coûts : soit l'ensemble des $p_i$. 
-	sous la forme $[p_1, p_2, ... , p_n]$. 
-	Cette liste n'est pas forcément triée car cela fait partie 
-	de l'heuristique, et ce tri peut changer d'une stratégie à l'autre.
-	
-	\item un nombre de machines m.
-	\end{description}
-
-\item Mesure du temps d'exécution. L'heure de début, et l'heure de fin 
-sont consignées dans des variables ``before'' et ``after''. 
-le temps d'exécution est donc mesuré en minutes-secondes.
-
-\item Calcul du temps théorique, en fonction de la complexité théorique 
-en temps de l’algorithme, ainsi que de la taille de la liste des temps, 
-et du nombre de machines.
-
-\item Déroulement de l'heuristique.
-
-\item Retour d'un object ``PSched'' contenant les informations suivantes :
-	\begin{description}
-	\item Le nom de l'algorithme.
-	\item Le temps attendu.
-	\item le Makespan calculé
-	\item Le temps qui a été nécessaire
-	\item L'ordonnancement, sous forme de liste.
-	\end{description}
-\end{itemize}
-
-\subsection{COMBINE}\label{ssec:COMBINE}
-
-les problèmes de COMBINE 
-l'algo approximatif (Do while et do until a son importance
-Cu - Cl >= alpha A pas forcément ...
-Condition d'arrêt n'integre pas le nombre de bin utilisées
-
-\fco {Discuter avec Laurent/Louis-Claude/Julien de ce bug-si connu ou viens de moi}
-!!! La borne supérieure  est donnée par LPT rule !!!
-puis FFD est exécuté avec, c= borne supérieure + borne inférieure)/2. Or, si FFD est moins performant que LPT, le nombre de bin ne sera jamais égal au nombre de machines considéré. e.g si LPT( [p1,p2,...,pn]) sur m machines donne U, et FFD(U) donne V (avec V > U) FFD entre U et L (L<U) donnera au mieux V.....
-
-COMBINE avec borne sup = 1.1Cmax(LPT), c'est ok
-
-Corrections apportées
-algorithme COMBINE
-algorithme FFD
-
-\subsection{fonctions annexes}\label{ssec:fonctionsAnnexes}
-
-Quelques mots sur les fonctions appelées par les algorithmes principaux et qui ont leurs importance.
-
-\begin{itemize}
-\item FFD \cite{rieck2010basic} (implémentation)
-\item Partitions LDM
-\end{itemize}
-
-\subsection{Ajout d'un algorithme}\label{ssec:AjoutAlgorithme}
-Les sources sont disponibles, et l'application est prévue pour accueillir de nouveaux algorithme, si les règles suivantes sont respectées.
-
-exemple avec MULTIFIT
+\subsection{Déroulement d'une campagne} \label{ssec:campagnesDeroullementDUneCampagne}
 
 
 
-\subsection{Génération d'une campagne}\label{ssec:generationCampagne}
-Par choix de paramètres
-Par exécution pré remplie
-Par lecture d'une campagnes
-
-\subsection{Gestion des "seeds"}\label{ssec:gestionSeeds}
-si doit reproduire les mêmes instances
-
-
-\subsection{Structure du fichier résultat}\label{ssec:StructureFichierResultat}
-
-passage en revue des colonnes de leur provenance
-
-
-\section{Comparaison des résultats} \label{sec:comparaisonResultats}
-
-Comparer des algo quand on ne connaît pas l'optimal
-par rapport au meilleurs résultat
-
-\subsection{Normalisation du MakeSpan}
-\label{ssec:normalisationMakeSpan}
-
-trouver la bonne normalisation qui ne biaise pas trop la comparaison.
-Mackespan sous forme brute, voire normalisé avec Cmax-optiml donne une courbe  accidentée et pas très lisible
-
-\fco {Discuter avec Laurent/Louis-Claude/Julien si comparaison par graphes, ou voir moindres carrés ou autre méthode}
-
-\begin{itemize}
-\item MakeSpan brut
-\item MakeSpan - optimal ou meilleur résultat
-\item MakeSpan / optimal ou meilleur résultat
-\item MakeSpan / Moyenne de tâche par machine
-\end{itemize}
-
-\subsection{Temps d'exécution} \label{ssec:tempsExécution}
-
- Le temps attendu est théorique et non absolu. i.e n log n ne donne pas un temps en minutes secondes.Le temps mesuré lui est donné en minutes secondes --> faire le lien entre estimation théorique et mesuré.
- 
-D'un algo a l'autre , Python est un langatge de haut niveau, donc pas évident. ce qui peut être comparé, c'est pour un même algo et faire varier N et/ou m. on compare les mêmes instructions....
-
-faire un lien entre le théorique de une valeur pour comparer par la suite les résultats suivants
- 
-\subsection{Graphes}\label{ssec:graphes}
-\fco {Discuter avec Laurent/Louis-Claude/Julien Libre et proposition de graphes, ou conduit}
-
-Différents graphe à disposition
-utilisation de ggplot
-Modifier l'un d'eux
-Abscisse 	= soit n
-			= soit m
-Couleurs = algorithme
-pictogramme = méthode de génération instance (lambda, beta uniforme ...) 
-taille = hétérogénéité ?? écart type ?? de l'instance
 
 
 
+
+
+  
 
 \section{Résultats} \label{sec:resultats}
+
+
+
+Protocole 
 
 \subsection{en fonction de n}\label{ssec:en fonction de n}
 
@@ -1243,18 +1347,19 @@ taille = hétérogénéité ?? écart type ?? de l'instance
 
 
 
-\section{P vers Q et R} \label{sec:P vers Q et R}
-
-je ne sais pas encore
 
 \section{Discussion} \label{sec:discussion}
 
 
 \section{Conclusion} \label{sec:conclusion}
 
+
+
+
+
 \begin{appendices}
 
-\chapter{Génération des listes de nombres pseudo-aléatoires}
+%\chapter{Génération des listes de nombres pseudo-aléatoires}
 
 % \subsection{Objectifs}\label{ssec:synoptiqueObjectifs}
 
@@ -1392,13 +1497,134 @@ Celles-ci génèrent des nombres réels, et acceptent des paramètres qui ont un
 \end{itemize}
 
 \bigskip
-\paragraph{Seed} Chaque génération d'instance est accompagnée de la récupération d'une graine (seed). 
+%\paragraph{Seed} Chaque génération d'instance est accompagnée de la récupération d'une graine (seed). 
 Chaque instance a sa propre graine, et est stockée aussi dans le fichier de résultats. 
 Ainsi il est aisé de reproduire à l'identique une liste de coûts, en utilisant la même graine 
   lors de sa ré-génération. 
  
+les calculs sont effectués via les bibliothèques ``scipy.stats'' (pour les moyennes géométrique 
+  et harmoniques) et ``statistics'' de PYTHON.
+
+Sont calculées et récupérées dans un champs tuple (évolutif) :
 
 
+%\subsection{Implémentation des algorithmes}
+%\label{ssec:ImplémentationAlgorithmes}
+Tous les algorithmes (étudiés) sont implémentés dans algorithms.py. Les procédures, objets et méthodes directement liés à ceux-ci sont placés dans ScheduleManagment.py i.e ceux qui n'ont pas le même prototype (FFD().). 
+Ces algorithmes sont structurés sur le même principe :
+\begin{itemize}
+
+\item Les paramètres en entrée :
+	\begin{description}
+
+	\item Une liste de coûts : soit l'ensemble des $p_i$. 
+	sous la forme $[p_1, p_2, ... , p_n]$. 
+	Cette liste n'est pas forcément triée car cela fait partie 
+	de l'heuristique, et ce tri peut changer d'une stratégie à l'autre.
+	
+	\item un nombre de machines m.
+	\end{description}
+
+\item Mesure du temps d'exécution. L'heure de début, et l'heure de fin 
+sont consignées dans des variables ``before'' et ``after''. 
+le temps d'exécution est donc mesuré en minutes-secondes.
+
+\item Calcul du temps théorique, en fonction de la complexité théorique 
+en temps de l’algorithme, ainsi que de la taille de la liste des temps, 
+et du nombre de machines.
+
+\item Déroulement de l'heuristique.
+
+\item Retour d'un object ``PSched'' contenant les informations suivantes :
+	\begin{description}
+	\item Le nom de l'algorithme.
+	\item Le temps attendu.
+	\item le Makespan calculé
+	\item Le temps qui a été nécessaire
+	\item L'ordonnancement, sous forme de liste.
+	\end{description}
+\end{itemize}
+
+%\subsection{COMBINE}\label{ssec:COMBINE}
+
+les problèmes de COMBINE 
+l'algo approximatif (Do while et do until a son importance
+Cu - Cl >= alpha A pas forcément ...
+Condition d'arrêt n'integre pas le nombre de bin utilisées
+
+\fco {Discuter avec Laurent/Louis-Claude/Julien de ce bug-si connu ou viens de moi}
+!!! La borne supérieure  est donnée par LPT rule !!!
+puis FFD est exécuté avec, c= borne supérieure + borne inférieure)/2. Or, si FFD est moins performant que LPT, le nombre de bin ne sera jamais égal au nombre de machines considéré. e.g si LPT( [p1,p2,...,pn]) sur m machines donne U, et FFD(U) donne V (avec V > U) FFD entre U et L (L<U) donnera au mieux V.....
+
+COMBINE avec borne sup = 1.1Cmax(LPT), c'est ok
+
+Corrections apportées
+algorithme COMBINE
+algorithme FFD
+
+%\subsection{fonctions annexes}\label{ssec:fonctionsAnnexes}
+
+Quelques mots sur les fonctions appelées par les algorithmes principaux et qui ont leurs importance.
+
+\begin{itemize}
+\item FFD \cite{rieck2010basic} (implémentation)
+\item Partitions LDM
+\end{itemize}
+
+
+%\subsection{Génération d'une campagne}\label{ssec:generationCampagne}
+Par choix de paramètres
+Par exécution pré remplie
+Par lecture d'une campagnes
+
+%\subsection{Gestion des "seeds"}\label{ssec:gestionSeeds}
+si doit reproduire les mêmes instances
+
+
+%\subsection{Structure du fichier résultat}\label{ssec:StructureFichierResultat}
+
+passage en revue des colonnes de leur provenance
+
+
+%\section{Comparaison des résultats} \label{sec:comparaisonResultats}
+
+Comparer des algo quand on ne connaît pas l'optimal
+par rapport au meilleurs résultat
+
+%\subsection{Normalisation du MakeSpan}
+%\label{ssec:normalisationMakeSpan}
+
+trouver la bonne normalisation qui ne biaise pas trop la comparaison.
+Mackespan sous forme brute, voire normalisé avec Cmax-optiml donne une courbe  accidentée et pas très lisible
+
+\fco {Discuter avec Laurent/Louis-Claude/Julien si comparaison par graphes, ou voir moindres carrés ou autre méthode}
+
+\begin{itemize}
+\item MakeSpan brut
+\item MakeSpan - optimal ou meilleur résultat
+\item MakeSpan / optimal ou meilleur résultat
+\item MakeSpan / Moyenne de tâche par machine
+\end{itemize}
+
+%\subsection{Temps d'exécution} \label{ssec:tempsExécution}
+
+ Le temps attendu est théorique et non absolu. i.e n log n ne donne pas un temps en minutes secondes.Le temps mesuré lui est donné en minutes secondes --> faire le lien entre estimation théorique et mesuré.
+ 
+D'un algo a l'autre , Python est un langatge de haut niveau, donc pas évident. ce qui peut être comparé, c'est pour un même algo et faire varier N et/ou m. on compare les mêmes instructions....
+
+faire un lien entre le théorique de une valeur pour comparer par la suite les résultats suivants
+ 
+%\subsection{Graphes}\label{ssec:graphes}
+%\fco {Discuter avec Laurent/Louis-Claude/Julien Libre et proposition de graphes, ou conduit}
+
+Différents graphe à disposition
+utilisation de ggplot
+Modifier l'un d'eux
+Abscisse 	= soit n
+			= soit m
+Couleurs = algorithme
+pictogramme = méthode de génération instance (lambda, beta uniforme ...) 
+taille = hétérogénéité ?? écart type ?? de l'instance
 
 
 
