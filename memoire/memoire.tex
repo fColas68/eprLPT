@@ -1321,34 +1321,309 @@ Toutes les campagnes ont été effectuées sur un portable
 
 \subsection{Déroulement d'une campagne} \label{ssec:campagnesDeroullementDUneCampagne}
 
+%--------------------------------------------------------
+% Figure déroulé d'une campagne (flotante)
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+%\includegraphics[width=\columnwidth]{derouleCampagne.png} : trop grand sinon!
+\includegraphics[height=50mm]{derouleCampagne.png}
+\caption{Déroulement d'une campagne.}
+\label{fig:deroulementDUneCampagne}
+\par}
+\end{figure}
+
+Une campagne boucle sur le nombre de machines choisies, le nombre de jobs à créer pour les listes de temps, par nombre et type de loi statistiques. Pour chaque triplet \{$m$, $n$, liste de temps\} une instance native et M1 sont créées, et les algorithmes LPT, SLACK LDM et COMBINE sont soumis (figure \ref{fig:deroulementDUneCampagne}).
+
+Les 4 algorithmes sont donc soumis à chaque itération, aux mêmes instances i.e aux mêmes valeurs. 
+
+%--------------------------------------------------------
+% Figure Contenu fichier RESULT.CSV (flotante)
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{contenuResultCSV.png}
+\caption{Contenu du fichier result.csv.}
+\label{fig:contenuResultCSV}
+\par}
+\end{figure}
 
 
 
+8 lignes résultat sont générées et sont intégrées dans un fichier global ``result.csv'' une fois les boucles de la campagne terminées pour comparaison des résultats (figure \ref{fig:contenuResultCSV}). La structure se décompose ainsi :
+\begin{itemize}
+	\item generateMethode : est la méthode qui est utilisée pour générer la liste de temps. 
+	\item m : est le nombre de machines identiques pur les instances Native et M1 
+	\item id : est l'id du triplet \{$m$, $n$, numéro de liste de temps\}. 
+			Sert aux regroupements et comparaisons des algorithmes pour une même instance.
+	\item seed : est a graine résultante du moteur de génération de nombre pseudo-aléatoires 
+			utilisé pour la création de la liste de temps. Peut servir pour recréer à 
+			l'identique une instance. 
+	\item n : Nombre de jobs servant à créer une liste de temps native. 
+	\item $[a-b]$ : Paramètres a et b pour les listes de temps UNIFORME et NON-UNIFORME. 
+			cette information est utilisée pour recréer le protocole expérimental 
+			de Della Croce et Scatamacchia.
+	\item LowBound : Borne inférieure de l'instance native.
+	\item m1\_n : Nouveau nombre de jobs de l'instance M1 après complétion et calcul 
+			de l'optimal.
+	\item m1LowBound : Borne inférieure de l'instance M1.
+	\item m1Optimal : Optimal calculé sur l'instance M1.
+	\item resultConcerns : indique si le Makespan calculé concerne l'instance native ou M1.
+	\item algoName : Nom de l'algorithme soumis.
+	\item makespan : Makespan trouvé par l'algorithme soumis.
+	\item time : Temps qu'il a été nécessaire pour calculer le makespan 
+			par l’algorithme soumis. 
+\end{itemize}
 
+\subsection{Comparaison Makespan et normalisation}
+ \label{ssec:campagnesComparaisonMakespanNormalisation}
 
+Comparer les Makespans obtenus n'est pas significatif. Les valeurs sont fonction des instances et ne représente pas que l'efficacité d'une heuristique.
 
+Il est donc nécessaire de normaliser le résultat pour permettre des comparaisons. 3 pistes sont explorées :
+\begin{itemize}
 
+  \item $\frac{Makespan}{borne~inférieure}$ : seule piste possible de normalisation 
+  des instances natives, car seule, leur borne inférieure sont connues. 
+  C'est la normalisation qui est utilisée pour comparer les algorithmes sur 
+  des instances natives.
   
+  \item Makespan - Optimal : ou Makespan absolu \cite{benoit2021update}. 
+  Permet de retirer du résultat l'optimal connu de l'instance M1.
+  Cette valeur tend vers $0$ lorsque le résultat converge vers l'optimal, 
+  mais ne permet pas une comparaison avec 
+  le ratio d'approximation $\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$.
+
+  \item $\frac{Makespan}{Optimal}$ : ou Makespan relatif \cite{benoit2021update}.
+  Permet d'obtenir le rapport entre le Makespan calculé et l'optimal de l'instance M1.
+  Cette valeur tend vers $1$ lorsque le résultat converge vers l'optimal, 
+  Cette normalisation permet aussi une comparaison avec  
+  le ratio d'approximation $\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$. 
+  Cette normalisation est donc utilisée pour comparer les résultats obtenus sur les instances 
+  M1.
+\end{itemize}
+
 
 \section{Résultats} \label{sec:resultats}
 
+\subsection{protocole expérimental de Della Croce et Scatamacchia}
+\label{ssec:resultatsPrtocoleExperimentalDellaCroceScatamacchia}
+ 
+Pour comparer SLACk aux autres heuristiques, LPT, LDM et COMBINE, Della Croce et Scatamacchia 
+ utilisent 10 instances UNIFORMES et NON-UNIFORMES d'intervalle [a, b] de [1, 100], [1, 1000] et [1, 10000], pour un nombre de machines de 5 et un nombre de jobs de 10, 50, 100, 500 et 1000, et sur un nombre de machines de 10 et 25 pour un nombre de jobs de 50, 100, 500 et 1000.
+soit un total de : 
+
+pour chaque intervalle [a, b] = [1, 100], [1, 1000], [1, 10000] et
+  chaque classe UNIFORM et NON-UNIFORM 
+\begin{itemize}
+\item 10 instances $\cdot$ 5 couples $\{m=5,n\}:\{5,10\},\{5,50\},\{5,100\},\{5,500\},\{5,1000\}$
+\item 10 instances $\cdot$ 4 couples $\{m=10, n\}:\{10,50\},\{10,100\},\{10,500\},\{10,1000\}$
+\item 10 instances $\cdot$ 4 couples $\{m=25,n\}:\{25,50\},\{25,100\},\{25,500\},\{25,1000\}$
+\end{itemize}  
+
+780 instances.
+
+%--------------------------------------------------------
+% Figure resultat obtenu par DCS (non flottant
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{1_Resultat_De_DCS.png}
+%\includegraphics[height=100mm]{1_Resultat_De_DCS.png}
+\caption{résultat obtenu par Della Croce et Scatamacchia.}
+\label{fig:resultatDellaCroceScatamacchia}
+\par}
+\end{figure}
+
+La figure \ref{fig:resultatDellaCroceScatamacchia} représente le résultat obtenu 
+  dans \cite{della2020longest}. 
+Les auteurs annoncent une amélioration significative de LPT avec SLACK, 
+  car celui-ci est meilleurs à 65.8\% des cas contre LPT, suivant les 780 instances 
+  de référence de la littérature. De ce fait, SLACK peut être vu comme une alternative précieuse 
+  à LPT.
+  
+  
+\subsection{SLACK sur des instances réelles}
+\label{ssec:resultatsSLACKReel}
+
+%--------------------------------------------------------
+% Figure resultat obtenu par DCS (flottant)
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{2_Resultat_reel.png}
+\caption{résultat sur 5 archives PWA.}
+\label{fig:resultat5PWA}
+\par}
+\end{figure}
+ 
+ Les 4 algorithmes sont exécutés sur des listes de temps réelles, provenant de 5 PWA NASA IPSC, Early CTC SP2, LANL CM5, SDSC Par95 et SDSC Par96, qui contiennent respectivement 18066, 75895, 122058, 32128 et 53744 jobs. Ces 5 archives sont transformées en instances de 5, 10 et 25 machines, et le résultat est représenté en figure \ref{fig:resultat5PWA}.
+ 
+SLACK est efficace, mais de très peu. 
+Les heuristiques, dans cet échantillons, sont plus souvent équivalentes.  
+ 
+\subsection{Reproduction du protocole expérimental de Della Croce et Scatamacchia}
+\label{ssec:resultatsReroductionPrtocoleExperimentalDellaCroceScatamacchia}
+ 
+%--------------------------------------------------------
+% Figure resultat obtenu par REPRODUCTION DU PROTOCOLE DE DCS
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{3_Resultat_Reproduction_De_DCS.png}
+\caption{résultat obtenu par Reprduction Della Croce et Scatamacchia.}
+\label{fig:resultatReproductionDellaCroceScatamacchia}
+\par}
+\end{figure}
+
+Le même protocole expérimental est exécuté. Le résultat est indiqué 
+  figure \ref{fig:resultatReproductionDellaCroceScatamacchia}. 
+Les résultats obtenus ne sont pas tout à fait identiques ou avoisinants. 
+  
+Côté temps, SLACK passe d'un rapport de 1.3 à un rapport de 1.5 par rapport à LPT. 
+Mais c'est COMBINE qui a le plus de différence en passant d'un rapport de 1.40 
+  à un rapport de 3.9 par rapport à LPT. 
+Cela peut être du à l'implémentation des algorithmes et à la technologie utilisée. 
+
+Coté Makespan, SLACK cumule plus de victoires contre LPT, en passant de 65.8\% à 82.3\% de ``WIN''.
+Par contre, SLACK perd de son efficacité contre LDM et surtout contre COMBINE. COMBINE qui récupère 36.3\% de ``WIN'' contre SLACK, contre 16.5\% précédemment indiqué.
+
+Peut-être que notre protocole est une singularité statistique. L'expérience est exécutée 50 fois, pour s'approcher le plus de la tendance la plus représentative.
 
 
-Protocole 
+%--------------------------------------------------------
+% Figure resultat obtenu par REPRODUCTION DU PROTOCOLE DE DCS
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{4_Resultat_Reproduction50DCS.png}
+\caption{résultat obtenu avec 50 campagnes de tests type ``Della Croce et Scatamacchia''.}
+\label{fig:resultatReproduction50DellaCroceScatamacchia}
+\par}
+\end{figure}
 
-\subsection{en fonction de n}\label{ssec:en fonction de n}
+Le résultat est résumé en figure \ref{fig:resultatReproduction50DellaCroceScatamacchia}. 
+La tendance des 50 campagnes corrèle le résultat obtenu précédemment et non pas 
+  celui de Della Croce et Scatamacchia.
 
-\subsection{en fonction de m}\label{ssec:en fonction de m}
+\subsection{Influence des distributions sur le comportement des heuristiques}
+\label{ssec:resultatsInfluenceDesDistributionSurLeComportement}
 
-\subsection{en fonction de n et m}\label{ssec:en fonction de n et m}
 
-\subsection{en fonction des distributions et hétérogénéité}
-\label{ssec:en fonction des distributions et hétérogénéité}
+Della Croce et Scatamacchia ne comparent les algorithmes que sur 2 familles de distributions : 
+UNIFORME et NON-UNIFORME. Distributions générées avec 3 paramètres différents, le résultat est synthétisé avec des instances de 5, 10, 25 machines, et 10, 50, 100, 500, 1000 jobs. 
+Les différences trouvées entre notre expérience et celle de Della Croce et Scatamacchia peuvent 
+être dues à une variété trop grande de paramètres , résumés en un seul résultat.
 
+\bigskip
+Pour vérifier si la distribution statistique utilisée pour générer les liste de temps 
+  a une influence sur le résultat, 
+  nous reprenons la même expérience, avec 2 autres familles de distributions : 
+  Gamma et Beta,
+  sur des instances de 5, 10, 50, 100, 500, 1000 jobs, 
+  à ordonnancer sur 5, 10, 25 machines,
+  sur 10 campagnes.
+
+Le résultat est donné figure \ref{fig:resultatReproduction10GammaBeta}.
+SLACK descend à 68.7\% contre LPT, 
+n'est plus qu'à 43,4\% contre COMBINE et
+à 13.5\% contre LDM
+   
+%--------------------------------------------------------
+% Figure resultat obtenu par 10 cmpagnes type DCS mais en Gamma/Beta
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{5_Resultat_Reproduction10GammaBeta.png}
+\caption{résultat obtenu avec 10 campagnes de tests avec des distributions Gamma et Beta.}
+\label{fig:resultatReproduction10GammaBeta}
+\par}
+\end{figure}
+
+\bigskip
+nous reprenons la même expérience, avec les 2 familles de distributions Gamma et Beta, 
+  des instances uniquement de 1000 jobs à ordonnancer sur 5, 10 et 25 machines,
+  sur 10 campagnes.
+
+%--------------------------------------------------------
+% Figure resultat obtenu par 10 cmpagnes type DCS mais en Gamma/Beta et 1000 jobs
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{6_Resultat_Reproduction10GammaBeta1000.png}
+\caption{résultat obtenu avec 10 campagnes de tests avec des distributions Gamma et Beta sur des instances de 1000 jobs.}
+\label{fig:resultatReproduction10GammaBeta1000}
+\par}
+\end{figure}
+
+Le résultat en figure \ref{fig:resultatReproduction10GammaBeta1000} indique que 
+  SLACK ne domine plus LPT avec 48\% de ``WIN'' et
+  laisse l'efficacité à COMBINE et LDM avec respectivement 22,5\% et 26,1\%.
+
+
+\bigskip
+nous retirons la loi de distribution beta dans la génération des listes de temps.
+Donc 1 familles de distributions Gamma, 
+  des instances uniquement de 1000 jobs à ordonnancer sur 5, 10 et 25 machines,
+  sur 10 campagnes.
+
+%--------------------------------------------------------
+% Figure resultat obtenu par 10 cmpagnes type DCS mais en Gamma et 1000 jobs
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{7_Resultat_Reproduction10Gamma1000.png}
+\caption{résultat obtenu avec 10 campagnes de tests avec une distribution Gamma sur des instances de 1000 jobs.}
+\label{fig:resultatReproduction10Gamma1000}
+\par}
+\end{figure}
+
+SLACK n'est plus qu'à 25\% contre LPT, 15\% contre COMBINE et 17\% contre LDM (figure \ref{fig:resultatReproduction10Gamma1000}).
+
+
+\subsection{Cartgraphie des heuristiques}
+\label{ssec:resultatsCartographie}
+
+Della Croce et Scatamacchia utilisent des instances de 10, 50, 100, 500 et 1000 jobs à ordonnancer sur 5, 10 et 25 machines. 
+Ce qui représente 13 points de tests 
+  (les instances 
+  $\{10~jobs,10~machines\}$ et 
+  $\{10~jobs,25~machines\}$ n'existent pas car $m\geq n$).
+En faisant évoluer $n$ de 10 à 1000 et $m$ de 5 à 50, 
+  et en consignant l'algorithme (entre LPT et SLACK) qui donne 
+  le Makespan relatif le plus bas 
+
+%--------------------------------------------------------
+% Figure resultat comparaison de LPT et SLACK sur n et m
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{8_comparaison_LPT_SLACK_2D.png}
+\caption{comparaison LPT et SLACK sur 3 distributions 
+  avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\label{fig:resultatComparaisonLPTSLACK}
+\par}
+\end{figure}
+
+
+
+
+\subsection{SLACK et la famille NON-UNIFORME}
+\label{ssec:resultatsSLACKNonUniforme}
 
 
 
 \section{Discussion} \label{sec:discussion}
+
+Cartographier chaque relation
+
+IL y a trop de variables pour en sortir un schéma de causalité, 
+  ou pas assez pour en déduire un comportement général. 
+
+principe de randomisation est essentiel 
+
+
+le périmètre d'expérimentation est constitué d'un échantillon biaisé, 
 
 
 \section{Conclusion} \label{sec:conclusion}
