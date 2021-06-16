@@ -1156,8 +1156,6 @@ Les nombres générés sont uniformément répartis dans l'intervalle $[a, b]$
 $[X] = \frac{1}{b-a}$
 \end{center}
 
-
-
 \paragraph{Non-uniforme} Ce type de génération de liste de temps est utilisé dans le protocole expérimental de \cite{frangioni2004multi} et est repris par Della Croce et Scatamacchia \cite{della2020longest} pour éprouver SLACK.
 Une liste de nombres aléatoires générée via une règle non-uniforme de paramètres $a$ et $b$ , est l'union de 2 listes générées via une loi uniforme comme suit :
 
@@ -1591,7 +1589,9 @@ Ce qui représente 13 points de tests
   $\{10~jobs,25~machines\}$ n'existent pas car $m\geq n$).
 En faisant évoluer $n$ de 10 à 1000 et $m$ de 5 à 50, 
   et en consignant l'algorithme (entre LPT et SLACK) qui donne 
-  le Makespan relatif le plus bas 
+  le Makespan relatif le plus bas, nous obtenons le graphe en figure \ref{fig:resultatComparaisonLPTSLACK}.
+Les points rouges représentent les 13 points de test en question.
+ 
 
 %--------------------------------------------------------
 % Figure resultat comparaison de LPT et SLACK sur n et m
@@ -1599,31 +1599,114 @@ En faisant évoluer $n$ de 10 à 1000 et $m$ de 5 à 50,
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{8_comparaison_LPT_SLACK_2D.png}
-\caption{comparaison LPT et SLACK sur 3 distributions 
-  avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\caption{comparaison LPT et SLACK sur 3 distributions\\
+\hspace{\linewidth} avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
 \label{fig:resultatComparaisonLPTSLACK}
 \par}
 \end{figure}
 
 
+En distribution UNIFORME, SLACK domine largement avec 
+  un petit nombre de machines. Mais en montant en $m$, LPT devient un peu 
+  plus présent.
+En distribution NON-UNIFORME, SLACK est vraiment plus efficace que LPT.
+Par contre, en distribution Gamma, LPT devient vraiment plus efficace.
 
+Il est à remarquer que les points rouges du protocole expérimental de 
+  Della Croce et Scatamacchia sont placés principalement à des coordonnées
+  où SLACK domine (dans les instances à distribution UNIFORME et NON-UNIFORME).
+
+%--------------------------------------------------------
+% Figure resultat comparaison de tous les algorithmes 
+%--------------------------------------------------------
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{9_resultatComparaisonAlgoDistributions.png}
+\caption{comparaison LPT, SLACK, COMBINE, LDM par algorithme, et par distribution\\
+\hspace{\linewidth} avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\label{fig:resultatComparaisonAlgoDistributions}
+\par}
+\end{figure}
+
+La figure \ref{fig:resultatComparaisonAlgoDistributions} une infime partie 
+  du comportement de chaque algorithme par famille de distribution 
+  (Gamma, NON-UNIFORME et UNIFORME) 
+  pour des instances, dont le nombre de machines est compris entre 5 et 50, 
+  et le nombre de jobs varie de 10 à 1000. 
+
+Il est à noter plusieurs phénomènes remarquables :
+\begin{itemize}
+	\item En distribution Gamma, les algorithmes se stabilisent 
+	assez rapidement plus le nombre de jobs $n$ est élevé.
+	
+	Le Makespan relatif dessine une bande oblique de ``pires cas'' 
+	qui suit la ligne $n = 2m$ , pour rapidement converger vers 1 
+	lorsque $n$ augmente. 
+	Cette bande est de plus en plus épaisse avec un nombre 
+	élevé $m$ de machines.
+	 
+	\item En distribution UNIFORME, SLACK converge moins rapidement que 
+	LPT et LDM. Mais de façon générale, plus le nombre de machines $m$ 
+	est élevé, plus la convergence vers 1 du Makespan relatif nécessite 
+	un nombre élevé $n$ de jobs.
+	
+	Le Makespan relatif dessine des vagues obliques de ``pires cas'' 
+	qui débutent suivant la ligne $n = 2m$ , pour s'estomper petit à petit 
+	et converger vers 1 lorsque $n$ augmente. 
+	Cesvagues sont de plus en plus large avec un nombre 
+	élevé $m$ de machines, et selon l'algorithme.
+	
+	\item en distribution NON-UNIFORME, tous les algorithmes ont du mal 
+	à converger vers un Makespan relatif à 1. Les 4 heuristiques sont à 
+	peu près équivalentes en valeurs, et SLACK est plus efficace par 
+	rapport à LPT de très peu.
+	
+	Le Makespan relatif dessine des formes de ``pires cas'' qui font penser 
+	à des interférences.
+	
+	\item les 13 points rouges ne sont pas forcément placés à des 
+	coordonnées stratégiques, qui nous permettraient une comparaison 
+	plus catégorique. 
+\end{itemize}
 
 \subsection{SLACK et la famille NON-UNIFORME}
 \label{ssec:resultatsSLACKNonUniforme}
 
-
-
 \section{Discussion} \label{sec:discussion}
 
-Cartographier chaque relation
+SLACK, est plus efficace que LPT suivant 13 points de tests 
+  dans un protocole expérimental. 
+Mais il suffit de sortir de ce périmètre pour obtenir 
+  une conclusion différente. 
+Della Croce et Scatamacchia ont utilisé et combiné des variables 
+  soit, trop différentes pour sortir un schéma de causalité pertinent, 
+  soit pas assez représentatives pour en déduire un comportement général.  
+En effet, certains points où SLACK est très efficace ont masqués 
+  d'autres résultats où SLACK est moins percutant. 
+Nous nous retrouvons devant un échantillon de tests biaisé et ne pouvons pas affirmer, même sur une distribution NON-UNIFORME, que SLACK améliore LPT. 
 
-IL y a trop de variables pour en sortir un schéma de causalité, 
-  ou pas assez pour en déduire un comportement général. 
-
-principe de randomisation est essentiel 
-
-
-le périmètre d'expérimentation est constitué d'un échantillon biaisé, 
+Au delà de ce problème, se pose la question : comment tester une heuristique par rapport à d'autres heuristiques par l'expérimentation ?
+D'un point de vue théorique, ces heuristiques ont un ratio d'approximation, 
+  une complexité en temps, voire un comportement asymptotique. 
+Mais le ratio d’approximation n’est qu'une indication prouvée existante 
+  à un instant donné, et prévaut tant qu'un nouveau ratio d'approximation 
+  plus proche de l'optimal n'est pas trouvé et/ou prouvé. 
+Même, si entre 2 heuristiques dont l'une à un ratio d'approximation 
+  supérieur à l'autre, cette heuristique supposée théoriquement moins 
+  efficace peu obtenir de meilleurs résultats par l'expérience.      
+Le principe de randomisation est essentiel pour créer des échantillons servant 
+  de support expérimental. 
+Or un algorithme, comparé à d'autres, qui présente de meilleurs résultats 
+  sur une distribution supposée perturber le comportement de toute heuristique 
+  ne peut pas être gratifié d'algorithme améliorant un autre algorithme, 
+  car il peut devenir mauvais sur une autre distribution. 
+Pour tester une heuristique et en extraire une conclusion catégorique, 
+  il faudrait la tester sur toutes distributions et combinaisons 
+  de distributions, en faisant évoluer les paramètres de chacune d'elles 
+ ($a$ et $b$ pour UNIFORME et NON UNIFORME, $\alpha$ et $\beta$ 
+  pour les distributions Gamma et Beta $\ldots$), 
+  et par rapport à une large variation de $n$ et $m$.  
+Ce qui constitue un problème combinatoire.
 
 
 \section{Conclusion} \label{sec:conclusion}
