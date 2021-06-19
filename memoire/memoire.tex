@@ -194,25 +194,6 @@ je remercie....
 \setcounter{secnumdepth}{3}	% pour les section sous et sous sous et paragraphes
 \tableofcontents
 
-% =======================================================
-% ABSTRACT/RESUME
-% =======================================================
-\bigskip
-
-%\abstractname{}
-
-\fco{Voir comment regrouper Abstract et Résumé sur une même page, sans utiliser de figure ...}
-
-\selectlanguage{english}
-\section*{Abstract} \label{sec:abstract}
-%\paragraph{Abstract}
-.... when the brief is completed ...
-
-\bigskip
-\selectlanguage{french}
-\section*{Résumé} \label{sec:resume}
-%\paragraph{Résumé}
-....une fois le mémoire terminé ...
 
 \bigskip
 
@@ -227,7 +208,13 @@ je remercie....
 \section{Introduction générale} \label{sec:introductionGenerale}
 
 % -------------------------------------------------------
-%ésentation et contexte 
+% du plus général traitement parallèe et ordonnancement
+% au plus spécifique P||Cmax
+% -------------------------------------------------------
+
+
+% -------------------------------------------------------
+%présentation et contexte 
 % -------------------------------------------------------
 Considérons le problème \problemGrahamP. tel que définit 
   dans la classification à trois champs de 
@@ -381,7 +368,7 @@ Annexes (implémentation de l'expérience)
 % =======================================================
 % 2 Etat de l'art
 % =======================================================
-\section{Etat de l'art} \label{sec:etatDeLArt}
+\section{\'{E}tat de l'art} \label{sec:etatDeLArt}
 
 %--------------------------------------------------------
 %\subsection{Introduction} \label{ssec:etatDeLArtIntroduction}
@@ -424,7 +411,7 @@ LPT Rule (Longest Time Processing) % (algorithme \ref{algo:LPT})
   leur temps de traitement. 
 LPT a 
   un ratio d'approximation $\Gamma(LPT) \leq \frac{4}{3}-\frac{1}{3 \cdot m}$ et 
-  une complexité en temps de $ O(n log(n) + n log(m)$).
+  une complexité en temps de $ O(n \log(n) + n \log(m)$).
 De fait, sa simplicité d'implémentation et ses caractéristiques d'approximation font 
   de cet algorithme, 
   un référent de tests, 
@@ -682,7 +669,7 @@ Après $k$ itérations, MULTIFIT renvoie $C_u$
 
 
 \bigskip
-Lee et MASSEY \cite{lee1988multiprocessor} améliorent MULTIFIT 
+Lee et Massey \cite{lee1988multiprocessor} améliorent MULTIFIT 
   en utilisant LPT pour 
   calculer la borne supérieure de départ 
   pour la recherche dichotomique 
@@ -1005,7 +992,7 @@ Pour la récupération, des sites mettent à disposition de listes de temps, soi
 \bigskip
 Après une présentation des différentes façons d'obtenir des listes de temps de jobs synthétiques et réelles, nous aborderons une méthode permettant de transformer une liste de temps, en une instance dont l'optimal est connu, pour finir sur la caractérisation des listes.  
 
-\subsection{génération des listes de temps synthétiques}\label{ssec:instancesGenerationListesTempsSynthetiques}
+\subsection{Génération des listes de temps synthétiques}\label{ssec:instancesGenerationListesTempsSynthetiques}
 
 Selon la taxonomie des distributions statistiques \cite{nielsen2009statistical}, il existe plusieurs familles. 
 Pour la génération de listes de temps, nous utilisons 
@@ -1113,6 +1100,12 @@ L’espérance et la variance sont fonctions de $k$ $\theta$ et sont égales a :
 \end{figure}
 
 \paragraph{Beta} (figure \ref{fig:LoiStatistiquesBeta})
+La loi Beta a été développée par Thomas Bayes (1702 - 1761) pour répondre à son propre problème 
+  de succès/échecs dont la proportion de succès possible est inconnue \cite{bayes1991essay}. Cette proportion inconnue, qui est la variable aléatoire représentée par une loi beta, est déduite par tirages successifs avec remise. 
+ 
+% texte traduit de Bayes
+%  étant donné un certain nombre de fois où un événement inconnu s'est produit et a échoué : il faut que %la probabilité qu'il se produise lors d'un seul essai se situe quelque part entre deux degrés de %probabilité que l'on peut nommer. 
+
 Si la variable aléatoire X suit une loi Beta de paramètres $\alpha$ et $\beta$ alors la loi de densité est de la forme :
   \begin{center}
   $[X=t] = \left\{
@@ -1126,7 +1119,10 @@ Si la variable aléatoire X suit une loi Beta de paramètres $\alpha$ et $\beta$
 	\right.$
   \label{definitionLoiBetaDensite}
   \end{center}
- 
+
+Beta est intéressante dans l'analyse de proportions d’éventements de type succès/échec ou 
+(moyennant un changement d'échelle) dans la modélisation du temps avant la fin d'une tâche.
+
 L’espérance et la variance sont fonctions de $\alpha$ $\beta$ et sont égales a :
 
 \begin{align*}
@@ -1175,7 +1171,7 @@ Pour la génération d'une liste suivant la règle non-uniforme [1, 100],
 \end{example}
 
  
-\subsection{récupération de listes de temps réelles}\label{ssec:instancesGenerationListesTempsReelles}
+\subsection{Récupération de listes de temps réelles}\label{ssec:instancesGenerationListesTempsReelles}
 
 \paragraph{PWA} Parallel Workload Archive. L'idée est de collecter des données de 
   vrais systèmes et de supposer que les futurs workload 
@@ -1267,7 +1263,7 @@ Tous les tests sont effectués sur les instances M1,
 \par}
 \end{figure}
 
-\subsection{indicateurs statistiques et caratéristiques}\label{ssec:instancesIndicateursStatistiquesCaratéristiques}
+\subsection{Indicateurs statistiques et caratéristiques}\label{ssec:instancesIndicateursStatistiquesCaratéristiques}
 
 Afin de caractériser une liste de coût, plusieurs indicateurs statistiques sont calculés à la génération, ou à la récupération de celle-ci.
 
@@ -1309,7 +1305,7 @@ Peuvent être choisies aussi le nombre d'instances générées
   les fichiers PWA a prendre en compte.
   
 
-\subsection{environnement de tests} \label{ssec:campagnesEnvironnementDeTests}
+\subsection{Environnement de tests} \label{ssec:campagnesEnvironnementDeTests}
 
 L'environnement de tests est développé en PYTHON, pour la partie applicative, et en R pour la partie analyse et graphes. Des informations sur la plate-forme sont disponibles en annexe.
 
@@ -1404,7 +1400,7 @@ Il est donc nécessaire de normaliser le résultat pour permettre des comparaiso
 
 \section{Résultats} \label{sec:resultats}
 
-\subsection{protocole expérimental de Della Croce et Scatamacchia}
+\subsection{Protocole expérimental de Della Croce et Scatamacchia}
 \label{ssec:resultatsPrtocoleExperimentalDellaCroceScatamacchia}
  
 Pour comparer SLACk aux autres heuristiques, LPT, LDM et COMBINE, Della Croce et Scatamacchia 
@@ -1579,7 +1575,7 @@ Donc 1 familles de distributions Gamma,
 SLACK n'est plus qu'à 25\% contre LPT, 15\% contre COMBINE et 17\% contre LDM (figure \ref{fig:resultatReproduction10Gamma1000}).
 
 
-\subsection{Cartgraphie des heuristiques}
+\subsection{Cartographie des heuristiques}
 \label{ssec:resultatsCartographie}
 
 Della Croce et Scatamacchia utilisent des instances de 10, 50, 100, 500 et 1000 jobs à ordonnancer sur 5, 10 et 25 machines. 
@@ -1591,7 +1587,6 @@ En faisant évoluer $n$ de 10 à 1000 et $m$ de 5 à 50,
   et en consignant l'algorithme (entre LPT et SLACK) qui donne 
   le Makespan relatif le plus bas, nous obtenons le graphe en figure \ref{fig:resultatComparaisonLPTSLACK}.
 Les points rouges représentent les 13 points de test en question.
- 
 
 %--------------------------------------------------------
 % Figure resultat comparaison de LPT et SLACK sur n et m
@@ -1992,6 +1987,27 @@ taille = hétérogénéité ?? écart type ?? de l'instance
 
 \bibliographystyle{plain}				% NE PAS ENLEVER !!!!!!!!!!
 \bibliography{Bibliographie}			% Utilise Bibliographie.bib
+
+
+% =======================================================
+% ABSTRACT/RESUME
+% =======================================================
+\clearpage
+
+%\abstractname{}
+
+
+\selectlanguage{english}
+\section*{Abstract} \label{sec:abstract}
+%\paragraph{Abstract}
+.... when the brief is completed ...
+
+\bigskip
+\selectlanguage{french}
+\section*{Résumé} \label{sec:resume}
+%\paragraph{Résumé}
+....une fois le mémoire terminé ...
+
 
 
 \end{document}
