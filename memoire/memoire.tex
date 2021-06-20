@@ -127,6 +127,9 @@
 % Cmax
 \newcommand\cmax{$C_{\max}$\xspace}
 
+% Della Croce et Scatamacchia \textnormal{
+\newcommand\dcs{Della Croce et Scatamacchia\xspace}
+
 % -------------------------------------------------------
 % Dossier des figures
 % -------------------------------------------------------
@@ -208,96 +211,94 @@ je remercie....
 \section{Introduction générale} \label{sec:introductionGenerale}
 
 % -------------------------------------------------------
-% du plus général traitement parallèe et ordonnancement
-% au plus spécifique P||Cmax
+% du plus général Ordonnancement et traitement parallèle 	>
+% au plus spécifique P||Cmax vers ouverture					<
 % -------------------------------------------------------
 
+% ORDONNANEMENT
+La question d’ordonnancement est omniprésente, dans la vie pratique, l'industrie, le transport, 
+  les institutions, la santé et toute autre discipline qui nécessite une organisation.
+  L'ordonnancement consiste à agencer au mieux des tâches, des jobs reliés ou non entre eux 
+  pour atteindre un but, tout en optimisant un critère particulier. 
+Dans la construction d'une maison, depuis la pose de la première dalle jusqu'à la pose du dernier carrelage, 
+  tout a été organisé pour réduire au maximum le retard total. 
+  Certaines tâches ont pu être effectuées en parallèle (pose de la plomberie, pose de l'électricité), 
+  quant à d'autres elles n'ont pu commencer qu'après l'achèvement d'ouvrages 
+  (pose des tuiles après la finalisation de la charpente). 
 
-% -------------------------------------------------------
-%présentation et contexte 
-% -------------------------------------------------------
-Considérons le problème \problemGrahamP. tel que définit 
-  dans la classification à trois champs de 
-  Graham \emph{et al.} \cite{graham1979optimization}. 
-Ce problème d'ordonnancement consiste à planifier 
-  un ensemble $J=\{j_1, j_2, \ldots, j_n\}$ de $n$ jobs, (ou tâches) indépendants, 
-  sur $m$ machines identiques. 
-  dans le but d'optimiser le temps total de traitement appelé makespan 
-  (noté $C_{max}$).
-Le temps nécessaire de réalisation de chaque job $p_i$ $\in P=\{p_1, p_2, \ldots, p_n\}$  (avec $1 \leq i \leq n)$ 
-  est connu à l'avance. 
+% ORDONNANEMENT dans l'informatique
+L’ordonnancement intervient aussi dans l'attribution et l'ordre d’exécution des jobs à réaliser par processeur. 
+Même pour une machine mono-processeur, l'ordre a son importance si des jobs sont liés par des relations de précédences. 
+% ORDONNANEMENT dans l'informatique parallèle
+La question est d'autant plus essentielle depuis l'apparition des ordinateurs à structure parallèle.
+En effet, la composition d'un ensemble de jobs sur plusieurs microprocesseurs, même sans lien entre eux, a des répercutions sur le temps total nécessaire pour exécuter tous ces jobs. 
+
+% Parallélisme
+Le parallélisme est un type d'architecture informatique dans lequel plusieurs processeurs exécutent 
+  ou traitent une application, un calcul simultanément. 
+Cette structure aide à effectuer de grands calculs en divisant la charge de travail entre plusieurs 
+  processeurs capables de communiquer et de coopérer.     
+
+% Scheduling
+Le calcul de l'attribution de chaque tâche d'un ensemble de jobs aux ressources disponibles dans le but d'optimiser un critère est lui-même un job. 
+Ce calcul est appelé algorithme d'ordonnancement (Scheduling algorithm). 
+Celui-ci doit être effectué le plus rapidement possible et donner la réponse d'ordonnancement en 
+  adéquation avec ce qui est attendu.
+
+
+% Scheduling et P||Cmax
+Un cas particulier et fréquent d'ordonnancement est le problème \problemGrahamP tel que définit 
+  dans la classification à trois champs de Graham \emph{et al.} \cite{graham1979optimization}. 
+Le but de \problemGrahamP consiste à planifier un ensemble $J=\{j_1, j_2, \ldots, j_n\}$ de 
+  $n$ jobs (ou tâches) indépendants, 
+  sur $m$ machines identiques,  
+  dans le but d'optimiser le temps total de traitement appelé makespan (noté $C_{max}$).
+Le temps nécessaire de réalisation de chaque job $p_i$ $\in P=\{p_1, p_2, \ldots, p_n\}$  
+  (avec $1 \leq i \leq n)$ est connu à l'avance. 
 Un job commencé est complété sans interruption (non préemptif), 
   et est exécuté par une seule machine. 
 Une machine ne traite qu'un seul job à la fois. 
 
-Cette question d’ordonnancement est omniprésente, dans la vie 
-  pratique, l'industrie, le transport, les institutions, $\ldots$ , 
-  mais aussi dans l'allocation des tâches à réaliser par des 
-  machines à structure parallèle. 
-Le parallélisme est un type d'architecture informatique, dans lequel 
-  plusieurs processeurs exécutent, ou traitent
-  une application, un calcul simultanément. 
-Il aide à effectuer de grands calculs en divisant la charge de travail 
-  entre plusieurs processeurs, capables de communiquer et de coopérer. 
-Pour ce dernier cas, il est primordial que le calcul de l'attribution 
-  de chaque tâche d'un ensemble de jobs aux ressources disponibles, 
-  soit effectué le plus rapidement possible, 
-  et permette un temps total de traitement de cet ensemble 
-  le plus court possible.
-
-\bigskip
-% -------------------------------------------------------
 % problématique générale 
-% -------------------------------------------------------
 Mais, comme l'ont démontré Garey et Johnson, 
-  \problemGrahamPII est un problème NP-Difficile \cite{garey1978strong}, et 
-  \problemGrahamP avec $m \geq 3$ est un problème NP-Difficile 
-  au sens fort \cite{garey1982computers}. 
-Cependant, \problemGrahamP devient un problème NP-Difficile, 
-  du moment que le nombre de machines est fixé \cite{chen1999potts}, 
-  comme l'a montré Rothkopf \cite{rothkopf1966scheduling}, 
-  qui a présenté un algorithme de programmation dynamique.
+  \problemGrahamPII avec $m = 2$ est un problème NP-Difficile \cite{garey1978strong}, et 
+  \problemGrahamP avec $m \geq 3$ est un problème NP-Difficile au sens fort \cite{garey1982computers}.
+En plus, \problemGrahamP devient un problème NP-Difficile, du moment que le nombre de machines 
+  est fixé \cite{chen1999potts}, comme l'a montré Rothkopf \cite{rothkopf1966scheduling} qui a 
+  présenté un algorithme de programmation dynamique.\fco{voir le type d'algo pseudo-polynomial ?}
 
-Donner la solution optimale à un problème d'ordonnancement 
-  (dans notre cas \problemGrahamP) n'est pas réaliste. 
-  La résolution de celui-ci demanderait un temps excessif et donc rédhibitoire.
-Comme les machines sont identiques, et travaillent à la même vitesse,
-la difficulté repose uniquement sur le regroupement des jobs.
-La résolution du problème d'ordonnancement va reposer sur des méthodes
-  d'approche, qui consistent à calculer en temps polynomial,
-  une solution ``assez'' proche de la valeur optimale.
+Donner la solution optimale à un problème d'ordonnancement \problemGrahamP n'est pas réaliste. 
+La résolution de celui-ci demanderait un temps excessif et donc rédhibitoire.
+Comme les machines sont identiques, et travaillent à la même vitesse, la difficulté repose uniquement 
+  sur le regroupement des jobs.
+La résolution de ce problème d'ordonnancement va reposer sur des méthodes d'approche qui consistent à 
+  calculer en temps polynomial une solution ``assez'' proche de la valeur optimale.
 
-Les jobs sont exécutés sans interruption ni coupure. Donc,
-  le makespan ne  peut pas être inférieur à la taille du jobs
-  le plus long i.e. $(\max_i\{p_i\})$.
-  Dans le cas d'un nombre $n$ de jobs supérieur au nombre $m$ de machines,
-  le makespan ne peut pas être inférieur à la moyenne
-  des tailles des jobs par machine
+Les jobs sont exécutés sans interruption ni coupure. Donc,le makespan ne peut pas être inférieur à 
+  la taille du jobs le plus long i.e. $(\max_i\{p_i\})$.
+  Il ne peut pas être inférieur non plus à la moyenne des tailles des jobs par machine
   i.e. $\frac{1}{m} \sum_{i=1}^{n} p_i$.
-Donc toutes les solutions ont une borne minimale
-  \cite{mcnaughton1959scheduling}: \\
+Donc toutes les solutions ont une borne minimale \cite{mcnaughton1959scheduling}: \\
 
   \begin{center}
   $borne_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \}$
   \label{borneMini}
   \end{center}
 
-L'existence d'une solution qui résout le problème de manière optimale
+L'existence d'une solution qui résout efficacement le problème de manière optimale
   n'est pas pensable, à moins que $P = NP$.
 Dans la littérature, l'étude d'ordonnancement est très riche et abondante. 
 Le but étant d'améliorer le temps de calcul, et d'approcher le résultat optimal. 
-Les solutions proposées sont des Heuristiques, ou des approximations.
+Les solutions proposées sont des heuristiques, ou des approximations.
 
 Le but d'une heuristique (du grec \emph{heuriskein}: trouver) est 
-  de trouver une solution respectant les contraintes du problème et 
+  de produire trouver une solution respectant les contraintes du problème et 
   de bonne qualité selon le critère d'optimisation considéré. 
-  La solution ne sera pas forcément optimale, 
-  mais une heuristique efficace tente de trouver une solution de bonne qualité, 
-  suivant le temps de résolution imparti.
-Ces algorithmes calculent des solutions, dont la borne maximale, 
-  au pire des cas n'est pas maîtrisée: une étude du comportement est nécessaire 
-  pour définir cette borne maximale.  
-  Pour chaque étude de comportement, les notions suivantes sont utilisées :
+La solution ne sera pas forcément optimale mais une heuristique efficace tente de trouver une 
+  solution de bonne qualité suivant le temps de résolution imparti.
+Ces algorithmes calculent des solutions, dont la borne maximale, au pire des cas n'est pas maîtrisée: 
+Une étude du comportement est nécessaire pour définir cette borne maximale.  
+Pour chaque étude de comportement, les notions suivantes sont utilisées :
 
 \begin{itemize}
 % RESULTAT DE L'ALGORITHME A
@@ -314,56 +315,42 @@ Ces algorithmes calculent des solutions, dont la borne maximale,
 	Le ratio d'approximation atteint par l'algorithme $A$ au pire cas.
 \end{itemize}
    
-  Parfois, cette borne n'existe pas. Une simulation permet d'obtenir des 
+Parfois, cette borne est arbitrairement large et n'a pas été analysée. Une simulation permet d'obtenir des 
   informations générales sur les tendances.
-
-\bigskip
-% -------------------------------------------------------
-% génese du rapport
-% -------------------------------------------------------
 Parmi les heuristiques les plus étudiées, nous pouvons citer 
   LPT (Longest Time Processing) \cite{graham1966bounds}, 
   LDM (Largest Differencing Method) \cite{karmarkar1982differencing}, 
-  COMBINE \cite{lee1988multiprocessor}, et 
-  SLACK \cite{della2020longest}.
-Ce dernier revisite l'heuristique LPT en appliquant aux données d'entrée du problème, 
-  une stratégie gloutonne. 
-SLACK devient très compétitif par rapport aux autres heuristiques, 
-  tant en complexité en temps 
-  qu'en ratio d'approximation. 
-Cette conclusion est le résultat d'un protocole expérimental 
-  basé sur la génération d'instances selon des 
-  distributions uniformes et non uniformes.  
+  COMBINE \cite{lee1988multiprocessor}.
+  
+\bigskip
+%--------------------------------------
+% génese du rapport
+%--------------------------------------
+Ce mémoire prend le texte de \dcs \cite{della2020longest} comme point de départ.    
+Ces derniers revisitent l'heuristique LPT en appliquant aux données d'entrée du problème une stratégie gloutonne. 
+l'algorithme développé appelé SLACK devient très compétitif par rapport à d'autres heuristiques, 
+  tant en complexité en temps qu'en ratio d'approximation. 
+Cette conclusion est le résultat d'un protocole expérimental défini dans \cite{iori2008scatter}. 
+Les algorithmes sont testés sur des instances basées sur 2 types de générations de nombres pseudo-aléatoires, contenant 10, 50, 100, 500 et 1000 jobs, à planifier sur 5, 10 et 25 machines. 
+Pour $n > m$ cela représente 13 points de comparaisons qui permettent aux auteurs de déclarer SLACK comme étant une alternative sérieuse à LPT, LDM et COMBINE. 
+Ce résultat est intéressant. En effet la borne d'approximation se rapproche un peu plus de l'optimal. 
+Mais ce résultat empirique repose sur un nombre assez restreint d'échantillons. Sont-ils assez représentatifs pour en dégager une conclusion absolue ? Est-ce le comportement général de SLACK (ou tout autre algorithme) d'être le plus efficace s'il l'est pour ces 13 points ? 
 
-Le but de ce mémoire est multiple :
+Le but de ce document est de répondre à cette question, à l'aide des démarches suivantes :
+
 \begin{itemize}
-\item reproduire le protocole expérimental de Della Croce \emph{et al.} 
-  en implémentant les heuristiques considérées, 
-  à l'aide des distribution uniformes et non-uniformes.
-\item Élargir ce protocole expérimental à 
-  d'autres types de générations aléatoires 
-  de listes de jobs (distributions gamma, beta, exponentielles), voire 
-  à de vraies log de workloads, 
-  afin de soumettre ces heuristiques à un spectre plus large en 
-  hétérogénéité et ainsi étudier leur comportement.    
-\item tenter d'expliquer pourquoi SLACK est 
-  compétitif sur une distribution non-uniforme. 
-\item Q et R ?????????
+	\item Reproduire le protocole expérimental de \dcs.  
+	\item \'{E}largir ce protocole expérimental à d'autres types de générations aléatoires, 
+	voire à de vraies archives de listes de tâches, et à un spectre plus large de nombres de jobs et de machines.  
 \end{itemize} 
 
 \bigskip
 % -------------------------------------------------------
 %PLAN
 % -------------------------------------------------------
-\fco{...Plan une fois terminé...}
-État de l'art\\
-Mise en place de l'expérience\\
-protocole de della Croce et comparaison des résultats\\
-Comparaison avec d'autres distributions\\
-Résultats\\
-Distribution non-uniforme\\
-Conclusion \\
-Annexes (implémentation de l'expérience)
+Le Chapitre suivant est un état de l'art au problème \problemGrahamP. La mise en place expérimentales et les choix effectués dans ce mémoire sont évoqués en chapitre 3. Puis nous aborderons la création des listes de temps et les instances dans le chapitre 4. Le chapitre 5 présente l'environnement de tests, avant d'aborder et présenter en chapitre 6 le résultat de la reproduction du protocole expérimental de \dcs et de protocole élargit. Ce document se termine par une discussion sur les protocoles de tests des heuristiques.    
+
+Les annexes abordent certains points importants de l'implémentation des algorithmes et de la création des listes de temps.  
 
 % =======================================================
 % 2 Etat de l'art
