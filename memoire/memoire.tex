@@ -366,7 +366,7 @@ Le problème d'ordonnancement se pose depuis l'apparition des premières machine
 Les centres de calculs sont dotés de parcs assez uniformes, et maintenant, 
   les clouds, offrent des instances VM qui permettent des environnements 
   d'exécution homogènes.     
-Il fait partie de la catégorie des problèmes d'optimisation combinatoire. 
+L'ordonnancement fait partie de la catégorie des problèmes d'optimisation combinatoire. 
 C'est un champ de la recherche opérationnelle, actif depuis plus d'un siècle, 
   et abondant dans la littérature. 
 
@@ -374,35 +374,33 @@ De nombreuses pistes sont explorées. Il est pratiquement impossible de les énu
   aussi sont présentées ici les plus étudiées, 
   et/ou utilisées pour être comparées ou servir de référent.
   
-Nous abordons dans l'ordre, certaines Heuristiques. un type d'algorithme d'approximation (le schéma d'approximation en temps polynomial ou PTAS) et une résolution du problème basée sur la programmation linéaire.
+Nous abordons dans l'ordre, certaines heuristiques, un type d'algorithme d'approximation (le schéma d'approximation en temps polynomial ou PTAS) et une résolution du problème basée sur la programmation linéaire.
 
 \subsection{Heuristiques}\label{ssec:Heuristiques}
 
-Les heuristiques représentent la plus grande partie des recherches concernant l'ordonnancement. 
+Les heuristiques représentent la plus grande partie des recherches concernant le problème \problemGrahamP. 
 Celles présentées sont basées 
-  sur le principe des LS (Liste Scheduling), 
+  sur le principe des LS (List Scheduling), 
   sur une stratégie gloutonne,   
-  sur le le problème bin-packing et  
+  sur le problème bin-packing et  
   sur le problème de partitionnement de nombres. 
 
 \bigskip   
 \paragraph{LS (List Scheduling)}
-l'idée d'une LS est de stocker l'ensemble des jobs dans celle-ci, les trier dans un ordre particulier et/ou les regrouper selon une règle définie, dans le but de leur assigner une priorité. Ces job sont ensuite affectés un à un à une machine suivant un principe déterminé.
+l'idée d'un algorithme d'ordonnancement de liste est de stocker l'ensemble des jobs dans celle-ci, éventuellement les trier dans un ordre particulier et/ou les regrouper selon une règle définie, dans le but de leur assigner une priorité. Ces jobs sont ensuite affectés un à un à une machine suivant un principe déterminé. 
+Les machines sont toujours occupées tant qu'il existe au moins un job en attente.
 
 
 LPT Rule (Longest Time Processing) % (algorithme \ref{algo:LPT})
   proposé par Graham \cite{graham1966bounds}, 
   améliore l'algorithme LS. LS trie les jobs dans un ordre arbitraire, 
   et affecte chacun d'eux à la machine actuellement la moins chargée. 
-  LPT rule change le tri de LS qui ordonne les jobs dans le sens décroissant de 
-  leur temps de traitement. 
+  LPT rule ordonne les jobs dans le sens décroissant de leur temps de traitement et affecte le job à la machine la moins chargée à ce moment là. 
 LPT a 
   un ratio d'approximation $\Gamma(LPT) \leq \frac{4}{3}-\frac{1}{3 \cdot m}$ et 
   une complexité en temps de $ O(n \log(n) + n \log(m)$).
 De fait, sa simplicité d'implémentation et ses caractéristiques d'approximation font 
-  de cet algorithme, 
-  un référent de tests, 
-  et l'un des plus repris dans la littérature.
+  de cet algorithme un référent de tests et l'un des plus repris dans la littérature.
   
 \bigskip
 % -------------------------------------------------------
@@ -440,16 +438,16 @@ chargée à ce moment là.
 Della Croce et Scatamacchia \cite{della2020longest} revisitent LPT rule dans le but de l'optimiser. 
 L'étude est articulée autour du lien qui existe entre le nombre de machines $m$, le nombre de jobs $n$, 
   la relation qu'il peut y avoir entre les deux, et la probabilité que LPT donne un résultat au pire cas. 
-S'ensuit SLACK, un algorithme basé sur la stratégie gloutonne suivante avant d’appliquer LPT :
+S'ensuit SLACK, un algorithme basé sur la stratégie gloutonne suivante, avant d’affecter les jobs un à un à la machine la moins chargée à ce moment là :
 
 \begin{itemize}
 \item Trier les jobs par ordre décroissant de leur taille;
 \item Découper l'ensemble trié en tuples de m jobs;
-\item Soit ``slack'', La différence entre la taille du premier job et la taille du dernier job de chaque tuple;
+\item Soit ``slack'' la différence entre la taille du premier job et la taille du dernier job de chaque tuple;
 \item Trier l'ensemble des tuples dans l'ordre décroissant de leur ``slack''.  
 \end{itemize} 
 
-  SLACK a une complexité en temps de $ O(n log(n) + n log(m)$).
+  SLACK a une complexité en temps de $ O(n \log(n) + n \log(m)$).
 
 \bigskip
 % -------------------------------------------------------
@@ -476,10 +474,15 @@ pas un multiple de $m$) \;
 %ETAPE 4
 considérer chaque tuple avec la différence de temps (``Slack'') entre le
 premier job du tuple et le dernier.
-\begin{align*}
-\{ &\{1, ..., m\} &\{m+1,..., 2 \cdot m\} &... \} \\
-   &p_1 - p_m     &p_{m+1}-p_{2 \cdot m}  &...
-\end{align*} \;
+
+$$
+\left\{
+    \begin{array}{lll}
+	\{1, ..., m\} & \{m+1,..., 2 \cdot m\}  &...  \\
+   	p_1 - p_m     & p_{m+1}-p_{2 \cdot m}   &...
+   	\end{array}
+\right\}   	
+$$
 %STEP 5
 trier les tuples par ordre décroissant de ``Slack'' et ainsi former un nouvel ensemble
 \tcp{e.g: $\{ \{m+1,..., 2 \cdot m\} \{1, ..., m\}\}$ si $p_{m+1} - p_{2 \cdot m} > p_1 - p_m$.}
@@ -498,34 +501,34 @@ Un des problèmes semblable à \problemGrahamP, est celui de Bin-Packing.
 
 Soient
 \begin{itemize}
-  \item un ensemble d'objets à ranger $t_i \in T=\{t_1, t_2, \ldots, t_o\}$, 
-  \item les tailles de ces objets $L(t_i)$ (avec $1\leq i \leq o$). 
+  \item un ensemble d'objets à ranger $t_i \in T=\{t_1, t_2, \ldots, t_n\}$, 
+  \item les tailles de ces objets $L(t_i)$ (avec $1\leq i \leq n$). 
   \item une taille de bac C.
 \end{itemize} 
 Un packing est une partition $B < B_1, B_2, ... B_k > $ 
-  telle que $L(B_j) \leq C$ (avec $1\leq j \leq k$), 
-  autrement dit, cela consiste à placer des objets $t_i$ dans des bacs $B_i$ de taille maximum $C$. 
-Le problème Bin-packing, qui est NP-Complet, tente de 
-  minimiser le nombre de bacs $NB_b$. 
+  telle que $L(B_j) \leq C$ 
+  (avec $1\leq j \leq k$ et $L(B_j)$ la somme des tailles des objets pacqués dans $B_j$), 
+  autrement dit, cela consiste à placer des objets $t_i$ dans des bacs $B_j$ de taille maximum $C$. 
+Le problème Bin-Packing, qui est NP-Complet, tente de minimiser le nombre de bacs $k$. 
 
-Bin-packing peut être considéré comme le double de \problemGrahamP, 
-  car l'ensemble des objets à ranger associés à leur taille, et la partition $B$ 
+Bin-Packing peut être considéré comme le double de \problemGrahamP, 
+  car l'ensemble des objets à ranger associés à leur taille et la partition $B$ 
   peuvent être vus respectivement comme 
   un ensemble $J$ de $n$ jobs, leurs taille propre, 
-  et l'ordonnancement recherché sur $m$ machines.
-la taille $C$ des bacs correspondant au makespan recherché, 
-  ainsi que le nombre de bacs obtenus, au  nombre $m$ de machines.
+  et l'ordonnancement recherché sur $m$ machines,
+  la taille $C$ des bacs correspondant au makespan recherché, 
+  ainsi que le nombre de bacs obtenus, au nombre $m$ de machines.
   
 \bigskip
-COFFMAN,GAREYet JOHNSON \cite{coffman1978application} utilisent Bin-packing 
+Coffman, Garey et Johnson \cite{coffman1978application} utilisent Bin-Packing 
   pour tenter de résoudre \problemGrahamP et proposent 
   l'heuristique MULTIFIT (algorithme \ref{algo:MULTIFIT}). 
 Cet algorithme est basé sur FFD 
   (First-Fit-Decreasing, algorithme \ref{algo:FFD}, \cite{rieck2021basic}), 
-  un outil (heuristique) de résolution de Bin-packing. 
+  un outil (heuristique) de résolution de Bin-Packing. 
 Il accepte en entrée un ensemble de tailles d'objets, et une taille maximale $C$ de bacs 
-  et propose en retour un packing , donc un nombre de bacs $NB_b$.
-L'idée de MULTIFIT est de proposer des valeurs de$C$ à FFD, jusqu'à avoir un nombre de bacs $NB_b=m$.
+  et propose en retour un packing, donc un nombre de bacs $k$.
+L'idée de MULTIFIT est de proposer des valeurs de $C$ à FFD, jusqu'à avoir un nombre de bacs $k=m$.
 Ceci est réalisée à l'aide d'une recherche dichotomique dont les bornes de départ qui vont confiner $C$ sont : 
 \begin{align*}
 &\textnormal{borne inférieure} 	&C_l 	&= \max \{ \max_i \{ L(t_i) \}, \frac{1}{m} \cdot L(T) \} \\
@@ -544,9 +547,9 @@ Il est estimé, que cette valeur est atteinte pour toute taille d'instance,
 MULTIFIT a 
   un ratio d'approximation $\Gamma(MULTIFIT) \leq 1,220 + 2^{-k}$ et 
   une complexité en temps de $ O(n log(n) + kn log(m)$).
-FFD, quant a lui a \cite{dosa2007tight}
-  un ratio d'approximation de $C_m^{FFD}(J) \leq \frac{11}{9} \cdot C_m^\star(J) + \frac{6}{9}$ et 
-  une complexité en temps de $ O(n log(m)$).
+FFD, quant a lui a 
+  un ratio d'approximation de $C_m^{FFD}(J) \leq \frac{11}{9} \cdot C_m^\star(J) + \frac{6}{9}$ 
+  \cite{dosa2007tight} et une complexité en temps de $ O(n \log(m)$).
 
 \bigskip
 % -------------------------------------------------------
@@ -658,8 +661,7 @@ Après $k$ itérations, MULTIFIT renvoie $C_u$
 \bigskip
 Lee et Massey \cite{lee1988multiprocessor} améliorent MULTIFIT 
   en utilisant LPT pour 
-  calculer la borne supérieure de départ 
-  pour la recherche dichotomique 
+  calculer la borne supérieure de départ et réduire l'amplitude de la recherche dichotomique 
   et proposent l'Heuristique COMBINE. 
 Contrairement à la recherche dichotomique de MULTIFIT 
   qui effectue $k$ itérations, 
@@ -682,7 +684,7 @@ Le nombre d’itérations $k$ de recherche dichotomique est variable,
   
 COMBINE a 
   un ratio d'approximation $\Gamma(COMBINE) \leq \frac{13}{12} + 2^{-k}$ et 
-  une complexité en temps de $ O(n log(n) + kn log(m)$).
+  une complexité en temps de $ O(n \log(n) + kn \log(m)$).
 
 \bigskip   
 % -------------------------------------------------------
@@ -821,7 +823,6 @@ Cet algorithme prend comme idée de départ MULTIFIT (algorithme \ref{algo:MULTI
 La recherche dichotomique de MULTIFIT
 
 
-
 \subsection{Programmation linéaire}\label{ssec:programmationLineaire}
 
 Le problème \problemGrahamP s'inscrit parfaitement dans l'énoncé d'un problème de programmation linéaire.
@@ -858,13 +859,13 @@ algorithme 	& Domaine
 % LPT
 LPT Rule 	&  
 			& \cite{graham1966bounds} 
-			& $n~log(n)$ 
+			& $n~\log(n)$ 
 			& $\frac{4}{3}-\frac{1}{3m}$ \\
 
 % SLACK
 SLACK   	& 
 			& \cite{della2020longest} 
-			&$n~log(n)$ 
+			&$n~\log(n)$ 
 			& non précisé \\
 
 % LDM
@@ -880,20 +881,20 @@ LDM   		&  partitionnement
 % COMBINE
 COMBINE 	& bin-packing 
 			& \cite{lee1988multiprocessor} 
-			& $ n~log(n) + kn~log(m)$ 
+			& $ n~\log(n) + kn~\log(m)$ 
 			& $\frac{13}{12} + 2^{-k}$ \\
 \hline
 MULTIFIT 	&	bin-packing
  
 				composante de COMBINE
 			& \cite{lee1988multiprocessor} 
-			& $ n~log(n) + kn~log(m)$ 
+			& $ n~\log(n) + kn~\log(m)$ 
 			& $\frac{13}{12} + 2^{-k}$ \\
 FFD 		& 	bin-packing
 		
 				composante de MULTIFIT 
 			& \cite{lee1988multiprocessor} 
-			& $ n~log(n) + kn~log(m)$ 
+			& $ n~\log(n) + kn~\log(m)$ 
 			& $\frac{13}{12} + 2^{-k}$ \\
 
 
@@ -909,25 +910,23 @@ FFD 		& 	bin-packing
 % =======================================================
 % 3 Mise en place expérimentale
 % =======================================================
-\section{Mise en place expérimentale}\label{sec:miseEnPlaceExpérimentale}
-
-\subsection{Objectif}\label{ssec:miseEnPlaceExpérimentaleObjectif}
-
+\section{Implémentation des heuristiques}
+\label{sec:Implementation}
+\fco{a inclure dans Campagnes}
 L'objectif est de reproduire le protocole expérimental de 
-  Della Croce et Scatamacchia \cite{della2020longest}. 
-pour cela, les 4 heuristiques sont implémentées, 
+  \dcs \cite{della2020longest} et aussi de l'élargir à d'autres types d'instances.
+  
+pour cela, des heuristiques sont implémentées, 
   des listes de temps de jobs sont générées, 
   selon des lois statistiques différentes ou 
   récupérées d'exemples réels, 
   puis utilisées en tant qu'instances (liste de $n$ temps de jobs $+$ 
   nombre de machines identiques $m$), 
   pour être soumises à ces algorithmes.
-Les résultats sont ensuite analysés selon la méthode Della Croce et Scatamacchia.
+Les résultats sont ensuite analysés selon la méthode \dcs mais aussi avec d'autres méthodes pour avoir des points de vues différents.
 
-\subsection{Implémentation des heuristiques}
-\label{ssec:miseEnPlaceExpérimentaleImplementation}
 
-Les heuristiques suivantes sont implémentées :
+Nous implémentons les mêmes heuristiques que celles utilisées par \dcs soit :
 \begin{itemize}
 	\item LPT rule
 	\item SLACK
@@ -936,18 +935,20 @@ Les heuristiques suivantes sont implémentées :
 \end{itemize}
 
 Ceci nous permet de les comparer, au niveau Makespan obtenu et 
- le temps nécessaire à chacun d'eux pour donner leur réponse.
+ le temps nécessaire à chacun d'eux pour donner leur réponse par rapport aux résultats obtenus par \dcs.
 De plus quatre méthodes différentes sont expérimentée: Méthodes 
   LS (list-Scheduling) avec LPT rule, 
   Bin-packing avec COMBINE, 
   Strategie gloutonne avec SLACK et 
   partitionnement de nombres avec LDM.  
 
-COMBINE repose sur deux autres heuristiques qui sont aussi implémentées : 
-\begin{itemize}
-	\item FFD
-	\item MULTIFIT
-\end{itemize}
+COMBINE repose sur deux autres heuristiques qui sont aussi implémentées : FFD et MULTIFIT.
+
+
+%\dcs utilisent des instances de taille 10, 50,100,500 et 1000 jobs à planifier sur 5, 10 et 25 machines %identiques.
+
+%Ce protocole est reproduit. Mais d'autres paramètres peuvent être choisis pour voir le comportement de ces %algorithmes, au-delà des limites que se sont imposés \dcs pour comparer SLACK aux autres heuristiques. 
+
 
 % =======================================================
 % 4 LISTES DE TEMPS / INSTANCES
@@ -956,7 +957,6 @@ COMBINE repose sur deux autres heuristiques qui sont aussi implémentées :
 %--------------------------------------------------------
 % \subsection{Introduction}\label{ssec:instancesIntroduction}
 %--------------------------------------------------------
-
 Les instances, paramètres de chaque algorithme, reposent sur des listes de temps de jobs.
 Le résultat de la comparaison de ces heuristiques, dépend de cette liste de temps, de la distribution, le l'hétérogénéité, on de l'homogénéité de ses valeurs. 
 Il est important de pouvoir caractériser ces lises de temps pour faire un lien avec le comportement des heuristiques. 
@@ -969,27 +969,34 @@ Soit les créer entièrement à partir d'un nombre $n$ désiré, soit les récup
 
 Pour la création d'une liste synthétique, une génération de nombres aléatoires peut être utilisée, 
   mais se pose alors la question de "comment". 
-Le protocole expérimental de Della Croce et Scatamacchia ont adopté  
-  deux types de générations de listes de temps: 
+\dcs pour leur protocole ont adopté deux types de générations de listes de temps: 
   Une répartition uniforme et non-uniforme.
 Il est intéressant d'étendre ce protocole à d'autres types listes.
 
 Pour la récupération, des sites mettent à disposition de listes de temps, soit synthétiques, soit réelles, au téléchargement. 
   
 \bigskip
-Après une présentation des différentes façons d'obtenir des listes de temps de jobs synthétiques et réelles, nous aborderons une méthode permettant de transformer une liste de temps, en une instance dont l'optimal est connu, pour finir sur la caractérisation des listes.  
+Après une présentation des différentes façons choisie d'obtenir des listes de temps de jobs synthétiques et réelles, nous aborderons une méthode permettant de transformer une liste de temps en une instance dont l'optimal est connu, pour finir sur la caractérisation des listes.  
 
-\subsection{Génération des listes de temps synthétiques}\label{ssec:instancesGenerationListesTempsSynthetiques}
+\subsection{Choix de production des listes de temps}\label{ssec:instancesChoixProduction}
 
 Selon la taxonomie des distributions statistiques \cite{nielsen2009statistical}, il existe plusieurs familles. 
 Pour la génération de listes de temps, nous utilisons 
   des variables statistiques indépendantes et identiquement distribuées 
   (I.I.D.) qui suivent, pour chaque production la même loi de probabilité.
-Le choix se porte donc sur les distributions utilisées 
-  par Della Croce et Scatamacchia, Uniforme et non-uniforme, 
-  et sur 3 autres distributions qui font parties de la familles 
-  des distributions exponentielles, les distributions Gamma, Beta, et Exponentielle 
-  (figure \ref{fig:taxonomieLoisStatistiques}).
+
+Afin de reproduire l'expérience de \dcs le choix se porte donc sur les distributions qu'ils utilisent :
+\begin{itemize}
+	\item UNIFORME
+	\item NON-UNIFORME
+\end{itemize}
+Dans le but d'élargir ce protocole et de comparer SLACK avec d'autres types de listes de temps, 3 autres distributions qui font parties de la familles des distributions 
+  exponentielles (figure \ref{fig:taxonomieLoisStatistiques}) sont implémentées :
+\begin{itemize}
+	\item EXPONENTIELLE
+	\item GAMMA
+	\item BETA
+\end{itemize}
 
 %--------------------------------------------------------
 % Figure de taxonomie des lois statistiques (flotante)
@@ -1001,6 +1008,8 @@ Le choix se porte donc sur les distributions utilisées
 \label{fig:taxonomieLoisStatistiques}
 \par}
 \end{figure}
+
+\subsection{Génération des listes de temps synthétiques}\label{ssec:instancesGenerationListesTempsSynthetiques}
 
 \paragraph{Loi Exponentielle} 
 ou loi de durée de vie, sans vieillissement (figure \ref{fig:LoiStatistiquesExponentielle}).
@@ -1139,7 +1148,7 @@ Les nombres générés sont uniformément répartis dans l'intervalle $[a, b]$
 $[X] = \frac{1}{b-a}$
 \end{center}
 
-\paragraph{Non-uniforme} Ce type de génération de liste de temps est utilisé dans le protocole expérimental de \cite{frangioni2004multi} et est repris par Della Croce et Scatamacchia \cite{della2020longest} pour éprouver SLACK.
+\paragraph{Non-uniforme} Ce type de génération de liste de temps est utilisé dans le protocole expérimental de \cite{frangioni2004multi} et est repris par \dcs \cite{della2020longest} pour éprouver SLACK.
 Une liste de nombres aléatoires générée via une règle non-uniforme de paramètres $a$ et $b$ , est l'union de 2 listes générées via une loi uniforme comme suit :
 
 \begin{align*}
