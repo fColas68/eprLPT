@@ -1699,6 +1699,127 @@ Il est à noter plusieurs phénomènes remarquables :
 \subsection{SLACK et la famille NON-UNIFORME}
 \label{ssec:resultatsSLACKNonUniforme}
 
+Pourquoi SLACk est très efficace dans une instance dont les temps sont générés à l'aide de la 
+  règle NON-UNIFORME ? 
+  
+La stratégie gloutonne de SLACK consiste à 
+  trier les temps dans le sens décroissant,
+  créer des tuples de m jobs de cet ensemble trier 
+  et trier ensuite chaque tuple par ordre décroissant de la différence 
+  entre le premier et le dernier élément de chaque tuple (slack).
+
+En reformulant la stratégie, SLACK crée des paquets de $m$ jobs qui vont s'empiler exactement un à un 
+  sur les $m$ processeurs. 
+Le premier paquet (tuple) présente une importante différence entre le premier et le dernier job, 
+  ce qui peut faire penser à un trapèze rectangle dont le sommet du haut est fortement penché. 
+Le deuxième paquet dont la différence des deux jobs d'extrémités est un peu moins importante 
+  va un peu compenser celle du premier paquet, pour former un trapèze rectangle dont le sommet 
+  est moins penché. 
+Et ainsi de suite jusqu'à avoir empilé tous les tuples, et rendre le sommet du haut du trapèze rectangle le plus horizontal possible. Et à chaque itération, chaque élément de chaque tuple a été également répartis sur chacun des processeurs.
+
+%--------------------------------------------------------
+% EXEMPLE SLACK IDEAL
+%--------------------------------------------------------
+\begin{example}
+Déroulement de SLACK dans un environnement idéal.
+
+% FIGURE des tuples
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{Slack_Non_Unif_Exemple_Ok1.png}
+\caption{préparation des tuples pour SLACK\\
+\hspace{\linewidth} avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\label{ex:SLACKOK1}
+\par}
+\end{figure}
+
+% FIGURE affectation des tuples
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{Slack_Non_Unif_Exemple_Ok2.png}
+\caption{Ordonnancement des tâches par tuple\\
+\hspace{\linewidth} avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\label{ex:SLACKOK2}
+\par}
+\end{figure}
+
+Soit la liste de temps déjà ordonnée $P = \{86, 83, 76, 75, 67, 44, 41, 26, 18, 5, 4, 3\}$ à ordonnancer sur 3 machines. Ce qui donne les tuples ordonnés suivants :
+\begin{itemize}
+	\item $T_1$ $=\{75, 67, 44\} slack = 31$; 
+	\item $T_2$ $=\{41, 26, 18\} slack = 23$; 
+	\item $T_3$ $=\{86, 83, 76\} slack = 10$;
+	\item $T_4$ $=\{5, 4, 3\} slack = 2$.
+\end{itemize}
+(figure \ref{ex:SLACKOK1}
+
+Pour chaque tuple, chaque tâche est affectée à chaque processeur (figure \ref{ex:SLACKOK2}), ce qui abouti vers une répartition équilibrée de temps par machine. Le Makespan est égale à l'optimal
+
+\end{example}
+
+Par contre si un job a un temps qui perturbe cette stratégie. Comme par exemple le premier job du deuxième tuple qui a un temps inférieur au slack du premier tuple. 
+Plus formellement si dans 
+$P = \{p_1, \ldots, p_m\}, \{p_{m+1}, \ldots, p_{2m}\}, \ldots, {p_{n-m}, \ldots p_n}$ 
+nous avons $p_{m+1} < p_m - p_1$, à l’opération du deuxième tuple, 2 jobs serons affectés au même processeur. Ce qui aura comme effet de déstabiliser l'harmonie des affectations des jobs de chaque tuple à chaque processeur et de provoquer un décalage entre l'optimal et le Makespan.
+
+ 
+
+%--------------------------------------------------------
+% EXEMPLE SLACK NON IDEAL
+%--------------------------------------------------------
+\begin{example}
+Déroulement de SLACK dans un environnement non idéal.
+
+% FIGURE des tuples
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{Slack_Non_Unif_Exemple_PasOk1.png}
+\caption{préparation des tuples pour SLACK\\
+\hspace{\linewidth} avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\label{ex:SLACKPasOK1}
+\par}
+\end{figure}
+
+% FIGURE affectation des tuples
+\begin{figure}
+{\centering
+\includegraphics[width=\columnwidth]{Slack_Non_Unif_Exemple_PasOk2.png}
+\caption{Ordonnancement des tâches par tuple\\
+\hspace{\linewidth} avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\label{ex:SLACKPasOK2}
+\par}
+\end{figure}
+
+ 
+Soit la liste de temps déjà ordonnée $P = \{90, 75, 53, 42, 38, 38, 36, 24, 22, 13, 11, 8\}$ à ordonnancer sur 3 machines. Ce qui donne les tuples oordonnés suivants  
+\begin{itemize}
+	\item $T_1$ $=\{90, 75, 53\} slack = 37$; 
+	\item $T_2$ $=\{36, 24, 22\} slack = 14$; 
+	\item $T_3$ $=\{13, 11, 8\} slack = 5$;
+	\item $T_4$ $=\{42, 38, 38\} slack = 4$.
+\end{itemize}
+(figure \ref{ex:SLACKPasOK1}
+Le premier job de $p_{T_2 1}=36 < slack(T_1)=37$ 
+Après l'affectation de $T_1$ nous avons la répartition des charges des 
+ processeurs suivante $\{(90), (75), (53)\}$.
+Puis vient l'affectation de $T_2$, avec en premier le job $p_{T_2 1}=36$
+nous avons la répartition des charges des processeurs suivante $\{(90), (75), (89 : 53,36)\}$. Le troisième processeur vient d'être chargé mais son poids $(89)$ est toujours inférieur au premier processeur $(90)$. Ce qu'aucun job de ce tuple ne sera affecté au premier processeur cette fois-ci (figure \ref{ex:SLACKPasOK2}).
+
+Cette perturbation va se propager jusqu’à la fin de l'algorithme. Et le Makespan trouvé sera différent de l'optimal. 
+\end{example}
+
+Dans une liste de temps de type NON-UNIFORME de paramètres [a, b] le slack maximum possible 
+  est égal à $slack_{max} = 0.9(b-a)$. 
+Pour perturber le fonctionnement de SLACK, il faudrait une valeur de temps inférieure à $slack_{max}$. 
+Or une liste de temps NON-UNIFORME ne contient aucune valeur comprise entre $0.9(b-a)$ et $0.2(b-a)$ 
+  et seulement $2\%$ des éléments de la liste son inférieurs à 0.2(b-a). 
+Ce qui réduit presque à $0$ les possibilités de générer une valeur qui peut potentiellement perturber SLACK.
+
+
+Tester SLACK dans une instance de type NON-UNIFORME oriente le résultat d'efficacité.
+           
+
+
+
 \section{Discussion} \label{sec:discussion}
 
 SLACK, est plus efficace que LPT suivant 13 points de tests 
