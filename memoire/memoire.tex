@@ -36,6 +36,7 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{xspace}
+\usepackage{pdflscape}
 
 % -------------------------------------------------------
 % Pour utiliser certains symboles mathématiques (statistiques)
@@ -241,7 +242,7 @@ Cette structure aide à effectuer de grands calculs en divisant la charge de tra
   processeurs capables de communiquer et de coopérer.     
 
 % Scheduling
-Le calcul de l'attribution de chaque tâche d'un ensemble de jobs aux ressources disponibles dans le but d'optimiser un critère est lui-même un job. 
+Le calcul de l'attribution de chaque tâche d'un ensemble de jobs aux ressources disponibles dans le but d'optimiser un critère est lui-même un job.  \jb{Je ne comprends pas la fin de la phrase précédente}
 Ce calcul est appelé algorithme d'ordonnancement (Scheduling algorithm). 
 Celui-ci doit être effectué le plus rapidement possible et donner la réponse d'ordonnancement en 
   adéquation avec ce qui est attendu.
@@ -268,7 +269,7 @@ En plus, \problemGrahamP devient un problème NP-Difficile, du moment que le nom
   est fixé \cite{chen1999potts}, comme l'a montré Rothkopf \cite{rothkopf1966scheduling} qui a 
   présenté un algorithme de programmation dynamique.\fco{voir le type d'algo pseudo-polynomial ?}
 
-Donner la solution optimale à un problème d'ordonnancement \problemGrahamP n'est pas réaliste. 
+Donner la solution optimale à un problème d'ordonnancement \problemGrahamP n'est pas réaliste. \jb{J'ajouterais «Dans le cas général»}
 La résolution de celui-ci demanderait un temps excessif et donc rédhibitoire.
 Comme les machines sont identiques, et travaillent à la même vitesse, la difficulté repose uniquement 
   sur le regroupement des jobs.
@@ -282,7 +283,7 @@ Les jobs sont exécutés sans interruption ni coupure. Donc, le makespan ne peut
 Donc toutes les solutions ont une borne minimale \cite{mcnaughton1959scheduling}: \\
 
   \begin{center}
-  $borne_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \}$
+  $\text{borne}_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \}$
   \label{borneMini}
   \end{center}
 
@@ -306,7 +307,7 @@ Pour chaque étude de comportement, les notions suivantes sont utilisées :
 \item $C_m^A(J)$ Le résultat (makespan) de l'ordonnancement
 	d'un ensemble $J$ de jobs,
 	sur $m$ machines parallèles, identiques,
-	obtenu par l'algorithme $A$.
+	obtenu par l'algorithme~$A$.
 % RESULTAT OPTIMAL
 \item $C_m^\star(J)$ Le makespan optimal, idéal, de l'ordonnancement
 	d'un ensemble $J$ de jobs,
@@ -352,7 +353,7 @@ Le but de ce document est de répondre à cette question, à l'aide des démarch
 \fco{a revoir}
 \lp{Oui tu peux aussi ajouter ce qui a été dit par Julien, à savoir
   étendre aux principaux algos}
-Le Chapitre suivant est un état de l'art au problème \problemGrahamP. La mise en place expérimentale et les choix effectués dans ce mémoire sont évoqués en chapitre 3. Puis nous aborderons la création des listes de temps et les instances dans le chapitre 4. Le chapitre 5 présente l'environnement de tests, avant d'aborder et présenter en chapitre 6 le résultat de la reproduction du protocole expérimental de \dcs et du protocole élargit. Ce document se termine par une discussion sur les protocoles de tests des heuristiques.    
+Le Chapitre suivant est un état de l'art au problème \problemGrahamP. La mise en place expérimentale et les choix effectués dans ce mémoire sont évoqués en chapitre 3. Puis nous aborderons la création des listes de temps et les instances dans le chapitre 4. Le chapitre 5 présente l'environnement de tests, avant d'aborder et présenter en chapitre 6 le résultat de la reproduction du protocole expérimental de \dcs et du protocole élargi. Ce document se termine par une discussion sur les protocoles de tests des heuristiques.
 
 Les annexes abordent certains points importants de l'implémentation des algorithmes et de la création des listes de temps.  
 
@@ -538,7 +539,7 @@ Ceci est réalisée à l'aide d'une recherche dichotomique dont les bornes de d�
 \begin{align*}
 &\textnormal{borne inférieure} 	&C_l 	&= \max \{ \max_i \{ L(t_i) \}, \frac{1}{m} \cdot L(T) \} \\
 & 								& 		& \textnormal{ou rammené au problème \problemGrahamP} \\	 
-& 								& C_l 	&= borne_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \} \\
+& 								& C_l 	&= \text{borne}_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \} \\
 &\textnormal{borne inférieure} 	&C_u 	&= 2 \cdot C_l 
 \end{align*}
 
@@ -625,10 +626,10 @@ $k$ un nombre d'itérations
 
 \BlankLine % Petit espace
 borne supérieure: 
-$Cu[T,m] = \max\left\{\frac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
+$C_u[T,m] = \max\left\{\frac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
 
 borne inférieure: 
-$Cl[T,m] = \max\left\{\frac{1}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
+$C_l[T,m] = \max\left\{\frac{1}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
 
 \BlankLine % Petit espace
 $i=1$
@@ -653,7 +654,7 @@ Après $k$ itérations, MULTIFIT renvoie $C_u$
   qui correspond à la plus petite valeur de $C$
   pour laquelle $FFD[T,C] \leq m$}
 
-\Return {$Cu$} 
+\Return {$C_u$}
 
 \caption{MULTIFIT}
 \label{algo:MULTIFIT}
@@ -677,7 +678,7 @@ $C_u - C_l \leq \alpha \cdot A$
 
 avec  
 \begin{align*}
-&A = \sum_{i=1}^{n}(\frac{p_i}{m})	
+&A = \sum_{i=1}^{n}\left(\frac{p_i}{m}\right)
 &\textnormal{(moyenne des poids des jobs par processeur)} \\
 &\alpha = 0.005 						
 &\textnormal{(constante arbitraire)}
@@ -850,9 +851,10 @@ Le tableau \ref{table:Heuritiques} récapitule les caractéristiques qui nous in
 % -------------------------------------------------------
 % TABLEAU des heuristiques étudiées dans le rapport
 % -------------------------------------------------------
+\begin{landscape}
 \begin{table}[h] % !! pour éviter qu'il traine au milieu du sommaire !!
 \centering
-\begin{tabular}{p{3cm} p{3cm} p{1cm} p{4cm} p{4cm}}
+\begin{tabular}{lp{3cm}lll}
 % --------------------------
 % TITRES
 % --------------------------
@@ -913,6 +915,7 @@ FFD 		& 	bin-packing
 \caption{Heuristiques étudiées}
 \label{table:Heuritiques}
 \end{table}
+\end{landscape}
 
 \lp{Domaine pour LPT et SLACK = Liste Scheduling ?}
 \lp{Mettre les complexités sur 2 lignes pour que le tableau tienne
@@ -942,7 +945,7 @@ Ce qui paraît assez pour le nombre d'instances mais peut-être pas pour les typ
 Le nombre restreint des lois statistiques utilisées dans leur modèle expérimental ne permet pas 
   d'affirmer ou d'infirmer que SLACK n'est pas sensible à la répartition des nombres constituant 
   les listes de temps. 
-Pour cela, il est nécessaire de tester SLACk, ou tout autre algorithme, sur des instances aux caractéristiques variées.
+Pour cela, il est nécessaire de tester SLACK, ou tout autre algorithme, sur des instances aux caractéristiques variées.
 
 
 Il existe deux façons d'obtenir des listes de temps de jobs. 
@@ -950,7 +953,7 @@ Soit les créer entièrement à partir d'un nombre $n$ désiré, soit les récup
 
 Pour la création d'une liste synthétique, des générateurs de nombres aléatoires suivant des lois statistiques différentes peuvent être utilisés.  
 \dcs pour leur protocole ont adopté deux types de générations de listes de temps: 
-  Une répartition UNIFORME et NON-UNIFORME.
+  une répartition UNIFORME et NON-UNIFORME.
 Il est intéressant d'étendre ce protocole à d'autres types listes.
 
 Pour la récupération, des sites internet mettent à disposition au téléchargement des listes de temps soit synthétiques, soit réelles. 
@@ -1117,7 +1120,7 @@ Si la variable aléatoire X suit une loi Beta de paramètres $\alpha$ et $\beta$
   \label{definitionLoiBetaDensite}
   \end{center}
 
-Beta est intéressante dans l'analyse de proportions d’éventements de type succès/échec ou 
+Beta est intéressante dans l'analyse de proportions d’événements de type succès/échec ou
 (moyennant un changement d'échelle) dans la modélisation du temps avant la fin d'une tâche.
 
 L’espérance et la variance sont fonctions de $\alpha$ $\beta$ et sont égales a :
@@ -1153,9 +1156,11 @@ Une liste de nombres aléatoires générée via une règle NON-UNIFORME de param
   est l'union de 2 listes générées via une loi uniforme comme suit :
 
 \begin{align*}
-	98 \%  &= \textnormal{loi uniforme } [0.9(b-a) b] \\
+	98 \%  &= \textnormal{loi uniforme } [0.9(b-a), b] \\
 	2\%    &= \textnormal{loi uniforme } [a, 0.2(b-a)] 
 \end{align*}
+
+\jb{En vrai, ça devrait être $[a + 0.9 (b-a), b]$ et $[a, a + 0.2 (b-a)]$}
 
 \begin{example}
 Pour la génération d'une liste suivant la règle non-uniforme [1, 100], 
@@ -1189,7 +1194,7 @@ Mais elles peuvent comporter certains inconvénients :
 	
 	\item Ces archives ne sont pas forcément complètes et certaines informations importantes peuvent manquer.
 	
-	\item incohérence de données. Certaines informations ne passent pas le contrôle de 
+	\item incohérence de données. Certaines informations ne passent pas le con\-trôle de
 	contraintes d'intégrités.
 	
 	\item Données erronées. Des données peuvent être fausses. e.g dues au dépassement d'adressage de nombres.
@@ -1214,7 +1219,7 @@ Mais elles peuvent comporter certains inconvénients :
 Pour comparer les résultats obtenus, il est nécessaire d'avoir un référent par rapport au Makespan. 
 Il n'est pas possible d'obtenir le ratio d'approximation de l'algorithme A ($\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$) car l'optimal n'est pas connu et c'est précisément ce que l'on cherche. 
 La seule donnée connue est la borne minimale de la liste de tailles de jobs.
-Or cette borne ($borne_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \}$) n'est pas forcément l'optimal et le rapport $\frac{Optimal}{borne_{min}}$ varie.
+Or cette borne ($\text{borne}_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \}$) n'est pas forcément l'optimal et le rapport $\frac{Optimal}{\text{borne}_{min}}$ varie.
 
 \bigskip
 % Exemple
@@ -1229,21 +1234,25 @@ Or cette borne ($borne_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n}
 \end{figure}
 
 \begin{example}
-Soit $P=\{8, 5, 7, 8, 5, 5\}$, l'ensemble des $p_i$ à appliquer sur 4 machines parallèles identiques:
-La borne minimale $borne_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \} = 9.5$ 
+Soit $P=\{8, 5, 7, 8, 5, 5\}$, l'ensemble des $p_i$ à appliquer sur 4 machines parallèles identiques.
+La borne minimale est:
+
+$$\text{borne}_{min} = \max \left\{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \right\} = 9.5$$
+
 L'optimal $C_4^\star(J) = 12$ (figure \ref{ex:borneMinVSOptimalListeDepart}).
 \end{example}
 
-Cette borne minimale est égale à l'optimal uniquement si toutes les charges des machines sont identiques.
-A partir d'une liste de coûts (synthétique ou naturelle) il est donc possible d'obtenir une instance dont l'optimal est connu \cite{benoit2021update}. Cette opération nécessite la transformation de la liste de coût de départ pour un 
+Cette borne minimale est égale à l'optimal uniquement si toutes les char\-ges des machines sont identiques.
+À partir d'une liste de coûts (synthétique ou naturelle) il est donc possible d'obtenir une instance dont l'optimal est connu \cite{benoit2021update}. Cette opération nécessite la transformation de la liste de coût de départ pour un
   nombre de machines défini (figure \ref{ex:maitriseOptimal}).
 \begin{itemize}
 	\item Soit une liste de $n$ jobs et l'ensemble des $p_i$ à appliquer sur $m$ machines parallèles identiques.
-	\item Ordonnancement : Chaque job est affecté à la machine la moins chargée à ce moment là. 
-	\item Tri : Tri des machines par ordre décroissant des charges.
-	\item Complétion : La machine la plus chargée (la première) représente le MakeSpan. La charge des $m-1$ machines restantes est complétée
+	\item Ordonnancement : chaque job est affecté à la machine la moins chargée à ce moment là.
+	\item Tri : tri des machines par ordre décroissant des charges.
+	\item Complétion : la machine la plus chargée (la première) représente le MakeSpan. La charge des $m-1$ machines restantes est complétée
               \lp{Avec des tâches fictives} pour obtenir le même temps
               d'exécution que la machine la plus chargée.
+  \jb{Attention à écrire makespan toujours de la même manière tout au long du rapport}
 	\item toutes les machines ont le même temps d'exécution. L'optimal, est dans ce cas égal à la 
 	      moyenne des temps par machine. 
 	      La nouvelle liste de coûts contient désormais $n + m-1$ éléments.
@@ -1268,6 +1277,8 @@ Tous les tests sont effectués sur les instances M1,
 \end{figure}
 
 \subsection{Indicateurs statistiques et caratéristiques}\label{ssec:instancesIndicateursStatistiquesCaratéristiques}
+
+\jb{A-t-on vraiment besoin de cette section vu qu'on ne donne pas ces indicateurs pour les listes utilisées par la suite?}
 
 Afin de caractériser une liste de coût, plusieurs indicateurs statistiques sont calculés à la génération, ou à la récupération de celle-ci.
 
@@ -1455,9 +1466,9 @@ soit un total de :
 pour chaque intervalle [a, b] = [1, 100], [1, 1000], [1, 10000] et
   chaque classe UNIFORM et NON-UNIFORM 
 \begin{itemize}
-\item 10 instances $\cdot$ 5 couples $\{m=5,n\}:\{5,10\},\{5,50\},\{5,100\},\{5,500\},\{5,1000\}$
-\item 10 instances $\cdot$ 4 couples $\{m=10, n\}:\{10,50\},\{10,100\},\{10,500\},\{10,1000\}$
-\item 10 instances $\cdot$ 4 couples $\{m=25,n\}:\{25,50\},\{25,100\},\{25,500\},\{25,1000\}$
+\item 10 instances $\cdot$ 5 couples $\{m=5,n\}$: \\ $\{5,10\},\{5,50\},\{5,100\},\{5,500\},\{5,1000\}$
+\item 10 instances $\cdot$ 4 couples $\{m=10, n\}$: \\ $\{10,50\},\{10,100\},\{10,500\},\{10,1000\}$
+\item 10 instances $\cdot$ 4 couples $\{m=25,n\}$: \\ $\{25,50\},\{25,100\},\{25,500\},\{25,1000\}$
 \end{itemize}  
 
 780 instances.
@@ -1471,7 +1482,7 @@ pour chaque intervalle [a, b] = [1, 100], [1, 1000], [1, 10000] et
 {\centering
 \includegraphics[width=\columnwidth]{1_Resultat_De_DCS.pdf}
 %\includegraphics[height=100mm]{1_Resultat_De_DCS.png}
-\caption{résultat obtenu par Della Croce et Scatamacchia.}
+\caption{Résultat obtenu par Della Croce et Scatamacchia.}
 \label{fig:resultatDellaCroceScatamacchia}
 \par}
 \end{figure}
@@ -1492,12 +1503,13 @@ Les auteurs annoncent une amélioration significative de LPT avec SLACK,
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{2_Resultat_reel.pdf}
-\caption{résultat sur 5 archives PWA.}
+\caption{Résultat sur 5 archives PWA.}
+\jb{Qu'est-ce que représentent ces nombres? Il faut le dire dans le titre}
 \label{fig:resultat5PWA}
 \par}
 \end{figure}
  
- Les 4 algorithmes sont exécutés sur des listes de temps réelles, provenant de 5 PWA NASA IPSC, Early CTC SP2, LANL CM5, SDSC Par95 et SDSC Par96, qui contiennent respectivement 18066, 75895, 122058, 32128 et 53744 jobs. Ces 5 archives sont transformées en instances de 5, 10 et 25 machines, et le résultat est représenté en figure \ref{fig:resultat5PWA}.
+ Les 4 algorithmes sont exécutés sur des listes de temps réelles, provenant de 5 PWA NASA IPSC, Early CTC SP2, LANL CM5, SDSC Par95 et SDSC Par96, qui contiennent respectivement 18066, 75895, 122058, 32128 et 53744 jobs. Ces 5 archives sont transformées en instances de 5, 10 et 25 machines, et le résultat est représenté en figure~\ref{fig:resultat5PWA}.
  
 SLACK est efficace, mais de très peu. 
 Les heuristiques, dans cet échantillons, sont plus souvent équivalentes.  
@@ -1511,13 +1523,13 @@ Les heuristiques, dans cet échantillons, sont plus souvent équivalentes.
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{3_Resultat_Reproduction_De_DCS.pdf}
-\caption{résultat obtenu par Reprduction Della Croce et Scatamacchia.}
+\caption{Résultat obtenu par reproduction Della Croce et Scatamacchia.}
 \label{fig:resultatReproductionDellaCroceScatamacchia}
 \par}
 \end{figure}
 
 Le même protocole expérimental est exécuté. Le résultat est indiqué 
-  figure \ref{fig:resultatReproductionDellaCroceScatamacchia}. 
+  figure~\ref{fig:resultatReproductionDellaCroceScatamacchia}.
 Les résultats obtenus ne sont pas tout à fait identiques ou avoisinants. 
   
 Côté temps, SLACK passe d'un rapport de 1.3 à un rapport de 1.5 par rapport à LPT. 
@@ -1538,7 +1550,7 @@ Peut-être que notre protocole est une singularité statistique. L'expérience e
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{4_Resultat_Reproduction50DCS.pdf}
-\caption{résultat obtenu avec 50 campagnes de tests type ``Della Croce et Scatamacchia''.}
+\caption{Résultat obtenu avec 50 campagnes de tests type ``Della Croce et Scatamacchia''.}
 \label{fig:resultatReproduction50DellaCroceScatamacchia}
 \par}
 \end{figure}
@@ -1579,7 +1591,7 @@ Le type d'instance a une influence sur le comportement des algorithmes, notammen
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{5_Resultat_Reproduction10GammaBeta.pdf}
-\caption{résultat obtenu avec 10 campagnes de tests avec des distributions Gamma et Beta.}
+\caption{Résultat obtenu avec 10 campagnes de tests avec des distributions Gamma et Beta.}
 \label{fig:resultatReproduction10GammaBeta}
 \par}
 \end{figure}
@@ -1596,7 +1608,7 @@ Nous reprenons la même expérience, avec les 2 familles de distributions
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{6_Resultat_Reproduction10GammaBeta1000.pdf}
-\caption{résultat obtenu avec 10 campagnes de tests avec des distributions Gamma et Beta sur des instances de 1000 jobs.}
+\caption{Résultat obtenu avec 10 campagnes de tests avec des distributions Gamma et Beta sur des instances de 1000 jobs.}
 \label{fig:resultatReproduction10GammaBeta1000}
 \par}
 \end{figure}
@@ -1608,7 +1620,7 @@ Le résultat en figure \ref{fig:resultatReproduction10GammaBeta1000} indique que
 
 
 \bigskip
-nous retirons la loi de distribution beta dans la génération des listes de temps.
+Nous retirons la loi de distribution beta dans la génération des listes de temps.
 Donc 1 familles de distributions Gamma, 
   des instances uniquement de 1000 jobs à ordonnancer sur 5, 10 et 25 machines,
   sur 10 campagnes.
@@ -1619,13 +1631,14 @@ Donc 1 familles de distributions Gamma,
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{7_Resultat_Reproduction10Gamma1000.pdf}
-\caption{résultat obtenu avec 10 campagnes de tests avec une distribution Gamma sur des instances de 1000 jobs.}
+\caption{Résultat obtenu avec 10 campagnes de tests avec une distribution Gamma sur des instances de 1000 jobs.}
 \label{fig:resultatReproduction10Gamma1000}
 \par}
 \end{figure}
 
 SLACK n'est plus qu'à 25\% contre LPT, 15\% contre COMBINE et 17\% contre LDM (figure \ref{fig:resultatReproduction10Gamma1000}).
 
+\jb{Il manque une tentative d'explication sur pourquoi SLACK est moins bon sur des distributions gamma ou beta}
 
 \subsection{Cartographie des heuristiques}
 \label{ssec:resultatsCartographie}
@@ -1644,12 +1657,10 @@ Les points rouges représentent les 13 points de test en question.
 % Figure resultat comparaison de LPT et SLACK sur n et m
 %--------------------------------------------------------
 \begin{figure}
-{\centering
+\centering
 \includegraphics[width=\columnwidth]{8_comparaison_LPT_SLACK_2D.png}
-\caption{comparaison LPT et SLACK sur 3 distributions\\
-\hspace{\linewidth} avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\caption{comparaison LPT et SLACK sur 3 distributions avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
 \label{fig:resultatComparaisonLPTSLACK}
-\par}
 \end{figure}
 
 \lp{Parler de la partie jaune optimale ? D'ailleurs on peut signaler
@@ -1672,8 +1683,7 @@ Il est à remarquer que les points rouges du protocole expérimental de
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{9_resultatComparaisonAlgoDistributions.jpeg}
-\caption{comparaison LPT, SLACK, COMBINE, LDM par algorithme, et par distribution\\
-\hspace{\linewidth} avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\caption{comparaison LPT, SLACK, COMBINE, LDM par algorithme, et par distribution avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
 \label{fig:resultatComparaisonAlgoDistributions}
 \par}
 \end{figure}
@@ -1722,7 +1732,7 @@ Il est à noter plusieurs phénomènes remarquables :
 \subsection{SLACK et la famille NON-UNIFORME}
 \label{ssec:resultatsSLACKNonUniforme}
 
-Pourquoi SLACk est très efficace dans une instance dont les temps sont générés à l'aide de la 
+Pourquoi SLACK est très efficace dans une instance dont les temps sont générés à l'aide de la
   règle NON-UNIFORME ? 
   
 La stratégie gloutonne de SLACK consiste à 
@@ -1750,8 +1760,7 @@ Déroulement de SLACK dans un environnement idéal.
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{Slack_Non_Unif_Exemple_Ok1.png}
-\caption{préparation des tuples pour SLACK\\
-\hspace{\linewidth} avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\caption{Préparation des tuples pour SLACK avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
 \label{ex:SLACKOK1}
 \par}
 \end{figure}
@@ -1760,28 +1769,28 @@ Déroulement de SLACK dans un environnement idéal.
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{Slack_Non_Unif_Exemple_Ok2.png}
-\caption{Ordonnancement des tâches par tuple\\
-\hspace{\linewidth} avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\caption{Ordonnancement des tâches par tuple avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
 \label{ex:SLACKOK2}
 \par}
 \end{figure}
 
-Soit la liste de temps déjà ordonnée $P = \{86, 83, 76, 75, 67, 44, 41, 26, 18, 5, 4, 3\}$ à ordonnancer sur 3 machines. Ce qui donne les tuples ordonnés suivants (figure \ref{ex:SLACKOK1}):
+Soit la liste de temps déjà ordonnée $$P = \{86, 83, 76, 75, 67, 44, 41, 26, 18, 5, 4, 3\}$$ à ordonnancer sur 3 machines. Ce qui donne les tuples ordonnés suivants (figure \ref{ex:SLACKOK1}):
 \begin{itemize}
-	\item $T_1$ $=\{75, 67, 44\} \, slack = 31$; 
-	\item $T_2$ $=\{41, 26, 18\} \, slack = 23$; 
-	\item $T_3$ $=\{86, 83, 76\} \, slack = 10$;
-	\item $T_4$ $=\{5, 4, 3\} \, slack = 2$.
+	\item $T_1$ $=\{75, 67, 44\}$, slack = 31;
+	\item $T_2$ $=\{41, 26, 18\}$, slack = 23;
+	\item $T_3$ $=\{86, 83, 76\}$, slack = 10;
+	\item $T_4$ $=\{5, 4, 3\}$, slack = 2.
 \end{itemize}
-
+\jb{Ça ne correspond pas à la figure}
 
 Pour chaque tuple, chaque tâche est affectée à chaque processeur (figure \ref{ex:SLACKOK2}), ce qui abouti vers une répartition équilibrée de temps par machine. Le Makespan est égale à l'optimal
 
 \end{example}
 
 Par contre si un job a un temps qui perturbe cette stratégie. Comme par exemple le premier job du deuxième tuple qui a un temps inférieur au slack du premier tuple. 
+\jb{Manque des verbes dans les phrases précédentes}
 Plus formellement si dans 
-$P = \{p_1, \ldots, p_m\}, \{p_{m+1}, \ldots, p_{2m}\}, \ldots, \{p_{n-m}, \ldots p_n\}$ 
+$$P = \{p_1, \ldots, p_m\}, \{p_{m+1}, \ldots, p_{2m}\}, \ldots, \{p_{n-m}, \ldots p_n\}$$
 nous avons $p_{m+1} < p_m - p_1$, à l’opération du deuxième tuple, 2 jobs serons affectés au même processeur. Ce qui aura comme effet de déstabiliser l'harmonie des affectations des jobs de chaque tuple à chaque processeur et de provoquer un décalage entre l'optimal et le Makespan.
 
  
@@ -1796,8 +1805,7 @@ Déroulement de SLACK dans un environnement non idéal.
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{Slack_Non_Unif_Exemple_PasOk1.png}
-\caption{préparation des tuples pour SLACK\\
-\hspace{\linewidth} avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\caption{préparation des tuples pour SLACK avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
 \label{ex:SLACKPasOK1}
 \par}
 \end{figure}
@@ -1806,19 +1814,18 @@ Déroulement de SLACK dans un environnement non idéal.
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{Slack_Non_Unif_Exemple_PasOk2.png}
-\caption{Ordonnancement des tâches par tuple\\
-\hspace{\linewidth} avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\caption{Ordonnancement des tâches par tuple avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
 \label{ex:SLACKPasOK2}
 \par}
 \end{figure}
 
  
-Soit la liste de temps déjà ordonnée $P = \{90, 75, 53, 42, 38, 38, 36, 24, 22, 13, 11, 8\}$ à ordonnancer sur 3 machines. Ce qui donne les tuples oordonnés suivants  
+Soit la liste de temps déjà ordonnée $$P = \{90, 75, 53, 42, 38, 38, 36, 24, 22, 13, 11, 8\}$$ à ordonnancer sur 3 machines. Ce qui donne les tuples oordonnés suivants
 \begin{itemize}
-	\item $T_1$ $=\{90, 75, 53\} slack = 37$; 
-	\item $T_2$ $=\{36, 24, 22\} slack = 14$; 
-	\item $T_3$ $=\{13, 11, 8\} slack = 5$;
-	\item $T_4$ $=\{42, 38, 38\} slack = 4$.
+	\item $T_1$ $=\{90, 75, 53\}$, slack = 37;
+	\item $T_2$ $=\{36, 24, 22\}$, slack = 14;
+	\item $T_3$ $=\{13, 11, 8\}$, slack = 5;
+	\item $T_4$ $=\{42, 38, 38\}$, slack = 4.
 \end{itemize}
 (figure \ref{ex:SLACKPasOK1}
 Le premier job de $p_{T_2 1}=36 < slack(T_1)=37$ \lp{PB notation du
@@ -1835,7 +1842,7 @@ Dans une liste de temps de type NON-UNIFORME de paramètres [a, b] le slack maxi
   est égal à $slack_{max} = 0.9(b-a)$. 
 Pour perturber le fonctionnement de SLACK, il faudrait une valeur de temps inférieure à $slack_{max}$. 
 Or une liste de temps NON-UNIFORME ne contient aucune valeur comprise entre $0.9(b-a)$ et $0.2(b-a)$ 
-  et seulement $2\%$ des éléments de la liste son inférieurs à 0.2(b-a). 
+  et seulement $2\%$ des éléments de la liste sont inférieurs à $0.2(b-a)$.
 Ce qui réduit presque à $0$ les possibilités de générer une valeur qui peut potentiellement perturber SLACK.
 
 
@@ -1978,7 +1985,7 @@ Ce sont les deux seuls types de génération utilisés dans le protocole expéri
 		rand = random.uniform(a,b)
   \end{lstlisting}
 
-\item Non-uniforme. définie en tant que ``NON-UNIF'' dans \cite{frangioni2000multi}. Cette méthode produit 
+\item Non-uniforme. définie en tant que ``NON-UNIF'' dans \cite{frangioni2004multi}. Cette méthode produit
   une liste de temps de traitements dont 
   $98\%$ des éléments sont uniformément répartis dans l’intervalle  $[0.9 (b-a), b]$, et 
   le reste ($2\%$) est uniformément réparti dans l'intervalle  $[a, 0.2 (b-a)]$.
