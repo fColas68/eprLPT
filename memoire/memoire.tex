@@ -221,19 +221,19 @@ je remercie....
 La question d’ordonnancement est omniprésente, dans la vie pratique, l'industrie, le transport, 
   les institutions, la santé et toute autre discipline qui nécessite une organisation.
   L'ordonnancement consiste à agencer au mieux des tâches, des jobs reliés ou non entre eux 
-  pour atteindre un but, tout en optimisant un critère particulier. 
+  pour atteindre un but tout en optimisant un critère particulier. 
 Dans la construction d'une maison, depuis la pose de la première dalle jusqu'à la pose du dernier carrelage, 
   tout a été organisé pour réduire au maximum le retard total. 
-  Certaines tâches ont pu être effectuées en parallèle (pose de la plomberie, pose de l'électricité), 
-  quant à d'autres elles n'ont pu commencer qu'après l'achèvement d'ouvrages 
-  (pose des tuiles après la finalisation de la charpente). 
+  Certaines tâches ont pu être effectuées en parallèle (pose de la plomberie, pose de l'électricité)  
+  quant à d'autres, elles n'ont pu commencer qu'après l'achèvement d'ouvrages 
+  (pose des tuiles après la finition de la charpente). 
 
 % ORDONNANEMENT dans l'informatique
 L’ordonnancement intervient aussi dans l'attribution et l'ordre d’exécution des jobs à réaliser par processeur. 
 Même pour une machine mono-processeur, l'ordre a son importance si des jobs sont liés par des relations de précédences. 
 % ORDONNANEMENT dans l'informatique parallèle
 La question est d'autant plus essentielle depuis l'apparition des ordinateurs à structure parallèle.
-En effet, la composition d'un ensemble de jobs sur plusieurs microprocesseurs, même sans lien entre eux, a des répercutions sur le temps total nécessaire pour exécuter tous ces jobs. 
+En effet, la composition d'un ensemble de jobs sur plusieurs processeurs, même sans lien entre eux, a des répercutions sur le temps total nécessaire pour exécuter tous ces jobs. 
 
 % Parallélisme
 Le parallélisme est un type d'architecture informatique dans lequel plusieurs processeurs exécutent 
@@ -257,13 +257,13 @@ Le but de \problemGrahamP consiste à planifier un ensemble $J=\{j_1, j_2, \ldot
   dans le but d'optimiser le temps total de traitement appelé makespan (noté $C_{max}$).
 Le temps nécessaire de réalisation de chaque job $p_i$ $\in P=\{p_1, p_2, \ldots, p_n\}$  
   (avec $1 \leq i \leq n)$ est connu à l'avance. 
-Un job commencé est complété sans interruption (non préemptif), 
+Un job commencé est complété sans interruption (non préemptif) 
   et est exécuté par une seule machine. 
 Une machine ne traite qu'un seul job à la fois. 
 
 % problématique générale 
 Mais, comme l'ont démontré Garey et Johnson, 
-  \problemGrahamPII avec $m = 2$ est un problème NP-Difficile \cite{garey1978strong}, et 
+  \problemGrahamPII (i.e avec $m = 2$) est un problème NP-Difficile \cite{garey1978strong}, et 
   \problemGrahamP avec $m \geq 3$ est un problème NP-Difficile au sens fort \cite{garey1982computers}.
 En plus, \problemGrahamP devient un problème NP-Difficile, du moment que le nombre de machines 
   est fixé \cite{chen1999potts}, comme l'a montré Rothkopf \cite{rothkopf1966scheduling} qui a 
@@ -276,8 +276,8 @@ Comme les machines sont identiques, et travaillent à la même vitesse, la diffi
 La résolution de ce problème d'ordonnancement va reposer sur des méthodes d'approche qui consistent à 
   calculer en temps polynomial une solution ``assez'' proche de la valeur optimale.
 
-Les jobs sont exécutés sans interruption ni coupure. Donc, le makespan ne peut pas être inférieur à 
-  la taille du jobs le plus long i.e. $(\max_i\{p_i\})$.
+Les jobs sont exécutés sans interruption ni coupure. Donc le makespan ne peut pas être inférieur à 
+  la taille du jobs le plus long (i.e. $\max_i\{p_i\}$).
   Il ne peut pas être inférieur non plus à la moyenne des tailles des jobs par machine
   i.e. $\frac{1}{m} \sum_{i=1}^{n} p_i$.
 Donc toutes les solutions ont une borne minimale \cite{mcnaughton1959scheduling}: \\
@@ -303,18 +303,21 @@ une étude du comportement est nécessaire pour définir cette borne maximale.
 Pour chaque étude de comportement, les notions suivantes sont utilisées :
 
 \begin{itemize}
-% RESULTAT DE L'ALGORITHME A
-\item $C_m^A(J)$ Le résultat (makespan) de l'ordonnancement
-	d'un ensemble $J$ de jobs,
-	sur $m$ machines parallèles, identiques,
-	obtenu par l'algorithme~$A$.
-% RESULTAT OPTIMAL
-\item $C_m^\star(J)$ Le makespan optimal, idéal, de l'ordonnancement
-	d'un ensemble $J$ de jobs,
-	sur $m$ machines parallèles identiques.
-% RATIO OBTENU/OPTIMAL
-\item $\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$
-	Le ratio d'approximation atteint par l'algorithme $A$ au pire cas.
+	% RESULTAT DE L'ALGORITHME A
+	\item $C_m^A(J)$ : Le résultat (makespan) de l'ordonnancement
+	d'un ensemble $J$ de jobs 
+	sur $m$ machines parallèles identiques 
+	obtenu par l'algorithme~$A$;
+
+	% RESULTAT OPTIMAL
+	\item $C_m^\star(J)$ : Le makespan optimal idéal de l'ordonnancement 
+  	d'un ensemble $J$ de jobs 
+	sur $m$ machines parallèles identiques;
+	
+	% RATIO OBTENU/OPTIMAL
+	\item $\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$ : Le ratio d'approximation 
+	atteint par l'algorithme $A$ au pire cas.
+	
 \end{itemize}
    
 Parfois, cette borne est arbitrairement large et n'a pas été analysée. Une simulation permet d'obtenir des 
@@ -329,7 +332,7 @@ Parmi les heuristiques les plus étudiées, nous pouvons citer
 % génese du rapport
 %--------------------------------------
 Ce mémoire prend le texte de \dcs \cite{della2020longest} comme point de départ.    
-Ces derniers revisitent l'heuristique LPT en appliquant aux données d'entrée du problème une stratégie gloutonne. 
+Ces derniers revisitent l'heuristique LPT en appliquant aux données d'entrée du problème une stratégie gloutonne.  
 L'algorithme développé appelé SLACK devient très compétitif par rapport à d'autres heuristiques, 
   tant en complexité en temps qu'en ratio d'approximation. 
 Cette conclusion est le résultat d'un protocole expérimental défini dans \cite{iori2008scatter}. 
@@ -341,9 +344,12 @@ Mais ce résultat empirique repose sur un nombre assez restreint d'échantillons
 Le but de ce document est de répondre à cette question, à l'aide des démarches suivantes :
 
 \begin{itemize}
-	\item Reproduire le protocole expérimental de \dcs.  
+	\item Reproduire le protocole expérimental de \dcs;
+	  
 	\item \'{E}largir ce protocole expérimental à d'autres types de générations aléatoires, 
-	voire à de vraies archives de listes de tâches, et à un spectre plus large de nombres de jobs et de machines.  
+	voire à de vraies archives de listes de tâches et à un spectre plus large de nombres de jobs 
+	et de machines.
+	  
 \end{itemize} 
 
 \bigskip
@@ -365,22 +371,21 @@ Les annexes abordent certains points importants de l'implémentation des algorit
 %--------------------------------------------------------
 %\subsection{Introduction} \label{ssec:etatDeLArtIntroduction}
 %--------------------------------------------------------
-Le problème d'ordonnancement se pose depuis l'apparition des premières machines parallèles, et 
-  est d'autant plus d'actualité que les postes personnels sont équipés depuis quelques années, 
+Le problème d'ordonnancement se pose depuis l'apparition des premières machines parallèles et 
+  est d'autant plus d'actualité que les postes personnels sont équipés depuis quelques années 
   de processeurs (CPU) et de cartes graphiques (GPU) multi-c{\oe}urs.
-Les centres de calculs sont dotés de parcs assez uniformes, et maintenant, 
+Les centres de calculs sont dotés de parcs assez uniformes et maintenant 
   les clouds, offrent des instances VM qui permettent des environnements 
   d'exécution homogènes.     
 L'ordonnancement fait partie de la catégorie des problèmes d'optimisation combinatoire. 
-C'est un champ de la recherche opérationnelle, actif depuis plus d'un siècle, 
+C'est un champ de la recherche opérationnelle, actif depuis plus d'un siècle 
   et abondant dans la littérature. 
 
   \lp{Pour la suite préciser: ``Pour P||Cmax'' ?}
-De nombreuses pistes sont explorées. Il est pratiquement impossible de les énumérer toutes, 
-  aussi sont présentées ici les plus étudiées, 
-  et/ou utilisées pour être comparées ou servir de référent.
+De nombreuses pistes sont explorées. Il est pratiquement impossible de les énumérer toutes. 
+Aussi sont présentées ici les plus étudiées et/ou utilisées pour être comparées ou servir de référent.
   
-Nous abordons dans l'ordre, certaines heuristiques, un type d'algorithme d'approximation (le schéma d'approximation en temps polynomial ou PTAS) et une résolution du problème basée sur la programmation linéaire.
+Nous abordons dans l'ordre, certaines heuristiques, un type d'algorithme d'approximation nommé schéma d'approximation en temps polynomial (PTAS) et une résolution du problème basée sur la programmation linéaire.
 
 \subsection{Heuristiques}\label{ssec:Heuristiques}
 
@@ -393,15 +398,15 @@ Celles présentées sont basées
 
 \bigskip   
 \paragraph{LS (List Scheduling)}
-l'idée d'un algorithme d'ordonnancement de liste est de stocker l'ensemble des jobs dans celle-ci, éventuellement les trier dans un ordre particulier et/ou les regrouper selon une règle définie, dans le but de leur assigner une priorité. Ces jobs sont ensuite affectés un à un à une machine suivant un principe déterminé. 
+l'idée d'un algorithme d'ordonnancement de liste est de stocker l'ensemble des jobs dans celle-ci, éventuellement les trier dans un ordre particulier et/ou les regrouper selon une règle définie dans le but de leur assigner une priorité. Ces jobs sont ensuite affectés un à un à une machine suivant un principe déterminé. 
 Les machines sont toujours occupées tant qu'il existe au moins un job en attente.
 
 
 LPT Rule (Longest Time Processing) % (algorithme \ref{algo:LPT})
   proposé par Graham \cite{graham1966bounds}, 
-  améliore l'algorithme LS. LS trie les jobs dans un ordre arbitraire, 
-  et affecte chacun d'eux à la machine actuellement la moins chargée. 
-  LPT rule ordonne les jobs dans le sens décroissant de leur temps de traitement et affecte le job à la machine la moins chargée à ce moment là. 
+  améliore l'algorithme LS. Contrairement à LS, LPT rule ordonne les jobs dans le sens 
+  décroissant de leur temps de traitement et 
+  affecte le job à la machine la moins chargée à ce moment là. 
 LPT a 
   un ratio d'approximation $\Gamma(LPT) \leq \frac{4}{3}-\frac{1}{3 \cdot m}$ et 
   une complexité en temps de $ O(n \log(n) + n \log(m)$).
@@ -443,7 +448,7 @@ chargée à ce moment là.
 \paragraph{Stratégie gloutonne}
 Della Croce et Scatamacchia \cite{della2020longest} revisitent LPT rule dans le but de l'optimiser. 
 L'étude est articulée autour du lien qui existe entre le nombre de machines $m$, le nombre de jobs $n$, 
-  la relation qu'il peut y avoir entre les deux, et la probabilité que LPT donne un résultat au pire cas. 
+  la relation qu'il peut y avoir entre les deux et la probabilité que LPT donne un résultat au pire cas. 
 S'ensuit SLACK, un algorithme basé sur la stratégie gloutonne suivante, avant d’affecter les jobs un à un à la machine la moins chargée à ce moment là :
 
 \begin{itemize}
@@ -503,7 +508,7 @@ ce moment là) à l'ensemble ainsi obtenu.
 
 \bigskip
 \paragraph{Bin-Packing}
-Un des problèmes semblable à \problemGrahamP, est celui de Bin-Packing. 
+Un des problèmes semblable à \problemGrahamP est celui de Bin-Packing. 
 
 Soient
 \begin{itemize}
@@ -513,17 +518,17 @@ Soient
 \end{itemize} 
 Un packing est une partition $B < B_1, B_2, ... B_k > $ 
   telle que $L(B_j) \leq C$ 
-  (avec $1\leq j \leq k$ et $L(B_j)$ la somme des tailles des objets pacqués dans $B_j$), 
-  autrement dit, cela consiste à placer des objets $t_i$ dans des bacs $B_j$ de taille maximum $C$. 
-Le problème Bin-Packing, qui est NP-Complet, tente de minimiser le nombre de bacs $k$. 
+  (avec $1\leq j \leq k$ et $L(B_j)$ la somme des tailles des objets pacqués dans $B_j$). 
+Autrement dit, cela consiste à placer des objets $t_i$ dans des bacs $B_j$ de taille maximum $C$. 
+Le problème Bin-Packing qui est NP-Complet, tente de minimiser le nombre de bacs $k$. 
 
-Bin-Packing peut être considéré comme le double de \problemGrahamP, 
+Bin-Packing peut être considéré comme le double de \problemGrahamP 
   car l'ensemble des objets à ranger associés à leur taille et la partition $B$ 
   peuvent être vus respectivement comme 
   un ensemble $J$ de $n$ jobs, leurs tailles propres, 
-  et l'ordonnancement recherché sur $m$ machines,
-  la taille $C$ des bacs correspondant au makespan recherché, 
-  ainsi que le nombre de bacs obtenus, au nombre $m$ de machines.
+  et l'ordonnancement recherché sur $m$ machines.
+La taille $C$ des bacs correspond au makespan recherché, 
+  et le nombre de bacs obtenus au nombre $m$ de machines.
   
 \bigskip
 Coffman, Garey et Johnson \cite{coffman1978application} utilisent Bin-Packing 
@@ -532,7 +537,7 @@ Coffman, Garey et Johnson \cite{coffman1978application} utilisent Bin-Packing
 Cet algorithme est basé sur FFD 
   (First-Fit-Decreasing, algorithme \ref{algo:FFD}, \cite{rieck2021basic}), 
   un outil (heuristique) de résolution de Bin-Packing. 
-Il accepte en entrée un ensemble de tailles d'objets, et une taille maximale $C$ de bacs 
+Il accepte en entrée un ensemble de tailles d'objets et une taille maximale $C$ de bacs 
   et propose en retour un packing, donc un nombre de bacs $k$.
 L'idée de MULTIFIT est de proposer des valeurs de $C$ à FFD, jusqu'à avoir un nombre de bacs $k=m$.
 Ceci est réalisée à l'aide d'une recherche dichotomique dont les bornes de départ qui vont confiner $C$ sont : 
@@ -546,9 +551,9 @@ Ceci est réalisée à l'aide d'une recherche dichotomique dont les bornes de d�
 MULTIFIT accepte en entrée un ensemble de temps de jobs $P$, 
   un nombre de machines $m$ et 
   un nombre d'itérations $k$ pour la recherche dichotomique.
-Selon la taille de l'instance du problème, $k$ doit avoir une valeur suffisante pour que 
+Selon la taille de l'instance du problème $k$ doit avoir une valeur suffisante pour que 
   MULTIFIT donne une réponse convenable. 
-Il est estimé, que cette valeur est atteinte pour toute taille d'instance, 
+Il est estimé que cette valeur est atteinte pour toute taille d'instance 
   quand $k=7$ \cite{coffman1978application}.
 MULTIFIT a 
   un ratio d'approximation $\Gamma(MULTIFIT) \leq 1,220 + 2^{-k}$ et 
@@ -626,10 +631,10 @@ $k$ un nombre d'itérations
 
 \BlankLine % Petit espace
 borne supérieure: 
-$C_u[T,m] = \max\left\{\frac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
+$C_u = \max\left\{\frac{2}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
 
 borne inférieure: 
-$C_l[T,m] = \max\left\{\frac{1}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
+$C_l = \max\left\{\frac{1}{m} \cdot L(T), \max_i\{L(T_i)\} \right\}$
 
 \BlankLine % Petit espace
 $i=1$
@@ -637,7 +642,7 @@ $i=1$
 \Tq {$i \leq k$} {
 	$C = \frac{C_u + C_l}{2}$
 	
-	$NB_b = FFD(C, T)$ \tcp{FFD renvoie le nombre de bacs créés}
+	$NB_b = FFD(T,C)$ \tcp{FFD renvoie le nombre de bacs créés}
 	
 	\Si {$NB_b \leq m$} {
 		$C_u = C$
@@ -667,8 +672,8 @@ Après $k$ itérations, MULTIFIT renvoie $C_u$
 \bigskip
 Lee et Massey \cite{lee1988multiprocessor} améliorent MULTIFIT 
   en utilisant LPT pour 
-  calculer la borne supérieure de départ et réduire l'amplitude de la recherche dichotomique 
-  et proposent l'Heuristique COMBINE. 
+  calculer la borne supérieure de départ pour réduire l'amplitude de la recherche dichotomique 
+  et proposent l'heuristique COMBINE. 
 Contrairement à la recherche dichotomique de MULTIFIT 
   qui effectue $k$ itérations, 
   celle de COMBINE s'arrête lorsque 
@@ -684,9 +689,8 @@ avec
 &\textnormal{(constante arbitraire)}
 \end{align*}
 
-Le nombre d’itérations $k$ de recherche dichotomique est variable, 
-  mais n’excède pas 6. 
-  Or, LPT a déjà tourné une fois, donc $k \leq 7$.
+Le nombre d’itérations $k$ de recherche dichotomique est variable mais n’excède pas 6. 
+Or, LPT a déjà tourné une fois, donc $k \leq 7$.
   
 COMBINE a 
   un ratio d'approximation $\Gamma(COMBINE) \leq \frac{13}{12} + 2^{-k}$ et 
@@ -706,7 +710,7 @@ $m$ machines,
 
 $n$ jobs, 
 
-$\alpha (=0,005)$ un coefficient arbitraire
+$\alpha$ un coefficient arbitraire ($\alpha =0,005$ par défaut)
 }
 
 A = $\sum_{i=1}^{n}(\frac{p_i}{m})$ \;
@@ -743,14 +747,14 @@ Le problème de partitionnement de nombres consiste à
   de sorte que la somme des nombres \lp{pb de phrase sujet au singulier,
 verbe au pluriel}dans chaque sous-ensemble 
   soient aussi égales que possible \cite{korf2009multi}.
-Ce problème est NP-complet, et peut être assimilé au problème 
+Ce problème est NP-complet et peut être assimilé au problème 
   d'ordonnancement \problemGrahamP, avec un ensemble 
   $E = P=\{p_1, p_2, \ldots, p_n\}$ de taille de tâches 
-  à partitionner en  $NB_e=m$ sous-ensembles i.e $m$ machines (ou processeurs).
+  à partitionner en  $NB_e=m$ sous-ensembles i.e. $m$ machines (ou processeurs).
 
 \bigskip
 Karmarkar et Karp \cite{karmarkar1982differencing} proposent LDM (Largest Differencing Method) 
-  pour deux partitions, puis, pour $m$ partitions.
+  pour deux partitions puis pour $m$ partitions.
 Cet algorithme consiste à remplacer les 2 plus grands (Largest) nombres de l'ensemble de $n$ éléments de départ par leur différence (Differencing) pour obtenir un nouvel ensemble de $n-1$ éléments. 
 LDM a
   un ratio d'approximation \cite{michiels2003performance} 
@@ -768,7 +772,7 @@ LDM a
 \DontPrintSemicolon
 \KwData{
 
-Un ensemble $P = \{p_1, p_2, \ldots, p_n\}$ de n nombres positifs réels 
+Un ensemble $P = \{p_1, p_2, \ldots, p_n\}$ de $n$ nombres positifs réels 
 (temps d'exécution des $n$ jobs indépendants).
 
 $m$ un nombre de partitions à obtenir 
@@ -782,7 +786,7 @@ Convertir les $n$ $p_i$ en $n$ m-tuples $A_i$ = [ $m-1$ valeurs vides $\{\}$ et 
 {
 Calculer pour chaque m-tuple $A_i$ la différence $d(A_i)$ 
   entre la plus grande et la plus petite valeur des éléments de $A_i$ et
-  Considérer $A_a$ et $A_b$ les 2 m-tuples dont les différences 
+  considérer $A_a$ et $A_b$ les 2 m-tuples dont les différences 
   $d(A_a)$ et $d(A_b)$ sont les plus grandes
 
 Combiner $A_a$ et $A_b$ en un seul m-tuple $A_{ab}$ en joignant 
@@ -809,24 +813,26 @@ Contrairement à une heuristique, qui doit être étudiée pour connaître sa bo
   celle-ci est maîtrisée par un algorithme d'approximation qui fournit une garantie d'approche.
 
 \paragraph{PTAS (Polynomial-Time Approximation Scheme)}
-Une famille d'algorithmes d'approximation, les PTAS  
-  regroupe des algorithmes qui calculent, pour tout $\epsilon > 0$ donné, 
-  une solution proche de l'optimal
+Une famille d'algorithmes d'approximation, les PTAS,   
+  regroupe des algorithmes qui calculent, pour tout $\epsilon > 0$ donné 
+  une solution proche de l'optimal 
   d'un facteur $(1 + \epsilon)$ pour un problème de minimisation 
   ou $(1 - \epsilon)$ pour un problème de maximisation, 
-  en temps polynomial, dépendant de $\epsilon$. 
+  en temps polynomial et dépendant de $\epsilon$. 
 
 
 Hochbaum et Shmoys sont les premiers à proposer un PTAS \cite{hochbaum1987using} 
   adapté au problème \problemGrahamP, PTAS DUAL. 
 Cet algorithme prend comme idée de départ MULTIFIT (algorithme \ref{algo:MULTIFIT}) 
-  en reformulant le problème bin-packing :
-  soient :
+  en reformulant le problème Bin-Packing. Soient : 
 \begin{itemize}
-	\item un ensemble d'objets $t_i \in T=\{t_1, t_2, \ldots, t_n\}$
-	\item leur taille $L(t_i)$ avec $1 \leq i \leq n$ et $0 \leq L(t_i) \leq 1$
-	\item un taille maximale $C$ des bacs.
+	\item Un ensemble d'objets $t_i \in T=\{t_1, t_2, \ldots, t_n\}$;
+	
+	\item Leur taille $L(t_i)$ avec $1 \leq i \leq n$ et $0 \leq L(t_i) \leq 1$;
+	
+	\item Un taille maximale $C$ des bacs.
 \end{itemize}    
+
 La recherche dichotomique de MULTIFIT
 
 \lp{Il manque qlqchose ?}
@@ -846,7 +852,7 @@ Nous venons de parcourir les principaux algorithmes et méthodes de tentative de
   utilisées dans le document de Della Croce et Scatamacchia \cite{della2020longest} 
   pour comparer les performances de SLACK. 
 Le tableau \ref{table:Heuritiques} récapitule les caractéristiques qui nous intéressent 
-  de ces 4 heuristiques.
+  de ces heuristiques.
 
 % -------------------------------------------------------
 % TABLEAU des heuristiques étudiées dans le rapport
@@ -929,13 +935,13 @@ FFD 		& 	bin-packing
 % \subsection{Introduction}\label{ssec:instancesIntroduction}
 %--------------------------------------------------------
 Les instances, paramètres de chaque algorithme, reposent sur des listes de temps de jobs.
-Le résultat de la comparaison de ces heuristiques, dépend de cette liste de temps, de la distribution, 
-  de l'hétérogénéité, ou de l'homogénéité de ses valeurs. 
+Le résultat de la comparaison de ces heuristiques dépend de cette liste de temps, de la distribution, 
+  de l'hétérogénéité ou de l'homogénéité de ses valeurs. 
 Il est important de pouvoir caractériser ces listes de temps pour faire un lien avec le comportement 
   des heuristiques. 
-Mais pour des caractéristiques identiques, les comportements ne sont pas forcément identiques. 
+Mais pour des caractéristiques identiques les comportements ne sont pas forcément identiques. 
 En effet, une même valeur d'une caractéristique peut représenter plusieurs ensembles de 
-  valeurs de temps différentes, et ainsi impliquer des comportements algorithmiques différents. 
+  valeurs de temps différentes et ainsi impliquer des comportements algorithmiques différents. 
 Il est donc nécessaire de multiplier les tests pour voir se dessiner des tendances, 
   des liens entre distributions de valeurs, caractéristiques, et résultats obtenus.
 
@@ -948,13 +954,13 @@ Le nombre restreint des lois statistiques utilisées dans leur modèle expérime
 Pour cela, il est nécessaire de tester SLACK, ou tout autre algorithme, sur des instances aux caractéristiques variées.
 
 
-Il existe deux façons d'obtenir des listes de temps de jobs. 
-Soit les créer entièrement à partir d'un nombre $n$ désiré, soit les récupérer.
+Il existe deux façons d'obtenir des listes de temps de jobs :  
+Soit les créer entièrement à partir d'un nombre $n$ désiré; Soit les récupérer.
 
-Pour la création d'une liste synthétique, des générateurs de nombres aléatoires suivant des lois statistiques différentes peuvent être utilisés.  
+Pour la création d'une liste synthétique des générateurs de nombres aléatoires suivant des lois statistiques différentes peuvent être utilisés.  
 \dcs pour leur protocole ont adopté deux types de générations de listes de temps: 
-  une répartition UNIFORME et NON-UNIFORME.
-Il est intéressant d'étendre ce protocole à d'autres types listes.
+  une répartition uniforme et non-uniforme.
+Il est intéressant d'étendre ce protocole à d'autres types de listes.
 
 Pour la récupération, des sites internet mettent à disposition au téléchargement des listes de temps soit synthétiques, soit réelles. 
   
@@ -973,20 +979,20 @@ et le moyen  pour en récupérer des réelles. Ensuite, nous examinerons une mé
   valider car la reproductibilité des expés est un facteur de qualité}
 Afin de reproduire l'expérience de \dcs le choix se porte donc sur les distributions qu'ils utilisent :
 \begin{itemize}
-	\item UNIFORME
-	\item NON-UNIFORME
+	\item Uniforme; 
+	\item Non-uniforme.
 \end{itemize}
 
-Selon la taxonomie des distributions statistiques \cite{nielsen2009statistical}, il existe plusieurs familles. 
+Selon la taxonomie des distributions statistiques \cite{nielsen2009statistical} il existe plusieurs familles. 
 Pour la génération de listes de temps, nous utilisons des variables statistiques indépendantes et 
-  identiquement distribuées (I.I.D.) qui suivent, pour chaque production la même loi de probabilité.
+  identiquement distribuées (i.i.d.) qui suivent pour chaque production la même loi de probabilité.
 
-Dans le but d'élargir ce protocole et de comparer SLACK avec d'autres types de listes de temps, 3 autres distributions qui font partie de la famille des distributions exponentielles 
+Dans le but d'élargir ce protocole et de comparer SLACK avec d'autres types de listes de temps 3 autres distributions qui font partie de la famille des distributions exponentielles 
 (figure \ref{fig:taxonomieLoisStatistiques}) sont implémentées :
 \begin{itemize}
-	\item EXPONENTIELLE
-	\item GAMMA
-	\item BETA
+	\item Exponentiel;
+	\item Gamma;
+	\item Beta.
 \end{itemize}
 
 %--------------------------------------------------------
@@ -995,26 +1001,26 @@ Dans le but d'élargir ce protocole et de comparer SLACK avec d'autres types de 
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{taxonomieLoisStatistiques.png}
-\caption{Taxonomie des lois statistiques utilisées.}
+\caption{Taxonomie des lois statistiques utilisées \cite{nielsen2009statistical}.}
 \label{fig:taxonomieLoisStatistiques}
 \par}
 \end{figure}
 
-Pour soumettre les algorithmes à des données de situations réelle,
+Pour soumettre les algorithmes à des données de situations réelles,
 notre choix se porte sur la récupération (téléchargement) d'archives
 existantes de listes de temps :
 \lp{Dire ce que c'est}
 \begin{itemize}
-	\item PWA
+	\item PWA.
 \end{itemize}
 
 
 \subsection{Génération des listes de temps synthétiques}\label{ssec:instancesGenerationListesTempsSynthetiques}
-Les listes synthétiques sont créées de toutes pièces en suivant des lois statistiques et de distributions particulières. Sont présentées ici les lois EXPONENTIELLE, GAMMA, BETA et les 2 méthodes utilisées par \dcs UNIFORME et NON-UNIFORME.
+Les listes synthétiques sont créées de toutes pièces en suivant des lois statistiques et de distributions particulières. Sont présentées ici les lois exponentielle, gamma, beta et les 2 méthodes utilisées par \dcs, uniforme et non-uniforme.
 
 \bigskip
-\paragraph{Loi Exponentielle} 
-ou loi de durée de vie, sans vieillissement (figure \ref{fig:LoiStatistiquesExponentielle}).
+\paragraph{Loi exponentielle} 
+ou loi de durée de vie sans vieillissement (figure \ref{fig:LoiStatistiquesExponentielle}).
 Soit $X$ une variable aléatoire définie dans $[0, \infty[$. $X$ suit une loi exponentielle de paramètre $\lambda$ si elle a pour densité :
 
 
@@ -1047,17 +1053,17 @@ L’espérance et la variance sont fonctions de $\lambda$ et sont égales a :
 \par}
 \end{figure}
 
-\paragraph{Gamma}
+\paragraph{Loi gamma}
 ou modélisation de phénomènes qui se déroulent au cours du temps (figure \ref{fig:LoiStatistiquesGamma}). 
-La loi de statistique Gamma est une loi de la famille des lois Exponentielles à 2 paramètres 
+La loi de statistique Gamma est une loi de la famille des lois exponentielles à 2 paramètres 
   et se définit sur $[0, \infty]$.
-Si $Y_1, Y_2, \ldots, Y_n$ sont des variables I.I.D. 
+Si $Y_1, Y_2, \ldots, Y_n$ sont des variables i.i.d. 
   de loi exponentielle de paramètre $\lambda$ alors $X=\sum_{ i= 1}^{\alpha} X_i$  
-  suit une loi Gamma $\Gamma(\alpha, \beta)$ avec 
-    $alpha$ le paramètre de forme et 
+  suit une loi gamma $\Gamma(\alpha, \beta)$ avec 
+    $\alpha$ le paramètre de forme et 
     $\beta$ ($=\lambda$) le paramètre d'échelle. 
   
-si X suit une loi $\Gamma(\alpha, \beta)$ alors la densité est de la forme :
+Si X suit une loi $\Gamma(\alpha, \beta)$ alors la densité est de la forme :
 
   \begin{center}
   $[X=t] = \left\{
@@ -1079,7 +1085,7 @@ Les paramètres $\alpha$ et $\beta$ peuvent être définis aussi ainsi :
    \theta 	& \textnormal{ tel que } \beta  = \frac{1}{\theta}
 \end{align*}
 
-L’espérance et la variance sont fonctions de $k$ $\theta$ et sont égales a :
+L’espérance et la variance sont fonctions de $k$ et $\theta$ et sont égales a :
 
 \begin{align*}
 	\E(X) &= k \theta \\
@@ -1097,7 +1103,7 @@ L’espérance et la variance sont fonctions de $k$ $\theta$ et sont égales a :
 \par}
 \end{figure}
 
-\paragraph{Beta} (figure \ref{fig:LoiStatistiquesBeta})
+\paragraph{Loi beta} (figure \ref{fig:LoiStatistiquesBeta})
 La loi Beta a été développée par Thomas Bayes (1702 - 1761) pour répondre à son propre problème 
   de succès/échecs dont la proportion de succès possible est inconnue \cite{bayes1991essay}. Cette proportion inconnue, qui est la variable aléatoire représentée par une loi beta, est déduite par tirages successifs avec remise. 
 La loi de statistique Beta est une loi de la famille des lois Exponentielles à 2 paramètres et se définit 
@@ -1123,7 +1129,7 @@ Si la variable aléatoire X suit une loi Beta de paramètres $\alpha$ et $\beta$
 Beta est intéressante dans l'analyse de proportions d’événements de type succès/échec ou
 (moyennant un changement d'échelle) dans la modélisation du temps avant la fin d'une tâche.
 
-L’espérance et la variance sont fonctions de $\alpha$ $\beta$ et sont égales a :
+L’espérance et la variance sont fonctions de $\alpha$ et $\beta$ et sont égales a :
 
 \begin{align*}
 	\E(X) &= \frac{\alpha}{\alpha + \beta} \\
@@ -1143,15 +1149,17 @@ L’espérance et la variance sont fonctions de $\alpha$ $\beta$ et sont égales
 
 
 
-\paragraph{Uniforme} Cette loi statistique, utilisée pas \dcs est non exponentielle. 
-Une loi UNIFORME sur $[a, b]$ est une loi de probabilité $P$ dont la fonction de densité et 
+\paragraph{Loi uniforme} 
+Cette loi statistique utilisée pas \dcs est non exponentielle. 
+Une loi uniforme sur $[a, b]$ est une loi de probabilité $P$ dont la fonction de densité et 
   constante sur $[a, b]$. i.e. les nombres générés sont uniformément répartis dans l'intervalle $[a, b]$
 
 \begin{center}
 $[X] = \frac{1}{b-a}$
 \end{center}
 
-\paragraph{Non-uniforme} Ce type de génération de liste de temps est utilisé dans le protocole expérimental de \cite{frangioni2004multi} et est repris par \dcs \cite{della2020longest} pour éprouver SLACK.
+\paragraph{Liste non-uniforme}
+Ce type de génération de liste de temps est utilisé dans le protocole expérimental de \cite{frangioni2004multi} et est repris par \dcs \cite{della2020longest} pour éprouver SLACK.
 Une liste de nombres aléatoires générée via une règle NON-UNIFORME de paramètres $a$ et $b$ 
   est l'union de 2 listes générées via une loi uniforme comme suit :
 
@@ -1166,8 +1174,8 @@ Une liste de nombres aléatoires générée via une règle NON-UNIFORME de param
 Pour la génération d'une liste suivant la règle non-uniforme [1, 100], 
 
 \begin{align*}
-	98 \%  &\textnormal{ est uniformément répartis sur } [89.1~~ 100] \\
-	2\%    &\textnormal{ est uniformément répartis sur } [1   ~~ 19.8] 
+	98 \%  &\textnormal{ est uniformément répartis sur } [89.1~,~ 100] \\
+	2\%    &\textnormal{ est uniformément répartis sur } [1   ~,~ 19.8] 
 \end{align*}
 
 \end{example}
@@ -1179,10 +1187,11 @@ Pour la génération d'une liste suivant la règle non-uniforme [1, 100],
   supposer que les futurs workload seront similaires \cite{feitelson2014experience}.
 
    
-PWA est un dépôt de fichiers journaux de temps disponible à 
-  l'URL :
+PWA est un dépôt de fichiers journaux de temps disponible à l'URL :
+
   
 \url{https://www.cs.huji.ac.il/labs/parallel/workload/}
+
 
 Ces archives proviennent de l'enregistrement direct des événements qui se produisent sur les systèmes informatiques et ont l'avantage de représenter un panel de besoins réels. 
 Mais elles peuvent comporter certains inconvénients :
@@ -1190,24 +1199,24 @@ Mais elles peuvent comporter certains inconvénients :
 \begin{itemize}
 
 	\item Le nombre de jobs $n$ n'est pas maîtrisé, et ne représente qu'une 
-	vingtaine de fichiers, donc un nombre limité de tests et comparaisons empiriques à effectuer.
+	vingtaine de fichiers, donc un nombre limité de tests et comparaisons empiriques à effectuer;
 	
-	\item Ces archives ne sont pas forcément complètes et certaines informations importantes peuvent manquer.
+	\item Ces archives ne sont pas forcément complètes et des informations importantes peuvent manquer;
 	
-	\item incohérence de données. Certaines informations ne passent pas le con\-trôle de
-	contraintes d'intégrités.
+	\item Incohérence de données. Certaines informations ne passent pas le con\-trôle de
+	contraintes d'intégrités;
 	
-	\item Données erronées. Des données peuvent être fausses. e.g dues au dépassement d'adressage de nombres.
+	\item Données erronées. Des données peuvent être fausses. e.g dues au dépassement d'adressage de nombres;
 	
-	\item modification d'environnement. Le problème inhérent aux machines 
-	est leur hétérogénéité qui change avec le temps.
+	\item Modification d'environnement. Le problème inhérent aux machines 
+	est leur hétérogénéité qui change avec le temps;
 	
-	\item Comportement non représentatif. L'aspect humain entre aussi en ligne de compte.
+	\item Comportement non représentatif. L'aspect humain entre aussi en ligne de compte;
 	
 	\item Effet "END". Les jobs sont consignés une fois terminés. 
 	Entre une tâche extrêmement courte et une tâche longue le temps 
 	d'enregistrement est le même. Cela peut provoquer un décalage 
-	entre la fin du journal et le temps calculé.
+	entre la fin du journal et le temps calculé;
 	
 	\item Les temps d'arrêts ne sont pas consignés. 
 	  
@@ -1216,7 +1225,7 @@ Mais elles peuvent comporter certains inconvénients :
 \subsection{Instance et maîtrise de la solution optimale}
 \label{ssec:instancesMaitriseSolutionOptimale}
 
-Pour comparer les résultats obtenus, il est nécessaire d'avoir un référent par rapport au Makespan. 
+Pour comparer les résultats obtenus il est nécessaire d'avoir un référent par rapport au Makespan. 
 Il n'est pas possible d'obtenir le ratio d'approximation de l'algorithme A ($\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$) car l'optimal n'est pas connu et c'est précisément ce que l'on cherche. 
 La seule donnée connue est la borne minimale de la liste de tailles de jobs.
 Or cette borne ($\text{borne}_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \}$) n'est pas forcément l'optimal et le rapport $\frac{Optimal}{\text{borne}_{min}}$ varie.
@@ -1237,36 +1246,36 @@ Or cette borne ($\text{borne}_{min} = \max \{ \max_i\{p_i\}, \frac{1}{m} \sum_{i
 Soit $P=\{8, 5, 7, 8, 5, 5\}$, l'ensemble des $p_i$ à appliquer sur 4 machines parallèles identiques.
 La borne minimale est:
 
+
 $$\text{borne}_{min} = \max \left\{ \max_i\{p_i\}, \frac{1}{m} \sum_{i=1}^{n} p_i \right\} = 9.5$$
+
 
 L'optimal $C_4^\star(J) = 12$ (figure \ref{ex:borneMinVSOptimalListeDepart}).
 \end{example}
 
 Cette borne minimale est égale à l'optimal uniquement si toutes les char\-ges des machines sont identiques.
-À partir d'une liste de coûts (synthétique ou naturelle) il est donc possible d'obtenir une instance dont l'optimal est connu \cite{benoit2021update}. Cette opération nécessite la transformation de la liste de coût de départ pour un
-  nombre de machines défini (figure \ref{ex:maitriseOptimal}).
+À partir d'une liste de coûts (synthétique ou réelle) il est donc possible d'obtenir une instance dont l'optimal est connu \cite{benoit2021update}. Cette opération nécessite la transformation de la liste de coût de départ pour un nombre de machines défini (figure \ref{ex:maitriseOptimal}).
 \begin{itemize}
-	\item Soit une liste de $n$ jobs et l'ensemble des $p_i$ à appliquer sur $m$ machines parallèles identiques.
-	\item Ordonnancement : chaque job est affecté à la machine la moins chargée à ce moment là.
-	\item Tri : tri des machines par ordre décroissant des charges.
-	\item Complétion : la machine la plus chargée (la première) représente le MakeSpan. La charge des $m-1$ machines restantes est complétée
+	\item Soit une liste de $n$ jobs et l'ensemble des $p_i$ à appliquer sur $m$ machines parallèles identiques;
+	\item Ordonnancement : chaque job est affecté à la machine la moins chargée à ce moment là;
+	\item Tri : tri des machines par ordre décroissant des charges;
+	\item Complétion : la machine la plus chargée (la première) représente le makeSpan. La charge des $m-1$ machines restantes est complétée
               \lp{Avec des tâches fictives} pour obtenir le même temps
               d'exécution que la machine la plus chargée.
   \jb{Attention à écrire makespan toujours de la même manière tout au long du rapport}
-	\item toutes les machines ont le même temps d'exécution. L'optimal, est dans ce cas égal à la 
+	\item Toutes les machines ont le même temps d'exécution. L'optimal est dans ce cas égal à la 
 	      moyenne des temps par machine. 
 	      La nouvelle liste de coûts contient désormais $n + m-1$ éléments.
 \end{itemize}
 
 \bigskip 
-Il convient de distinguer la liste de coût Native obtenue 
+Il convient de distinguer la liste de coût native obtenue 
   soit par génération, 
   soit par récupération, 
-  dont seule la borne minimale est connue, 
-  et sa transformée, complétée avec $m-1$ temps de jobs, nommée M1 (qui est une instance), 
-  dont l'optimal est connu.
-Tous les tests sont effectués sur les instances M1, 
-  et sur le nombre réel de tâches ($n + (m-1)$).
+  dont seule la borne minimale est connue  
+  et liste complétée avec $m-1$ temps de jobs nommée M1 qui est une instance dont l'optimal est connu.
+  
+Tous les tests sont effectués sur les instances M1 et sur le nombre réel de tâches ($n + (m-1)$).
 
 \begin{figure}
 {\centering
@@ -1280,7 +1289,7 @@ Tous les tests sont effectués sur les instances M1,
 
 \jb{A-t-on vraiment besoin de cette section vu qu'on ne donne pas ces indicateurs pour les listes utilisées par la suite?}
 
-Afin de caractériser une liste de coût, plusieurs indicateurs statistiques sont calculés à la génération, ou à la récupération de celle-ci.
+Afin de caractériser une liste de coût plusieurs indicateurs statistiques sont calculés à la génération ou à la récupération de celle-ci.
 
 \begin{itemize}
 	\item La moyenne de la charge par machine;
@@ -1294,16 +1303,16 @@ Afin de caractériser une liste de coût, plusieurs indicateurs statistiques son
 \end{itemize}
 
 Ces divers indicateurs peuvent donner une appréciation quant à 
-  l'hétérogénéité d'une liste de temps, ou d'une instance.
+  l'hétérogénéité d'une liste de temps ou d'une instance.
 
 
 \bigskip
 Nous venons de voir comment les listes de temps sont générées et utilisées. 
 Elles peuvent être créées via la production de nombres pseudo-aléatoires selon un nombre 
-  défini de jobs et une distribution statistique choisie, 
+  défini de jobs et une distribution statistique choisie 
   ou récupérées d'une archive de fichiers journaux de tâches relatifs à de réelles 
   activités de production.
-De ces listes, peuvent être calculées des instances (M1) dont l'optimal est connu, 
+De ces listes peuvent être calculées des instances (M1) dont l'optimal est connu, 
   ce qui va permettre une estimation de l'efficacité des algorithmes.
 Et enfin, plusieurs indicateurs statistiques caractérisant chaque instance les accompagnent.
 
@@ -1319,12 +1328,12 @@ Chaque tests se déroule en ``campagne''.
 %--------------------------------------------------------
 % plan
 %--------------------------------------------------------
-Ce chapitre aborde l’environnement de tests, le choix des heuristiques implémentés et le déroulement d'une campagne. Est expliqué, pour finir, comment les Makespan sont comparés entre eux.
+Ce chapitre aborde l’environnement de tests, le choix des heuristiques implémentés et le déroulement d'une campagne. Est expliqué pour finir, comment les Makespan sont comparés entre eux.
 
 \subsection{Environnement de tests} \label{ssec:campagnesEnvironnementDeTests}
 
 L'environnement de tests est développé 
-  en PYTHON pour la partie applicative 
+  en Python pour la partie applicative 
   (génération des listes de temps, calcul de l'instance M1, algorithmes) et 
   en R pour la partie analyse et graphes. 
 Des informations sur la plate-forme sont disponibles en annexe.
@@ -1338,18 +1347,17 @@ Toutes les campagnes ont été effectuées sur un portable
 
 Pour reproduire l'expérience de \dcs et comparer les résultats, les mêmes heuristiques sont implémentées à l'environnement de test. Soit :
 \begin{itemize}
-	\item LPT rule
-	\item SLACK
-	\item LDM
-	\item COMBINE
+	\item LPT rule;
+	\item SLACK;
+	\item LDM;
+	\item COMBINE.
 \end{itemize}
 
-Ceci a aussi l'avantage d'expérimenter 4 pistes différentes étudiées 
-  pour résoudre le problème \problemGrahamP :
+Ceci a aussi l'avantage d'expérimenter 4 pistes différentes pour résoudre le problème \problemGrahamP :
 \begin{itemize}
 	\item LS (list-Scheduling) avec LPT rule; 
 	\item Bin-Packing avec COMBINE; 
-	\item Strategie gloutonne avec SLACK; 
+	\item Stratégie gloutonne avec SLACK; 
 	\item Partitionnement de nombres avec LDM.  
 \end{itemize}
 
@@ -1363,7 +1371,7 @@ L'objectif est de reproduire le protocole expérimental de \dcs et aussi de l'é
 En plus des possibilités de tests sur des instances de 10, 50, 100, 500 et 1000 jobs à planifier 
   sur 5, 10 et 25 machines \cite{della2020longest}, 
   chaque campagne peut faire varier $n$ de 1 en 1 avec 
-  un nombre de départ, et un nombre d'arrivée, 
+  un nombre de départ et un nombre d'arrivée 
   ou suivant une liste. 
 Il en est de même pour le nombre de machines $m$. 
 Les deux valeurs peuvent aussi évoluer conjointement.
@@ -1380,9 +1388,10 @@ Les deux valeurs peuvent aussi évoluer conjointement.
 \par}
 \end{figure}
 
-Une campagne boucle sur le nombre de machines choisies, le nombre de jobs à créer pour les listes de temps, par nombre et type de loi statistiques. Pour chaque triplet \{$m$, $n$, liste de temps\} une instance native et M1 sont créées, et les algorithmes LPT, SLACK LDM et COMBINE sont soumis (figure \ref{fig:deroulementDUneCampagne}).
+Une campagne boucle sur le nombre de machines choisies, le nombre de jobs à créer pour les listes de temps, par nombre et type de loi statistiques. Pour chaque triplet \{$m$, $n$, liste de temps\} sont créées des instances native et M1 qui sont soumises aux algorithmes LPT, SLACK LDM et COMBINE 
+ (figure \ref{fig:deroulementDUneCampagne}).
 
-Les 4 algorithmes sont donc soumis à chaque itération, aux mêmes instances i.e aux mêmes valeurs. 
+Les 4 algorithmes sont donc exécutés à chaque itération aux mêmes instances i.e aux mêmes valeurs. 
 
 %--------------------------------------------------------
 % Figure Contenu fichier RESULT.CSV (flotante)
@@ -1395,57 +1404,68 @@ Les 4 algorithmes sont donc soumis à chaque itération, aux mêmes instances i.
 \par}
 \end{figure}
 
-8 lignes résultat sont générées et sont intégrées dans un fichier global ``result.csv'' une fois les boucles de la campagne terminées pour comparaison des résultats (figure \ref{fig:contenuResultCSV}). La structure se décompose ainsi :
+8 lignes résultat sont générées et sont intégrées dans un fichier global ``result.csv'' une fois les boucles de la campagne terminées pour comparaison (figure \ref{fig:contenuResultCSV}). La structure se décompose ainsi :
 \begin{itemize}
-	\item generateMethode : est la méthode qui est utilisée pour générer la liste de temps. 
-	\item m : est le nombre de machines identiques pur les instances Native et M1 
-	\item id : est l'id du triplet \{$m$, $n$, numéro de liste de temps\}. 
-			Sert aux regroupements et comparaisons des algorithmes pour une même instance.
-	\item seed : est a graine résultante du moteur de génération de nombre pseudo-aléatoires 
-			utilisé pour la création de la liste de temps. Peut servir pour recréer à 
-			l'identique une instance. 
-	\item n : Nombre de jobs servant à créer une liste de temps native. 
-	\item $[a-b]$ : Paramètres a et b pour les listes de temps UNIFORME et NON-UNIFORME. 
-			cette information est utilisée pour recréer le protocole expérimental 
-			de Della Croce et Scatamacchia.
-	\item LowBound : Borne inférieure de l'instance native.
-	\item m1\_n : Nouveau nombre de jobs de l'instance M1 après complétion et calcul 
-			de l'optimal.
-	\item m1LowBound : Borne inférieure de l'instance M1.
-	\item m1Optimal : Optimal calculé sur l'instance M1.
-	\item resultConcerns : indique si le Makespan calculé concerne l'instance native ou M1.
-	\item algoName : Nom de l'algorithme soumis.
-	\item makespan : Makespan trouvé par l'algorithme soumis.
-	\item time : Temps qu'il a été nécessaire pour calculer le makespan 
-			par l’algorithme soumis. 
+	\item \textit{generateMethode} : Est la méthode qui est utilisée pour générer la liste de temps;
+	 
+	\item \textit{m} : Est le nombre de machines identiques pur les instances Native et M1;
+	 
+	\item \textit{id} : Est l'id du triplet \{$m$, $n$, numéro de liste de temps\}. 
+	Sert aux regroupements et comparaisons des algorithmes pour une même instance;
+	
+	\item \textit{seed} : Est la graine produit du moteur de génération de nombres pseudo-aléatoires 
+	utilisé pour la création de la liste de temps. 
+	Peut servir pour recréer à l'identique une instance;
+	 
+	\item \textit{n} : Nombre de jobs servant à créer une liste de temps native;
+	 
+	\item \textit{$[a-b]$} : Paramètres a et b pour les listes de temps uniforme et non-uniforme. 
+	Cette information est utilisée pour recréer le protocole expérimental de \dcs;
+	
+	\item \textit{LowBound} : Borne inférieure de l'instance native;
+	
+	\item \textit{m1\_n} : Nouveau nombre de jobs de l'instance M1 après complétion et calcul de l'optimal;
+	
+	\item \textit{m1LowBound} : Borne inférieure de l'instance M1;
+	
+	\item \textit{m1Optimal} : Optimal calculé sur l'instance M1;
+	
+	\item \textit{resultConcerns} : Indique si le Makespan calculé concerne l'instance native ou M1;
+	
+	\item \textit{algoName} : Nom de l'algorithme soumis;
+	
+	\item \textit{makespan} : Makespan trouvé par l'algorithme soumis;
+	
+	\item \textit{time} : Temps qu'il a été nécessaire pour calculer le makespan	par l’algorithme. 
 \end{itemize}
 
 \subsection{Comparaison Makespan et normalisation}
  \label{ssec:campagnesComparaisonMakespanNormalisation}
 
-Comparer les Makespans obtenus n'est pas significatif. Les valeurs obtenues sont fonction des valeurs de temps des instances.
+Comparer les makespans sous leur forme brute n'est pas significatif. 
+Les valeurs obtenues sont fonction du contenu des instances.
 
 Il est donc nécessaire de normaliser le résultat pour permettre des comparaisons. 3 pistes sont explorées :
 \begin{itemize}
 
-  \item $\frac{Makespan}{borne~inférieure}$ : seule piste possible de normalisation 
-  des instances natives, car seule, leur borne inférieure sont connues. 
-  C'est la normalisation qui est utilisée pour comparer les algorithmes sur 
-  des instances natives.
+  \item $\frac{Makespan}{borne~inférieure}$ : Seule piste possible de normalisation 
+  des instances natives car seule leur borne inférieure sont connues. 
+  C'est la normalisation qui serait utilisée pour comparer les algorithmes sur des instances natives. 
+  Mais celles-ci ne sont utilisées que pour calculer des instances M1. 
   
-  \item Makespan - Optimal : ou Makespan absolu \cite{benoit2021update}. 
+  \item Makespan - Optimal : Ou makespan absolu \cite{benoit2021update}. 
   Permet de retirer du résultat l'optimal connu de l'instance M1.
-  Cette valeur tend vers $0$ lorsque le résultat converge vers l'optimal, 
+  Cette valeur tend vers $0$ lorsque le résultat converge vers l'optimal 
   mais ne permet pas une comparaison avec 
-  le ratio d'approximation $\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$.
+  le ratio d'approximation $\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$;
 
-  \item $\frac{Makespan}{Optimal}$ : ou Makespan relatif \cite{benoit2021update}.
-  Permet d'obtenir le rapport entre le Makespan calculé et l'optimal de l'instance M1.
-  Cette valeur tend vers $1$ lorsque le résultat converge vers l'optimal, 
+  \item $\frac{Makespan}{Optimal}$ : Ou makespan relatif \cite{benoit2021update}.
+  Permet d'obtenir le rapport entre le makespan calculé et l'optimal de l'instance M1.
+  Cette valeur tend vers $1$ lorsque le résultat converge vers l'optimal. 
   Cette normalisation permet aussi une comparaison avec  
   le ratio d'approximation $\Gamma(A)=\frac{C_m^A(J)}{C_m^\star(J)}$. 
-  Cette normalisation est donc utilisée pour comparer les résultats obtenus sur les instances 
-  M1.
+  Cette normalisation est donc utilisée pour comparer les résultats obtenus sur les instances M1.
+  
 \end{itemize}
 
 
@@ -1459,16 +1479,17 @@ Il est donc nécessaire de normaliser le résultat pour permettre des comparaiso
 \subsection{Protocole expérimental de Della Croce et Scatamacchia}
 \label{ssec:resultatsPrtocoleExperimentalDellaCroceScatamacchia}
  
-Pour comparer SLACk aux autres heuristiques, LPT, LDM et COMBINE, Della Croce et Scatamacchia 
- utilisent 10 instances UNIFORMES et NON-UNIFORMES d'intervalle [a, b] de [1, 100], [1, 1000] et [1, 10000], pour un nombre de machines de 5 et un nombre de jobs de 10, 50, 100, 500 et 1000, et sur un nombre de machines de 10 et 25 pour un nombre de jobs de 50, 100, 500 et 1000.
+Pour comparer SLACK aux autres heuristiques LPT LDM et COMBINE, \dcs 
+ utilisent 10 instances uniformes et non-uniformes d'intervalle [a, b] de [1, 100], [1, 1000] et [1, 10000] 
+ pour un nombre de machines de 5 et un nombre de jobs de 10, 50, 100, 500 et 1000, et sur un nombre de machines de 10 et 25 pour un nombre de jobs de 50, 100, 500 et 1000.
 soit un total de : 
 
 pour chaque intervalle [a, b] = [1, 100], [1, 1000], [1, 10000] et
-  chaque classe UNIFORM et NON-UNIFORM 
+  chaque classe uniforme et non-uniforme. 
 \begin{itemize}
-\item 10 instances $\cdot$ 5 couples $\{m=5,n\}$: \\ $\{5,10\},\{5,50\},\{5,100\},\{5,500\},\{5,1000\}$
-\item 10 instances $\cdot$ 4 couples $\{m=10, n\}$: \\ $\{10,50\},\{10,100\},\{10,500\},\{10,1000\}$
-\item 10 instances $\cdot$ 4 couples $\{m=25,n\}$: \\ $\{25,50\},\{25,100\},\{25,500\},\{25,1000\}$
+\item 10 instances $\cdot$ 5 couples $\{m=5,n\}$: \\ $\{5,10\},\{5,50\},\{5,100\},\{5,500\},\{5,1000\}$;
+\item 10 instances $\cdot$ 4 couples $\{m=10, n\}$: \\ $\{10,50\},\{10,100\},\{10,500\},\{10,1000\}$;
+\item 10 instances $\cdot$ 4 couples $\{m=25,n\}$: \\ $\{25,50\},\{25,100\},\{25,500\},\{25,1000\}$.
 \end{itemize}  
 
 780 instances.
@@ -1489,9 +1510,10 @@ pour chaque intervalle [a, b] = [1, 100], [1, 1000], [1, 10000] et
 
 La figure \ref{fig:resultatDellaCroceScatamacchia} représente le résultat obtenu 
   dans \cite{della2020longest}. 
-Les auteurs annoncent une amélioration significative de LPT avec SLACK, 
-  car celui-ci est meilleur à 65.8\% des cas contre LPT, suivant les 780 instances 
-  de référence de la littérature \cite{della2020longest}. De ce fait, SLACK peut être vu comme une alternative précieuse à LPT.
+Les auteurs annoncent une amélioration significative de LPT avec SLACK 
+  car celui-ci est meilleur à 65.8\% des cas contre LPT suivant les 780 instances 
+  de référence de la littérature \cite{della2020longest}. 
+De ce fait, SLACK peut être vu comme une alternative précieuse à LPT.
   
   
 \subsection{SLACK sur des instances réelles}
@@ -1509,10 +1531,10 @@ Les auteurs annoncent une amélioration significative de LPT avec SLACK,
 \par}
 \end{figure}
  
- Les 4 algorithmes sont exécutés sur des listes de temps réelles, provenant de 5 PWA NASA IPSC, Early CTC SP2, LANL CM5, SDSC Par95 et SDSC Par96, qui contiennent respectivement 18066, 75895, 122058, 32128 et 53744 jobs. Ces 5 archives sont transformées en instances de 5, 10 et 25 machines, et le résultat est représenté en figure~\ref{fig:resultat5PWA}.
+ Les 4 algorithmes sont exécutés sur des listes de temps réelles, provenant de 5 PWA NASA IPSC, Early CTC SP2, LANL CM5, SDSC Par95 et SDSC Par96, qui contiennent respectivement 18066, 75895, 122058, 32128 et 53744 jobs. Ces 5 archives sont transformées en instances de 5, 10 et 25 machines et le résultat est représenté en figure~\ref{fig:resultat5PWA}.
  
-SLACK est efficace, mais de très peu. 
-Les heuristiques, dans cet échantillons, sont plus souvent équivalentes.  
+SLACK est efficace mais de très peu. 
+Les heuristiques dans cet échantillons sont plus souvent équivalentes.  
  
 \subsection{Reproduction du protocole expérimental de Della Croce et Scatamacchia}
 \label{ssec:resultatsReroductionPrtocoleExperimentalDellaCroceScatamacchia}
@@ -1532,16 +1554,16 @@ Le même protocole expérimental est exécuté. Le résultat est indiqué
   figure~\ref{fig:resultatReproductionDellaCroceScatamacchia}.
 Les résultats obtenus ne sont pas tout à fait identiques ou avoisinants. 
   
-Côté temps, SLACK passe d'un rapport de 1.3 à un rapport de 1.5 par rapport à LPT. 
-Mais c'est COMBINE qui a le plus de différence en passant d'un rapport de 1.40 
-  à un rapport de 3.9 par rapport à LPT. 
+Côté temps, SLACK passe d'un facteur 1.3 à un facteur 1.5 par rapport à LPT. 
+Mais c'est COMBINE qui a le plus de différence en passant d'un facteur 1.40 
+  à un facteur 3.9 par rapport à LPT. 
 Cela peut être du à l'implémentation des algorithmes et à la technologie utilisée. 
 
-Coté Makespan, SLACK cumule plus de victoires contre LPT, en passant de 65.8\% à 82.3\% de ``WIN''.
+Coté makespan, SLACK cumule plus de victoires contre LPT en passant de 65.8\% à 82.3\% de ``WIN''.
 Par contre, SLACK perd de son efficacité contre LDM et surtout contre COMBINE. COMBINE qui récupère 36.3\% de ``WIN'' contre SLACK, contre 16.5\% précédemment indiqué.
 
 
-Peut-être que notre protocole est une singularité statistique. L'expérience est exécutée 50 fois, pour s'approcher le plus de la tendance la plus représentative.
+Peut-être que notre protocole est une singularité statistique. L'expérience est exécutée 50 fois pour s'approcher le plus de la tendance la plus représentative.
 
 
 %--------------------------------------------------------
@@ -1564,15 +1586,15 @@ La tendance des 50 campagnes corrèle le résultat obtenu précédemment et non 
 
 
 Della Croce et Scatamacchia ne comparent les algorithmes que sur 2 familles de distributions : 
-UNIFORME et NON-UNIFORME. Distributions générées avec 3 paramètres différents, le résultat est synthétisé avec des instances de 5, 10, 25 machines, et 10, 50, 100, 500, 1000 jobs. 
+uniforme et non-uniforme. Distributions générées avec 3 paramètres différents, le résultat est synthétisé avec des instances de 5, 10, 25 machines, et 10, 50, 100, 500, 1000 jobs. 
 Les différences trouvées entre notre expérience et celle de Della Croce et Scatamacchia peuvent 
 être dues à une variété trop grande de paramètres , résumés en un seul résultat.
 
 \bigskip
 Pour vérifier si la distribution statistique utilisée pour générer les listes de temps 
-  a une influence sur le résultat, 
-  nous reprenons la même expérience, avec 2 autres familles de distributions : 
-  Gamma et Beta de paramètres $\alpha = 1$ et $\beta = 1$,
+  a une influence sur le résultat 
+  nous reprenons la même expérience avec 2 autres familles de distributions : 
+  Gamma et beta de paramètres $\alpha = 1$ et $\beta = 1$,
   sur des instances de 5, 10, 50, 100, 500, 1000 jobs, 
   à ordonnancer sur 5, 10, 25 machines,
   sur 10 campagnes.
@@ -1583,7 +1605,7 @@ n'est plus qu'à 43,4\% contre COMBINE et
 à 13.5\% contre LDM
 
 \bigskip
-Le type d'instance a une influence sur le comportement des algorithmes, notamment sur l'efficacité de SLACK.
+Le type d'instance a donc une influence sur le comportement des algorithmes, notamment sur l'efficacité de SLACK.
    
 %--------------------------------------------------------
 % Figure resultat obtenu par 10 cmpagnes type DCS mais en Gamma/Beta
@@ -1598,7 +1620,7 @@ Le type d'instance a une influence sur le comportement des algorithmes, notammen
 
 \bigskip
 Nous reprenons la même expérience, avec les 2 familles de distributions 
-  Gamma et Beta de paramètres $\alpha = 1$ et $\beta = 1$,
+  gamma et beta de paramètres $\alpha = 1$ et $\beta = 1$,
   des instances uniquement de 1000 jobs à ordonnancer sur 5, 10 et 25 machines,
   sur 10 campagnes.
 \lp{Dire pourquoi tu fais ça}
@@ -1621,7 +1643,7 @@ Le résultat en figure \ref{fig:resultatReproduction10GammaBeta1000} indique que
 
 \bigskip
 Nous retirons la loi de distribution beta dans la génération des listes de temps.
-Donc 1 familles de distributions Gamma, 
+Donc 1 familles de distributions gamma de paramètres $\alpha = 1$ et $\beta = 1$, 
   des instances uniquement de 1000 jobs à ordonnancer sur 5, 10 et 25 machines,
   sur 10 campagnes.
 \lp{Dire pourquoi tu fais ça}
@@ -1666,16 +1688,16 @@ Les points rouges représentent les 13 points de test en question.
 \lp{Parler de la partie jaune optimale ? D'ailleurs on peut signaler
   qu'il n'y a pas de jaune..}
 
-En distribution UNIFORME, SLACK domine largement avec 
-  un petit nombre de machines. Mais en montant en $m$, LPT devient un peu 
+En distribution uniforme SLACK domine largement avec 
+  un petit nombre de machines. Mais en montant en $m$ LPT devient un peu 
   plus présent.
-En distribution NON-UNIFORME, SLACK est vraiment plus efficace que
+En distribution non-uniforme SLACK est vraiment plus efficace que
 LPT.\lp{Tu as une idée de la raison ?}
-Par contre, en distribution Gamma, LPT devient vraiment plus efficace.
+Par contre, en distribution gamma LPT devient vraiment plus efficace.
 
 Il est à remarquer que les points rouges du protocole expérimental de 
   Della Croce et Scatamacchia sont placés principalement à des coordonnées
-  où SLACK domine (dans les instances à distribution UNIFORME et NON-UNIFORME).
+  où SLACK domine (dans les instances à distribution uniforme et non-uniforme).
 
 %--------------------------------------------------------
 % Figure resultat comparaison de tous les algorithmes 
@@ -1683,49 +1705,50 @@ Il est à remarquer que les points rouges du protocole expérimental de
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{9_resultatComparaisonAlgoDistributions.jpeg}
-\caption{comparaison LPT, SLACK, COMBINE, LDM par algorithme, et par distribution avec $10\leq n \leq 1000$ et $5\leq m \leq 50$}
+\caption{comparaison LPT SLACK COMBINE et LDM par algorithme et par distribution avec 
+  $10\leq n \leq 1000$ et $5\leq m \leq 50$}
 \label{fig:resultatComparaisonAlgoDistributions}
 \par}
 \end{figure}
 
-La figure \ref{fig:resultatComparaisonAlgoDistributions} \lp{verbe ?} une infime partie 
+La figure \ref{fig:resultatComparaisonAlgoDistributions} donne la photographie d'une infime partie 
   du comportement de chaque algorithme par famille de distribution 
-  (Gamma, NON-UNIFORME et UNIFORME) 
-  pour des instances, dont le nombre de machines est compris entre 5 et 50, 
+  (gamma, non-uniforme et uniforme) 
+  pour des instances, dont le nombre de machines est compris entre 5 et 50 
   et le nombre de jobs varie de 10 à 1000. 
 
 Il est à noter plusieurs phénomènes remarquables :
 \begin{itemize}
-	\item En distribution Gamma, les algorithmes se stabilisent 
+	\item En distribution gamma les algorithmes se stabilisent 
 	assez rapidement plus le nombre de jobs $n$ est élevé.
 	
-	Le Makespan relatif dessine une bande oblique de ``pires cas'' 
-	qui suit la ligne $n = 2m$ , pour rapidement converger vers 1 
+	Le makespan relatif dessine une bande oblique de ``pires cas'' 
+	qui suit la ligne $n = 2m$ pour rapidement converger vers 1 
 	lorsque $n$ augmente. 
 	Cette bande est de plus en plus épaisse avec un nombre 
-	élevé $m$ de machines.
+	élevé $m$ de machines;
 	 
-	\item En distribution UNIFORME, SLACK converge moins rapidement que 
-	LPT et LDM. Mais de façon générale, plus le nombre de machines $m$ 
-	est élevé, plus la convergence vers 1 du Makespan relatif nécessite 
+	\item En distribution uniforme SLACK converge moins rapidement que 
+	LPT et LDM. Mais de façon générale plus le nombre de machines $m$ 
+	est élevé et plus la convergence vers 1 du makespan relatif nécessite 
 	un nombre élevé $n$ de jobs.
 	
-	Le Makespan relatif dessine des vagues obliques de ``pires cas'' 
-	qui débutent suivant la ligne $n = 2m$ , pour s'estomper petit à petit 
+	Le makespan relatif dessine des vagues obliques de ``pires cas'' 
+	qui débutent suivant la ligne $n = 2m$ pour s'estomper petit à petit 
 	et converger vers 1 lorsque $n$ augmente. 
 	Ces vagues sont de plus en plus larges avec un nombre 
-	élevé $m$ de machines, et selon l'algorithme.
+	élevé $m$ de machines et selon l'algorithme;
 	
-	\item en distribution NON-UNIFORME, tous les algorithmes ont du mal 
-	à converger vers un Makespan relatif à 1. Les 4 heuristiques sont à 
-	peu près équivalentes en valeurs, et SLACK est plus efficace par 
+	\item En distribution non-uniforme tous les algorithmes ont du mal 
+	à converger vers un makespan relatif à 1. Les 4 heuristiques sont à 
+	peu près équivalentes en valeurs et SLACK est plus efficace par 
 	rapport à LPT de très peu.
 	
-	Le Makespan relatif dessine des formes de ``pires cas'' qui font penser 
-	à des interférences.
+	Le makespan relatif dessine des formes de ``pires cas'' qui font penser 
+	à des interférences;
 	
 	\item les 13 points rouges ne sont pas forcément placés à des 
-	coordonnées stratégiques, qui nous permettraient une comparaison 
+	coordonnées stratégiques qui nous permettraient une comparaison 
 	plus catégorique. 
 \end{itemize}
 
@@ -2194,6 +2217,6 @@ taille = hétérogénéité ?? écart type ?? de l'instance
 %\paragraph{Résumé}
 ....une fois le mémoire terminé ...
 
-
+% "VERONIKA SONIGO" <veronika.sonigo@univ-fcomte.fr>
 
 \end{document}
