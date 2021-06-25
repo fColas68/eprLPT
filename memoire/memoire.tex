@@ -206,7 +206,7 @@ je remercie....
 % #######################################################
 \pagenumbering{arabic}
 
-\lp{Attention aux majuscules/minuscules dans les listes et après :}
+%\lp{Attention aux majuscules/minuscules dans les listes et après :}
 % =======================================================
 % 1 INTRODUCTION GENERALE
 % =======================================================
@@ -830,18 +830,196 @@ Cet algorithme prend comme idée de départ MULTIFIT (algorithme \ref{algo:MULTI
 	
 	\item Leur taille $L(t_i)$ avec $1 \leq i \leq n$ et $0 \leq L(t_i) \leq 1$;
 	
-	\item Un taille maximale $C$ des bacs.
+	\item Une taille maximale $C$ des bacs;
+		
+	\item $T^{\star}(T)$ le Bin-Packing optimal, 
+	i.e. le nombre minimum de bacs nécessaires pour l'organisation des pièces de l'ensemble $T$.
+	
 \end{itemize}    
 
-La recherche dichotomique de MULTIFIT
+Le but de l'algorithme proposé est de construire un arrangement Bin-Packing qui utilise au plus $T^{\star}_m$ 
+  bacs remplis avec des pièces totalisant une taille au plus de $1+\epsilon$. 
+\problemGrahamP et Bin-Packing sont reliés de la façon suivante :
 
-\lp{Il manque qlqchose ?}
+$T^{\star}(\frac{J}{C}\leq m$ si et seulement si $C^{\star}_m \leq C$. 
+
+Donc, la taille minimale des bacs $C^{\star}$ qui correspond au makespan optimal est telle que 
+  $T^{\star}\left( \frac{J}{C^{\star}} \right) \leq m$.
+Il y a 2 paramètres critiques $m$ (le nombre de machines identiques) et 
+  $C$ (la taille des bacs qui est aussi le makespan recherché). 
+Ceci est un problème de décision à 2 paramètres $R(p_1, p_2)$ qui se décline en 2 problèmes d'optimisation 
+  dont l'un (problème primal) consiste à fixer le premier paramètre pour optimiser l'autre et 
+  inversement pour le deuxième (problème dual).
+
+%PRIMAL
+le problème primal $(J,\bar{p_1})$ a pour valeur optimale $OPT_P(J,\bar{p_1})$. 
+L'algorithme d'approximation pour ce problème $\epsilon-$primal prend en paramètre $p_1$ 
+  et optimise $p_2$ de la manière suivante :
+
+\begin{itemize}
+	\item $p_1$ est une valeur inférieure ou égale à $\bar{p_1}$;
+	\item $p_2$ est une valeur optimisée $PRIMAL_{P,\epsilon} \le (1+\epsilon)\cdot OPT_P(J,\bar{p_1})$.	 
+\end{itemize}
+
+%DUAL
+Le problème dual $(J,\bar{p_2})$ a pour valeur optimale $OPT_D(J,\bar{p_2})$.
+L'algorithme d'approximation pour ce problème $\epsilon-$primal prend en paramètre $p_2$ 
+  et optimise $p_1$ de la manière suivante :
+
+\begin{itemize}
+	\item $p_1$ est une valeur optimisée $DUAL_{D,\epsilon}(J, \bar{p_2})\le OPT_D(J,\bar{p_2})$;
+	\item $p_2$ est une valeur $ \le (1+\epsilon)\cdot \bar{p_2}$.	 
+\end{itemize}
+
+Donc, trouver un algorithme $\epsilon-$primal pour le problème primal
+peut être réduit à trouver un algorithme $\epsilon-$dual pour le problème dual.
+
+Trouver un algorithme d'approximation $\epsilon-$dual peut être
+réduit à trouver un algorithme
+d'approximation $\epsilon-$dual pour une instance du problème où la
+taille des pièces sont strictement supérieures à $\epsilon$.
+
+De fait, l'intervalle de la taille des pièces (devenu $]\epsilon, 1]$) est
+découpé en S = $\lceil \frac{1}{\epsilon^2}\rceil$ sous intervalles
+de tailles identiques
+$]\epsilon = l_1, l_2], ]l_2, l_3], \ldots , ]l_S, L_{S+1}=1]$.
+Chaque bac $P_i$, sera rempli au maximum avec
+$\lfloor \frac{1}{\epsilon} \rfloor$ pièces.
+
+Soit $x_k$ avec $1 \le k \le S$ le nombre de pièces d'un bac dont la
+taille est comprises dans $]l_k, l_{k+1}]$.
+Chaque $x_k$ peut prendre une valeur dans l'intervalle
+$[0,\frac{1}{\epsilon}[$
+
+La configuration d'un bac $P_i$ peut être donnée par un s-tuple $(x_1, x_2, \ldots, x_S)$.
+Soit $cf(x_1, \ldots ,x_S)$ une configuration dite faisable si 
+$\sum_{k=1}^{S}x_k \cdot l_k \le 1$ 
+avec $l_k$ de $]l_k, l_{k+1}]$.
+
+
+Nous avons donc
+
+$L(P_i) = 1 + \epsilon$
+
+Soit $b_k$ avec $1 \le k \le S$ le nombre de pièces utilisées dans
+tous les bacs dont la taille appartient à $]l_k, l_{k+1}]$.
+
+Soit $Bins(b_1, b_2, \ldots, b_S)$ le nombre minimum de bacs
+nécessaires, lorsqu'il y a $b_k$ pièces de taille $l_k$, et
+considérons que le premier bac soit rempli. Nous obtenons:
+
+\[
+  Bins(b_1, b_2, \ldots, b_S) = 1 + \underset{cf(x_1, \ldots ,x_S)}{\min} Bins(b_1-x_1, b_2-x_2, \ldots, b_S-x_S)
+\]
+
+Ce qui est résolu par programmation dynamique.
+
+Il existe 2 versions d'algorithmes optimisée pour $\epsilon = \frac{1}{5}$ et $\epsilon = \frac{1}{6}$ qui sont présentés en annexe.
+
 
 \subsection{Programmation linéaire}\label{ssec:programmationLineaire}
 
 Le problème \problemGrahamP s'inscrit parfaitement dans l'énoncé d'un problème de programmation linéaire.
+en effet, la fonction objectif qui consiste à minimiser le makespan et les contraintes sont des fonctions linéaires. Les variables et le résultat attendu sont discrets, ce qui rend la résolution du problème difficile. Ces algorithmes donnent une solution faisable exacte.
 
-...\lp{Il manque qlqchose ?}
+\paragraph{PA} 
+Mokotoff \cite{mokoto1999scheduling} présente un algorithme basé sur
+la formulation de la programmation linéaire en utilisant des
+variables booléennes d'affectation des jobs à une machine, i.e.\
+$x_{ij}$ est égal à 1 si le job $j_j$ est affecté à la machine $m_i$, ou
+0 dans le cas contraire.
+
+% Présentation
+% ---------------------
+\bigskip
+La minimisation du makespan peut être posée ainsi:
+
+Minimiser $y$ tel que:
+
+\begin{itemize}
+\item $\sum_{i=1}^{m}x_{ij}=1$ \quad pour $1 \leq j \leq n$
+
+Sur toutes les machines, au moins un et un seul $x_j$ est égal à 1.
+Un job est affecté à une et une seule machine.
+
+\item $y-\sum_{j=1}^{n}p_j \cdot x_{ij} \geq 0$ \quad pour $1 \leq i \leq m$
+
+Pour une machine donnée, la somme des temps est inférieure ou égale à $y$.
+\end{itemize}
+
+\bigskip
+Où la valeur optimale de $y$ est $C_{\max}$
+et
+\[
+  x_{ij} =
+  \begin{cases}
+    1 \textnormal{ si le job $j_j$ est affecté à la machine $m_i$}\\
+    0 \textnormal{ sinon.}\\
+  \end{cases}
+\]
+
+Le programme linéaire est donc composé de
+\begin{itemize}
+\item $n \cdot m + 1$ variables (les variables $x_{ij}$ et la variable $y$)
+\item $n+m$ contraintes
+\end{itemize}
+
+La zone $F$ peut être définie ainsi:
+\[
+  F=\{ (x,y) : x \in B^{n \cdot m}, y \in \mathbb{R_+} : \sum_{i=1}^{m} x_{ij}=1 \forall j;
+y-\sum_{j=1}^{n} p_j \cdot x_{ij} \geq 0 \forall i \}
+\]
+
+avec
+\[
+B=\begin{bmatrix}
+x_{11}& &x_{n1}\\
+& \ddots & \\
+x_{1m}& &x_{nm1}
+\end{bmatrix}.
+\]
+
+Le polytope $P$ relatif à $F$ est défini ainsi:
+\[
+  P=\{ (x,y) : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} : \sum_{i=1}^{m} x_{ij}=1 \forall j;
+  y-\sum_{j=1}^{n} p_j \cdot x_{ij} \geq 0 \forall i	\}
+\]
+
+Il est possible de construire un ensemble fini d'\textbf{inégalités}
+\[
+  Ax+Dy \leq \overline{b}
+\]
+telles que
+\[
+  \min \{y : (x,y) \in F \} = \min \{y : x \in \mathbb{R_+}^{n \cdot m}, y \in \mathbb{R_+} Ax+Dy \leq \underline{b}
+\]
+% \ensuremath{^\circ} pour le symbole °
+NB: une solution
+$(x \ensuremath{^\circ} , y\ensuremath{^\circ}) \in P$ doit être
+exclue (car n'est pas un vecteur entier) si
+$(x\ensuremath{^\circ}, y\ensuremath{^\circ}) \notin P $.
+
+\bigskip
+
+Des \textbf{inégalités transitoires} peuvent être générées (nombre
+maximum de jobs par machine)
+\[
+  \sum_{j \in S_i} x_{ij} \leq L_i \quad (L_i = h-1 \iff S_{j_h} > LB
+  \textnormal{ et } S_{j_{(h-1)}} \leq LB)
+\]
+LB: borne inférieure.
+
+\bigskip
+
+Pour un problème \problemGrahamP, même de taille modeste, le nombre de
+variables et contraintes est très important, et certaines sont
+inutiles.
+L'algorithme va donc utiliser la méthode des plans sécants (Cutting
+Plane Method).
+\`A chaque itération , des inégalités valides sont générées, puis une
+relaxation est exécutée, jusqu'à l'obtention d'une solution faisable.
+
+L'algorithme est présenté en annexe.
 
 \bigskip
 %--------------------------------------------------------
@@ -865,55 +1043,67 @@ Le tableau \ref{table:Heuritiques} récapitule les caractéristiques qui nous in
 % TITRES
 % --------------------------
 \hline
-algorithme 	& Domaine 
-			& [Ref] 
-			& Complexité en temps 
-			& Ratio d'approximation\\
+algorithme 	
+& Domaine 
+& [Ref] 
+& Complexité en temps 
+& Ratio d'approximation
+\\
 \hline
 
-% LPT
-LPT Rule 	&  
-			& \cite{graham1966bounds} 
-			& $n~\log(n)$ 
-			& $\frac{4}{3}-\frac{1}{3m}$ \\
+% LPT ====================================================
+LPT Rule 	
+& List Scheduling
+& \cite{graham1966bounds} 
+& $n~\log(n)$ 
+& $\frac{4}{3}-\frac{1}{3m}$ 
+\\			
 
-% SLACK
-SLACK   	& 
-			& \cite{della2020longest} 
-			&$n~\log(n)$ 
-			& non précisé \\
+% SLACK ==================================================
+SLACK
+& List Scheduling
 
-% LDM
-LDM   		&  partitionnement 
-			& \cite{karmarkar1982differencing} 
-			& $n~\log(n)$ 
-			& entre $ \frac{4}{3}-\frac{1}{3(m-1)}$
-			
-			  et    $\frac{4}{3}-\frac{1}{3 m}$
-			  
-			  pour $m\geq3$  \\
+  stratégie 
+  
+  gloutonne
+& \cite{della2020longest} 
+& $n~\log(n)$ 
+& non précisé 
+\\
 
-% COMBINE
-COMBINE 	& bin-packing 
-			& \cite{lee1988multiprocessor} 
-			& $ n~\log(n) + kn~\log(m)$ 
-			& $\frac{13}{12} + 2^{-k}$ \\
+% LDM ===================================================
+LDM
+&  partitionnement 
+& \cite{karmarkar1982differencing} 
+& $n~\log(n)$ 
+& 	entre $ \frac{4}{3}-\frac{1}{3(m-1)}$	\newline
+	et $\frac{4}{3}-\frac{1}{3 m}$ 			\newline
+ 	pour $m\geq3$
+\\ 
+
+% COMBINE ================================================
+COMBINE
+& bin-packing 
+& \cite{lee1988multiprocessor} 
+& $ n~\log(n) + kn~\log(m)$ 
+& $\frac{13}{12} + 2^{-k}$ 
+\\
 \hline
 MULTIFIT 	&	bin-packing
  
 				composante de COMBINE
-			& \cite{lee1988multiprocessor} 
-			& $ n~\log(n) + kn~\log(m)$ 
-			& $\frac{13}{12} + 2^{-k}$ \\
-FFD 		& 	bin-packing
+& \cite{lee1988multiprocessor} 
+& $ n~\log(n) + kn~\log(m)$ 
+& $\frac{13}{12} + 2^{-k}$ 
+\\
+FFD
+& bin-packing
 		
-				composante de MULTIFIT 
-			& \cite{lee1988multiprocessor} 
-			& $ n~\log(n) + kn~\log(m)$ 
-			& $\frac{13}{12} + 2^{-k}$ \\
-
-
-
+  composante de MULTIFIT 
+& \cite{lee1988multiprocessor} 
+& $ n~\log(n) + kn~\log(m)$ 
+& $\frac{13}{12} + 2^{-k}$ 
+\\
 
 %---------------------------
 \hline
@@ -1259,23 +1449,32 @@ Cette borne minimale est égale à l'optimal uniquement si toutes les char\-ges 
 	\item Soit une liste de $n$ jobs et l'ensemble des $p_i$ à appliquer sur $m$ machines parallèles identiques;
 	\item Ordonnancement : chaque job est affecté à la machine la moins chargée à ce moment là;
 	\item Tri : tri des machines par ordre décroissant des charges;
-	\item Complétion : la machine la plus chargée (la première) représente le makeSpan. La charge des $m-1$ machines restantes est complétée
-              \lp{Avec des tâches fictives} pour obtenir le même temps
-              d'exécution que la machine la plus chargée.
-  \jb{Attention à écrire makespan toujours de la même manière tout au long du rapport}
+	\item Complétion : la machine la plus chargée (la première) représente le makespan. 
+	La charge des $m-1$ machines restantes est complétée avec des jobs fictifs pour obtenir 
+	le même temps que la machine la plus chargée.
+%             \lp{Avec des tâches fictives} pour obtenir le même temps
+%             d'exécution que la machine la plus chargée.
+%  \jb{Attention à écrire makespan toujours de la même manière tout au long du rapport}
 	\item Toutes les machines ont le même temps d'exécution. L'optimal est dans ce cas égal à la 
 	      moyenne des temps par machine. 
 	      La nouvelle liste de coûts contient désormais $n + m-1$ éléments.
 \end{itemize}
 
-\bigskip 
+La liste de départ est modifiée suite à l'ajout de $m-1$ jobs fictifs. 
+Plus le nombre de machines $m$ augmente par rapport à $n$ et plus la distribution utilisée pour 
+  la création de la liste de départ est perturbée. 
+En effet, les jobs fictifs ajoutés ne répondent pas à la distribution utilisée. 
+Il est donc possible qu'un biais existe entre la distribution de départ et l'instance complété avec $m-1$ jobs.
+
+ 
 Il convient de distinguer la liste de coût native obtenue 
   soit par génération, 
   soit par récupération, 
   dont seule la borne minimale est connue  
   et liste complétée avec $m-1$ temps de jobs nommée M1 qui est une instance dont l'optimal est connu.
   
-Tous les tests sont effectués sur les instances M1 et sur le nombre réel de tâches ($n + (m-1)$).
+Tous les protocoles expérimentaux sont effectués sur les instances M1 et sur le nombre réel de 
+  tâches ($n + (m-1)$).
 
 \begin{figure}
 {\centering
@@ -1284,27 +1483,6 @@ Tous les tests sont effectués sur les instances M1 et sur le nombre réel de t�
 \label{ex:maitriseOptimal}
 \par}
 \end{figure}
-
-\subsection{Indicateurs statistiques et caratéristiques}\label{ssec:instancesIndicateursStatistiquesCaratéristiques}
-
-\jb{A-t-on vraiment besoin de cette section vu qu'on ne donne pas ces indicateurs pour les listes utilisées par la suite?}
-
-Afin de caractériser une liste de coût plusieurs indicateurs statistiques sont calculés à la génération ou à la récupération de celle-ci.
-
-\begin{itemize}
-	\item La moyenne de la charge par machine;
-	\item La moyenne des éléments de $P$;
-	\item La moyenne géométrique des éléments de $P$;
-	\item La médiane de l'ensemble $P$;
-	\item Le plus petit élément de $P$;
-	\item Le plus grand élément de $P$;
-	\item L'écart type des valeurs de $P$;
-	\item La variance des valeurs de $P$.
-\end{itemize}
-
-Ces divers indicateurs peuvent donner une appréciation quant à 
-  l'hétérogénéité d'une liste de temps ou d'une instance.
-
 
 \bigskip
 Nous venons de voir comment les listes de temps sont générées et utilisées. 
@@ -1797,26 +1975,27 @@ Déroulement de SLACK dans un environnement idéal.
 \par}
 \end{figure}
 
-Soit la liste de temps déjà ordonnée $$P = \{86, 83, 76, 75, 67, 44, 41, 26, 18, 5, 4, 3\}$$ à ordonnancer sur 3 machines. Ce qui donne les tuples ordonnés suivants (figure \ref{ex:SLACKOK1}):
+Soit la liste de temps déjà ordonnée $$P = \{89, 84, 55, 51, 51, 49, 47, 15, 10, 9, 7, 4\}$$ à ordonnancer sur 3 machines. Ce qui donne les tuples ordonnés suivants (figure \ref{ex:SLACKOK1}):
 \begin{itemize}
-	\item $T_1$ $=\{75, 67, 44\}$, slack = 31;
-	\item $T_2$ $=\{41, 26, 18\}$, slack = 23;
-	\item $T_3$ $=\{86, 83, 76\}$, slack = 10;
-	\item $T_4$ $=\{5, 4, 3\}$, slack = 2.
+	\item $T_1$ $=\{47, 15, 10\}$, slack = 37;
+	\item $T_2$ $=\{89, 84, 55\}$, slack = 34;
+	\item $T_3$ $=\{9, 7, 4\}$, slack = 5;
+	\item $T_4$ $=\{51, 51, 49\}$, slack = 2.
 \end{itemize}
-\jb{Ça ne correspond pas à la figure}
+% \jb{Ça ne correspond pas à la figure}
 
-Pour chaque tuple, chaque tâche est affectée à chaque processeur (figure \ref{ex:SLACKOK2}), ce qui abouti vers une répartition équilibrée de temps par machine. Le Makespan est égale à l'optimal
+Pour chaque tuple, chaque tâche est affectée à chaque processeur (figure \ref{ex:SLACKOK2}), ce qui abouti vers une répartition équilibrée de temps par machine. Le makespan est égale à l'optimal
 
 \end{example}
 
-Par contre si un job a un temps qui perturbe cette stratégie. Comme par exemple le premier job du deuxième tuple qui a un temps inférieur au slack du premier tuple. 
-\jb{Manque des verbes dans les phrases précédentes}
+Par contre si un job a un temps qui déstabilise cette stratégie, comme par exemple le premier job du deuxième tuple qui a un temps inférieur au slack du premier tuple, celui-ci provoque un déséquilibre a chaque itération
+qui fini par un décalage entre makespan et optimal.     
+%\jb{Manque des verbes dans les phrases précédentes}
+
 Plus formellement si dans 
 $$P = \{p_1, \ldots, p_m\}, \{p_{m+1}, \ldots, p_{2m}\}, \ldots, \{p_{n-m}, \ldots p_n\}$$
 nous avons $p_{m+1} < p_m - p_1$, à l’opération du deuxième tuple, 2 jobs serons affectés au même processeur. Ce qui aura comme effet de déstabiliser l'harmonie des affectations des jobs de chaque tuple à chaque processeur et de provoquer un décalage entre l'optimal et le Makespan.
 
- 
 
 %--------------------------------------------------------
 % EXEMPLE SLACK NON IDEAL
@@ -1851,33 +2030,34 @@ Soit la liste de temps déjà ordonnée $$P = \{90, 75, 53, 42, 38, 38, 36, 24, 
 	\item $T_4$ $=\{42, 38, 38\}$, slack = 4.
 \end{itemize}
 (figure \ref{ex:SLACKPasOK1}
-Le premier job de $p_{T_2 1}=36 < slack(T_1)=37$ \lp{PB notation du
-  job ?}
+Le premier job de $p_{1 \in T2}=36 < slack(T_1)=37$ %\lp{PB notation du job ?}
 Après l'affectation de $T_1$ nous avons la répartition des charges des 
  processeurs suivante $\{(90), (75), (53)\}$.
 Puis vient l'affectation de $T_2$, avec en premier le job $p_{T_2 1}=36$
 nous avons la répartition des charges des processeurs suivante $\{(90), (75), (89 : 53,36)\}$. Le troisième processeur vient d'être chargé mais son poids $(89)$ est toujours inférieur au premier processeur $(90)$. Ce qu'aucun job de ce tuple ne sera affecté au premier processeur cette fois-ci (figure \ref{ex:SLACKPasOK2}).
 
-Cette perturbation va se propager jusqu’à la fin de l'algorithme. Et le Makespan trouvé sera différent de l'optimal. 
+Cette perturbation va se propager jusqu’à la fin de l'algorithme. Le makespan trouvé sera différent de l'optimal. 
 \end{example}
 
-Dans une liste de temps de type NON-UNIFORME de paramètres [a, b] le slack maximum possible 
+Dans une liste de temps de type non-uniforme de paramètres [a, b] le slack maximum possible 
   est égal à $slack_{max} = 0.9(b-a)$. 
 Pour perturber le fonctionnement de SLACK, il faudrait une valeur de temps inférieure à $slack_{max}$. 
-Or une liste de temps NON-UNIFORME ne contient aucune valeur comprise entre $0.9(b-a)$ et $0.2(b-a)$ 
+Or, contrairement à gamma, beta, uniforme, voire reel avec PWA, 
+  une liste de temps non-uniforme ne contient aucune valeur comprise entre $0.9(b-a)$ et $0.2(b-a)$ 
   et seulement $2\%$ des éléments de la liste sont inférieurs à $0.2(b-a)$.
 Ce qui réduit presque à $0$ les possibilités de générer une valeur qui peut potentiellement perturber SLACK.
 
-
-Tester SLACK dans une instance de type NON-UNIFORME oriente le résultat d'efficacité.
-           
-\lp{La question qui se pose est: est-ce que les instances réelles sont
-NON-UNIFORMES ?}
+Tester SLACK dans une instance de type non-uniforme oriente le résultat d'efficacité.
+Les listes réelles ne peuvent pas être non uniforme comme défini dans \cite{frangioni2004multi} 
+  car il y aura toujours une valeur entre les bornes $0.9(b-a)$ et $0.2(b-a)$ pour invalider 
+  l'appartenance d'une archive de tâches réelles à une règle non uniforme.         
+%\lp{La question qui se pose est: est-ce que les instances réelles sont
+%NON-UNIFORMES ?}
 
 
 \section{Discussion} \label{sec:discussion}
 
-SLACK, est plus efficace que LPT suivant 13 points de tests 
+SLACK est plus efficace que LPT suivant 13 points de tests 
   dans un protocole expérimental. 
 Mais il suffit de sortir de ce périmètre pour obtenir 
   une conclusion différente. 
@@ -1886,7 +2066,7 @@ Della Croce et Scatamacchia ont utilisé et combiné des variables
   soit pas assez représentatives pour en déduire un comportement général.  
 En effet, certains points où SLACK est très efficace ont masqués 
   d'autres résultats où SLACK est moins percutant. 
-Nous nous retrouvons devant un échantillon de tests biaisé et ne pouvons pas affirmer, même sur une distribution NON-UNIFORME, que SLACK améliore LPT. 
+Nous nous retrouvons devant un échantillon de tests biaisé et ne pouvons pas affirmer, même sur une distribution non-uniforme, que SLACK améliore LPT. 
 
 Au delà de ce problème, se pose la question : comment tester une heuristique par rapport à d'autres heuristiques par l'expérimentation ?
 D'un point de vue théorique, ces heuristiques ont un ratio d'approximation, 
@@ -1907,15 +2087,19 @@ Pour tester une heuristique et en extraire une conclusion catégorique,
   il faudrait la tester sur toutes distributions et combinaisons 
   de distributions, en faisant évoluer les paramètres de chacune d'elles 
  ($a$ et $b$ pour UNIFORME et NON UNIFORME, $\alpha$ et $\beta$ 
-  pour les distributions Gamma et Beta $\ldots$), 
+  pour les distributions gamma et beta $\ldots$), 
   et par rapport à une large variation de $n$ et $m$.  
 Ce qui constitue un problème combinatoire.
 
-Pour finir, lois stats sont inspirées de la nature  ..... alors pourquoi NON-UNIFORME ?
+Pour finir, les temps des jobs soumis aux processeurs sont des séquences dont la répartition ressemble à des 
+  lois statistiques déduites d'observations de phénomènes ou d'activités naturels. 
+Or la règle non-uniforme n'est pas inspirée des hasards naturels. 
+Les lois gamma, beta, exponentielles ont beaucoup plus de chance de représenter un échantillon de jobs
+  contrairement à la règle non-uniforme. 
 
 \section{Conclusion} \label{sec:conclusion}
 
-
+Nous venons de comparer les heuristiques phares au pproblème \problemGrahamP  
 
 
 
@@ -1954,7 +2138,7 @@ la partie applicative (génération d'instance, caractérisation des listes de t
 Entre ces deux parties, les données brutes transitent via un fichier résultat au format CSV, 
  généré par le module PANDAS de PYTHON.
  
-PYTHON et R ont été choisis pour les raisons suivantes :
+Python et R ont été choisis pour les raisons suivantes :
 \begin{itemize}
 \item Temps de développement : ces langages, de haut niveau, permettent de développer 
   des solutions rapidement, avec une taille de code réduite.
@@ -1985,9 +2169,6 @@ PYTHON et R ont été choisis pour les raisons suivantes :
   tant dans les tutoriels, 
   que dans les forums de discutions.         
 \end{itemize}
-
-
-
 
 \bigskip
 Pour créer des listes de coûts, nous utilisons la bibliothèque par défaut de génération de 
