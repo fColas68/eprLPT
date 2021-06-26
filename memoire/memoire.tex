@@ -167,18 +167,102 @@
 % #######################################################
 \pagenumbering{roman}
 
-% =======================================================
-% Page de garde
-% Utilise Information générales
-% Ecrit le titre + auteur + date
-% =======================================================
-\maketitle
+%##################################################################################"
+% 	=======================================================
+% 	Page de garde
+% 	Utilise Information générales
+% 	Ecrit le titre + auteur + date
+% 	=======================================================
+%	maketitle
+%##################################################################################"
+\begin{titlepage}
+%-------------------------------------------
+% LOGOS / 
+%-------------------------------------------
+\begin{center}
+\includegraphics[width=3cm]{logo_supfc.png}
+\hfill
+\parbox{.5\linewidth}{%
+	\centering
+	Universit\'e de Franche-Comté	\par
+	Master 2 I2A	année 2020 / 2021 \par
+	Florian Colas / 21512327
+	\vspace{.05\textheight}
+	\vspace{.05\textheight}
+}
+\hfill
+\includegraphics[width=3cm]{logoUnivFC.png}
+
+%-------------------------------------------
+% MODULE
+%-------------------------------------------
+\vspace{.05\textheight}
+{\LARGE\scshape Module PIR\par}
+
+%-------------------------------------------
+% TITRE DE L'ETUDE
+%-------------------------------------------
+\vspace{.05\textheight}
+\vspace{.05\textheight}
+\vspace{.05\textheight}
+{\Huge\bfseries Évaluation d'algorithmes d'ordonnancement\par}
+
+%-------------------------------------------
+% SUPERVISEURS
+%-------------------------------------------
+\vspace{.05\textheight}
+\vspace{.05\textheight}
+\vspace{.05\textheight}
+%Encadrants
+\vspace{.05\textheight}
+\begin{tabular}{lllcc}
+					&Université de Franche-Comté	&	& Encadrant &	Jury 	\\
+Laurent Philippe 	& Professeur des Universités 	& 	&  	X		&	X		\\
+Louis-Claude Canon 	& Maître de conférence 			& 	&  	X		&	X		\\
+Julien Bernard 		& Maître de conférence 			& 	&  	X		&	X		\\
+Veronika Sonigo		& Maître de conférence 			&	&			&	X		\\
+\end{tabular}
+  
+\end{center}
+\bigskip
+\includegraphics[width=3cm]{logoFEMTO_ST.png}
+\end{titlepage}
+%##################################################################################"
+% / page de garde
+%##################################################################################"
+
+
+
+
+
+
+
 
 \section*{Dédicaces} \label{sec:dedicace}
-je dédie....
+Ce mémoire marque la fin de 5 ans (avec 1 année de pause) d'études en Master 2  
+Informatique Avancée et Applications (I2A) effectuées au CTU de Besançon. 
+Je voudrais dédier ce document à Léo et Lou qui ont vécu le quinquennat ``Master papa'' avec 
+patience et compréhension et 
+à Anne-Sophie dont le soutien inconditionnel, la tolérance et l'indulgence 
+à mon égard ont rendu possible ce projet. 
+
 
 \section*{Remerciements} \label{sec:remerciements}
-je remercie....
+Je tiens à remercier toutes les personnes qui m'ont aidé dans la réalisation de ce projet de recherche ainsi que la rédaction de ce document :
+Laurent Philippe, professeur à l'université de Franche-Comté,
+Louis-Claude Canon, maître de conférence et 
+Julien Bernard, maître de conférence.
+Ils ont tous trois su me guider dans les directions et choix à prendre. 
+Ils m'ont transmis des informations précieuses concernant le sujet et les questions techniques.
+Je les remercie également pour leur disponibilité, leur écoute, et la qualité des échanges qu'on à pu avoir tout au long de la réalisation de ce projet d'initiation.
+
+Et merci à Anne-Sophie pour ses relectures, l'aide à la correction de ce document.
+
+\section*{Important}
+Il a été découvert un bug dans l'algorithme COMBINE assez récemment. Celui-ci n'a pas pu être corrigé à temps pour permettre d'intégrer les résultats corrects dans les tableaux.
+Les résultats de COMBINE seront effectués pour la soutenance et réintégrés dans ce mémoire.
+ 
+
 
 % -------------------------------------------------------
 % Table des matières
@@ -218,8 +302,8 @@ je remercie....
 % -------------------------------------------------------
 
 % ORDONNANEMENT
-La question d’ordonnancement est omniprésente, dans la vie pratique, l'industrie, le transport, 
-  les institutions, la santé et toute autre discipline qui nécessite une organisation.
+La question d’ordonnancement est omniprésente dans la vie pratique, l'industrie, le transport, 
+  les institutions, la santé et toutes autres disciplines qui nécessitent une organisation.
   L'ordonnancement consiste à agencer au mieux des tâches, des jobs reliés ou non entre eux 
   pour atteindre un but tout en optimisant un critère particulier. 
 Dans la construction d'une maison, depuis la pose de la première dalle jusqu'à la pose du dernier carrelage, 
@@ -230,7 +314,7 @@ Dans la construction d'une maison, depuis la pose de la première dalle jusqu'à
 
 % ORDONNANEMENT dans l'informatique
 L’ordonnancement intervient aussi dans l'attribution et l'ordre d’exécution des jobs à réaliser par processeur. 
-Même pour une machine mono-processeur, l'ordre a son importance si des jobs sont liés par des relations de précédences. 
+Même pour une machine mono-processeur l'ordre a son importance si des jobs sont liés par des relations de précédences. 
 % ORDONNANEMENT dans l'informatique parallèle
 La question est d'autant plus essentielle depuis l'apparition des ordinateurs à structure parallèle.
 En effet, la composition d'un ensemble de jobs sur plusieurs processeurs, même sans lien entre eux, a des répercutions sur le temps total nécessaire pour exécuter tous ces jobs. 
@@ -242,9 +326,10 @@ Cette structure aide à effectuer de grands calculs en divisant la charge de tra
   processeurs capables de communiquer et de coopérer.     
 
 % Scheduling
-Le calcul de l'attribution de chaque tâche d'un ensemble de jobs aux ressources disponibles dans le but d'optimiser un critère est lui-même un job.  \jb{Je ne comprends pas la fin de la phrase précédente}
-Ce calcul est appelé algorithme d'ordonnancement (Scheduling algorithm). 
-Celui-ci doit être effectué le plus rapidement possible et donner la réponse d'ordonnancement en 
+Le calcul de l'attribution de chaque tâche d'un ensemble de jobs aux ressources disponibles 
+  dans le but d'optimiser un critère est un algorithme 
+  appelé algorithme d'ordonnancement (Scheduling algorithm). 
+Ce calcul doit être effectué le plus rapidement possible et donner la réponse d'ordonnancement en 
   adéquation avec ce qui est attendu.
 
 
@@ -267,9 +352,9 @@ Mais, comme l'ont démontré Garey et Johnson,
   \problemGrahamP avec $m \geq 3$ est un problème NP-Difficile au sens fort \cite{garey1982computers}.
 En plus, \problemGrahamP devient un problème NP-Difficile, du moment que le nombre de machines 
   est fixé \cite{chen1999potts}, comme l'a montré Rothkopf \cite{rothkopf1966scheduling} qui a 
-  présenté un algorithme de programmation dynamique.\fco{voir le type d'algo pseudo-polynomial ?}
+  présenté un algorithme de programmation dynamique.%\fco{voir le type d'algo pseudo-polynomial ?}
 
-Donner la solution optimale à un problème d'ordonnancement \problemGrahamP n'est pas réaliste. \jb{J'ajouterais «Dans le cas général»}
+Généralement, donner la solution optimale à un problème d'ordonnancement \problemGrahamP n'est pas réaliste. %\jb{J'ajouterais «Dans le cas général»}
 La résolution de celui-ci demanderait un temps excessif et donc rédhibitoire.
 Comme les machines sont identiques, et travaillent à la même vitesse, la difficulté repose uniquement 
   sur le regroupement des jobs.
@@ -291,14 +376,14 @@ L'existence d'une solution qui résout efficacement le problème de manière opt
   n'est pas pensable, à moins que $P = NP$.
 Dans la littérature, l'étude d'ordonnancement est très riche et abondante. 
 Le but étant d'améliorer le temps de calcul, et d'approcher le résultat optimal. 
-Les solutions proposées sont des heuristiques, ou des approximations.
+Les solutions proposées sont des heuristiques ou des approximations.
 
 Le but d'une heuristique (du grec \emph{heuriskein}: trouver) est 
   de produire une solution respectant les contraintes du problème et 
   de bonne qualité selon le critère d'optimisation considéré. 
 La solution ne sera pas forcément optimale mais une heuristique efficace tente de trouver une 
   solution de bonne qualité suivant le temps de résolution imparti.
-Ces algorithmes calculent des solutions, dont la borne maximale, au pire des cas n'est pas maîtrisée: 
+Ces algorithmes calculent des solutions dont la borne maximale au pire des cas n'est pas maîtrisée: 
 une étude du comportement est nécessaire pour définir cette borne maximale.  
 Pour chaque étude de comportement, les notions suivantes sont utilisées :
 
@@ -341,13 +426,13 @@ Pour $n > m$ cela représente 13 points de comparaisons qui permettent aux auteu
 Ce résultat est intéressant. En effet la borne d'approximation se rapproche un peu plus de l'optimal. 
 Mais ce résultat empirique repose sur un nombre assez restreint d'échantillons. Sont-ils assez représentatifs pour en dégager une conclusion absolue ? Est-ce le comportement général de SLACK (ou tout autre algorithme) d'être le plus efficace s'il l'est pour ces 13 points ? 
 
-Le but de ce document est de répondre à cette question, à l'aide des démarches suivantes :
+Le but de ce document est de répondre à cette question à l'aide des démarches suivantes :
 
 \begin{itemize}
-	\item Reproduire le protocole expérimental de \dcs;
+	\item Reproduire le protocole expérimental de \dcs sur les mêmes algorithmes et les 
+	  mêmes types d'instances afin de valider sa reproductibilité;
 	  
-	\item \'{E}largir ce protocole expérimental à d'autres types de générations aléatoires, 
-	voire à de vraies archives de listes de tâches et à un spectre plus large de nombres de jobs 
+	\item \'{E}largir ce protocole expérimental aux principaux algorithmes mais à d'autres types de générations aléatoires, voire à de vraies archives de listes de tâches et à un spectre plus large de nombres de jobs 
 	et de machines.
 	  
 \end{itemize} 
@@ -356,10 +441,10 @@ Le but de ce document est de répondre à cette question, à l'aide des démarch
 % -------------------------------------------------------
 %PLAN
 % -------------------------------------------------------
-\fco{a revoir}
-\lp{Oui tu peux aussi ajouter ce qui a été dit par Julien, à savoir
-  étendre aux principaux algos}
-Le Chapitre suivant est un état de l'art au problème \problemGrahamP. La mise en place expérimentale et les choix effectués dans ce mémoire sont évoqués en chapitre 3. Puis nous aborderons la création des listes de temps et les instances dans le chapitre 4. Le chapitre 5 présente l'environnement de tests, avant d'aborder et présenter en chapitre 6 le résultat de la reproduction du protocole expérimental de \dcs et du protocole élargi. Ce document se termine par une discussion sur les protocoles de tests des heuristiques.
+%\fco{a revoir}
+%\lp{Oui tu peux aussi ajouter ce qui a été dit par Julien, à savoir
+%  étendre aux principaux algos}
+Le chapitre 2 présente un état de l'art au problème \problemGrahamP. La création des listes de temps et les instances sont traitées dans le chapitre 3. Le chapitre 4 abordée l'environnement de tests, avant de présenter en chapitre 5 le résultat de la reproduction du protocole expérimental de \dcs et du protocole élargi. Ce document se termine par une discussion sur les protocoles de tests des heuristiques.
 
 Les annexes abordent certains points importants de l'implémentation des algorithmes et de la création des listes de temps.  
 
@@ -381,8 +466,8 @@ L'ordonnancement fait partie de la catégorie des problèmes d'optimisation comb
 C'est un champ de la recherche opérationnelle, actif depuis plus d'un siècle 
   et abondant dans la littérature. 
 
-  \lp{Pour la suite préciser: ``Pour P||Cmax'' ?}
-De nombreuses pistes sont explorées. Il est pratiquement impossible de les énumérer toutes. 
+%\lp{Pour la suite préciser: ``Pour P||Cmax'' ?}
+Pour le problème \problemGrahamP de nombreuses pistes sont explorées. Il est pratiquement impossible de les énumérer toutes. 
 Aussi sont présentées ici les plus étudiées et/ou utilisées pour être comparées ou servir de référent.
   
 Nous abordons dans l'ordre, certaines heuristiques, un type d'algorithme d'approximation nommé schéma d'approximation en temps polynomial (PTAS) et une résolution du problème basée sur la programmation linéaire.
@@ -570,7 +655,7 @@ FFD, quant a lui a
 \DontPrintSemicolon
 \KwData{
 
-instance de Bin-packing, avec 
+instance de Bin-Packing avec : 
 
 $C$ taille maximale des bacs,
  
@@ -609,10 +694,10 @@ $NB_b = 0$ \tcp{nombre de bacs}
 % /FFD 
 % -------------------------------------------------------
 
-\fco{verifier la borne sup si ce ne serait pas plutot 
-$\max\left\{\frac{2}{m} \cdot L(T), \max_i\{2 \cdot L(T_i)\} \right\}$ 
-auquel cas serait donc $2 \cdot Cl$.
-Si ce n'est pas le cas, corriger plus haut}
+%\fco{verifier la borne sup si ce ne serait pas plutot 
+%$\max\left\{\frac{2}{m} \cdot L(T), \max_i\{2 \cdot L(T_i)\} \right\}$ 
+%auquel cas serait donc $2 \cdot Cl$.
+%Si ce n'est pas le cas, corriger plus haut}
 
 \bigskip
 % -------------------------------------------------------
@@ -743,9 +828,9 @@ Soit un ensemble $E = \{e_1, e_2, \ldots, e_n\}$ de $n$ entiers.
 
 Le problème de partitionnement de nombres consiste à 
   diviser l'ensemble de départ en $NB_e$ sous-ensembles 
-  mutuellement exclusifs et collectivement exhaustifs 
-  de sorte que la somme des nombres \lp{pb de phrase sujet au singulier,
-verbe au pluriel}dans chaque sous-ensemble 
+  mutuellement exclusifs et collectivement exhaustifs
+  %\lp{pb de phrase sujet au singulier,verbe au pluriel} 
+  de sorte que les sommes des nombres dans chaque sous-ensemble 
   soient aussi égales que possible \cite{korf2009multi}.
 Ce problème est NP-complet et peut être assimilé au problème 
   d'ordonnancement \problemGrahamP, avec un ensemble 
@@ -780,7 +865,8 @@ $m$ un nombre de partitions à obtenir
 }
 
 \BlankLine % Petit espace
-Convertir les $n$ $p_i$ en $n$ m-tuples $A_i$ = [ $m-1$ valeurs vides $\{\}$ et $\{p_i\}$]
+Convertir les $n$ $p_i$ en $n$ m-tuples $A_i$ = [ $m-1$ valeurs vides $\{\}$ et $\{p_i\}$] 
+\tcp{e.g. pour $m=3$ $p_i$ devient $[\{\}\{\}\{p_i\}]$}
 
 \Pour {$n-1$ itérations}
 {
@@ -800,7 +886,6 @@ Combiner $A_a$ et $A_b$ en un seul m-tuple $A_{ab}$ en joignant
   le deuxième élément le plus petit de $A_a$ avec le deuxième élément le plus grand de $A_b$,
   et ainsi de suite 
 }
-
 \caption{LDM}
 \label{algo:LDM}
 \end{algorithm}
@@ -1029,8 +1114,7 @@ Nous venons de parcourir les principaux algorithmes et méthodes de tentative de
   notamment LPT, COMBINE et LDM 
   utilisées dans le document de Della Croce et Scatamacchia \cite{della2020longest} 
   pour comparer les performances de SLACK. 
-Le tableau \ref{table:Heuritiques} récapitule les caractéristiques qui nous intéressent 
-  de ces heuristiques.
+Le tableau \ref{table:Heuritiques} récapitule les caractéristiques de ces heuristiques qui nous intéressent.
 
 % -------------------------------------------------------
 % TABLEAU des heuristiques étudiées dans le rapport
@@ -1113,9 +1197,8 @@ FFD
 \end{table}
 \end{landscape}
 
-\lp{Domaine pour LPT et SLACK = Liste Scheduling ?}
-\lp{Mettre les complexités sur 2 lignes pour que le tableau tienne
-  mieux dans la page ?}
+%\lp{Domaine pour LPT et SLACK = Liste Scheduling ?}
+%\lp{Mettre les complexités sur 2 lignes pour que le tableau tienne mieux dans la page ?} pas possible avec math et tabular 
 
 % =======================================================
 % 3 LISTES DE TEMPS / INSTANCES
@@ -1135,9 +1218,10 @@ En effet, une même valeur d'une caractéristique peut représenter plusieurs en
 Il est donc nécessaire de multiplier les tests pour voir se dessiner des tendances, 
   des liens entre distributions de valeurs, caractéristiques, et résultats obtenus.
 
-Ce que font \dcs en utilisant à chaque couple $\{m,n\}$ 10 instances de 2 différents types de 
-  génération de listes de temps. \lp{Pas de verbe dans cette phrase}
-Ce qui paraît assez pour le nombre d'instances mais peut-être pas pour les types de listes de temps. 
+C'est précisément ce que font \dcs en générant 10 instances de 2 différents types de 
+  génération de listes de temps pour chaque couple $\{m,n\}$. 
+%\lp{Pas de verbe dans cette phrase}
+Cette méthode paraît correcte pour le nombre d'instances mais le cas échéant insuffisante pour les types de listes de temps. 
 Le nombre restreint des lois statistiques utilisées dans leur modèle expérimental ne permet pas 
   d'affirmer ou d'infirmer que SLACK n'est pas sensible à la répartition des nombres constituant 
   les listes de temps. 
@@ -1165,9 +1249,9 @@ et le moyen  pour en récupérer des réelles. Ensuite, nous examinerons une mé
 
 \subsection{Choix de production des listes de temps}\label{ssec:instancesChoixProduction}
 
-\lp{Dire d'abord que tu veux reproduire les expés de \dcs pour les
-  valider car la reproductibilité des expés est un facteur de qualité}
-Afin de reproduire l'expérience de \dcs le choix se porte donc sur les distributions qu'ils utilisent :
+%\lp{Dire d'abord que tu veux reproduire les expés de \dcs 
+% pour les valider car la reproductibilité des expés est un facteur de qualité}
+Nous souhaitons d'abord valider la reproductibilité du protocole expérimental de \dcs. Nous devons donc reproduire les expériences avec les mêmes types de génération de nombres qu'ils utilisent : 
 \begin{itemize}
 	\item Uniforme; 
 	\item Non-uniforme.
@@ -1198,15 +1282,19 @@ Dans le but d'élargir ce protocole et de comparer SLACK avec d'autres types de 
 
 Pour soumettre les algorithmes à des données de situations réelles,
 notre choix se porte sur la récupération (téléchargement) d'archives
-existantes de listes de temps :
-\lp{Dire ce que c'est}
+existantes de listes de temps provenant des activités de vrais systèmes informatique :
+%\lp{Dire ce que c'est}
 \begin{itemize}
-	\item PWA.
+	\item PWA (Parallel Workload Archive).
 \end{itemize}
 
 
 \subsection{Génération des listes de temps synthétiques}\label{ssec:instancesGenerationListesTempsSynthetiques}
 Les listes synthétiques sont créées de toutes pièces en suivant des lois statistiques et de distributions particulières. Sont présentées ici les lois exponentielle, gamma, beta et les 2 méthodes utilisées par \dcs, uniforme et non-uniforme.
+
+les informations concernant les lois exponentielles, beta et gamma proviennent du site de Marie Etienne :
+
+\url{https://marieetienne.github.io/CoursHalieut/rappel_loi.html} 
 
 \bigskip
 \paragraph{Loi exponentielle} 
@@ -1341,7 +1429,7 @@ L’espérance et la variance sont fonctions de $\alpha$ et $\beta$ et sont éga
 
 \paragraph{Loi uniforme} 
 Cette loi statistique utilisée pas \dcs est non exponentielle. 
-Une loi uniforme sur $[a, b]$ est une loi de probabilité $P$ dont la fonction de densité et 
+Une loi uniforme sur $[a, b]$ est une loi de probabilité $P$ dont la fonction de densité est 
   constante sur $[a, b]$. i.e. les nombres générés sont uniformément répartis dans l'intervalle $[a, b]$
 
 \begin{center}
@@ -1358,7 +1446,7 @@ Une liste de nombres aléatoires générée via une règle NON-UNIFORME de param
 	2\%    &= \textnormal{loi uniforme } [a, 0.2(b-a)] 
 \end{align*}
 
-\jb{En vrai, ça devrait être $[a + 0.9 (b-a), b]$ et $[a, a + 0.2 (b-a)]$}
+% \jb{En vrai, ça devrait être $[a + 0.9 (b-a), b]$ et $[a, a + 0.2 (b-a)]$} effectivement ! 
 
 \begin{example}
 Pour la génération d'une liste suivant la règle non-uniforme [1, 100], 
@@ -1367,9 +1455,11 @@ Pour la génération d'une liste suivant la règle non-uniforme [1, 100],
 	98 \%  &\textnormal{ est uniformément répartis sur } [89.1~,~ 100] \\
 	2\%    &\textnormal{ est uniformément répartis sur } [1   ~,~ 19.8] 
 \end{align*}
-
+ce qui peut donner pour $n = 10$
+	$\{95, 95, 90, 93, 97, 89, 90, 90, 99, 2\}$
 \end{example}
-\lp{}
+%\lp{}
+Ce qui donne des instances très hétérogènes. 
  
 \subsection{Récupération de listes de temps réelles}\label{ssec:instancesGenerationListesTempsReelles}
 
@@ -1385,10 +1475,10 @@ PWA est un dépôt de fichiers journaux de temps disponible à l'URL :
 
 Ces archives proviennent de l'enregistrement direct des événements qui se produisent sur les systèmes informatiques et ont l'avantage de représenter un panel de besoins réels. 
 Mais elles peuvent comporter certains inconvénients :
-\lp{attention majuscules/minuscules dans la liste}
+%\lp{attention majuscules/minuscules dans la liste}
 \begin{itemize}
 
-	\item Le nombre de jobs $n$ n'est pas maîtrisé, et ne représente qu'une 
+	\item Le nombre de jobs $n$ n'est pas maîtrisé et ne représente qu'une 
 	vingtaine de fichiers, donc un nombre limité de tests et comparaisons empiriques à effectuer;
 	
 	\item Ces archives ne sont pas forcément complètes et des informations importantes peuvent manquer;
@@ -1501,7 +1591,9 @@ Nous abordons maintenant la notion de ``campagnes'' de tests où les instances s
 % =======================================================
 \section{Campagnes} \label{sec:Campagnes}
 
-Chaque tests se déroule en ``campagne''. 
+Chaque expérience se déroule en ``campagne''. Une campagne est un ensemble de paramètres expérimentaux 
+(liste de nombres de machines, liste de nombres de jobs, type d'instances à créer, algorithmes à comparer) 
+qui aboutit à un fichier résultat global pour y être analysé.   
 
 %--------------------------------------------------------
 % plan
@@ -1592,7 +1684,7 @@ Les 4 algorithmes sont donc exécutés à chaque itération aux mêmes instances
 	Sert aux regroupements et comparaisons des algorithmes pour une même instance;
 	
 	\item \textit{seed} : Est la graine produit du moteur de génération de nombres pseudo-aléatoires 
-	utilisé pour la création de la liste de temps. 
+	utilisée pour la création de la liste de temps. 
 	Peut servir pour recréer à l'identique une instance;
 	 
 	\item \textit{n} : Nombre de jobs servant à créer une liste de temps native;
@@ -1672,7 +1764,7 @@ pour chaque intervalle [a, b] = [1, 100], [1, 1000], [1, 10000] et
 
 780 instances.
 
-\lp{Pour le tableau iL faut expliquer W/E/L}
+%\lp{Pour le tableau iL faut expliquer W/E/L}
 
 %--------------------------------------------------------
 % Figure resultat obtenu par DCS (non flottant
@@ -1686,8 +1778,13 @@ pour chaque intervalle [a, b] = [1, 100], [1, 1000], [1, 10000] et
 \par}
 \end{figure}
 
-La figure \ref{fig:resultatDellaCroceScatamacchia} représente le résultat obtenu 
-  dans \cite{della2020longest}. 
+La figure \ref{fig:resultatDellaCroceScatamacchia} présente le résultat obtenu dans \cite{della2020longest}.
+
+Le principe est de compter combien de fois SLACK calcule un makespan plus proche de l'optimal que LPT, LDM ou COMBINE.
+Lorsqu'il gagne contre un algorithme, un point W (win) est comptabilisé. 
+Lorsqu'il perd, un point L (loose) est comptabilisé.
+Lorsqu'il est équivalent à l'algorithme avec lequel il se mesure, un point E (equivalent) est comptabilisé.   
+ 
 Les auteurs annoncent une amélioration significative de LPT avec SLACK 
   car celui-ci est meilleur à 65.8\% des cas contre LPT suivant les 780 instances 
   de référence de la littérature \cite{della2020longest}. 
@@ -1703,16 +1800,16 @@ De ce fait, SLACK peut être vu comme une alternative précieuse à LPT.
 \begin{figure}
 {\centering
 \includegraphics[width=\columnwidth]{2_Resultat_reel.pdf}
-\caption{Résultat sur 5 archives PWA.}
-\jb{Qu'est-ce que représentent ces nombres? Il faut le dire dans le titre}
+\caption{Makespan obtenu par heuristique sur 5 archives PWA pour 5, 10, 25 machines.}
+%\jb{Qu'est-ce que représentent ces nombres? Il faut le dire dans le titre}
 \label{fig:resultat5PWA}
 \par}
 \end{figure}
  
- Les 4 algorithmes sont exécutés sur des listes de temps réelles, provenant de 5 PWA NASA IPSC, Early CTC SP2, LANL CM5, SDSC Par95 et SDSC Par96, qui contiennent respectivement 18066, 75895, 122058, 32128 et 53744 jobs. Ces 5 archives sont transformées en instances de 5, 10 et 25 machines et le résultat est représenté en figure~\ref{fig:resultat5PWA}.
+ Les 4 algorithmes sont exécutés sur des listes de temps réelles, provenant de 5 PWA NASA IPSC, Early CTC SP2, LANL CM5, SDSC Par95 et SDSC Par96, qui contiennent respectivement 18066, 75895, 122058, 32128 et 53744 jobs. Ces 5 archives sont transformées en instances de 5, 10 et 25 machines et le résultat (makespan relatif) est présenté en figure~\ref{fig:resultat5PWA}.
  
 SLACK est efficace mais de très peu. 
-Les heuristiques dans cet échantillons sont plus souvent équivalentes.  
+Les heuristiques dans cet échantillon sont plus souvent équivalentes.  
  
 \subsection{Reproduction du protocole expérimental de Della Croce et Scatamacchia}
 \label{ssec:resultatsReroductionPrtocoleExperimentalDellaCroceScatamacchia}
@@ -1737,7 +1834,7 @@ Mais c'est COMBINE qui a le plus de différence en passant d'un facteur 1.40
   à un facteur 3.9 par rapport à LPT. 
 Cela peut être du à l'implémentation des algorithmes et à la technologie utilisée. 
 
-Coté makespan, SLACK cumule plus de victoires contre LPT en passant de 65.8\% à 82.3\% de ``WIN''.
+Côté makespan, SLACK cumule plus de victoires contre LPT en passant de 65.8\% à 82.3\% de ``WIN''.
 Par contre, SLACK perd de son efficacité contre LDM et surtout contre COMBINE. COMBINE qui récupère 36.3\% de ``WIN'' contre SLACK, contre 16.5\% précédemment indiqué.
 
 
@@ -1759,16 +1856,17 @@ Le résultat est résumé en figure \ref{fig:resultatReproduction50DellaCroceSca
 La tendance des 50 campagnes corrèle le résultat obtenu précédemment et non pas 
   celui de Della Croce et Scatamacchia.
 
-\subsection{Influence des distributions sur le comportement des heuristiques}
-\label{ssec:resultatsInfluenceDesDistributionSurLeComportement}
+\subsection{Facteurs d'influence sur le comportement des heuristiques}
+\label{ssec:resultatsFacteurInfluenceSurLeComportement}
 
 
 Della Croce et Scatamacchia ne comparent les algorithmes que sur 2 familles de distributions : 
 uniforme et non-uniforme. Distributions générées avec 3 paramètres différents, le résultat est synthétisé avec des instances de 5, 10, 25 machines, et 10, 50, 100, 500, 1000 jobs. 
 Les différences trouvées entre notre expérience et celle de Della Croce et Scatamacchia peuvent 
-être dues à une variété trop grande de paramètres , résumés en un seul résultat.
+être dues à une variété trop grande de paramètres résumés en un seul résultat.
 
 \bigskip
+\paragraph{Influence de la distribution}
 Pour vérifier si la distribution statistique utilisée pour générer les listes de temps 
   a une influence sur le résultat 
   nous reprenons la même expérience avec 2 autres familles de distributions : 
@@ -1797,11 +1895,16 @@ Le type d'instance a donc une influence sur le comportement des algorithmes, not
 \end{figure}
 
 \bigskip
-Nous reprenons la même expérience, avec les 2 familles de distributions 
-  gamma et beta de paramètres $\alpha = 1$ et $\beta = 1$,
+\paragraph{Influence du nombre de jobs}
+Les résultats précédents sont calculés et cumulés avec des instances de 100, 1000 et 10000 jobs. 
+Peut-être que SLACK est meilleurs pour des instances de 100 jobs et cacherait, avec le cumul des résultats, 
+  des difficultés pour des instances de 1000 jobs. 
+Pour vérifier si le nombre de jobs a une incidence sur le comportement des heuristiques, 
+  nous reprenons la même expérience avec 
+  les 2 familles de distributions gamma et beta de paramètres $\alpha = 1$ et $\beta = 1$,
   des instances uniquement de 1000 jobs à ordonnancer sur 5, 10 et 25 machines,
   sur 10 campagnes.
-\lp{Dire pourquoi tu fais ça}
+%\lp{Dire pourquoi tu fais ça}
 %--------------------------------------------------------
 % Figure resultat obtenu par 10 cmpagnes type DCS mais en Gamma/Beta et 1000 jobs
 %--------------------------------------------------------
@@ -1820,11 +1923,13 @@ Le résultat en figure \ref{fig:resultatReproduction10GammaBeta1000} indique que
 
 
 \bigskip
-Nous retirons la loi de distribution beta dans la génération des listes de temps.
+\paragraph{Influence du cumul des résultats}
+Les campagne précédentes cumulaient des données hétérogènes (nombre de jobs, distributions). 
+Pour vérifier si un cumul de paramètres différents peut masquer dans le résultat un comportement par paramètre, nous retirons la loi de distribution beta dans la génération des listes de temps.
 Donc 1 familles de distributions gamma de paramètres $\alpha = 1$ et $\beta = 1$, 
   des instances uniquement de 1000 jobs à ordonnancer sur 5, 10 et 25 machines,
   sur 10 campagnes.
-\lp{Dire pourquoi tu fais ça}
+%\lp{Dire pourquoi tu fais ça}
 %--------------------------------------------------------
 % Figure resultat obtenu par 10 cmpagnes type DCS mais en Gamma et 1000 jobs
 %--------------------------------------------------------
@@ -1837,8 +1942,11 @@ Donc 1 familles de distributions gamma de paramètres $\alpha = 1$ et $\beta = 1
 \end{figure}
 
 SLACK n'est plus qu'à 25\% contre LPT, 15\% contre COMBINE et 17\% contre LDM (figure \ref{fig:resultatReproduction10Gamma1000}).
+Une tentative d'explication de l'efficacité de SLACK par distribution est faite en \ref{ssec:resultatsSLACKNonUniforme}. 
 
-\jb{Il manque une tentative d'explication sur pourquoi SLACK est moins bon sur des distributions gamma ou beta}
+Donc un cumul de paramètres différents masque le comportement des heuristiques par paramètres. 
+
+%\jb{Il manque une tentative d'explication sur pourquoi SLACK est moins bon sur des distributions %gamma ou beta}
 
 \subsection{Cartographie des heuristiques}
 \label{ssec:resultatsCartographie}
@@ -1850,8 +1958,11 @@ Ce qui représente 13 points de tests
   $\{10~jobs,25~machines\}$ n'existent pas car $m\geq n$).
 En faisant évoluer $n$ de 10 à 1000 et $m$ de 5 à 50, 
   et en consignant l'algorithme (entre LPT et SLACK) qui donne 
-  le Makespan relatif le plus bas, nous obtenons le graphe en figure \ref{fig:resultatComparaisonLPTSLACK}.
+  le makespan relatif le plus bas, nous obtenons le graphe en figure \ref{fig:resultatComparaisonLPTSLACK}.
 Les points rouges représentent les 13 points de test en question.
+
+Les zones jaunes (algorithmes sont équivalents) correspondent à la partie ``optimale'', 
+  où les heuristiques calculent un makespan égal à l'optimal. Cette partie se situe entre une demi-droite $n=m$ et une demi-droite $n = 2m-1$.   
 
 %--------------------------------------------------------
 % Figure resultat comparaison de LPT et SLACK sur n et m
@@ -1863,14 +1974,14 @@ Les points rouges représentent les 13 points de test en question.
 \label{fig:resultatComparaisonLPTSLACK}
 \end{figure}
 
-\lp{Parler de la partie jaune optimale ? D'ailleurs on peut signaler
-  qu'il n'y a pas de jaune..}
+%\lp{Parler de la partie jaune optimale ? D'ailleurs on peut signaler
+%  qu'il n'y a pas de jaune..}
 
 En distribution uniforme SLACK domine largement avec 
   un petit nombre de machines. Mais en montant en $m$ LPT devient un peu 
   plus présent.
 En distribution non-uniforme SLACK est vraiment plus efficace que
-LPT.\lp{Tu as une idée de la raison ?}
+%LPT.\lp{Tu as une idée de la raison ?}
 Par contre, en distribution gamma LPT devient vraiment plus efficace.
 
 Il est à remarquer que les points rouges du protocole expérimental de 
@@ -1994,7 +2105,7 @@ qui fini par un décalage entre makespan et optimal.
 
 Plus formellement si dans 
 $$P = \{p_1, \ldots, p_m\}, \{p_{m+1}, \ldots, p_{2m}\}, \ldots, \{p_{n-m}, \ldots p_n\}$$
-nous avons $p_{m+1} < p_m - p_1$, à l’opération du deuxième tuple, 2 jobs serons affectés au même processeur. Ce qui aura comme effet de déstabiliser l'harmonie des affectations des jobs de chaque tuple à chaque processeur et de provoquer un décalage entre l'optimal et le Makespan.
+nous avons $p_{m+1} < p_m - p_1$, à l’opération du deuxième tuple, 2 jobs seront affectés au même processeur. Ce qui aura comme effet de déstabiliser l'harmonie des affectations des jobs de chaque tuple à chaque processeur et de provoquer un décalage entre l'optimal et le makespan.
 
 
 %--------------------------------------------------------
@@ -2041,7 +2152,7 @@ Cette perturbation va se propager jusqu’à la fin de l'algorithme. Le makespan
 
 Dans une liste de temps de type non-uniforme de paramètres [a, b] le slack maximum possible 
   est égal à $slack_{max} = 0.9(b-a)$. 
-Pour perturber le fonctionnement de SLACK, il faudrait une valeur de temps inférieure à $slack_{max}$. 
+Pour perturber le fonctionnement de SLACK il faudrait une valeur de temps inférieure à $slack_{max}$. 
 Or, contrairement à gamma, beta, uniforme, voire reel avec PWA, 
   une liste de temps non-uniforme ne contient aucune valeur comprise entre $0.9(b-a)$ et $0.2(b-a)$ 
   et seulement $2\%$ des éléments de la liste sont inférieurs à $0.2(b-a)$.
@@ -2057,36 +2168,39 @@ Les listes réelles ne peuvent pas être non uniforme comme défini dans \cite{f
 
 \section{Discussion} \label{sec:discussion}
 
-SLACK est plus efficace que LPT suivant 13 points de tests 
-  dans un protocole expérimental. 
-Mais il suffit de sortir de ce périmètre pour obtenir 
-  une conclusion différente. 
+SLACK est plus efficace que LPT suivant 13 points de tests dans un protocole expérimental. 
+Mais il suffit de sortir de ce périmètre pour obtenir une conclusion différente. 
 Della Croce et Scatamacchia ont utilisé et combiné des variables 
   soit, trop différentes pour sortir un schéma de causalité pertinent, 
   soit pas assez représentatives pour en déduire un comportement général.  
 En effet, certains points où SLACK est très efficace ont masqués 
-  d'autres résultats où SLACK est moins percutant. 
-Nous nous retrouvons devant un échantillon de tests biaisé et ne pouvons pas affirmer, même sur une distribution non-uniforme, que SLACK améliore LPT. 
+  d'autres résultats où SLACK est moins percutant.
+Aussi, certains points représentent des instances où tous les algorithmes convergent sur l'optimal 
+ce qui réduit encore le nombre de points de tests. 
+L'expérience est donc conditionnée par quelques points. 
+Nous nous retrouvons devant un échantillon de tests biaisé et ne pouvons pas affirmer, 
+  même sur une distribution non-uniforme, 
+  que SLACK améliore LPT. 
 
-Au delà de ce problème, se pose la question : comment tester une heuristique par rapport à d'autres heuristiques par l'expérimentation ?
-D'un point de vue théorique, ces heuristiques ont un ratio d'approximation, 
+Au delà de ce problème se pose la question : comment tester une heuristique par rapport à d'autres heuristiques par l'expérimentation ?
+D'un point de vue théorique ces heuristiques ont un ratio d'approximation, 
   une complexité en temps, voire un comportement asymptotique. 
 Mais le ratio d’approximation n’est qu'une indication prouvée existante 
-  à un instant donné, et prévaut tant qu'un nouveau ratio d'approximation 
+  à un instant donné et prévaut tant qu'un nouveau ratio d'approximation 
   plus proche de l'optimal n'est pas trouvé et/ou prouvé. 
-Même, si entre 2 heuristiques dont l'une à un ratio d'approximation 
+Même si entre 2 heuristiques dont l'une à un ratio d'approximation 
   supérieur à l'autre, cette heuristique supposée théoriquement moins 
   efficace peut obtenir de meilleurs résultats par l'expérience.      
 Le principe de randomisation est essentiel pour créer des échantillons servant 
   de support expérimental. 
-Or un algorithme, comparé à d'autres, qui présente de meilleurs résultats 
+Or un algorithme comparé à d'autres, qui présente de meilleurs résultats 
   sur une distribution supposée perturber le comportement de toute heuristique 
-  ne peut pas être gratifié d'algorithme améliorant un autre algorithme, 
+  ne peut pas être gratifié d'algorithme améliorant un autre algorithme 
   car il peut devenir mauvais sur une autre distribution. 
 Pour tester une heuristique et en extraire une conclusion catégorique, 
   il faudrait la tester sur toutes distributions et combinaisons 
-  de distributions, en faisant évoluer les paramètres de chacune d'elles 
- ($a$ et $b$ pour UNIFORME et NON UNIFORME, $\alpha$ et $\beta$ 
+  de distributions en faisant évoluer les paramètres de chacune d'elles 
+ ($a$ et $b$ pour uniforme et non-uniforme, $\alpha$ et $\beta$ 
   pour les distributions gamma et beta $\ldots$), 
   et par rapport à une large variation de $n$ et $m$.  
 Ce qui constitue un problème combinatoire.
@@ -2099,85 +2213,41 @@ Les lois gamma, beta, exponentielles ont beaucoup plus de chance de représenter
 
 \section{Conclusion} \label{sec:conclusion}
 
-Nous venons de comparer les heuristiques phares au pproblème \problemGrahamP  
+Nous venons de reproduire à l'identique le protocole expérimental de \dcs qui compare les heuristiques LPT, LDM, COMBINE et SLACK sur les 2 distributions uniformes et non-uniformes. 
+Ce protocole n'est pas reproductible car nous ne trouvons pas tout à fait les mêmes résultats. 
+Estimant ce protocole peut-être restreint, nous élargissons les paramètres expérimentaux 
+  à d'autres valeurs de $n$ et $m$ et 
+  à d'autres distributions statistiques telles que beta, gamma et exponentielle.
+Les résultats obtenus montrent que SLACK n'améliore pas de façon significative LPT 
+  contrairement à la conclusion de \dcs. 
+Le protocole expérimental des auteurs n'est pas assez large pour avoir une bonne idée 
+  du comportement de leur stratégie gloutonne par rapport aux autres algorithmes.  
+    
+L'expérience n'est pas reproductible car l'échantillon comporte un biais. Les points utilisés pour tester les
+  heuristiques ne sont pas assez nombreux.
+SLACK parait plus efficace dans une règle non-uniforme mais cela est dû à la construction de 
+  l'heuristique elle-même. 
+\dcs ont sélectionné des instances non-uniformes car cette règle de génération de nombres est supposée 
+  perturber LPT. Mais cette règle n'est pas universelle et ne représente pas les autres lois statistiques 
+  qui ont plus de chance d'être représentées dans une instance réelle et où les algorithme se 
+  comportent différemment.
 
-
+Comparer des heuristiques par l'expérimentation est une tâche difficile tant les possibilités sont nombreuses. 
+Les bornes d'approximations ne donnent qu'une indication de pire cas. 
+L'étude des surfaces asymptotiques dépendantes de $n$ et $m$ de ces algorithmes serait beaucoup plus intéressante.
+car plus que le ratio d'approximation ces surfaces bornent la morphologie des heuristiques et peut-être
+  indépendamment d'une loi de distribution.   
 
 \begin{appendices}
 
-%\chapter{Génération des listes de nombres pseudo-aléatoires}
+\section*{génération des listes de temps avec Python}
 
-% \subsection{Objectifs}\label{ssec:synoptiqueObjectifs}
-
-L'application doit permettre de reproduire un environnement expérimental d'exécution d'algorithmes liés au problème \problemGrahamP, et de les comparer entre eux au niveau de l'efficacité (borne d'approximation), et du coût en temps.
-pour cela, il faut pouvoir :
-\begin{itemize}
-\item Générer des listes de temps de jobs selon différentes distributions et lois de probabilités, 
-  afin de créer des instances (listes de temps de jobs~$+$~nombre de machines $m$) synthétiques. 
-\item Récupérer des listes de temps existantes de chantiers réels disponibles au téléchargement, 
-  permettant de créer des instances naturelles.
-\item Caractériser ces listes de coûts de jobs, et ainsi estimer un niveau d’hétérogénéité 
-  pour la mettre en relation avec le comportement des heuristiques.
-\item Exécuter des heuristiques, récupérer leurs résultats (ordonnancement, Makespan) 
-  et leur temps d’exécution 
-  en fonction d'une liste de temps, et d'un nombre de machines $m$.
-\item Exporter le résultats de plusieurs heuristiques soumises à 
-  un environnement choisi 
-  (instance, type  d'instance, variation du nombre de temps de jobs $n$, 
-  variation du nombre de machines identiques $m$, algorithme utilisé) 
-  dans le but de le soumettre à des scripts de statistiques et de comparaison (tableaux, graphes).
-\item Archiver les différents résultats sous forme de données brutes, pour une utilisation future. 
-\end{itemize} 
-Pour finir, l'application se veut évolutive, et facilite, l'ajout d'heuristiques et de méthodes de générations de listes de temps.
-
-% \subsection{Technologies utilisées}\label{ssec:synoptiqueTechnologiesUtilisées}
-
-la partie applicative (génération d'instance, caractérisation des listes de temps, 
-  exécution des algorithmes) est développée en PYTHON, et 
-  la partie statistiques en langage R. 
-Entre ces deux parties, les données brutes transitent via un fichier résultat au format CSV, 
- généré par le module PANDAS de PYTHON.
- 
-Python et R ont été choisis pour les raisons suivantes :
-\begin{itemize}
-\item Temps de développement : ces langages, de haut niveau, permettent de développer 
-  des solutions rapidement, avec une taille de code réduite.
-\item Temps d'apprentissage : 
-\item Se sont des langages interprètes : le fait que ces langages ne sont pas compilés 
-  comprend plusieurs avantages. 
-  D'une part, cela les rend (presque) indépendants des plate-formes d'exécution
-  (la seule difficulté rencontrée, est l'adaptation à prévoir demeure dans la gestion des 
-  chemins d'accès différente d'un OS à l'autre).
-  D'autre part, les sources étant disponibles, cela permet une évolutivité de l’application. 
-\item Les deux langages proposent des outils très efficaces permettant de travailler les listes.  
-\item Abondances de bibliothèque : Il existe une multitude de bibliothèques permettant de 
-  développer plus rapidement, 
-  des fonctionnalités dans des domaines particuliers (mathématiques, statistiques, graphes, 
-  structuration des données).
-
-  e.g : 
-  
-  Pour PYTHON l'application utilise les bibliothèques 
-  PANDAS (pour l'export des données data frame au format CSV) et 
-  URLLIB (pour accéder au site de téléchargement et télécharger des listes de jobs existantes).
-
-  Pour R, les scripts utilisent  
-  READR (pour lire des fichiers CSV),  
-  GGPLOT et PLOT3D (pour générer des graphes et les exporter au format PDF et JPG).
-\item Ces plate-formes de développement sont gratuites. Ces langages sont donc largement utilisés 
-  et la communauté est très active et productive,
-  tant dans les tutoriels, 
-  que dans les forums de discutions.         
-\end{itemize}
+Pour créer des listes de temps, nous utilisons la bibliothèque par défaut de génération de 
+  nombres pseudo-aléatoires de Python, selon différentes règles statistiques. 
 
 \bigskip
-Pour créer des listes de coûts, nous utilisons la bibliothèque par défaut de génération de 
-  nombres pseudo-aléatoires de PYTHON, selon différentes règles statistiques. 
-Ceci permet de créer des listes, pourvues de diverses propriétés, notamment l’hétérogénéité. 
-
-\bigskip
-Les deux types de générations suivants, implémentés dans l'application, 
-  génèrent des nombres entiers \footnote{\samepage La commande random.uniform(a,b) de PYTHON renvoie un réel. L'application le transforme en entier, à l'aide de la commande round(n).}, mais ne permettent pas la maîtrise de la variance. 
+Les deux types de générations suivants implémentés génèrent des nombres entiers 
+\footnote{\samepage La commande random.uniform(a,b) de Python renvoie un réel. La transformation en entier est effectuée à l'aide de la commande round(n).}.
 Ce sont les deux seuls types de génération utilisés dans le protocole expérimental de comparaisons des heuristiques dans \cite{della2020longest}.
    
 \begin{itemize}
@@ -2214,13 +2284,13 @@ Ce sont les deux seuls types de génération utilisés dans le protocole expéri
 \end{itemize}
 
 \bigskip
-L'application implémente d'autres type de générations, basés sur des lois statistiques (distribution). 
-Celles-ci génèrent des nombres réels, et acceptent des paramètres qui ont un effet sur 
-  ``l'écrasement'' des courbes représentant les distributions, 
-  et entrent dans le calculs de la variance.
+D'autres type de générations sont implémentées basés sur des lois statistiques (distribution). 
+Celles-ci génèrent des nombres réels et acceptent des paramètres qui ont un effet sur 
+  ``l'écrasement'' des courbes représentant les distributions et entrent dans le calculs 
+  de la variance.
 
 \begin{itemize}
-\item Loi gamma : La loi gamma représente généralement des manifestions qui se déroulent dans le temps. Elle accepte deux paramètres $k$ (``alpha'' dans l'implémentation) qui affecte la forme, et $\Theta$ (``beta'' dans l’implémentation) qui affecte l'échelle.  
+\item Loi gamma : Accepte deux paramètres $k$ (``alpha'' dans l'implémentation) qui affecte la forme, et $\Theta$ (``beta'' dans l’implémentation) qui affecte l'échelle.  
   \begin{lstlisting}[language=Python]
 	for i in range(n):
     		rand = random.gammavariate(alpha,beta)
@@ -2231,7 +2301,7 @@ Celles-ci génèrent des nombres réels, et acceptent des paramètres qui ont un
     		rand = random.expovariate(lambd)
   \end{lstlisting}
 
-\item Loi beta. Accepte deux paramètres de forme (un pour l'implémentation), $\alpha$ (alpha dans l’implémentation) qui affecte la forme, et $\beta$ (toujours à 1 dans l'implémentation) qui affecte aussi la forme.
+\item Loi beta. Accepte deux paramètres de forme $\alpha$ qui affecte la forme, et $\beta$ (toujours à 1 dans notre cas) qui affecte aussi la forme.
   \begin{lstlisting}[language=Python]
 	for i in range(n):
     		rand = random.betavariate(alpha,1)
@@ -2239,135 +2309,182 @@ Celles-ci génèrent des nombres réels, et acceptent des paramètres qui ont un
 
 \end{itemize}
 
+\section*{Algorithmes PTAS optimisés pour $\epsilon = \frac{1}{5}$ et $\epsilon = \frac{1}{6}$}
+\label{ap:PTAS}
+
+% Algorithme 1/5
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+
+Tant qu'il y a $1$ pièce $j$ avec $p_j \in [0,6, 1]$, emballer j avec
+$L[1 - p_j]$, si cette pièce existe.
+Emballer $j$ toute seule sinon.
+
+\BlankLine % Petit espace
+Tant qu'il y a $2$ pièces $i$, $j$ avec $p_i, p_j \in [0,5, 0.6[$,
+emballer $i$ et $j$ ensembles.
+
+\BlankLine % Petit espace
+\tcp{Chaque pièce restante a une taille inférieure à 0.5}
+Tant qu'il existe $3$ pièces, dont la plus grande fait au moins 0.4,
+trouver $L[0.3,0.4,0.5]$ et les pacquer ensembles.
+
+\BlankLine % Petit espace
+Tant qu'il existe des pièces dont la taille est dans [0.4,0.5[, pacquer
+les $2$ plus grandes ensembles.
+
+\BlankLine % Petit espace
+\tcp{Chaque pièce restante a une taille inférieure à 0.4}
+Prendre la plus petite pièce des pièces restantes. Si $p_j > 0.25$,
+alors pacquer le reste des pièces en 3-bin.
+Sinon, $p_j = 0.25 - \delta$ pour $\delta \geq 0$.
+Si $3$ autres pièces existent, pacquer $j$
+ avec $L[0.25, \frac{+\delta}{3}, 0.25 + \delta, 0.25 + 3 \cdot \delta]$.
+Sinon, pacquer le reste dans 3-bin.
+
+
+\caption{PTAS $\frac{1}{5}$-dual}
+\label{algo:PTASDual1_5}
+\end{algorithm}
+
 \bigskip
-%\paragraph{Seed} Chaque génération d'instance est accompagnée de la récupération d'une graine (seed). 
-Chaque instance a sa propre graine, et est stockée aussi dans le fichier de résultats. 
-Ainsi il est aisé de reproduire à l'identique une liste de coûts, en utilisant la même graine 
-  lors de sa ré-génération. 
- 
-les calculs sont effectués via les bibliothèques ``scipy.stats'' (pour les moyennes géométrique 
-  et harmoniques) et ``statistics'' de PYTHON.
 
-Sont calculées et récupérées dans un champs tuple (évolutif) :
+% Algorithme 1/6
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+
+Tant qu'il existe une pièce $j$, telle que $p_j \in (\frac{2}{3},1)$,
+emballer $p_j$ avec $L[1-p_j]$.
+
+\BlankLine % Petit espace
+Estimer le nombre total de 1-bin ou 2-bin d'une solution optimale du
+reste de l'instance.
+Pour chacun de ces bacs, l'emballer avec $L[\frac{1}{2}, \frac{2}{3}]$
+si de telles pièces existent, sinon, l'emballer avec $L[\frac{2}{3}]$.
+
+\BlankLine % Petit espace
+\tcp{Pour le reste de la procédure, seuls les bacs qui ont }
+\tcp{au moins $3$ pièces sont considérés.}
+
+\BlankLine % Petit espace
+\tcp{Chaque pièce restante a une taille inférieure à $\frac{2}{3}$}
+Pour chaque pièce $j$ restante, avec une taille $\frac{1}{2}+\delta;
+\delta \geq 0$, emballer $j$ avec $L[\frac{1}{4}-\frac{\delta}{2},
+\frac{1}{3}-\delta]$.
+
+\BlankLine % Petit espace
+\tcp{Chaque pièce restante a une taille inférieure à $\frac{1}{2}$}
+Estimer le nombre de 4-bin qui contient une pièce dont la taille est
+dans l'intervalle $[\frac{5}{12}, \frac{1}{2}[$ dans un packing
+optimal. Pacquer chaque bac avec $L[ \frac{7}{36}, \frac{5}{24},
+\frac{1}{4}, \frac{1}{2}]$.
+
+Pour chaque pièce restante de taille
+$\frac{5}{12}+\delta, \delta \geq 0$, l'emballer dans un 3-bin avec
+$L[\frac{7}{24}-\frac{\delta}{2}, \frac{5}{12}-\delta]$.
+
+\BlankLine % Petit espace
+\tcp{Chaque pièce restante a une taille inférieure à $\frac{5}{12}$}
+Estimer le nombre de 3-bin d'une solution optimale pour le reste de
+l'instance. Pour chacun d'eux, le pacquer avec $L[\frac{1}{3},
+\frac{5}{12}, \frac{5}{12}]$.
+
+\BlankLine % Petit espace
+\tcp{Pour le reste de la procédure, seuls les bacs qui ont }
+\tcp{au moins $4$ pièces sont considérés.}
+
+Pour chaque pièce $j$ de taille $\frac{1}{3}+\delta, \delta \geq 0$,
+emballer $i$
+avec $L[\frac{2}{9}-\frac{\delta}{3},
+        \frac{1}{4}-\frac{\delta}{2},
+        \frac{1}{3}-\delta]$.
+
+\BlankLine % Petit espace
+\tcp{Chaque pièce restante a une taille inférieure à $\frac{1}{3}$}
+Estimer le nombre de 5-bin qui contienne une pièce
+dont la taille est comprise dans l'intervalle
+$[\frac{7}{24},\frac{1}{3}[$ d'une solution optimale.
+Emballer de tels bacs avec
+$L[\frac{17}{96},
+   \frac{13}{72},
+   \frac{9}{48},
+   \frac{5}{24},
+   \frac{1}{3}]$.
+
+Tant qu'il existe des pièces dont la taille est supérieure à $\frac{7}{24}$
+Prendre la plus grande pièce de taille $p_j = \frac{7}{24}+\delta, \delta \geq 0$.
+Pacquer i avec
+$L[\frac{17}{72}-\frac{\delta}{3},
+   \frac{13}{48}-\frac{\delta}{2},
+   \frac{7}{24}+\delta]$.
+
+Considérer la plus petite pièce $j$.
+Si $p_j>\frac{1}{5}$, emballer les pièces restantes à raison de $4$ pièces par bac.
+Si $p_j=\frac{1}{5}-\delta, \delta \geq 0$, pacquer $j$ avec
+$L[\frac{1}{5}+\frac{\delta}{4},
+   \frac{1}{5}+\frac{2 \cdot \delta}{3},
+   \frac{1}{5}+\frac{3 \cdot \delta}{2},
+   \frac{7}{24}]$.
+
+\BlankLine % Petit espace
 
 
-%\subsection{Implémentation des algorithmes}
-%\label{ssec:ImplémentationAlgorithmes}
-Tous les algorithmes (étudiés) sont implémentés dans algorithms.py. Les procédures, objets et méthodes directement liés à ceux-ci sont placés dans ScheduleManagment.py i.e ceux qui n'ont pas le même prototype (FFD().). 
-Ces algorithmes sont structurés sur le même principe :
-\begin{itemize}
 
-\item Les paramètres en entrée :
-	\begin{description}
+\caption{PTAS $\frac{1}{6}$-dual}
+\label{algo:PTASDual1_6}
+\end{algorithm}
 
-	\item Une liste de coûts : soit l'ensemble des $p_i$. 
-	sous la forme $[p_1, p_2, ... , p_n]$. 
-	Cette liste n'est pas forcément triée car cela fait partie 
-	de l'heuristique, et ce tri peut changer d'une stratégie à l'autre.
+
+\section*{Algorithme PA}
+\label{ap:PA}
+
+% Algorithme PA
+% ---------------------
+\begin{algorithm}[H]
+\DontPrintSemicolon
+
+Déterminer la borne inférieure $(LB)$ suivant l'algorithme de
+McNaughton \cite{mcnaughton1959scheduling}.\;
+
+Déterminer la borne supérieure $UB$ suivant l'heuristique LPT
+(algorithme \ref{algo:LPT}).\;
+
+\Si{$LB=UB$}{
+  \Return la solution optimale est trouvée par l'heuristique LPT
+}
+
+\Repeter{Génération des d'inégalités impossible}
+{
+	Résoudre le programme de relaxation linéaire avec $C_{max} = LB$
 	
-	\item un nombre de machines m.
-	\end{description}
-
-\item Mesure du temps d'exécution. L'heure de début, et l'heure de fin 
-sont consignées dans des variables ``before'' et ``after''. 
-le temps d'exécution est donc mesuré en minutes-secondes.
-
-\item Calcul du temps théorique, en fonction de la complexité théorique 
-en temps de l’algorithme, ainsi que de la taille de la liste des temps, 
-et du nombre de machines.
-
-\item Déroulement de l'heuristique.
-
-\item Retour d'un object ``PSched'' contenant les informations suivantes :
-	\begin{description}
-	\item Le nom de l'algorithme.
-	\item Le temps attendu.
-	\item le Makespan calculé
-	\item Le temps qui a été nécessaire
-	\item L'ordonnancement, sous forme de liste.
-	\end{description}
-\end{itemize}
-
-%\subsection{COMBINE}\label{ssec:COMBINE}
-
-les problèmes de COMBINE 
-l'algo approximatif (Do while et do until a son importance
-Cu - Cl >= alpha A pas forcément ...
-Condition d'arrêt n'integre pas le nombre de bin utilisées
-
-\fco {Discuter avec Laurent/Louis-Claude/Julien de ce bug-si connu ou viens de moi}
-!!! La borne supérieure  est donnée par LPT rule !!!
-puis FFD est exécuté avec, c= borne supérieure + borne inférieure)/2. Or, si FFD est moins performant que LPT, le nombre de bin ne sera jamais égal au nombre de machines considéré. e.g si LPT( [p1,p2,...,pn]) sur m machines donne U, et FFD(U) donne V (avec V > U) FFD entre U et L (L<U) donnera au mieux V.....
-
-COMBINE avec borne sup = 1.1Cmax(LPT), c'est ok
-
-Corrections apportées
-algorithme COMBINE
-algorithme FFD
-
-%\subsection{fonctions annexes}\label{ssec:fonctionsAnnexes}
-
-Quelques mots sur les fonctions appelées par les algorithmes principaux et qui ont leurs importance.
-
-\begin{itemize}
-\item FFD \cite{rieck2010basic} (implémentation)
-\item Partitions LDM
-\end{itemize}
+	\Si {la relaxation est possible}
+	{
+	
+		\Si {la solution obtenue est entière (donc faisable)}
+		{
+		\Return la solution obtenue qui est optimale
+		}
+		\Sinon
+		{
+		Générer des nouvelles inégalités 
+		(inégalités et/ou inégalités transitoires) et les ajouter à la 
+		nouvelle relaxation linéaire
+		}
+	}
+	\Sinon
+	{
+	incrémenter $LB$ d'une unité
+	}	
 
 
-%\subsection{Génération d'une campagne}\label{ssec:generationCampagne}
-Par choix de paramètres
-Par exécution pré remplie
-Par lecture d'une campagnes
+}
+\Return Résoudre le problème avec un algorithme Branch\&Bound
+.\;
+\caption{PA\label{algo:PA}}
+\end{algorithm}
 
-%\subsection{Gestion des "seeds"}\label{ssec:gestionSeeds}
-si doit reproduire les mêmes instances
-
-
-%\subsection{Structure du fichier résultat}\label{ssec:StructureFichierResultat}
-
-passage en revue des colonnes de leur provenance
-
-
-%\section{Comparaison des résultats} \label{sec:comparaisonResultats}
-
-Comparer des algo quand on ne connaît pas l'optimal
-par rapport au meilleurs résultat
-
-%\subsection{Normalisation du MakeSpan}
-%\label{ssec:normalisationMakeSpan}
-
-trouver la bonne normalisation qui ne biaise pas trop la comparaison.
-Mackespan sous forme brute, voire normalisé avec Cmax-optiml donne une courbe  accidentée et pas très lisible
-
-\fco {Discuter avec Laurent/Louis-Claude/Julien si comparaison par graphes, ou voir moindres carrés ou autre méthode}
-
-\begin{itemize}
-\item MakeSpan brut
-\item MakeSpan - optimal ou meilleur résultat
-\item MakeSpan / optimal ou meilleur résultat
-\item MakeSpan / Moyenne de tâche par machine
-\end{itemize}
-
-%\subsection{Temps d'exécution} \label{ssec:tempsExécution}
-
- Le temps attendu est théorique et non absolu. i.e n log n ne donne pas un temps en minutes secondes.Le temps mesuré lui est donné en minutes secondes --> faire le lien entre estimation théorique et mesuré.
- 
-D'un algo a l'autre , Python est un langatge de haut niveau, donc pas évident. ce qui peut être comparé, c'est pour un même algo et faire varier N et/ou m. on compare les mêmes instructions....
-
-faire un lien entre le théorique de une valeur pour comparer par la suite les résultats suivants
- 
-%\subsection{Graphes}\label{ssec:graphes}
-%\fco {Discuter avec Laurent/Louis-Claude/Julien Libre et proposition de graphes, ou conduit}
-
-Différents graphe à disposition
-utilisation de ggplot
-Modifier l'un d'eux
-Abscisse 	= soit n
-			= soit m
-Couleurs = algorithme
-pictogramme = méthode de génération instance (lambda, beta uniforme ...) 
-taille = hétérogénéité ?? écart type ?? de l'instance
 
 
 
@@ -2390,14 +2507,40 @@ taille = hétérogénéité ?? écart type ?? de l'instance
 \selectlanguage{english}
 \section*{Abstract} \label{sec:abstract}
 %\paragraph{Abstract}
-.... when the brief is completed ...
+Consider the scheduling problem \problemGrahamP which consists in scheduling $n$ independent jobs 
+  on $m$ identical machines in order to minimize the total processing time (makespan).
+By revisiting the LPT rule heuristic, SLACK, an algorithm based on a greedy approach, was developed. 
+To test the efficiency of SLACK, the authors compare it to the LPT rule, COMBINE and LDM heuristics by 
+  subjecting them to uniform and non-uniform instances. 
+The results show that SLACK significantly improves LPT.
+We try to reproduce the experiment identically to validate the reproducibility. 
+But we do not find the same results. 
+To validate this bias we extend the experimental protocol to compare  
+  other gamma, beta instances. 
+With these new experimental parameters SLACK does not significantly improve LPT rule.
+The comparison protocol of \dcs is not generalist, and the non-uniform instance is not sufficient to characterize the behavior of heuristics. 
+
+Key words: Scheduling . Identical parallel machines . Heuristics . LPT rule . Empirical .     
+
+
+
 
 \bigskip
 \selectlanguage{french}
 \section*{Résumé} \label{sec:resume}
 %\paragraph{Résumé}
-....une fois le mémoire terminé ...
+Considérons le problème d'ordonnancement \problemGrahamP qui consiste à planifier $n$ jobs indépendants 
+  sur $m$ machines identiques dans le but de minimiser le temps total de traitement (makespan). 
+\dcs ont développé, en revisitant l'heuristique LPT rule, SLACK un algorithme basé sur une stratégie gloutonne. 
+Pour éprouver l'efficacité de SLACK, les auteurs le comparent aux heuristiques LPT rule, COMBINE et LDM en les soumettant à des instances uniformes et non-uniformes. 
+D'après le résultat SLACK améliore de façon significative LPT.
+Nous tentons de reproduire l'expérimentation à l'identique afin valider la reproductibilité. 
+Mais nous ne trouvons pas les mêmes résultats. 
+Pour valider ce biais nous élargissons le protocole expérimental de comparaisons  
+  d'autres instances gamma, beta. 
+Avec ces nouveau paramètres expérimentaux SLACK n'améliore pas de façon significative LPT rule.
+Le protocole de comparaison de \dcs n'est pas généraliste, et l'instance non-uniforme ne suffit pas pour caractériser le comportement d'heuristiques. 
 
-% "VERONIKA SONIGO" <veronika.sonigo@univ-fcomte.fr>
+Mot clés : Ordonnancement . Machines parallèles identiques . Heuristiques . LPT rule . Empirique .     
 
 \end{document}
